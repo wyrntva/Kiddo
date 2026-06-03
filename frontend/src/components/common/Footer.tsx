@@ -1,101 +1,160 @@
-const imgImage6 = "/assets/f014672cf8ce88994cfceff8c3763b5295f847fb.png"
-const imgAvatar = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
-const imgAvatar1 = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
-const imgUnion = "/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
-const imgSubtract = "/assets/5b775e88ecb300259c2df3b7bec5922f579027ba.svg"
-const imgGroup = "/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"
-const imgSubtract1 = "/assets/89c64997fd9e5661072f99cb94c0efd17ab9e551.svg"
-const imgIcon = "/assets/bdbbb95075ff18bc1732686588996909478aedcc.svg"
-const imgVuesaxBoldMessages = "/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
+// Assets — all already in public/assets/
+const imgLogo       = "/assets/f014672cf8ce88994cfceff8c3763b5295f847fb.png"
+const imgAvatar     = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
+const imgAvatar1    = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
+const imgFacebook   = "/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
+const imgYoutube    = "/assets/5b775e88ecb300259c2df3b7bec5922f579027ba.svg"
+const imgTiktok     = "/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"
+const imgInstagram  = "/assets/89c64997fd9e5661072f99cb94c0efd17ab9e551.svg"
+const imgHeart      = "/assets/bdbbb95075ff18bc1732686588996909478aedcc.svg"
+const imgMessages   = "/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
 
-const links = [
-  {
-    heading: 'KHÁM PHÁ',
-    items: ['Rừng Cảm Xúc', 'Thành Phố Giao Tiếp', 'Làng Tự Lập', 'Khu Vườn Bạn Bè', 'Hành Tinh Tình Huống'],
-  },
-  {
-    heading: 'HỖ TRỢ',
-    items: ['Trung tâm hỗ trợ', 'Hướng dẫn sử dụng', 'Câu hỏi thường gặp', 'Liên hệ'],
-  },
-  {
-    heading: 'VỀ OTTOPIA',
-    items: ['Giới thiệu', 'Phương pháp giáo dục', 'Chính sách bảo mật', 'Điều khoản sử dụng'],
-  },
-  {
-    heading: 'DÀNH CHO PHỤ HUYNH',
-    items: ['Kiến thức nuôi dạy con', 'Hoạt động cùng bé', 'Gợi ý theo độ tuổi', 'Cộng đồng phụ huynh'],
-  },
-]
+function ColHeading({ children }: { children: string }) {
+  return (
+    <p className="font-baloo font-normal text-[18px] leading-[32px] text-[#004c6e] not-italic">
+      {children}
+    </p>
+  )
+}
 
-const socials = [
-  { icon: imgUnion, label: 'Facebook' },
-  { icon: imgSubtract, label: 'YouTube' },
-  { icon: imgGroup, label: 'TikTok' },
-  { icon: imgSubtract1, label: 'Instagram' },
-]
+function FooterLink({ children }: { children: string }) {
+  return (
+    <a href="#" className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors whitespace-nowrap">
+      {children}
+    </a>
+  )
+}
+
+function SocialBtn({ icon, inset }: { icon: string; inset: string }) {
+  return (
+    <div className="bg-[#0a7ad8] flex items-center justify-center p-[8px] rounded-[100px] shrink-0 cursor-pointer hover:bg-[#085fb0] transition-colors">
+      <div className="relative size-[24px]">
+        <div className={`absolute ${inset}`}>
+          <img alt="" className="absolute block inset-0 size-full max-w-none" src={icon} />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-[#e6f6ff]">
-      <div className="max-w-[1920px] mx-auto px-6 md:px-12 pt-10 pb-6 font-vietnam">
-        {/* Main grid */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-8">
-          {/* Brand column */}
-          <div className="col-span-1">
-            <div className="w-[126px] h-[56px] relative overflow-hidden mb-3">
-              <img src={imgImage6} alt="OTTOPIA" className="absolute inset-0 size-full object-contain" />
-            </div>
-            <p className="text-[#3e484f] text-[16px] leading-[24px] mb-5 font-normal">
-              Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.
-            </p>
-            <div className="flex gap-6">
-              {socials.map((s) => (
-                <button
-                  key={s.label}
-                  aria-label={s.label}
-                  className="w-10 h-10 bg-[#0a7ad8] hover:bg-[#0863b0] rounded-full flex items-center justify-center transition-colors"
-                >
-                  <img src={s.icon} alt={s.label} className="w-5 h-5 object-contain" />
-                </button>
-              ))}
-            </div>
-          </div>
+    <footer className="bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
 
-          {/* Link columns */}
-          {links.map((col) => (
-            <div key={col.heading}>
-              <h4 className="font-baloo text-[#004c6e] text-[18px] mb-4 tracking-wider leading-[32px]">{col.heading}</h4>
-              <ul className="space-y-2.5">
-                {col.items.map((item) => (
-                  <li key={item}>
-                    <a href="#" className="text-[#575e70] text-[16px] hover:text-[#313235] transition-colors font-medium">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      {/* ── Main columns ── */}
+      <div className="flex gap-[48px] items-start px-[48px] w-full">
+
+        {/* Col 1 — Brand */}
+        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start pb-[32px] min-w-0">
+          {/* Logo — aspect ratio 506:224 từ Figma */}
+          <div className="w-full" style={{ aspectRatio: '506/224' }}>
+            <img alt="OTTOPIA" className="w-full h-full object-cover" src={imgLogo} />
+          </div>
+          <p className="font-vietnam text-[16px] leading-[24px] text-[#3e484f] pr-[16px]">
+            Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.
+          </p>
+          <div className="flex gap-[24px] items-start">
+            <SocialBtn icon={imgFacebook}  inset="inset-[11.98%_29.06%_11.98%_28.65%]" />
+            <SocialBtn icon={imgYoutube}   inset="inset-[19.56%_7.86%]" />
+            <SocialBtn icon={imgTiktok}    inset="inset-[12.5%_15.9%_10.75%_16.67%]" />
+            <SocialBtn icon={imgInstagram} inset="inset-[11.64%_11.7%]" />
+          </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-[#c9e6ff] pt-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[#575e70] text-sm font-medium">© 2026 OTTOPIA Learning. All rights reserved.</p>
-          <div className="flex items-center gap-1 text-[#575e70] text-sm font-medium">
-            <span>Made with</span>
-            <img src={imgIcon} alt="Heart" className="w-4 h-4 object-contain inline-block mx-0.5" />
-            <span>for kids and parents</span>
+        {/* Col 2 — Khám phá */}
+        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+          <ColHeading>KHÁM PHÁ</ColHeading>
+          <div className="flex flex-col gap-[8px] items-start">
+            <FooterLink>Rừng Cảm Xúc</FooterLink>
+            <FooterLink>Thành Phố Giao Tiếp</FooterLink>
+            <FooterLink>Làng Tự Lập</FooterLink>
+            <FooterLink>Rừng Cảm Xúc</FooterLink>
+            <FooterLink>Khu Vườn Bạn Bè</FooterLink>
+            <FooterLink>Hành Tinh Tình Huống</FooterLink>
           </div>
-          <button className="flex items-center gap-2 bg-[#fef9ed] hover:bg-[#fff4bf]/80 text-[#fea01f] text-sm font-bold px-4 py-2 rounded-full border border-transparent transition-colors">
-            <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0">
-              <img alt="" className="absolute inset-0 size-full object-cover" src={imgAvatar} />
-              <img alt="" className="absolute h-[153.33%] left-[-52.76%] top-[0.3%] w-[182.9%] max-w-none" src={imgAvatar1} />
+        </div>
+
+        {/* Col 3 — Hỗ trợ */}
+        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+          <ColHeading>HỖ TRỢ</ColHeading>
+          <div className="flex flex-col gap-[8px] items-start">
+            <FooterLink>Trung tâm hỗ trợ</FooterLink>
+            <FooterLink>Hướng dẫn sử dụng</FooterLink>
+            <FooterLink>Câu hỏi thường gặp</FooterLink>
+            <FooterLink>Liên hệ</FooterLink>
+          </div>
+        </div>
+
+        {/* Col 4 — Về Ottopia */}
+        <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-0">
+          <ColHeading>VỀ OTTOPIA</ColHeading>
+          <div className="flex flex-col gap-[8px] items-start">
+            <FooterLink>Giới thiệu</FooterLink>
+            <FooterLink>Phương pháp giáo dục</FooterLink>
+            <FooterLink>Chính sách bảo mật</FooterLink>
+            <FooterLink>Điều khoản sử dụng</FooterLink>
+          </div>
+        </div>
+
+        {/* Col 5 — Dành cho phụ huynh */}
+        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+          <ColHeading>DÀNH CHO PHỤ HUYNH</ColHeading>
+          <div className="flex flex-col gap-[8px] items-start">
+            <FooterLink>Kiến thức nuôi dạy con</FooterLink>
+            <FooterLink>Hoạt động cùng bé</FooterLink>
+            <FooterLink>Gợi ý theo độ tuổi</FooterLink>
+            <FooterLink>Cộng đồng phụ huynh</FooterLink>
+          </div>
+        </div>
+
+      </div>
+
+      {/* ── Bottom bar ── */}
+      <div className="border-t border-[#c9e6ff] px-[48px] w-full">
+        <div className="flex items-center justify-between py-[24px] w-full">
+
+          {/* Left — copyright */}
+          <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px] whitespace-nowrap">
+            © 2026 OTTOPIA Learning. All rights reserved.
+          </p>
+
+          {/* Center — Made with ❤ */}
+          <div className="flex gap-[4px] items-center">
+            <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px]">Made with</p>
+            <div className="relative size-[16px]">
+              <div className="absolute inset-[21.88%_13.54%_17.71%_13.54%]">
+                <img alt="❤" className="absolute block inset-0 size-full max-w-none" src={imgHeart} />
+              </div>
             </div>
-            <span className="font-baloo leading-[24px] text-[14px]">Liên hệ với OTTOPIA</span>
-            <img src={imgVuesaxBoldMessages} alt="Message icon" className="w-6 h-6 object-contain shrink-0" />
-          </button>
+            <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px]">for kids and parents</p>
+          </div>
+
+          {/* Right — Liên hệ button */}
+          <div className="bg-[#fef9ed] flex gap-[8px] items-center justify-center px-[16px] py-[8px] rounded-[40px] cursor-pointer hover:bg-[#fef3d3] transition-colors shrink-0">
+            <div className="relative rounded-[66.667px] size-[24px] shrink-0">
+              <div className="absolute inset-0 pointer-events-none rounded-[66.667px] overflow-hidden">
+                <img alt="" className="absolute size-full object-cover rounded-[66.667px]" src={imgAvatar} />
+                <div className="absolute inset-0 overflow-hidden rounded-[66.667px]">
+                  <img
+                    alt=""
+                    className="absolute max-w-none"
+                    style={{ height: '153.33%', left: '-52.76%', top: '0.3%', width: '182.9%' }}
+                    src={imgAvatar1}
+                  />
+                </div>
+              </div>
+            </div>
+            <p className="font-baloo text-[14px] leading-[24px] text-[#fea01f] whitespace-nowrap">
+              Liên hệ với OTTOPIA
+            </p>
+            <div className="relative size-[24px] shrink-0">
+              <img alt="" className="absolute block inset-0 size-full max-w-none" src={imgMessages} />
+            </div>
+          </div>
+
         </div>
       </div>
+
     </footer>
   )
 }
