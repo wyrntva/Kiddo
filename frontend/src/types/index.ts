@@ -13,4 +13,6 @@ export interface SkillZone {
   lessons: number
   emoji: string
   gradient: string
+  sceneEmojis?: string[]
+  bgColor?: string
 }

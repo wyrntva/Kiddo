@@ -5,8 +5,19 @@ export default {
     extend: {
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
+        baloo: ['"Baloo 2"', 'sans-serif'],
+        vietnam: ['"Be Vietnam Pro"', 'sans-serif'],
       },
       colors: {
+        ottopia: {
+          orange: '#F97316',
+          'orange-dark': '#EA580C',
+          blue: '#3B82F6',
+          purple: '#A855F7',
+          sky: '#38BDF8',
+          pink: '#F472B6',
+          green: '#22C55E',
+        },
         kiddo: {
           orange: '#F97316',
           'orange-dark': '#EA580C',
