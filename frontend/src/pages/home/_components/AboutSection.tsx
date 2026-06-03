@@ -1,9 +1,9 @@
 
-const imgMascot = "http://localhost:3845/assets/de633722309fe20675a2a35a6657b31451904c1c.png";
-const imgLine3 = "http://localhost:3845/assets/2f2171b74e978a6fef8202f451396e2e4823ba99.svg";
-const imgGroup = "http://localhost:3845/assets/b77cae9383274c2df6b59465b4739393d1c9dd9b.svg";
-const imgIcon = "http://localhost:3845/assets/adabddc93d1682fb1279104cd51bef11813b9e25.svg";
-const imgIcon1 = "http://localhost:3845/assets/d1df6482f01bc81641b471c55ec5f313856157f1.svg";
+const imgMascot = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png";
+const imgLine3 = "/assets/2f2171b74e978a6fef8202f451396e2e4823ba99.svg";
+const imgGroup = "/assets/b77cae9383274c2df6b59465b4739393d1c9dd9b.svg";
+const imgIcon = "/assets/adabddc93d1682fb1279104cd51bef11813b9e25.svg";
+const imgIcon1 = "/assets/d1df6482f01bc81641b471c55ec5f313856157f1.svg";
 
 export default function AboutSection() {
   return (

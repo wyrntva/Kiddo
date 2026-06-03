@@ -2,45 +2,45 @@ const islands = [
   {
     nameLine1: 'Vùng Đất',
     nameLine2: 'Cảm Xúc',
-    islandImg: 'http://localhost:3845/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
-    pinImg: 'http://localhost:3845/assets/67cbb1d253573913de929c8e5defc07216c22d02.svg',
-    dotImg: 'http://localhost:3845/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
+    islandImg: '/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
+    pinImg: '/assets/67cbb1d253573913de929c8e5defc07216c22d02.svg',
+    dotImg: '/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
     textColor: 'text-[#339e4a]',
     width: 'w-[103px]',
   },
   {
     nameLine1: 'Thành Phố',
     nameLine2: 'Giao Tiếp',
-    islandImg: 'http://localhost:3845/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
-    pinImg: 'http://localhost:3845/assets/83af9dee8e53416434ffd6356eb91dd81f18a260.svg',
-    dotImg: 'http://localhost:3845/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
+    islandImg: '/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
+    pinImg: '/assets/83af9dee8e53416434ffd6356eb91dd81f18a260.svg',
+    dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#0a7ad8]',
     width: 'w-[113px]',
   },
   {
     nameLine1: 'Ngôi Làng',
     nameLine2: 'Tự Lập',
-    islandImg: 'http://localhost:3845/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
-    pinImg: 'http://localhost:3845/assets/787ecf283a0ff128e81493c2847e8c3d9cd931fa.svg',
-    dotImg: 'http://localhost:3845/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
+    islandImg: '/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
+    pinImg: '/assets/787ecf283a0ff128e81493c2847e8c3d9cd931fa.svg',
+    dotImg: '/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
     textColor: 'text-[#fdd444]',
     width: 'w-[108px]',
   },
   {
     nameLine1: 'Khu Vườn',
     nameLine2: 'Bạn Bè',
-    islandImg: 'http://localhost:3845/assets/fa96937bdcc218b926f614f2c9506c6ef151e2a5.png',
-    pinImg: 'http://localhost:3845/assets/ad00ad15470f8f06bee1c3e6c9c90fb81fdcf19d.svg',
-    dotImg: 'http://localhost:3845/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
+    islandImg: '/assets/fa96937bdcc218b926f614f2c9506c6ef151e2a5.png',
+    pinImg: '/assets/ad00ad15470f8f06bee1c3e6c9c90fb81fdcf19d.svg',
+    dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#e55c72]',
     width: 'w-[105px]',
   },
   {
     nameLine1: 'Hành Tinh',
     nameLine2: 'Tình Huống',
-    islandImg: 'http://localhost:3845/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
-    pinImg: 'http://localhost:3845/assets/0444ca80dc53a1225dc9ec173cc989f114d681d1.svg',
-    dotImg: 'http://localhost:3845/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
+    islandImg: '/assets/cd8d6407ff6da486e6c19f5f7fa0dbf28e059a91.png',
+    pinImg: '/assets/0444ca80dc53a1225dc9ec173cc989f114d681d1.svg',
+    dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#9560d8]',
     width: 'w-[116px]',
   },
@@ -55,7 +55,7 @@ export default function SkillZonesSection() {
           {/* Panoramic map background */}
           <div className="absolute inset-0 lg:top-[-40px] lg:bottom-0 lg:h-auto w-full z-0">
             <img
-              src="http://localhost:3845/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.png"
+              src="/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.png"
               alt="Adventure Map Background"
               className="w-full h-full object-cover select-none pointer-events-none"
             />
@@ -64,7 +64,7 @@ export default function SkillZonesSection() {
           {/* Heading 2 */}
           <div className="flex gap-[12px] items-center w-[607px] relative z-10 bg-white/85 backdrop-blur-sm px-4 py-2.5 rounded-2xl border border-[#c3ffd0]/60 shadow-sm select-none">
             <img
-              src="http://localhost:3845/assets/5a9453f78ced6122636cc3fcfc9d7d132cd3f8e7.svg"
+              src="/assets/5a9453f78ced6122636cc3fcfc9d7d132cd3f8e7.svg"
               alt="Map icon"
               className="size-[48px] object-contain shrink-0"
             />

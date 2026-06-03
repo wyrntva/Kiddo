@@ -1,4 +1,4 @@
-const imgVuesaxBoldVideoCircle = "http://localhost:3845/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg"
+const imgVuesaxBoldVideoCircle = "/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg"
 
 export default function HeroSection() {
   return (
@@ -7,7 +7,7 @@ export default function HeroSection() {
         <div className="relative aspect-[1824/650] w-full overflow-hidden rounded-[24px] shadow-lg border border-gray-100">
           {/* Main banner image baked in Figma with illustration, title and otter */}
           <img
-            src="http://localhost:3845/assets/574edb3e221252f09156e087a3ff5fbe0ce98ac1.png"
+            src="/assets/574edb3e221252f09156e087a3ff5fbe0ce98ac1.png"
             alt="OTTOPIA Hero Banner"
             className="w-full h-full object-cover select-none pointer-events-none"
           />

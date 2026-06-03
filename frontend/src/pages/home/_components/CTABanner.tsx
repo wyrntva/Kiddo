@@ -1,8 +1,8 @@
 
-const imgGiftBoxTop = "http://localhost:3845/assets/72f3d2fdacd5ea2504405ff90a0e6ef4c5a8dcb6.png";
-const imgGiftBoxBottom = "http://localhost:3845/assets/330d325c53308385eccccfde11e7e7ff4b4a97f9.png";
-const imgTrophyMascotRight = "http://localhost:3845/assets/c78066bc662e6c83f3a797f14cf9eb0b875b8637.png";
-const imgIconCirclePlus = "http://localhost:3845/assets/f17506ee7bf025828132541fc90a1dfe513d8065.svg";
+const imgGiftBoxTop = "/assets/72f3d2fdacd5ea2504405ff90a0e6ef4c5a8dcb6.png";
+const imgGiftBoxBottom = "/assets/330d325c53308385eccccfde11e7e7ff4b4a97f9.png";
+const imgTrophyMascotRight = "/assets/c78066bc662e6c83f3a797f14cf9eb0b875b8637.png";
+const imgIconCirclePlus = "/assets/f17506ee7bf025828132541fc90a1dfe513d8065.svg";
 
 export default function CTABanner() {
   return (

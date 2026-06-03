@@ -40,7 +40,7 @@ export default function BenefitsSection() {
           {/* Header with stars */}
           <div className="flex items-center justify-center gap-[16px] w-full shrink-0">
             <img
-              src="http://localhost:3845/assets/b88c4904531cd4b1ec90fb81ed103fec521e0cab.svg"
+              src="/assets/b88c4904531cd4b1ec90fb81ed103fec521e0cab.svg"
               alt=""
               className="w-[32px] h-[32px] object-contain shrink-0 animate-pulse"
             />
@@ -48,7 +48,7 @@ export default function BenefitsSection() {
               Vì sao nên học kỹ năng sống từ sớm?
             </h2>
             <img
-              src="http://localhost:3845/assets/b88c4904531cd4b1ec90fb81ed103fec521e0cab.svg"
+              src="/assets/b88c4904531cd4b1ec90fb81ed103fec521e0cab.svg"
               alt=""
               className="w-[32px] h-[32px] object-contain shrink-0 animate-pulse"
             />
@@ -64,7 +64,7 @@ export default function BenefitsSection() {
                 {/* Clipped sprite image illustration */}
                 <div className="w-[100px] h-[100px] shrink-0 overflow-hidden relative mb-2 rounded-full bg-white/50 border border-amber-100/50 shadow-inner flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                   <img
-                    src="http://localhost:3845/assets/4a3a20c7b43be191920d6ee39130336140f274e9.png"
+                    src="/assets/4a3a20c7b43be191920d6ee39130336140f274e9.png"
                     alt={b.title}
                     className="absolute max-w-none h-[119%] top-[-9.79%] w-[512.47%]"
                     style={{ left: b.leftOffset }}

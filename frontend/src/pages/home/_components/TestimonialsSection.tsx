@@ -1,16 +1,16 @@
 
-const imgStarIcon = "http://localhost:3845/assets/5f4b469c66545c2ff1cf20ce7bbc09731bbbe55d.svg";
-const imgChatIcon = "http://localhost:3845/assets/d78c2a8c52144ca76ea446add669df592e9b4b4c.svg";
-const imgAvatar1 = "http://localhost:3845/assets/205fa380cb4171bfc62248112a13bb04baf89faf.png";
-const imgAvatar2 = "http://localhost:3845/assets/1d3531ebbdf29ffb4b1b2a8dc19c2a786b56f79c.png";
-const imgAvatar3 = "http://localhost:3845/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png";
-const imgHeartIcon = "http://localhost:3845/assets/78affb73ec67abd0242caa47381a11d269130d32.svg";
+const imgStarIcon = "/assets/5f4b469c66545c2ff1cf20ce7bbc09731bbbe55d.svg";
+const imgChatIcon = "/assets/d78c2a8c52144ca76ea446add669df592e9b4b4c.svg";
+const imgAvatar1 = "/assets/205fa380cb4171bfc62248112a13bb04baf89faf.png";
+const imgAvatar2 = "/assets/1d3531ebbdf29ffb4b1b2a8dc19c2a786b56f79c.png";
+const imgAvatar3 = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png";
+const imgHeartIcon = "/assets/78affb73ec67abd0242caa47381a11d269130d32.svg";
 
 // Summary card pile avatar images
-const imgAb61 = "http://localhost:3845/assets/2d4090f5a3dfdc73e6d6822edb1857551f1a2dd3.png";
-const imgAb62 = "http://localhost:3845/assets/39cb2fc85b2b92c5dedad754f46d9e20d74d645b.png";
-const imgAb63 = "http://localhost:3845/assets/9dfe6f54ab64e739a5bacc9103dc072a3c9a524e.png";
-const imgAb64 = "http://localhost:3845/assets/36c8e26f47327fcce7f0abc579ed2a50e622eec8.png";
+const imgAb61 = "/assets/2d4090f5a3dfdc73e6d6822edb1857551f1a2dd3.png";
+const imgAb62 = "/assets/39cb2fc85b2b92c5dedad754f46d9e20d74d645b.png";
+const imgAb63 = "/assets/9dfe6f54ab64e739a5bacc9103dc072a3c9a524e.png";
+const imgAb64 = "/assets/36c8e26f47327fcce7f0abc579ed2a50e622eec8.png";
 
 type RateProps = {
   className?: string;

@@ -1,12 +1,12 @@
-const imgImage6 = "http://localhost:3845/assets/f014672cf8ce88994cfceff8c3763b5295f847fb.png"
-const imgAvatar = "http://localhost:3845/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
-const imgAvatar1 = "http://localhost:3845/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
-const imgUnion = "http://localhost:3845/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
-const imgSubtract = "http://localhost:3845/assets/5b775e88ecb300259c2df3b7bec5922f579027ba.svg"
-const imgGroup = "http://localhost:3845/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"
-const imgSubtract1 = "http://localhost:3845/assets/89c64997fd9e5661072f99cb94c0efd17ab9e551.svg"
-const imgIcon = "http://localhost:3845/assets/bdbbb95075ff18bc1732686588996909478aedcc.svg"
-const imgVuesaxBoldMessages = "http://localhost:3845/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
+const imgImage6 = "/assets/f014672cf8ce88994cfceff8c3763b5295f847fb.png"
+const imgAvatar = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
+const imgAvatar1 = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
+const imgUnion = "/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
+const imgSubtract = "/assets/5b775e88ecb300259c2df3b7bec5922f579027ba.svg"
+const imgGroup = "/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"
+const imgSubtract1 = "/assets/89c64997fd9e5661072f99cb94c0efd17ab9e551.svg"
+const imgIcon = "/assets/bdbbb95075ff18bc1732686588996909478aedcc.svg"
+const imgVuesaxBoldMessages = "/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
 
 const links = [
   {
