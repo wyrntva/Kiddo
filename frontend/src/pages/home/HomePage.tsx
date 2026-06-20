@@ -1,4 +1,3 @@
-import type { Page } from '../../App'
 import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import AboutSection from './_components/AboutSection'
@@ -9,16 +8,11 @@ import JourneySection from './_components/JourneySection'
 import SkillZonesSection from './_components/SkillZonesSection'
 import TestimonialsSection from './_components/TestimonialsSection'
 
-interface HomePageProps {
-  activePage?: Page
-  onNavigate?: (page: Page) => void
-}
-
-export default function HomePage({ activePage, onNavigate }: HomePageProps) {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50/30">
-      <Navbar activePage={activePage} onNavigate={onNavigate} />
-      <main className="flex flex-col gap-6 bg-white py-6">
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <main className="max-w-[1920px] mx-auto px-4 md:px-[48px] py-[24px] flex flex-col gap-[24px] bg-white">
         <HeroSection />
         <AboutSection />
         <BenefitsSection />

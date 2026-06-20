@@ -1,5 +1,5 @@
 // Assets — all already in public/assets/
-const imgLogo       = "/assets/f014672cf8ce88994cfceff8c3763b5295f847fb.png"
+const imgLogo       = "/assets/logo_ottopia.png"
 const imgAvatar     = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
 const imgAvatar1    = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
 const imgFacebook   = "/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
@@ -42,19 +42,21 @@ export default function Footer() {
     <footer className="bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
 
       {/* ── Main columns ── */}
-      <div className="flex gap-[48px] items-start px-[48px] w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-[48px] items-start px-4 md:px-[48px] w-full">
 
         {/* Col 1 — Brand */}
-        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start pb-[32px] min-w-0">
+        <div className="flex flex-col gap-[24px] items-start pb-[32px]">
           {/* Logo — aspect ratio 506:224 từ Figma */}
-          <div className="w-full" style={{ aspectRatio: '506/224' }}>
-            <img alt="OTTOPIA" className="w-full h-full object-cover" src={imgLogo} />
+          <div className="w-full max-w-[220px]" style={{ aspectRatio: '506/224' }}>
+            <img alt="OTTOPIA" className="w-full h-full object-contain" src={imgLogo} />
           </div>
           <p className="font-vietnam text-[16px] leading-[24px] text-[#3e484f] pr-[16px]">
             Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.
           </p>
           <div className="flex gap-[24px] items-start">
-            <SocialBtn icon={imgFacebook}  inset="inset-[11.98%_29.06%_11.98%_28.65%]" />
+            <a href="https://www.facebook.com/ottopia.kynangsongchotre" target="_blank" rel="noopener noreferrer">
+              <SocialBtn icon={imgFacebook}  inset="inset-[11.98%_29.06%_11.98%_28.65%]" />
+            </a>
             <SocialBtn icon={imgYoutube}   inset="inset-[19.56%_7.86%]" />
             <SocialBtn icon={imgTiktok}    inset="inset-[12.5%_15.9%_10.75%_16.67%]" />
             <SocialBtn icon={imgInstagram} inset="inset-[11.64%_11.7%]" />
@@ -62,7 +64,7 @@ export default function Footer() {
         </div>
 
         {/* Col 2 — Khám phá */}
-        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+        <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>KHÁM PHÁ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Rừng Cảm Xúc</FooterLink>
@@ -75,7 +77,7 @@ export default function Footer() {
         </div>
 
         {/* Col 3 — Hỗ trợ */}
-        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+        <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>HỖ TRỢ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Trung tâm hỗ trợ</FooterLink>
@@ -86,7 +88,7 @@ export default function Footer() {
         </div>
 
         {/* Col 4 — Về Ottopia */}
-        <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-0">
+        <div className="flex flex-col gap-[16px] items-start">
           <ColHeading>VỀ OTTOPIA</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Giới thiệu</FooterLink>
@@ -97,7 +99,7 @@ export default function Footer() {
         </div>
 
         {/* Col 5 — Dành cho phụ huynh */}
-        <div className="flex flex-[1_0_0] flex-col gap-[24px] items-start min-w-0">
+        <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>DÀNH CHO PHỤ HUYNH</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Kiến thức nuôi dạy con</FooterLink>
@@ -110,8 +112,8 @@ export default function Footer() {
       </div>
 
       {/* ── Bottom bar ── */}
-      <div className="border-t border-[#c9e6ff] px-[48px] w-full">
-        <div className="flex items-center justify-between py-[24px] w-full">
+      <div className="border-t border-[#c9e6ff] px-4 md:px-[48px] w-full">
+        <div className="flex flex-col sm:flex-row items-center justify-between py-[24px] w-full gap-3 sm:gap-0">
 
           {/* Left — copyright */}
           <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px] whitespace-nowrap">

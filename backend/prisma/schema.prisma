@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CHILD
+  PARENT
+  ADMIN
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  phone            String?   @unique
+  password         String
+  name             String
+  parentName       String?
+  role             Role      @default(CHILD)
+  avatar           String?
+  dateOfBirth      DateTime?
+
+  level            Int       @default(1)
+  stars            Int       @default(0)
+  badges           Int       @default(0)
+  lessonsCompleted Int       @default(0)
+  weeklyProgress   Int       @default(0)
+
+  refreshTokens    RefreshToken[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
