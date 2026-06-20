@@ -88,9 +88,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-between bg-white font-vietnam select-none">
+    <div className="relative min-h-screen w-full flex flex-col justify-between bg-white font-vietnam select-none overflow-x-hidden">
       {/* Background Image Layer */}
-      <div aria-hidden className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none overflow-hidden bg-white">
+      <div aria-hidden className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-white">
         <div className="hidden lg:block absolute inset-0">
           <img
             alt=""
@@ -101,18 +101,30 @@ export default function LoginPage() {
         <div className="lg:hidden absolute inset-0">
           <img
             alt=""
-            className="w-full h-full object-cover opacity-80"
+            className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] opacity-80"
             src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.png"
           />
         </div>
       </div>
 
-      <div className="h-4 lg:h-8 z-10 shrink-0"></div>
+      {/* Top spacing / mobile branding */}
+      <div className="z-10 shrink-0 flex flex-col items-center w-full px-6 pt-8 lg:pt-8 lg:h-8">
+        <div className="lg:hidden flex flex-col items-center gap-2 text-center">
+          <img
+            src="/assets/logo_ottopia.png"
+            alt="OTTOPIA"
+            className="h-16 w-auto object-contain animate-float"
+          />
+          <p className="font-vietnam text-[14px] font-bold text-[#575e70] max-w-[280px]">
+            Cùng bé học hỏi, trưởng thành và khám phá mỗi ngày
+          </p>
+        </div>
+      </div>
 
-      <main className="w-full max-w-[1920px] mx-auto px-6 md:px-12 lg:px-[120px] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 z-10 flex-1 py-12 lg:py-6">
+      <main className="w-full max-w-[1920px] mx-auto px-6 md:px-12 lg:px-[120px] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 z-10 flex-1 py-8 lg:py-6">
 
-        {/* Left Side: Welcome & Otter Mascot */}
-        <div className="flex flex-col items-center justify-center h-auto lg:h-[698px] w-full lg:w-[600px] shrink-0 select-none">
+        {/* Left Side: Welcome & Otter Mascot (hidden on mobile, visible on desktop) */}
+        <div className="hidden lg:flex flex-col items-center justify-center h-auto lg:h-[698px] w-full lg:w-[600px] shrink-0 select-none">
           <div className="flex flex-col items-center leading-none text-center w-full mb-6 lg:mb-0">
             <h1 className="font-baloo text-[32px] md:text-[40px] lg:text-[48px] font-bold text-[#004c6e] leading-tight lg:leading-[80px] whitespace-normal lg:whitespace-nowrap">
               Chào mừng đến với OTTOPIA!
@@ -147,7 +159,7 @@ export default function LoginPage() {
 
         {/* Right Side: Login Card */}
         <div className="flex items-center justify-center lg:justify-end w-full lg:w-auto">
-          <div className="bg-white border border-[#8690a7] border-solid drop-shadow-[0px_0px_2px_rgba(0,0,0,0.1)] flex flex-col gap-8 md:gap-10 items-center max-w-[600px] p-6 md:p-12 rounded-[24px] shrink-0 w-full lg:w-[600px]">
+          <div className="bg-white/90 backdrop-blur-md border border-[#e6f4fe] lg:border-[#8690a7] shadow-xl lg:shadow-md flex flex-col gap-6 md:gap-10 items-center max-w-[600px] p-6 md:p-12 rounded-[24px] shrink-0 w-full lg:w-[600px] transition-all duration-300">
 
             <div className="flex flex-col items-center text-center w-full">
               <h2 className="font-baloo text-[28px] md:text-[32px] text-[#001e2f] leading-tight lg:leading-[56px] font-bold">
@@ -227,7 +239,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#0a7ad8] hover:bg-[#085fb0] disabled:opacity-60 disabled:cursor-not-allowed text-white font-vietnam font-bold text-[16px] py-[12px] w-full rounded-[40px] transition-colors duration-150 shadow-sm cursor-pointer"
+                  className="bg-[#0a7ad8] hover:bg-[#085fb0] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed text-white font-vietnam font-bold text-[16px] py-[12px] w-full rounded-[40px] transition-all duration-150 shadow-md hover:shadow-lg cursor-pointer"
                 >
                   {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
                 </button>

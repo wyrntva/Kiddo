@@ -33,24 +33,23 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* absolute overlay button matching the x=534 y=444 w=232 h=56 position */}
         <button
           onClick={() => {
             const el = document.getElementById('adventure-map');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="absolute bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-[18px] sm:py-[9px] lg:px-[24px] lg:py-[12px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
+          className="absolute bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 py-1 sm:px-[14px] sm:py-[7px] lg:px-[20px] lg:py-[10px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
           style={{
             left: '35.64%',
-            top: '72.62%',
+            top: '78%',
             transform: 'translate(-50%, -50%)'
           }}
           data-node-id="21:251"
         >
-          <div className="size-3.5 sm:size-5 lg:size-[24px] relative shrink-0">
+          <div className="size-3 sm:size-4 lg:size-[20px] relative shrink-0">
             <img alt="" className="block size-full" src={imgVuesaxBoldVideoCircle} />
           </div>
-          <span className="font-baloo text-[10px] sm:text-[14px] lg:text-[18px] font-bold leading-none sm:leading-[32px] select-none whitespace-nowrap">
+          <span className="font-baloo text-[9px] sm:text-[12px] lg:text-[15px] font-bold leading-none sm:leading-[24px] select-none whitespace-nowrap">
             Bắt đầu hành trình
           </span>
         </button>

@@ -5,11 +5,13 @@ import HomePage from './pages/home/HomePage'
 import CoursesPage from './pages/courses/CoursesPage'
 import LoginPage from './pages/login/LoginPage'
 import RegisterPage from './pages/register/RegisterPage'
+import ScrollToTop from './components/common/ScrollToTop'
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<HomePage />} />
