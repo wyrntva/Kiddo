@@ -7,6 +7,7 @@ export default defineConfig({
     port: 5180,
     strictPort: true,
     host: true,
+    allowedHosts: ['ottopia.vn', 'www.ottopia.vn', 'localhost'],
     watch: {
       usePolling: true,
       interval: 1000,
