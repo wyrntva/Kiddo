@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../../components/common/Navbar'
 import Footer from '../../components/common/Footer'
@@ -198,6 +198,7 @@ export default function ZoneQuizPage() {
   const [isChecked, setIsChecked] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const navigateTimeoutRef = useRef<any>(null)
 
   // Reset page state when lessonId changes
   useEffect(() => {
@@ -208,7 +209,18 @@ export default function ZoneQuizPage() {
       window.speechSynthesis.cancel()
     }
     setIsSpeaking(false)
+    if (navigateTimeoutRef.current) {
+      clearTimeout(navigateTimeoutRef.current)
+    }
   }, [lessonId])
+
+  useEffect(() => {
+    return () => {
+      if (navigateTimeoutRef.current) {
+        clearTimeout(navigateTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleSelect = (optionId: number) => {
     if (isChecked) return // lock after check
@@ -217,13 +229,15 @@ export default function ZoneQuizPage() {
     const correct = optionId === quiz.correctOptionId
     setIsCorrect(correct)
     setIsChecked(true)
-  }
 
-  const handleCheck = () => {
-    if (selectedOptionId === null) return
-    const correct = selectedOptionId === quiz.correctOptionId
-    setIsCorrect(correct)
-    setIsChecked(true)
+    // Auto-navigate after 2.5 seconds
+    navigateTimeoutRef.current = setTimeout(() => {
+      if (lessonId < 5) {
+        navigate(`/zone/cam-xuc/lesson/${lessonId + 1}`)
+      } else {
+        navigate('/zone/cam-xuc')
+      }
+    }, 2500)
   }
 
   const handleSpeak = () => {
@@ -356,49 +370,8 @@ export default function ZoneQuizPage() {
               })}
             </div>
 
-            {/* Action Bar (Check Answer / Next question buttons) */}
-            <div className="w-full flex justify-center items-center h-16">
-              {!isChecked ? (
-                <button
-                  onClick={handleCheck}
-                  disabled={selectedOptionId === null}
-                  className={`flex items-center justify-center gap-[8px] rounded-[40px] px-[24px] py-[12px] font-vietnam font-bold text-[16px] border border-solid transition-all transform duration-150 ${selectedOptionId === null ? 'bg-[#cbd5e1] text-[#94a3b8] border-white/50 cursor-not-allowed shadow-none' : 'bg-[#339E4A] text-white border-white hover:scale-105 active:scale-95 shadow-md'}`}
-                >
-                  Câu hỏi tiếp theo
-                </button>
-              ) : (
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <span className={`font-vietnam font-bold text-lg ${isCorrect ? 'text-[#339e4a]' : 'text-[#ef4444]'}`}>
-                    {isCorrect ? '🎉 Tuyệt vời! Bé đã trả lời đúng rồi!' : '💪 Chưa đúng rồi, bé thử chọn lại nhé!'}
-                  </span>
-                  <div className="flex gap-3">
-                    {!isCorrect && (
-                      <button
-                        onClick={() => {
-                          setIsChecked(false)
-                          setSelectedOptionId(null)
-                        }}
-                        className="px-6 py-2 bg-white text-[#575e70] border border-[#cbd5e1] hover:bg-slate-50 font-vietnam font-bold rounded-full text-[15px] shadow-sm transition-all"
-                      >
-                        Thử lại
-                      </button>
-                    )}
-                    <button
-                      onClick={() => {
-                        if (lessonId < 5) {
-                          navigate(`/zone/cam-xuc/lesson/${lessonId + 1}`)
-                        } else {
-                          navigate('/zone/cam-xuc')
-                        }
-                      }}
-                      className="px-6 py-2 bg-[#0a7ad8] hover:bg-[#0863b0] text-white font-vietnam font-bold rounded-full text-[15px] shadow-sm transition-all hover:scale-105"
-                    >
-                      {lessonId < 5 ? 'Bài tiếp theo' : 'Hoàn thành chủ đề'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Spacing to balance the layout */}
+            <div className="h-[32px]"></div>
 
           </div>
       </main>
