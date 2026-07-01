@@ -5,7 +5,7 @@ export default {
     extend: {
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
-        baloo: ['Baloo', '"Baloo 2"', 'sans-serif'],
+        baloo: ['"Baloo 2"', 'sans-serif'],
         vietnam: ['"Be Vietnam Pro"', 'sans-serif'],
       },
       colors: {
