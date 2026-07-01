@@ -970,13 +970,13 @@ export default function DiaryPage() {
                           : 'cursor-pointer hover:shadow-md'
                       } ${
                         isSelected 
-                          ? 'bg-[#f4fafd] border-[#0a7ad8] ring-2 ring-[#0a7ad8]' 
+                          ? 'bg-[#f4fafd] border-[#0a7ad8] ring-2 ring-inset ring-[#0a7ad8]' 
                           : 'bg-white border-[#e2e2ea]'
                       }`}
                     >
                       {/* Top Gray Image Area (aspect ratio matching /zone/cam-xuc) */}
                       <div 
-                        className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[14px] overflow-hidden"
+                        className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[15px] overflow-hidden"
                         style={{ aspectRatio: '260 / 176' }}
                       >
                         {/* Checkmark badge if completed */}
