@@ -15,6 +15,7 @@ const ZoneGiaoTiepPage = lazy(() => import('./pages/zone/ZoneGiaoTiepPage'))
 const ZoneTuLapPage = lazy(() => import('./pages/zone/ZoneTuLapPage'))
 const ZoneBanBePage = lazy(() => import('./pages/zone/ZoneBanBePage'))
 const ZoneTinhHuongPage = lazy(() => import('./pages/zone/ZoneTinhHuongPage'))
+const ZoneQuizPage = lazy(() => import('./pages/zone/ZoneQuizPage'))
 
 function PageLoader() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/diary"   element={<DiaryPage />} />
             <Route path="/parents" element={<ParentsPage />} />
             <Route path="/zone/cam-xuc" element={<ZoneCamXucPage />} />
+            <Route path="/zone/cam-xuc/lesson/:id" element={<ZoneQuizPage />} />
             <Route path="/zone/giao-tiep" element={<ZoneGiaoTiepPage />} />
             <Route path="/zone/tu-lap" element={<ZoneTuLapPage />} />
             <Route path="/zone/tu-do" element={<ZoneTuLapPage />} />

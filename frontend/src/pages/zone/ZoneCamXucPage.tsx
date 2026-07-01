@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../../components/common/Navbar'
 import Footer from '../../components/common/Footer'
 
@@ -72,21 +73,26 @@ function StatusTag({ status }: { status: LessonStatus }) {
 }
 
 /* ── Action button ── */
-function ActionButton({ status }: { status: LessonStatus }) {
+interface ActionButtonProps {
+  status: LessonStatus;
+  onClick?: (e: React.MouseEvent) => void;
+}
+
+function ActionButton({ status, onClick }: ActionButtonProps) {
   if (status === 'completed')
     return (
-      <button className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#339e4a] border-2 border-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
+      <button onClick={onClick} className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#339e4a] border-2 border-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
         <span className="font-vietnam font-medium text-base leading-6 text-white whitespace-nowrap">Học lại</span>
       </button>
     )
   if (status === 'in-progress')
     return (
-      <button className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#fea01f] border-2 border-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
+      <button onClick={onClick} className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#fea01f] border-2 border-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
         <span className="font-vietnam font-medium text-base leading-6 text-white whitespace-nowrap">Tiếp tục</span>
       </button>
     )
   return (
-    <button className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#0a7ad8] hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
+    <button onClick={onClick} className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] bg-[#0a7ad8] hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-200 ease-out">
       <span className="font-vietnam font-medium text-base leading-6 text-white whitespace-nowrap">Học ngay</span>
     </button>
   )
@@ -94,8 +100,18 @@ function ActionButton({ status }: { status: LessonStatus }) {
 
 /* ── Lesson card — matches Figma "Card bài học chủ đề" exactly ── */
 function LessonCard({ lesson }: { lesson: Lesson }) {
+  const navigate = useNavigate()
+  
+  const handleStart = () => {
+    navigate(`/zone/cam-xuc/lesson/${lesson.id}`)
+  }
+
   return (
-    <div className="bg-white border border-[#C3FFD0] shadow-[0px_0px_10px_rgba(51,158,74,0.4)] hover:shadow-[0px_8px_20px_rgba(51,158,74,0.6)] hover:-translate-y-1.5 active:scale-[0.99] transition-all duration-300 ease-out cursor-pointer flex flex-col sm:flex-row items-start gap-6 p-6 rounded-[16px] w-full h-full kiddo-zone-card" style={{ minHeight: '224px' }}>
+    <div
+      onClick={handleStart}
+      className="bg-white border border-[#C3FFD0] shadow-[0px_0px_10px_rgba(51,158,74,0.4)] hover:shadow-[0px_8px_20px_rgba(51,158,74,0.6)] hover:-translate-y-1.5 active:scale-[0.99] transition-all duration-300 ease-out cursor-pointer flex flex-col sm:flex-row items-start gap-6 p-6 rounded-[16px] w-full h-full kiddo-zone-card"
+      style={{ minHeight: '224px' }}
+    >
       {/* Left: thumbnail (flex-1) + absolute number badge */}
       <div className="flex sm:flex-[1_0_0] h-[120px] sm:h-auto gap-3 items-end justify-end min-w-px relative self-stretch">
         <div className="bg-[#d2d2d2] w-full h-full relative rounded-xl" />
@@ -122,7 +138,13 @@ function LessonCard({ lesson }: { lesson: Lesson }) {
             <SmallStarRow filled={lesson.stars} />
             <StatusTag status={lesson.status} />
           </div>
-          <ActionButton status={lesson.status} />
+          <ActionButton
+            status={lesson.status}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleStart();
+            }}
+          />
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export default function HeroSection() {
             src={imgBg}
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
-            fetchPriority="high"
+            {...({ fetchpriority: "high" } as any)}
             loading="eager"
           />
         </div>
@@ -31,7 +31,7 @@ export default function HeroSection() {
             src={imgHomepage21}
             alt="OTTOPIA Hero Mascot"
             className="w-full h-full object-contain"
-            fetchPriority="high"
+            {...({ fetchpriority: "high" } as any)}
             loading="eager"
           />
         </div>
