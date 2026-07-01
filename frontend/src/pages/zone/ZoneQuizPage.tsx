@@ -156,12 +156,12 @@ export default function ZoneQuizPage() {
         />
 
         {showIntro ? (
-          /* Render the Game Intro View centered flex container style */
+          /* Render the Game Intro View full-screen overlay styled */
           <div 
             onClick={() => navigate('/zone/cam-xuc')}
-            className="relative w-full max-w-[1200px] h-[550px] md:h-[700px] flex flex-col items-center justify-start pt-8 md:pt-16 cursor-pointer z-10"
+            className="absolute inset-0 cursor-pointer z-10 flex flex-col items-center justify-start pt-8 md:pt-16"
           >
-            {/* Speaker Button in Top Right of the content space */}
+            {/* Speaker Button in Top Right */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
@@ -181,26 +181,26 @@ export default function ZoneQuizPage() {
               <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
             </button>
 
-            {/* Speech Bubble (Centered and larger width) */}
-            <div className="w-[92%] max-w-[900px] bg-white border-4 border-[#7bc9ff] rounded-[100px] px-8 py-6 md:px-16 md:py-8 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
+            {/* Speech Bubble (Centered and larger width, with brand green border) */}
+            <div className="w-[92%] max-w-[900px] bg-white border-4 border-[#339E4A] rounded-[100px] px-8 py-6 md:px-16 md:py-8 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
               <p className="font-baloo font-bold text-[20px] sm:text-[26px] md:text-[34px] text-[#001e2f] leading-snug md:leading-[52px]">
                 {introText}
               </p>
-              {/* Custom Waving Curved Tail pointing down-left */}
+              {/* Custom Waving Curved Tail pointing down-left with brand green border */}
               <div className="absolute -bottom-[28px] left-[45%] w-[48px] h-[32px] pointer-events-none">
                 <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                  <path d="M0 0 C10 15 15 28 15 32 C18 28 25 15 35 0" stroke="#7bc9ff" strokeWidth="4" fill="white" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M0 0 C10 15 15 28 15 32 C18 28 25 15 35 0" stroke="#339E4A" strokeWidth="4" fill="white" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M2 0 C10 12 15 24 15 29 C18 24 25 12 33 0 Z" fill="white" />
                 </svg>
               </div>
             </div>
 
-            {/* Mascot Waving Otter at Bottom Center (larger size) */}
-            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[320px] sm:w-[440px] lg:w-[580px] xl:w-[680px] pointer-events-none z-10">
+            {/* Mascot Waving Otter at Bottom Center (very large, sitting flush at the bottom of the banner) */}
+            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[340px] sm:w-[480px] lg:w-[600px] xl:w-[760px] pointer-events-none z-10">
               <img
                 src={imgWavingMascot}
                 alt="Mascot Waving"
-                className="w-full h-auto object-contain select-none"
+                className="w-full h-auto object-contain select-none block"
               />
             </div>
           </div>
