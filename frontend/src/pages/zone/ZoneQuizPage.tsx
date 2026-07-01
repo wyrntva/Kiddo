@@ -314,477 +314,470 @@ export default function ZoneQuizPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="flex-1 min-h-[calc(100vh-64px)] relative flex items-center justify-center py-12 px-4 md:px-12 bg-white">
-        
-        {/* Main Card Wrapper (the Banner) with Landscape background */}
-        <div className="w-full max-w-[1400px] mx-auto rounded-[24px] overflow-hidden relative shadow-lg bg-[#fff4bf] min-h-[680px] flex items-end border border-gray-100">
-          
-          {/* Landscape background image inside the card */}
-          <img
-            src={imgHeroBg}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
-          />
+      <main className="flex-1 min-h-[calc(100vh-64px)] relative flex items-center justify-center py-[48px] px-4 md:px-[48px] overflow-hidden">
+        {/* Full-section background landscape image, always visible */}
+        <img
+          src={imgHeroBg}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
+        />
 
-          {showGame ? (
-            /* Render the Drag-and-Drop Game View inside the Card */
-            <div className="relative z-10 w-full flex flex-col lg:flex-row gap-8 items-start justify-center p-6 md:p-12 animate-in fade-in duration-500">
+        {showGame ? (
+          /* Render the Drag-and-Drop Game View */
+          <div className="relative z-10 w-full max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-8 items-start justify-center px-4 md:px-8 py-4 animate-in fade-in duration-500">
+            
+            {/* Sidebar Instructions (Left) */}
+            <div className="w-full lg:w-[320px] bg-white rounded-[24px] shadow-lg border border-gray-100 flex flex-col items-center justify-between p-6 shrink-0 relative gap-6">
               
-              {/* Sidebar Instructions (Left) */}
-              <div className="w-full lg:w-[320px] bg-white rounded-[24px] shadow-lg border border-gray-100 flex flex-col items-center justify-between p-6 shrink-0 relative gap-6">
-                
-                {/* How to Play Title Speaker Button */}
-                <button
-                  onClick={handleSpeakInstruction}
-                  className="bg-[#fea01f] hover:bg-[#e08b15] active:scale-95 transition-all px-6 py-2.5 rounded-[40px] flex items-center gap-2 text-white font-vietnam font-bold text-[16px] shadow-md cursor-pointer"
-                >
-                  <img src={imgSpeaker} alt="Speak" className="w-5 h-5 invert brightness-0" />
-                  <span>HƯỚNG DẪN CHƠI</span>
-                </button>
-
-                {/* Step 1 & 2 Box */}
-                <div className="bg-[#e5f2ff] rounded-[12px] p-4 flex flex-col gap-4 w-full items-center">
-                  
-                  {/* Step 1 */}
-                  <div className="flex flex-col gap-2 w-full">
-                    <div className="flex gap-2 items-center">
-                      <span className="bg-[#0a7ad8] rounded-full text-white text-[14px] font-bold w-6 h-6 flex items-center justify-center">1</span>
-                      <span className="font-vietnam font-bold text-[#37393e] text-[15px]">Chọn cảm xúc</span>
-                    </div>
-                    <div className="w-full h-[110px] bg-white rounded-[12px] overflow-hidden border border-blue-100 flex items-center justify-center p-2">
-                      <img src={imgDao11} alt="" className="max-h-full max-w-full object-contain" />
-                    </div>
-                  </div>
-
-                  {/* Down Arrow */}
-                  <svg className="w-6 h-6 text-[#0a7ad8] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
-                  </svg>
-
-                  {/* Step 2 */}
-                  <div className="flex flex-col gap-2 w-full">
-                    <div className="flex gap-2 items-center">
-                      <span className="bg-[#fea01f] rounded-full text-white text-[14px] font-bold w-6 h-6 flex items-center justify-center">2</span>
-                      <span className="font-vietnam font-bold text-[#37393e] text-[15px]">Kéo vào ô đúng</span>
-                    </div>
-                    <div className="w-full h-[110px] bg-white rounded-[12px] overflow-hidden border border-orange-100 flex items-center justify-center p-2">
-                      <img src={imgDao12} alt="" className="max-h-full max-w-full object-contain" />
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Speech Bubble */}
-                <div className="bg-white border-2 border-[#7bc9ff] rounded-[24px] p-4 shadow-sm relative w-full text-center">
-                  <span className="font-vietnam text-[#001e2f] text-[15px] font-bold leading-relaxed">
-                    Chọn cảm xúc rồi kéo vào ô đúng nhé!
-                  </span>
-                  {/* Bubble Tail */}
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-[#7bc9ff]"></div>
-                  <div className="absolute -bottom-[10px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[9px] border-l-transparent border-r-[9px] border-r-transparent border-t-[9px] border-t-white"></div>
-                </div>
-
-                {/* Side Mascot Waving */}
-                <div className="w-[180px] h-[180px] flex items-center justify-center overflow-hidden">
-                  <img src={imgWavingMascot} alt="" className="max-h-full object-contain" />
-                </div>
-
-              </div>
-
-              {/* Game Workspace (Right) */}
-              <div className="flex-1 flex flex-col gap-6 items-center w-full relative">
-                
-                {/* Header Action Bar */}
-                <div className="w-full flex items-center justify-between z-20">
-                  <button
-                    onClick={() => navigate('/zone/cam-xuc')}
-                    className="bg-white hover:bg-red-50 active:scale-95 transition-all border border-[#e83552] text-[#e83552] font-baloo text-[16px] md:text-[18px] font-bold rounded-[40px] px-6 py-2.5 flex items-center gap-2 shadow-sm cursor-pointer"
-                  >
-                    <img src={imgBackIcon} alt="" className="w-5 h-5" />
-                    <span>Quay lại</span>
-                  </button>
-
-                  <button
-                    onClick={handleCheckAnswers}
-                    className="bg-[#339e4a] hover:bg-[#2c883f] active:scale-95 transition-all border border-white text-white font-baloo text-[16px] md:text-[18px] font-bold rounded-[40px] px-6 py-2.5 flex items-center gap-2 shadow-md cursor-pointer"
-                  >
-                    <img src={imgCheckIcon} alt="" className="w-5 h-5 invert brightness-0" />
-                    <span>Hoàn thành</span>
-                  </button>
-                </div>
-
-                {/* Main Title Banner */}
-                <div className="flex flex-col items-center gap-3 text-center">
-                  <h1 className="font-baloo font-bold text-[36px] md:text-[48px] text-[#fea01f] leading-none drop-shadow-sm select-none">
-                    Kéo thả cảm xúc
-                  </h1>
-                  
-                  {/* Heading Capsule with Dotted Border */}
-                  <div className="bg-[#f2fbef] border-4 border-[#339e4a] rounded-[1000px] p-1 flex items-center justify-center shadow-sm">
-                    <div className="border-2 border-[#02522b] border-dashed rounded-[100px] px-6 py-1.5 flex items-center justify-center">
-                      <span className="font-baloo text-[18px] md:text-[24px] text-[#418457] font-bold leading-normal">
-                        Con đang cảm thấy gì ?
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Row of 4 Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-[1100px] justify-center mt-2">
-                  
-                  {/* Card 1: Bunny (Vui) */}
-                  <div 
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, 'bunny')}
-                    className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
-                      gameChecked 
-                        ? (placedEmotions.bunny === 'vui' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
-                        : 'border-[#8234e4] bg-gradient-to-b from-[#f2f0fe] via-[#e9d8ff] to-[#f2f0fe]'
-                    }`}
-                    style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(242, 240, 254) 23%, rgb(233, 216, 255) 88%, rgb(242, 240, 254) 108%)' } : undefined}
-                  >
-                    <div 
-                      onClick={() => handleSlotClick('bunny')}
-                      className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
-                    >
-                      {placedEmotions.bunny ? (
-                        <img src={getCloudImage(placedEmotions.bunny)} alt="" className="w-[110px] h-auto object-contain" />
-                      ) : (
-                        <img src={imgVectorSlotPurple} alt="" className="w-[110px] h-auto object-contain opacity-85" />
-                      )}
-                    </div>
-                    <img src={imgGame1Cd1B152} alt="Bunny" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
-                    {gameChecked && (
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
-                        {placedEmotions.bunny === 'vui' ? (
-                          <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
-                        ) : (
-                          <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
-                        )}
-                      </div>
-                    )}
-                    <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.bunny === 'vui' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#8234e4]'}`}>
-                      {placedEmotions.bunny ? getEmotionLabel(placedEmotions.bunny) : "???"}
-                    </span>
-                  </div>
-
-                  {/* Card 2: Fox Toro (Buồn) */}
-                  <div 
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, 'fox')}
-                    className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
-                      gameChecked 
-                        ? (placedEmotions.fox === 'buon' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
-                        : 'border-[#fea01f] bg-gradient-to-b from-[#fef9ed] via-[#fff4bf] to-[#fef9ed]'
-                    }`}
-                    style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(254, 249, 237) 23%, rgb(255, 244, 191) 88%, rgb(254, 249, 237) 108%)' } : undefined}
-                  >
-                    <div 
-                      onClick={() => handleSlotClick('fox')}
-                      className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
-                    >
-                      {placedEmotions.fox ? (
-                        <img src={getCloudImage(placedEmotions.fox)} alt="" className="w-[110px] h-auto object-contain" />
-                      ) : (
-                        <img src={imgVectorSlotOrange} alt="" className="w-[110px] h-auto object-contain opacity-85" />
-                      )}
-                    </div>
-                    <img src={imgGame1Cd1B151} alt="Toro" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
-                    {gameChecked && (
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
-                        {placedEmotions.fox === 'buon' ? (
-                          <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
-                        ) : (
-                          <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
-                        )}
-                      </div>
-                    )}
-                    <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.fox === 'buon' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#fea01f]'}`}>
-                      {placedEmotions.fox ? getEmotionLabel(placedEmotions.fox) : "???"}
-                    </span>
-                  </div>
-
-                  {/* Card 3: Bear Lu (Giận) */}
-                  <div 
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, 'bear')}
-                    className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
-                      gameChecked 
-                        ? (placedEmotions.bear === 'gian' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
-                        : 'border-[#e55c72] bg-gradient-to-b from-[#fef0f0] via-[#ffc9d1] to-[#fef0f0]'
-                    }`}
-                    style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(254, 240, 240) 23%, rgb(255, 201, 209) 88%, rgb(254, 240, 240) 108%)' } : undefined}
-                  >
-                    <div 
-                      onClick={() => handleSlotClick('bear')}
-                      className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
-                    >
-                      {placedEmotions.bear ? (
-                        <img src={getCloudImage(placedEmotions.bear)} alt="" className="w-[110px] h-auto object-contain" />
-                      ) : (
-                        <img src={imgVectorSlotRed} alt="" className="w-[110px] h-auto object-contain opacity-85" />
-                      )}
-                    </div>
-                    <img src={imgGame1Cd1B153} alt="Lu" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
-                    {gameChecked && (
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
-                        {placedEmotions.bear === 'gian' ? (
-                          <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
-                        ) : (
-                          <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
-                        )}
-                      </div>
-                    )}
-                    <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.bear === 'gian' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#e55c72]'}`}>
-                      {placedEmotions.bear ? getEmotionLabel(placedEmotions.bear) : "???"}
-                    </span>
-                  </div>
-
-                  {/* Card 4: Turtle (Sợ) */}
-                  <div 
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, 'turtle')}
-                    className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
-                      gameChecked 
-                        ? (placedEmotions.turtle === 'so' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
-                        : 'border-[#0a7ad8] bg-gradient-to-b from-[#f4fafd] via-[#e5f2ff] to-[#f4fafd]'
-                    }`}
-                    style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(244, 250, 253) 23%, rgb(229, 242, 255) 88%, rgb(244, 250, 253) 108%)' } : undefined}
-                  >
-                    <div 
-                      onClick={() => handleSlotClick('turtle')}
-                      className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
-                    >
-                      {placedEmotions.turtle ? (
-                        <img src={getCloudImage(placedEmotions.turtle)} alt="" className="w-[110px] h-auto object-contain" />
-                      ) : (
-                        <img src={imgVectorSlotBlue} alt="" className="w-[110px] h-auto object-contain opacity-85" />
-                      )}
-                    </div>
-                    <img src={imgGame1Cd1B154} alt="Turtle" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
-                    {gameChecked && (
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
-                        {placedEmotions.turtle === 'so' ? (
-                          <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
-                        ) : (
-                          <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
-                        )}
-                      </div>
-                    )}
-                    <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.turtle === 'so' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#0a7ad8]'}`}>
-                      {placedEmotions.turtle ? getEmotionLabel(placedEmotions.turtle) : "???"}
-                    </span>
-                  </div>
-
-                </div>
-
-                {/* Bottom Drawer containing Draggable Clouds */}
-                <div className="bg-white border border-[#c4c9d4] rounded-[24px] p-6 flex flex-wrap gap-6 items-center justify-center shadow-md w-full max-w-[800px] mt-4 z-20">
-                  {emotionsList.map(emotion => {
-                    const isPlaced = Object.values(placedEmotions).includes(emotion.id)
-                    const isSelected = selectedEmotionId === emotion.id
-                    return (
-                      <div 
-                        key={emotion.id}
-                        draggable={!isPlaced}
-                        onDragStart={(e) => handleDragStart(e, emotion.id)}
-                        onClick={() => !isPlaced && handleSelectEmotion(emotion.id)}
-                        className={`flex flex-col items-center gap-2 cursor-pointer transition-all duration-300 relative ${
-                          isPlaced 
-                            ? 'opacity-30 cursor-not-allowed scale-90' 
-                            : (isSelected 
-                                ? 'scale-110 border-4 border-[#339e4a] rounded-[16px] p-2 bg-[#f2fbef]' 
-                                : 'hover:scale-105 active:scale-95')
-                        }`}
-                      >
-                        <div className="w-[120px] h-[100px] relative flex items-center justify-center">
-                          <img src={emotion.cloudImage} alt={emotion.label} className="max-w-full max-h-full object-contain pointer-events-none select-none" />
-                        </div>
-                        <span 
-                          style={{ color: emotion.textColor }}
-                          className="font-baloo font-bold text-[16px] tracking-wide"
-                        >
-                          {emotion.label}
-                        </span>
-                      </div>
-                    )
-                  })}
-                </div>
-
-              </div>
-
-            </div>
-          ) : showIntro ? (
-            /* Render the Game Intro View inside the Card */
-            <div 
-              onClick={() => {
-                if (navigateTimeoutRef.current) clearTimeout(navigateTimeoutRef.current)
-                setShowIntro(false)
-                setShowGame(true)
-              }}
-              className="absolute inset-0 cursor-pointer z-10 flex flex-col items-center justify-start pt-[112px] md:pt-[144px]"
-            >
-              {/* Speaker Button in Top Right */}
+              {/* How to Play Title Speaker Button */}
               <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel()
-                    setIsSpeaking(true)
-                    const utterance = new SpeechSynthesisUtterance(introText)
-                    utterance.lang = 'vi-VN'
-                    utterance.onend = () => setIsSpeaking(false)
-                    utterance.onerror = () => setIsSpeaking(false)
-                    window.speechSynthesis.speak(utterance)
-                  }
-                }}
-                className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shadow-md z-20 ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
-                title="Nghe hướng dẫn"
+                onClick={handleSpeakInstruction}
+                className="bg-[#fea01f] hover:bg-[#e08b15] active:scale-95 transition-all px-6 py-2.5 rounded-[40px] flex items-center gap-2 text-white font-vietnam font-bold text-[16px] shadow-md cursor-pointer"
               >
-                <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
+                <img src={imgSpeaker} alt="Speak" className="w-5 h-5 invert brightness-0" />
+                <span>HƯỚNG DẪN CHƠI</span>
               </button>
 
-              {/* Speech Bubble (Centered and larger width, with brand green border) */}
-              <div className="w-[92%] max-w-[900px] bg-white border-4 border-[#339E4A] rounded-[100px] px-8 py-6 md:px-16 md:py-8 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
-                <p className="font-baloo font-bold text-[20px] sm:text-[26px] md:text-[34px] text-[#001e2f] leading-snug md:leading-[52px]">
-                  {introText}
-                </p>
-                {/* Custom Waving Curved Tail pointing down-left with brand green border */}
-                <div className="absolute -bottom-[28px] left-[45%] w-[48px] h-[32px] pointer-events-none">
-                  <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    <path d="M0 0 C10 15 15 28 15 32 C18 28 25 15 35 0" stroke="#339E4A" strokeWidth="4" fill="white" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M2 0 C10 12 15 24 15 29 C18 24 25 12 33 0 Z" fill="white" />
-                  </svg>
+              {/* Step 1 & 2 Box */}
+              <div className="bg-[#e5f2ff] rounded-[12px] p-4 flex flex-col gap-4 w-full items-center">
+                
+                {/* Step 1 */}
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex gap-2 items-center">
+                    <span className="bg-[#0a7ad8] rounded-full text-white text-[14px] font-bold w-6 h-6 flex items-center justify-center">1</span>
+                    <span className="font-vietnam font-bold text-[#37393e] text-[15px]">Chọn cảm xúc</span>
+                  </div>
+                  <div className="w-full h-[110px] bg-white rounded-[12px] overflow-hidden border border-blue-100 flex items-center justify-center p-2">
+                    <img src={imgDao11} alt="" className="max-h-full max-w-full object-contain" />
+                  </div>
                 </div>
+
+                {/* Down Arrow */}
+                <svg className="w-6 h-6 text-[#0a7ad8] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
+                </svg>
+
+                {/* Step 2 */}
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="flex gap-2 items-center">
+                    <span className="bg-[#fea01f] rounded-full text-white text-[14px] font-bold w-6 h-6 flex items-center justify-center">2</span>
+                    <span className="font-vietnam font-bold text-[#37393e] text-[15px]">Kéo vào ô đúng</span>
+                  </div>
+                  <div className="w-full h-[110px] bg-white rounded-[12px] overflow-hidden border border-orange-100 flex items-center justify-center p-2">
+                    <img src={imgDao12} alt="" className="max-h-full max-w-full object-contain" />
+                  </div>
+                </div>
+
               </div>
 
-              {/* Mascot Waving Otter at Bottom Center (very large, sitting flush at the bottom of the card banner) */}
-              <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[460px] sm:w-[650px] lg:w-[860px] xl:w-[1020px] pointer-events-none z-10">
-                <img
-                  src={imgWavingMascot}
-                  alt="Mascot Waving"
-                  className="w-full h-auto object-contain select-none block"
-                />
+              {/* Speech Bubble */}
+              <div className="bg-white border-2 border-[#7bc9ff] rounded-[24px] p-4 shadow-sm relative w-full text-center">
+                <span className="font-vietnam text-[#001e2f] text-[15px] font-bold leading-relaxed">
+                  Chọn cảm xúc rồi kéo vào ô đúng nhé!
+                </span>
+                {/* Bubble Tail */}
+                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-[#7bc9ff]"></div>
+                <div className="absolute -bottom-[10px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[9px] border-l-transparent border-r-[9px] border-r-transparent border-t-[9px] border-t-white"></div>
               </div>
+
+              {/* Side Mascot Waving */}
+              <div className="w-[180px] h-[180px] flex items-center justify-center overflow-hidden">
+                <img src={imgWavingMascot} alt="" className="max-h-full object-contain" />
+              </div>
+
             </div>
-          ) : (
-            /* Render the standard Quiz Content inside the Card */
-            <div className="relative z-10 w-full flex flex-col gap-8 md:gap-12 items-center justify-center min-h-[600px] p-6 md:p-12">
-              
-              {/* Mascot floating in the bottom-left corner inside the card */}
-              <div className="absolute left-4 bottom-0 w-[180px] md:w-[250px] pointer-events-none z-10">
-                <img
-                  src={imgMascot}
-                  alt="Mascot"
-                  className="w-full h-auto object-contain select-none pointer-events-none transform origin-bottom-left hover:scale-105 transition-transform duration-300"
-                />
-              </div>
 
-              {/* Back Button */}
-              <div className="w-full flex justify-start">
+            {/* Game Workspace (Right) */}
+            <div className="flex-1 flex flex-col gap-6 items-center w-full relative">
+              
+              {/* Header Action Bar */}
+              <div className="w-full flex items-center justify-between z-20">
                 <button
                   onClick={() => navigate('/zone/cam-xuc')}
                   className="bg-white hover:bg-red-50 active:scale-95 transition-all border border-[#e83552] text-[#e83552] font-baloo text-[16px] md:text-[18px] font-bold rounded-[40px] px-6 py-2.5 flex items-center gap-2 shadow-sm cursor-pointer"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
+                  <img src={imgBackIcon} alt="" className="w-5 h-5" />
                   <span>Quay lại</span>
+                </button>
+
+                <button
+                  onClick={handleCheckAnswers}
+                  className="bg-[#339e4a] hover:bg-[#2c883f] active:scale-95 transition-all border border-white text-white font-baloo text-[16px] md:text-[18px] font-bold rounded-[40px] px-6 py-2.5 flex items-center gap-2 shadow-md cursor-pointer"
+                >
+                  <img src={imgCheckIcon} alt="" className="w-5 h-5 invert brightness-0" />
+                  <span>Hoàn thành</span>
                 </button>
               </div>
 
-              {/* Question Bubble */}
-              <div className="w-full bg-white border-[4px] border-[#339E4A] rounded-[100px] flex items-center justify-start pl-[40px] pr-[24px] py-[24px] gap-[24px] shadow-sm">
-                {/* Speaker Button */}
-                <button
-                  onClick={handleSpeak}
-                  className={`bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shrink-0 shadow-md ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
-                  title="Nghe câu hỏi"
-                >
-                  <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
-                </button>
-
-                {/* Question Texts */}
-                <div className="flex flex-col text-left gap-1">
-                  <span className="font-baloo text-[#0a7ad8] text-[20px] md:text-[24px] font-bold leading-normal">
-                    Câu hỏi {quiz.lessonId}:
-                  </span>
-                  <span className="font-vietnam font-bold text-[16px] md:text-[18px] leading-relaxed text-[#37393e]">
-                    {quiz.question}
-                  </span>
+              {/* Main Title Banner */}
+              <div className="flex flex-col items-center gap-3 text-center">
+                <h1 className="font-baloo font-bold text-[36px] md:text-[48px] text-[#fea01f] leading-none drop-shadow-sm select-none">
+                  Kéo thả cảm xúc
+                </h1>
+                
+                {/* Heading Capsule with Dotted Border */}
+                <div className="bg-[#f2fbef] border-4 border-[#339e4a] rounded-[1000px] p-1 flex items-center justify-center shadow-sm">
+                  <div className="border-2 border-[#02522b] border-dashed rounded-[100px] px-6 py-1.5 flex items-center justify-center">
+                    <span className="font-baloo text-[18px] md:text-[24px] text-[#418457] font-bold leading-normal">
+                      Con đang cảm thấy gì ?
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* Answer Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-[900px] justify-center">
-                {quiz.options.map((opt) => {
-                  const isSelected = selectedOptionId === opt.id
-                  let cardClass = "bg-white border-2 border-[#C3FFD0] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]"
-
-                  if (isSelected) {
-                    if (isChecked) {
-                      cardClass = isCorrect ? "bg-[#eefcf2] border-4 border-[#339e4a] shadow-[#339e4a]/10" : "bg-[#fdf2f2] border-4 border-[#ef4444] shadow-[#ef4444]/10"
-                    } else {
-                      cardClass = "bg-[#eefcf2] border-4 border-[#339E4A] shadow-[#339E4A]/10"
-                    }
-                  } else if (!isChecked) {
-                    cardClass += " hover:bg-[#e5f2ff]"
-                  }
-
-                  return (
-                    <button
-                      key={opt.id}
-                      onClick={() => handleSelect(opt.id)}
-                      disabled={isChecked}
-                      className={`flex flex-col items-center justify-center p-[48px] gap-[24px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98 cursor-pointer`}
-                    >
-                      {/* Visual Indicator icons for validation */}
-                      {isChecked && isSelected && (
-                        <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-bounce">
-                          {isCorrect ? (
-                            <div className="bg-[#339e4a] rounded-full p-1">
-                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                            </div>
-                          ) : (
-                            <div className="bg-[#ef4444] rounded-full p-1">
-                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                            </div>
-                          )}
-                        </div>
+              {/* Row of 4 Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-[1100px] justify-center mt-2">
+                
+                {/* Card 1: Bunny (Vui) */}
+                <div 
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, 'bunny')}
+                  className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
+                    gameChecked 
+                      ? (placedEmotions.bunny === 'vui' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
+                      : 'border-[#8234e4] bg-gradient-to-b from-[#f2f0fe] via-[#e9d8ff] to-[#f2f0fe]'
+                  }`}
+                  style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(242, 240, 254) 23%, rgb(233, 216, 255) 88%, rgb(242, 240, 254) 108%)' } : undefined}
+                >
+                  <div 
+                    onClick={() => handleSlotClick('bunny')}
+                    className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
+                  >
+                    {placedEmotions.bunny ? (
+                      <img src={getCloudImage(placedEmotions.bunny)} alt="" className="w-[110px] h-auto object-contain" />
+                    ) : (
+                      <img src={imgVectorSlotPurple} alt="" className="w-[110px] h-auto object-contain opacity-85" />
+                    )}
+                  </div>
+                  <img src={imgGame1Cd1B152} alt="Bunny" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
+                  {gameChecked && (
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
+                      {placedEmotions.bunny === 'vui' ? (
+                        <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
+                      ) : (
+                        <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
                       )}
+                    </div>
+                  )}
+                  <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.bunny === 'vui' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#8234e4]'}`}>
+                    {placedEmotions.bunny ? getEmotionLabel(placedEmotions.bunny) : "???"}
+                  </span>
+                </div>
 
-                      {/* Image Box */}
-                      <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center">
-                        <div className="relative w-[180px] h-[180px] overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                          <img
-                            src={opt.sprite}
-                            alt={opt.label}
-                            style={opt.style}
-                            className="absolute max-w-none block select-none pointer-events-none"
-                          />
-                        </div>
+                {/* Card 2: Fox Toro (Buồn) */}
+                <div 
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, 'fox')}
+                  className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
+                    gameChecked 
+                      ? (placedEmotions.fox === 'buon' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
+                      : 'border-[#fea01f] bg-gradient-to-b from-[#fef9ed] via-[#fff4bf] to-[#fef9ed]'
+                  }`}
+                  style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(254, 249, 237) 23%, rgb(255, 244, 191) 88%, rgb(254, 249, 237) 108%)' } : undefined}
+                >
+                  <div 
+                    onClick={() => handleSlotClick('fox')}
+                    className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
+                  >
+                    {placedEmotions.fox ? (
+                      <img src={getCloudImage(placedEmotions.fox)} alt="" className="w-[110px] h-auto object-contain" />
+                    ) : (
+                      <img src={imgVectorSlotOrange} alt="" className="w-[110px] h-auto object-contain opacity-85" />
+                    )}
+                  </div>
+                  <img src={imgGame1Cd1B151} alt="Toro" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
+                  {gameChecked && (
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
+                      {placedEmotions.fox === 'buon' ? (
+                        <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
+                      ) : (
+                        <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
+                      )}
+                    </div>
+                  )}
+                  <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.fox === 'buon' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#fea01f]'}`}>
+                    {placedEmotions.fox ? getEmotionLabel(placedEmotions.fox) : "???"}
+                  </span>
+                </div>
+
+                {/* Card 3: Bear Lu (Giận) */}
+                <div 
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, 'bear')}
+                  className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
+                    gameChecked 
+                      ? (placedEmotions.bear === 'gian' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
+                      : 'border-[#e55c72] bg-gradient-to-b from-[#fef0f0] via-[#ffc9d1] to-[#fef0f0]'
+                  }`}
+                  style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(254, 240, 240) 23%, rgb(255, 201, 209) 88%, rgb(254, 240, 240) 108%)' } : undefined}
+                >
+                  <div 
+                    onClick={() => handleSlotClick('bear')}
+                    className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
+                  >
+                    {placedEmotions.bear ? (
+                      <img src={getCloudImage(placedEmotions.bear)} alt="" className="w-[110px] h-auto object-contain" />
+                    ) : (
+                      <img src={imgVectorSlotRed} alt="" className="w-[110px] h-auto object-contain opacity-85" />
+                    )}
+                  </div>
+                  <img src={imgGame1Cd1B153} alt="Lu" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
+                  {gameChecked && (
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
+                      {placedEmotions.bear === 'gian' ? (
+                        <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
+                      ) : (
+                        <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
+                      )}
+                    </div>
+                  )}
+                  <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.bear === 'gian' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#e55c72]'}`}>
+                    {placedEmotions.bear ? getEmotionLabel(placedEmotions.bear) : "???"}
+                  </span>
+                </div>
+
+                {/* Card 4: Turtle (Sợ) */}
+                <div 
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, 'turtle')}
+                  className={`border-[3px] rounded-[24px] p-6 flex flex-col items-center gap-4 text-center select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-all ${
+                    gameChecked 
+                      ? (placedEmotions.turtle === 'so' ? 'border-[#339e4a] bg-[#eefcf2]' : 'border-[#ef4444] bg-[#fdf2f2]')
+                      : 'border-[#0a7ad8] bg-gradient-to-b from-[#f4fafd] via-[#e5f2ff] to-[#f4fafd]'
+                  }`}
+                  style={!gameChecked ? { backgroundImage: 'linear-gradient(181deg, rgb(244, 250, 253) 23%, rgb(229, 242, 255) 88%, rgb(244, 250, 253) 108%)' } : undefined}
+                >
+                  <div 
+                    onClick={() => handleSlotClick('turtle')}
+                    className="w-[134px] h-[120px] border-[3px] border-white rounded-[24px] relative flex items-center justify-center overflow-hidden cursor-pointer shadow-inner bg-white/40 hover:bg-white/60 transition-colors"
+                  >
+                    {placedEmotions.turtle ? (
+                      <img src={getCloudImage(placedEmotions.turtle)} alt="" className="w-[110px] h-auto object-contain" />
+                    ) : (
+                      <img src={imgVectorSlotBlue} alt="" className="w-[110px] h-auto object-contain opacity-85" />
+                    )}
+                  </div>
+                  <img src={imgGame1Cd1B154} alt="Turtle" className="w-[160px] h-[160px] object-contain transform hover:scale-105 transition-transform duration-300 pointer-events-none" />
+                  {gameChecked && (
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
+                      {placedEmotions.turtle === 'so' ? (
+                        <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
+                      ) : (
+                        <div className="bg-[#ef4444] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>
+                      )}
+                    </div>
+                  )}
+                  <span className={`font-vietnam font-bold text-[16px] transition-colors ${gameChecked ? (placedEmotions.turtle === 'so' ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#0a7ad8]'}`}>
+                    {placedEmotions.turtle ? getEmotionLabel(placedEmotions.turtle) : "???"}
+                  </span>
+                </div>
+
+              </div>
+
+              {/* Bottom Drawer containing Draggable Clouds */}
+              <div className="bg-white border border-[#c4c9d4] rounded-[24px] p-6 flex flex-wrap gap-6 items-center justify-center shadow-md w-full max-w-[800px] mt-4 z-20">
+                {emotionsList.map(emotion => {
+                  const isPlaced = Object.values(placedEmotions).includes(emotion.id)
+                  const isSelected = selectedEmotionId === emotion.id
+                  return (
+                    <div 
+                      key={emotion.id}
+                      draggable={!isPlaced}
+                      onDragStart={(e) => handleDragStart(e, emotion.id)}
+                      onClick={() => !isPlaced && handleSelectEmotion(emotion.id)}
+                      className={`flex flex-col items-center gap-2 cursor-pointer transition-all duration-300 relative ${
+                        isPlaced 
+                          ? 'opacity-30 cursor-not-allowed scale-90' 
+                          : (isSelected 
+                              ? 'scale-110 border-4 border-[#339e4a] rounded-[16px] p-2 bg-[#f2fbef]' 
+                              : 'hover:scale-105 active:scale-95')
+                      }`}
+                    >
+                      <div className="w-[120px] h-[100px] relative flex items-center justify-center">
+                        <img src={emotion.cloudImage} alt={emotion.label} className="max-w-full max-h-full object-contain pointer-events-none select-none" />
                       </div>
-
-                      {/* Text Label */}
-                      <span className={`font-vietnam font-bold text-[16px] md:text-[18px] text-center leading-[24px] transition-colors ${isSelected ? (isChecked ? (isCorrect ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#339E4A]') : 'text-[#37393e] group-hover:text-[#339E4A]'}`}>
-                        {opt.label}
+                      <span 
+                        style={{ color: emotion.textColor }}
+                        className="font-baloo font-bold text-[16px] tracking-wide"
+                      >
+                        {emotion.label}
                       </span>
-                    </button>
+                    </div>
                   )
                 })}
               </div>
 
-              {/* Spacing to balance the layout */}
-              <div className="h-[32px]"></div>
-
             </div>
-          )}
 
-        </div>
+          </div>
+        ) : showIntro ? (
+          /* Render the Game Intro View full-screen overlay styled */
+          <div 
+            onClick={() => {
+              if (navigateTimeoutRef.current) clearTimeout(navigateTimeoutRef.current)
+              setShowIntro(false)
+              setShowGame(true)
+            }}
+            className="absolute inset-0 cursor-pointer z-10 flex flex-col items-center justify-start pt-[112px] md:pt-[144px]"
+          >
+            {/* Speaker Button in Top Right */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                if ('speechSynthesis' in window) {
+                  window.speechSynthesis.cancel()
+                  setIsSpeaking(true)
+                  const utterance = new SpeechSynthesisUtterance(introText)
+                  utterance.lang = 'vi-VN'
+                  utterance.onend = () => setIsSpeaking(false)
+                  utterance.onerror = () => setIsSpeaking(false)
+                  window.speechSynthesis.speak(utterance)
+                }
+              }}
+              className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shadow-md z-20 ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
+              title="Nghe hướng dẫn"
+            >
+              <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
+            </button>
 
+            {/* Speech Bubble (Centered and larger width, with brand green border) */}
+            <div className="w-[92%] max-w-[900px] bg-white border-4 border-[#339E4A] rounded-[100px] px-8 py-6 md:px-16 md:py-8 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
+              <p className="font-baloo font-bold text-[20px] sm:text-[26px] md:text-[34px] text-[#001e2f] leading-snug md:leading-[52px]">
+                {introText}
+              </p>
+              {/* Custom Waving Curved Tail pointing down-left with brand green border */}
+              <div className="absolute -bottom-[28px] left-[45%] w-[48px] h-[32px] pointer-events-none">
+                <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <path d="M0 0 C10 15 15 28 15 32 C18 28 25 15 35 0" stroke="#339E4A" strokeWidth="4" fill="white" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 0 C10 12 15 24 15 29 C18 24 25 12 33 0 Z" fill="white" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Mascot Waving Otter at Bottom Center (very large, sitting flush at the bottom of the banner) */}
+            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[460px] sm:w-[650px] lg:w-[860px] xl:w-[1020px] pointer-events-none z-10">
+              <img
+                src={imgWavingMascot}
+                alt="Mascot Waving"
+                className="w-full h-auto object-contain select-none block"
+              />
+            </div>
+          </div>
+        ) : (
+          /* Render the standard Quiz Content */
+          <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col gap-8 md:gap-[48px] items-center justify-center min-h-[600px] py-8">
+            
+            {/* Mascot floating in the bottom-left corner */}
+            <div className="absolute left-4 bottom-0 w-[180px] md:w-[280px] lg:w-[350px] xl:w-[400px] pointer-events-none z-10">
+              <img
+                src={imgMascot}
+                alt="Mascot"
+                className="w-full h-auto object-contain select-none pointer-events-none transform origin-bottom-left hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {/* Back Button */}
+            <div className="w-full flex justify-start pl-4 md:pl-0">
+              <button
+                onClick={() => navigate('/zone/cam-xuc')}
+                className="bg-white hover:bg-red-50 active:scale-95 transition-all border border-[#e83552] text-[#e83552] font-baloo text-[16px] md:text-[18px] font-bold rounded-[40px] px-6 py-2.5 flex items-center gap-2 shadow-sm cursor-pointer"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Quay lại</span>
+              </button>
+            </div>
+
+            {/* Question Bubble */}
+            <div className="w-full bg-white border-[4px] border-[#339E4A] rounded-[100px] flex items-center justify-start pl-[40px] pr-[24px] py-[24px] gap-[24px] shadow-sm">
+              {/* Speaker Button */}
+              <button
+                onClick={handleSpeak}
+                className={`bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shrink-0 shadow-md ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
+                title="Nghe câu hỏi"
+              >
+                <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
+              </button>
+
+              {/* Question Texts */}
+              <div className="flex flex-col text-left gap-1">
+                <span className="font-baloo text-[#0a7ad8] text-[20px] md:text-[24px] font-bold leading-normal">
+                  Câu hỏi {quiz.lessonId}:
+                </span>
+                <span className="font-vietnam font-bold text-[16px] md:text-[18px] leading-relaxed text-[#37393e]">
+                  {quiz.question}
+                </span>
+              </div>
+            </div>
+
+            {/* Answer Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-[900px] justify-center">
+              {quiz.options.map((opt) => {
+                const isSelected = selectedOptionId === opt.id
+                let cardClass = "bg-white border-2 border-[#C3FFD0] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]"
+
+                if (isSelected) {
+                  if (isChecked) {
+                    cardClass = isCorrect ? "bg-[#eefcf2] border-4 border-[#339e4a] shadow-[#339e4a]/10" : "bg-[#fdf2f2] border-4 border-[#ef4444] shadow-[#ef4444]/10"
+                  } else {
+                    cardClass = "bg-[#eefcf2] border-4 border-[#339E4A] shadow-[#339E4A]/10"
+                  }
+                } else if (!isChecked) {
+                  cardClass += " hover:bg-[#e5f2ff]"
+                }
+
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => handleSelect(opt.id)}
+                    disabled={isChecked}
+                    className={`flex flex-col items-center justify-center p-[48px] gap-[24px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98 cursor-pointer`}
+                  >
+                    {/* Visual Indicator icons for validation */}
+                    {isChecked && isSelected && (
+                      <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-bounce">
+                        {isCorrect ? (
+                          <div className="bg-[#339e4a] rounded-full p-1">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                          </div>
+                        ) : (
+                          <div className="bg-[#ef4444] rounded-full p-1">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Image Box */}
+                    <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center">
+                      <div className="relative w-[180px] h-[180px] overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                        <img
+                          src={opt.sprite}
+                          alt={opt.label}
+                          style={opt.style}
+                          className="absolute max-w-none block select-none pointer-events-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Text Label */}
+                    <span className={`font-vietnam font-bold text-[16px] md:text-[18px] text-center leading-[24px] transition-colors ${isSelected ? (isChecked ? (isCorrect ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#339E4A]') : 'text-[#37393e] group-hover:text-[#339E4A]'}`}>
+                      {opt.label}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Spacing to balance the layout */}
+            <div className="h-[32px]"></div>
+
+          </div>
+        )}
       </main>
 
       {/* Success Modal Popup */}
