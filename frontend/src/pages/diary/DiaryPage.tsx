@@ -760,10 +760,9 @@ export default function DiaryPage() {
 
           {/* Skill Progress Card (Accordion list) */}
           <div 
-            className="relative overflow-hidden w-full flex flex-col"
+            className="relative overflow-hidden w-full flex flex-col h-[480px] sm:h-[590px] p-[16px] pr-0 sm:p-[24px] sm:pr-0"
             style={{
               display: 'flex',
-              padding: '24px 0px 24px 24px',
               flexDirection: 'column',
               alignItems: 'flex-start',
               gap: '12px',
@@ -772,21 +771,20 @@ export default function DiaryPage() {
               border: '1px solid #EDEEF2',
               background: '#FFF',
               boxShadow: '0px 4px 20px 0px rgba(0, 0, 0, 0.05)',
-              height: '590px'
             }}
           >
             {/* Header */}
-            <div className="flex items-center gap-[12px] w-full pr-[24px]">
+            <div className="flex items-center gap-[12px] w-full pr-[16px] sm:pr-[24px]">
               <div className="bg-[#f2f0fe] p-[8px] rounded-full shrink-0 size-[40px] flex items-center justify-center">
                 <img src="/assets/3bab622495f2214e9c9d7da863feb777684907f2.svg" alt="Status Up" className="block size-[24px] object-contain" loading="lazy" />
               </div>
-              <h3 className="font-vietnam text-[24px] font-bold text-[#37393e] leading-[32px]">Tiến độ kỹ năng</h3>
+              <h3 className="font-vietnam text-[20px] sm:text-[24px] font-bold text-[#37393e] leading-snug sm:leading-[32px]">Tiến độ kỹ năng</h3>
             </div>
 
             {/* Accordion list */}
             <div 
               ref={accordionScrollRef}
-              className="relative flex flex-col gap-[12px] w-full overflow-y-auto pr-[24px] scrollbar-thin-custom"
+              className="relative flex flex-col gap-[12px] w-full overflow-y-auto pr-[16px] sm:pr-[24px] scrollbar-thin-custom"
               style={{
                 flex: 1
               }}
@@ -956,7 +954,7 @@ export default function DiaryPage() {
               
               {/* Fluid list container */}
               <div 
-                className="w-full flex gap-[12px] xl:gap-[16px] pb-2"
+                className="w-full flex gap-[12px] xl:gap-[16px] pb-4 overflow-x-auto scrollbar-none snap-x snap-mandatory"
               >
                 {currentLessons.map(lesson => {
                   const isSelected = selectedLesson.id === lesson.id
@@ -966,7 +964,7 @@ export default function DiaryPage() {
                     <div
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson)}
-                      className={`flex-1 min-w-0 rounded-[16px] border flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
+                      className={`w-[220px] md:w-[240px] shrink-0 snap-start xl:flex-1 xl:w-auto xl:min-w-0 rounded-[16px] border flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
                         isLocked 
                           ? 'cursor-not-allowed border-[#e2e2ea] bg-white' 
                           : 'cursor-pointer hover:shadow-md'
@@ -1055,7 +1053,7 @@ export default function DiaryPage() {
           </div>
 
           {/* Section 2: Active Lesson Feedback Display */}
-          <div className="relative rounded-[24px] w-full xl:w-[1236px] h-auto xl:h-[490px] p-[48px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[24px] overflow-hidden justify-between">
+          <div className="relative rounded-[24px] w-full xl:w-[1236px] h-auto xl:h-[490px] p-[20px] sm:p-[32px] xl:p-[48px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
             
             {/* Background Image of Feedback Area */}
             <div className="absolute inset-0 pointer-events-none rounded-[24px] z-0">
@@ -1069,20 +1067,20 @@ export default function DiaryPage() {
             </div>
 
             {/* Content Top: Header */}
-            <div className="flex justify-between items-center relative z-10 w-full pb-2">
+            <div className="flex justify-between items-center relative z-10 w-full pb-2 pr-0 lg:pr-[280px]">
               
               {/* Header Text block with Medal/Badge */}
-              <div className="flex gap-4 items-center">
+              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start text-center sm:text-left">
                 {/* Medal/Badge Group */}
-                <div className="w-[120px] h-[120px] shrink-0 relative overflow-visible">
+                <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] xl:w-[120px] xl:h-[120px] shrink-0 relative overflow-visible">
                   <div className="absolute inset-[0_9.35%]">
                     <img src="/assets/e07e743fd476475cd05aedf502e19c4792f1a76e.svg" alt="Medal" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
                   </div>
                 </div>
 
-                <div className="flex flex-col">
-                  <span className="font-vietnam text-[24px] font-bold text-[#37393e] leading-[40px]">Vừa hoàn thành bài học</span>
-                  <h2 className="font-baloo text-[48px] font-black text-[#0A7AD8] leading-[80px]">
+                <div className="flex flex-col justify-center sm:justify-start h-full pt-1 sm:pt-2">
+                  <span className="font-vietnam text-[16px] sm:text-[20px] xl:text-[24px] font-bold text-[#37393e] leading-snug sm:leading-[32px] xl:leading-[40px]">Vừa hoàn thành bài học</span>
+                  <h2 className="font-baloo text-[24px] sm:text-[36px] xl:text-[48px] font-black text-[#0A7AD8] leading-tight sm:leading-[48px] xl:leading-[64px]">
                     {selectedLesson.feedback.title}
                   </h2>
                 </div>
@@ -1091,7 +1089,7 @@ export default function DiaryPage() {
             </div>
 
             {/* Mascot Otter holding trophy (Absolute Positioned) */}
-            <div className="absolute right-[48px] top-[24px] w-[280px] h-[200px] pointer-events-none z-10 hidden md:block">
+            <div className="absolute right-[24px] xl:right-[48px] top-[24px] w-[200px] xl:w-[280px] h-[150px] xl:h-[200px] pointer-events-none z-10 hidden lg:block">
               <img 
                 src="/assets/63994d049c46d89ab6ace318a3f3b1fb39d17839.png"
                 alt="Mascot Otter holding Trophy"
@@ -1101,7 +1099,7 @@ export default function DiaryPage() {
             </div>
 
             {/* Content Bottom: 3 Columns Display */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] relative z-10 mt-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px] xl:gap-[24px] relative z-10 mt-2">
               
               {/* Column 1: Strengths */}
               <div className="bg-[#f2fbef] rounded-[24px] border border-[#9de4af] p-[24px] shadow-[0px_0px_5px_rgba(0,0,0,0.1)] hover:shadow-md transition-all duration-200 flex flex-col gap-[24px]">
