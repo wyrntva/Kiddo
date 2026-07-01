@@ -107,28 +107,6 @@ const ISLAND_LESSONS: { [key: string]: Lesson[] } = {
           'Luôn động viên và khích lệ từng sự cố gắng nhỏ của bé'
         ]
       }
-    },
-    {
-      id: 'lesson-5-cam-xuc',
-      title: 'Nói ra cảm xúc của mình',
-      status: 'locked',
-      statusLabel: 'Chưa học',
-      isCompleted: false,
-      feedback: {
-        title: 'Con đang cảm thấy gì ?',
-        strengths: [
-          'Bé nhận biết được lỗi sai của bản thân khi được giải thích',
-          'Bé chịu lắng nghe lời khuyên từ ba mẹ'
-        ],
-        practice: [
-          'Nói lời xin lỗi một cách rõ ràng và chân thành',
-          'Học cách hứa sửa sai và cố gắng không lặp lại'
-        ],
-        tips: [
-          'Giải thích nhẹ nhàng tại sao hành động đó chưa đúng',
-          'Làm gương xin lỗi trước mặt bé khi ba mẹ mắc lỗi'
-        ]
-      }
     }
   ],
   'Thành phố giao tiếp': [

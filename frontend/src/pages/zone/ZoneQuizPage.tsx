@@ -7,14 +7,9 @@ const imgHeroBg = "/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.png"
 const imgMascot = "/assets/97290b237f2446d77cc4e59dc42ddb50825fb101.png"
 const imgSpeaker = "/assets/269beb2cefee3d683dbf75f695c386d5b76b5edd.svg"
 
-const sprite1 = "/assets/6f5edadc2dab04d5ba5d15fad8605e7d016d1f51.png"
-const sprite2 = "/assets/7560c65991fbb16b6ca4f3a6b08308cb3ccb7f27.png"
-
 interface Option {
   id: number;
   label: string;
-  sprite: string;
-  style: React.CSSProperties;
 }
 
 interface QuizData {
@@ -29,161 +24,45 @@ const quizDatabase: Record<number, QuizData> = {
   1: {
     lessonId: 1,
     lessonTitle: "Niềm vui của con",
-    question: "Bạn Roto mong muốn nhận được món quà nào?",
-    correctOptionId: 3,
+    question: "Theo con, lúc này Toro đang cảm thấy thế nào?",
+    correctOptionId: 1,
     options: [
-      {
-        id: 1,
-        label: "Hộp quà",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-2%', top: '-8.72%' }
-      },
-      {
-        id: 2,
-        label: "Máy chơi game",
-        sprite: sprite2,
-        style: { height: '140%', width: '248.89%', left: '-74.44%', top: '-13.77%' }
-      },
-      {
-        id: 3,
-        label: "Bóng đá",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-118.07%', top: '-8.72%' }
-      },
-      {
-        id: 4,
-        label: "Cây kem",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-241.97%', top: '-10.97%' }
-      }
+      { id: 1, label: "Vui" },
+      { id: 2, label: "Buồn" },
+      { id: 3, label: "Sợ hãi" }
     ]
   },
   2: {
     lessonId: 2,
     lessonTitle: "Nỗi buồn bé nhỏ",
-    question: "Khi bạn Roto cảm thấy buồn và mệt mỏi, món tráng miệng mát lạnh nào giúp bạn ấy thấy thoải mái hơn?",
-    correctOptionId: 4,
+    question: "Điều gì khiến Toro cảm thấy vui?",
+    correctOptionId: 1,
     options: [
-      {
-        id: 1,
-        label: "Hộp quà",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-2%', top: '-8.72%' }
-      },
-      {
-        id: 2,
-        label: "Máy chơi game",
-        sprite: sprite2,
-        style: { height: '140%', width: '248.89%', left: '-74.44%', top: '-13.77%' }
-      },
-      {
-        id: 3,
-        label: "Bóng đá",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-118.07%', top: '-8.72%' }
-      },
-      {
-        id: 4,
-        label: "Cây kem",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-241.97%', top: '-10.97%' }
-      }
+      { id: 1, label: "Được cô giáo khen bức tranh" },
+      { id: 2, label: "Làm rơi hộp bút màu" },
+      { id: 3, label: "Bị bạn làm rách tranh" }
     ]
   },
   3: {
     lessonId: 3,
     lessonTitle: "Cơn giận đang tới",
-    question: "Khi tức giận, Roto muốn ra sân để vận động mạnh xua tan cơn giận, bạn ấy cần dùng dụng cụ nào?",
-    correctOptionId: 3,
+    question: "Việc nào dưới đây thường khiến các bạn nhỏ cảm thấy vui?",
+    correctOptionId: 1,
     options: [
-      {
-        id: 1,
-        label: "Hộp quà",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-2%', top: '-8.72%' }
-      },
-      {
-        id: 2,
-        label: "Máy chơi game",
-        sprite: sprite2,
-        style: { height: '140%', width: '248.89%', left: '-74.44%', top: '-13.77%' }
-      },
-      {
-        id: 3,
-        label: "Bóng đá",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-118.07%', top: '-8.72%' }
-      },
-      {
-        id: 4,
-        label: "Cây kem",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-241.97%', top: '-10.97%' }
-      }
+      { id: 1, label: "Chơi cùng bạn bè" },
+      { id: 2, label: "Bị giành đồ chơi" },
+      { id: 3, label: "Làm hỏng món đồ yêu thích" }
     ]
   },
   4: {
     lessonId: 4,
     lessonTitle: "Khi con thấy sợ",
-    question: "Để vượt qua nỗi sợ bóng tối, Roto nhận được một phần quà bất ngờ giúp cổ vũ tinh thần, đó là vật nào?",
+    question: "Nếu là Toro, con sẽ làm gì tiếp theo?",
     correctOptionId: 1,
     options: [
-      {
-        id: 1,
-        label: "Hộp quà",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-2%', top: '-8.72%' }
-      },
-      {
-        id: 2,
-        label: "Máy chơi game",
-        sprite: sprite2,
-        style: { height: '140%', width: '248.89%', left: '-74.44%', top: '-13.77%' }
-      },
-      {
-        id: 3,
-        label: "Bóng đá",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-118.07%', top: '-8.72%' }
-      },
-      {
-        id: 4,
-        label: "Cây kem",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-241.97%', top: '-10.97%' }
-      }
-    ]
-  },
-  5: {
-    lessonId: 5,
-    lessonTitle: "Nói ra cảm xúc của mình",
-    question: "Khi muốn chia sẻ câu chuyện vui vẻ cùng bạn bè qua trò chơi điện tử, Roto sẽ sử dụng thiết bị nào?",
-    correctOptionId: 2,
-    options: [
-      {
-        id: 1,
-        label: "Hộp quà",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-2%', top: '-8.72%' }
-      },
-      {
-        id: 2,
-        label: "Máy chơi game",
-        sprite: sprite2,
-        style: { height: '140%', width: '248.89%', left: '-74.44%', top: '-13.77%' }
-      },
-      {
-        id: 3,
-        label: "Bóng đá",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-118.07%', top: '-8.72%' }
-      },
-      {
-        id: 4,
-        label: "Cây kem",
-        sprite: sprite1,
-        style: { height: '110.75%', width: '320.4%', left: '-241.97%', top: '-10.97%' }
-      }
+      { id: 1, label: "Kể cho Bunny nghe niềm vui của mình" },
+      { id: 2, label: "Giấu bức tranh đi" },
+      { id: 3, label: "Chê tranh của bạn khác" }
     ]
   }
 }
@@ -232,7 +111,7 @@ export default function ZoneQuizPage() {
 
     // Auto-navigate after 2.5 seconds
     navigateTimeoutRef.current = setTimeout(() => {
-      if (lessonId < 5) {
+      if (lessonId < 4) {
         navigate(`/zone/cam-xuc/lesson/${lessonId + 1}`)
       } else {
         navigate('/zone/cam-xuc')
@@ -312,7 +191,7 @@ export default function ZoneQuizPage() {
             </div>
 
             {/* Answer Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-[900px] justify-center">
               {quiz.options.map((opt) => {
                 const isSelected = selectedOptionId === opt.id
                 let cardClass = "bg-white border-2 border-[#C3FFD0] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]"
@@ -332,7 +211,7 @@ export default function ZoneQuizPage() {
                     key={opt.id}
                     onClick={() => handleSelect(opt.id)}
                     disabled={isChecked}
-                    className={`flex flex-col items-center justify-center p-[48px] gap-[24px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98`}
+                    className={`flex flex-col items-center justify-center p-[32px] md:p-[40px] gap-[16px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98`}
                   >
                     {/* Visual Indicator icons for validation */}
                     {isChecked && isSelected && (
@@ -349,20 +228,17 @@ export default function ZoneQuizPage() {
                       </div>
                     )}
 
-                    {/* Image Box */}
-                    <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center">
-                      <div className="relative w-[180px] h-[180px] overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                        <img
-                          src={opt.sprite}
-                          alt={opt.label}
-                          style={opt.style}
-                          className="absolute max-w-none block select-none pointer-events-none"
-                        />
+                    {/* Circle icon with colored circles: green, blue, orange */}
+                    <div className="w-full flex items-center justify-center py-[24px]">
+                      <div className={`w-[110px] h-[110px] rounded-full flex items-center justify-center text-[44px] shadow-sm transition-transform duration-300 group-hover:scale-110 ${
+                        opt.id === 1 ? 'bg-[#eefcf2]' : opt.id === 2 ? 'bg-[#e5f2ff]' : 'bg-[#fff5eb]'
+                      }`}>
+                        {opt.id === 1 ? '🟢' : opt.id === 2 ? '🔵' : '🟠'}
                       </div>
                     </div>
 
                     {/* Text Label */}
-                    <span className={`font-vietnam font-bold text-[16px] leading-[24px] transition-colors ${isSelected ? (isChecked ? (isCorrect ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#0a7ad8]') : 'text-[#37393e] group-hover:text-[#0a7ad8]'}`}>
+                    <span className={`font-vietnam font-bold text-[16px] md:text-[18px] text-center leading-[24px] transition-colors ${isSelected ? (isChecked ? (isCorrect ? 'text-[#339e4a]' : 'text-[#ef4444]') : 'text-[#339E4A]') : 'text-[#37393e] group-hover:text-[#339E4A]'}`}>
                       {opt.label}
                     </span>
                   </button>
