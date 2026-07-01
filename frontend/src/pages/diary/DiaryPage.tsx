@@ -964,19 +964,19 @@ export default function DiaryPage() {
                     <div
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson)}
-                      className={`w-[220px] md:w-[240px] shrink-0 snap-start xl:flex-1 xl:w-auto xl:min-w-0 rounded-[16px] flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
+                      className={`w-[220px] md:w-[240px] shrink-0 snap-start xl:flex-1 xl:w-auto xl:min-w-0 rounded-[16px] border-2 flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
                         isLocked 
-                          ? 'cursor-not-allowed ring-1 ring-inset ring-[#e2e2ea] bg-white' 
+                          ? 'cursor-not-allowed border-[#e2e2ea] bg-white' 
                           : 'cursor-pointer hover:shadow-md'
                       } ${
                         isSelected 
-                          ? 'bg-[#f4fafd] ring-2 ring-inset ring-[#0a7ad8]' 
-                          : 'bg-white ring-1 ring-inset ring-[#e2e2ea]'
+                          ? 'bg-[#f4fafd] border-[#0a7ad8]' 
+                          : 'bg-white border-[#e2e2ea]'
                       }`}
                     >
                       {/* Top Gray Image Area (aspect ratio matching /zone/cam-xuc) */}
                       <div 
-                        className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[15px] overflow-hidden"
+                        className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[14px] overflow-hidden"
                         style={{ aspectRatio: '260 / 176' }}
                       >
                         {/* Checkmark badge if completed */}
