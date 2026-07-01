@@ -103,17 +103,7 @@ export default function ZoneQuizPage() {
     }
   }, [lessonId])
 
-  // Handle auto-navigation from intro view
-  useEffect(() => {
-    if (showIntro) {
-      if (navigateTimeoutRef.current) {
-        clearTimeout(navigateTimeoutRef.current)
-      }
-      navigateTimeoutRef.current = setTimeout(() => {
-        navigate('/zone/cam-xuc')
-      }, 5000)
-    }
-  }, [showIntro, navigate])
+
 
   useEffect(() => {
     return () => {
@@ -166,12 +156,12 @@ export default function ZoneQuizPage() {
         />
 
         {showIntro ? (
-          /* Render the Game Intro View full-screen styled */
+          /* Render the Game Intro View centered flex container style */
           <div 
             onClick={() => navigate('/zone/cam-xuc')}
-            className="absolute inset-0 cursor-pointer z-10 flex items-center justify-center"
+            className="relative w-full max-w-[1200px] h-[550px] md:h-[700px] flex flex-col items-center justify-start pt-8 md:pt-16 cursor-pointer z-10"
           >
-            {/* Speaker Button in Top Right */}
+            {/* Speaker Button in Top Right of the content space */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
@@ -185,19 +175,19 @@ export default function ZoneQuizPage() {
                   window.speechSynthesis.speak(utterance)
                 }
               }}
-              className={`absolute right-[48px] top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shadow-md z-20 ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
+              className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full flex items-center justify-center shadow-md z-20 ${isSpeaking ? 'animate-pulse scale-105' : ''}`}
               title="Nghe hướng dẫn"
             >
               <img src={imgSpeaker} alt="Speak" className="w-6 h-6 select-none" />
             </button>
 
-            {/* Speech Bubble */}
-            <div className="absolute left-1/2 top-[10%] md:top-[12%] -translate-x-1/2 w-[90%] max-w-[760px] bg-white border-4 border-[#7bc9ff] rounded-[100px] px-6 py-4 md:px-12 md:py-6 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
-              <p className="font-baloo font-bold text-[18px] sm:text-[22px] md:text-[28px] text-[#001e2f] leading-snug md:leading-[44px]">
+            {/* Speech Bubble (Centered and larger width) */}
+            <div className="w-[92%] max-w-[900px] bg-white border-4 border-[#7bc9ff] rounded-[100px] px-8 py-6 md:px-16 md:py-8 shadow-lg flex flex-col items-center justify-center text-center z-15 relative">
+              <p className="font-baloo font-bold text-[20px] sm:text-[26px] md:text-[34px] text-[#001e2f] leading-snug md:leading-[52px]">
                 {introText}
               </p>
               {/* Custom Waving Curved Tail pointing down-left */}
-              <div className="absolute -bottom-[28px] left-[42%] w-[48px] h-[32px] pointer-events-none">
+              <div className="absolute -bottom-[28px] left-[45%] w-[48px] h-[32px] pointer-events-none">
                 <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                   <path d="M0 0 C10 15 15 28 15 32 C18 28 25 15 35 0" stroke="#7bc9ff" strokeWidth="4" fill="white" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M2 0 C10 12 15 24 15 29 C18 24 25 12 33 0 Z" fill="white" />
@@ -205,8 +195,8 @@ export default function ZoneQuizPage() {
               </div>
             </div>
 
-            {/* Mascot Waving Otter at Bottom Center */}
-            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[280px] sm:w-[380px] lg:w-[480px] xl:w-[580px] pointer-events-none z-10">
+            {/* Mascot Waving Otter at Bottom Center (larger size) */}
+            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[320px] sm:w-[440px] lg:w-[580px] xl:w-[680px] pointer-events-none z-10">
               <img
                 src={imgWavingMascot}
                 alt="Mascot Waving"
