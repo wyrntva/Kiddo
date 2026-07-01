@@ -17,7 +17,7 @@ export default function ExploreSkillZonesBanner() {
 
           {/* Header */}
           <div className="flex items-center gap-3 mb-5">
-            <img src={imgMapIcon} alt="" className="w-8 h-8 object-contain shrink-0" />
+            <img src={imgMapIcon} alt="" className="w-8 h-8 object-contain shrink-0" loading="lazy" />
             <h2 className="font-baloo font-bold text-[22px] text-[#6c04ee] leading-[32px]">
               Khám phá theo Vùng đất
             </h2>
@@ -47,7 +47,7 @@ export default function ExploreSkillZonesBanner() {
           <div className="flex justify-center mt-5">
             <button className="flex items-center gap-2 bg-white border border-purple-200 text-[#6c04ee] font-baloo font-bold text-[15px] px-6 py-2.5 rounded-[100px] hover:bg-purple-50 transition-all duration-200 active:scale-95 shadow-sm">
               <span>Xem bản đồ phiêu lưu</span>
-              <img src={imgArrowRight} alt="" className="w-5 h-5 object-contain" />
+              <img src={imgArrowRight} alt="" className="w-5 h-5 object-contain" loading="lazy" />
             </button>
           </div>
 

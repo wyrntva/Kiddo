@@ -1,10 +1,10 @@
-const imgBg = "/assets/home_cover_banner.png";
-const imgHomepage21 = "/assets/c777ec5ebb4097e9ad8c6739be008020a6b0fd9d.png";
+const imgBg = "/assets/home_cover_banner.webp";
+const imgHomepage21 = "/assets/c777ec5ebb4097e9ad8c6739be008020a6b0fd9d.webp";
 const imgVuesaxBoldVideoCircle = "/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg";
 
 export default function HeroSection() {
   return (
-    <section className="w-full" data-node-id="21:306">
+    <section className="w-full">
       <div className="relative aspect-[1824/650] w-full overflow-hidden rounded-[24px] shadow-lg border border-gray-100 bg-[#f4fafd]">
         {/* Background image */}
         <div className="absolute inset-0 pointer-events-none select-none">
@@ -12,24 +12,27 @@ export default function HeroSection() {
             src={imgBg}
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
+            fetchPriority="high"
+            loading="eager"
           />
         </div>
 
         {/* Mascot Otter image on the right */}
-        <div 
-          className="absolute select-none pointer-events-none z-10" 
+        <div
+          className="absolute select-none pointer-events-none z-10"
           style={{
             right: '-1.21%',
             top: '28%',
             width: '48.46%',
             height: '76.62%'
           }}
-          data-node-id="138:3227"
         >
           <img
             src={imgHomepage21}
             alt="OTTOPIA Hero Mascot"
             className="w-full h-full object-contain"
+            fetchPriority="high"
+            loading="eager"
           />
         </div>
 
@@ -44,7 +47,6 @@ export default function HeroSection() {
             top: '78%',
             transform: 'translate(-50%, -50%)'
           }}
-          data-node-id="21:251"
         >
           <div className="size-3 sm:size-4 lg:size-[20px] relative shrink-0">
             <img alt="" className="block size-full" src={imgVuesaxBoldVideoCircle} />

@@ -50,6 +50,15 @@ body {
   padding: 0;
 }
 
+@keyframes drift {
+  0%   { transform: translateX(-400px); }
+  100% { transform: translateX(2000px); }
+}
+
+.animate-drift {
+  animation: drift linear infinite;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scrollbar-none::-webkit-scrollbar {
   display: none;
@@ -59,4 +68,28 @@ body {
 .scrollbar-none {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom layout constraints to bypass Tailwind JIT compilation issues */
+@media (min-width: 640px) {
+  .kiddo-zone-card {
+    min-height: 224px !important;
+  }
+}
+
+/* Custom 4px thin scrollbar class matching brand colors */
+.scrollbar-thin-custom::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin-custom::-webkit-scrollbar-thumb {
+  background-color: #E6F6FF;
+  border-radius: 2px;
+}
+.scrollbar-thin-custom {
+  overflow-y: overlay;
+  scrollbar-width: thin;
+  scrollbar-color: #E6F6FF transparent;
 }

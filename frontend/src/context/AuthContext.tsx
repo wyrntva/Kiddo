@@ -2,6 +2,15 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.exp * 1000 < Date.now()
+  } catch {
+    return true
+  }
+}
+
 interface AuthUser {
   id: string
   name: string
@@ -43,9 +52,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
     const stored = localStorage.getItem('user')
-    if (token && stored) {
+    if (token && stored && !isTokenExpired(token)) {
       setAccessToken(token)
       setUser(JSON.parse(stored))
+    } else if (token) {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
+      localStorage.removeItem('user')
     }
     setLoading(false)
   }, [])

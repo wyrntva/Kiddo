@@ -1,7 +1,7 @@
 // Assets — all already in public/assets/
-const imgLogo       = "/assets/logo_ottopia.png"
-const imgAvatar     = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.png"
-const imgAvatar1    = "/assets/de633722309fe20675a2a35a6657b31451904c1c.png"
+const imgLogo       = "/assets/logo_ottopia.webp"
+const imgAvatar     = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.webp"
+const imgAvatar1    = "/assets/de633722309fe20675a2a35a6657b31451904c1c.webp"
 const imgFacebook   = "/assets/999d0b74019cdcd7dc4ee450117c038bf7b46dff.svg"
 const imgYoutube    = "/assets/5b775e88ecb300259c2df3b7bec5922f579027ba.svg"
 const imgTiktok     = "/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"

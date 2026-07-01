@@ -41,7 +41,7 @@ export default function CoursesHeroSection() {
           <img 
             alt="Courses Hero Banner" 
             className="w-full h-full object-cover pointer-events-none" 
-            src="/assets/6d12ccb4debf5997e86a9ef84b9e5cfee43a927c.png" 
+            src="/assets/6d12ccb4debf5997e86a9ef84b9e5cfee43a927c.webp" 
           />
         </div>
       </div>

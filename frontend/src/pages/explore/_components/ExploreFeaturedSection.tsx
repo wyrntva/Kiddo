@@ -1,4 +1,3 @@
-import { Play, Star } from 'lucide-react'
 
 const featured = [
   {
@@ -107,7 +106,7 @@ export default function ExploreFeaturedSection() {
                   </div>
                 )}
                 <div className="absolute bottom-3 right-3 bg-white/20 backdrop-blur-sm text-white text-[12px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                  <Play size={10} fill="white" />
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                   {item.lessons} bài học
                 </div>
               </div>
@@ -133,11 +132,9 @@ export default function ExploreFeaturedSection() {
 
                 <div className="flex items-center gap-0.5 mt-1">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      className={i < item.stars ? 'text-[#fea01f] fill-[#fea01f]' : 'text-gray-200 fill-gray-200'}
-                    />
+                    <svg key={i} width="14" height="14" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={i < item.stars ? 'fill-[#fea01f] stroke-[#fea01f]' : 'fill-gray-200 stroke-gray-200'}>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
                   ))}
                 </div>
 

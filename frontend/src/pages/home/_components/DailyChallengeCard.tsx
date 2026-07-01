@@ -1,4 +1,4 @@
-import otterMascot from '../../../assets/otter-mascot.png'
+import otterMascot from '../../../assets/otter-mascot.webp'
 import Button from '../../../components/ui/Button'
 
 export default function DailyChallengeCard() {

@@ -52,10 +52,11 @@ export default function ComparisonSection() {
               {features.map((feat, index) => (
                 <div key={index} className="flex gap-3 items-center py-2 h-[56px]">
                   <div className={`${feat.iconBg} p-2 rounded-[100px] shrink-0`}>
-                    <img 
-                      alt="" 
-                      className="w-6 h-6 object-contain" 
-                      src={feat.icon} 
+                    <img
+                      alt=""
+                      className="w-6 h-6 object-contain"
+                      src={feat.icon}
+                      loading="lazy"
                     />
                   </div>
                   <span className="font-vietnam font-medium text-[16px] text-black leading-tight">
@@ -77,18 +78,20 @@ export default function ComparisonSection() {
                 <div key={index} className="flex justify-center items-center h-[56px] border-b border-[#e2e2ea] last:border-0 py-2">
                   {feat.free ? (
                     <div className="bg-[#339e4a] p-2 rounded-[100px] shrink-0">
-                      <img 
-                        alt="Yes" 
-                        className="w-6 h-6 object-contain" 
-                        src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg" 
+                      <img
+                        alt="Yes"
+                        className="w-6 h-6 object-contain"
+                        src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg"
+                        loading="lazy"
                       />
                     </div>
                   ) : (
                     <div className="p-2 shrink-0">
-                      <img 
-                        alt="No" 
-                        className="w-6 h-6 object-contain" 
-                        src="/assets/6b55ea1258a2e294aac35c0b5c34c5efbaee5d50.svg" 
+                      <img
+                        alt="No"
+                        className="w-6 h-6 object-contain"
+                        src="/assets/6b55ea1258a2e294aac35c0b5c34c5efbaee5d50.svg"
+                        loading="lazy"
                       />
                     </div>
                   )}
@@ -107,10 +110,11 @@ export default function ComparisonSection() {
               {features.map((_, index) => (
                 <div key={index} className="flex justify-center items-center h-[56px] border-b border-[#e2e2ea] last:border-0 py-2">
                   <div className="bg-[#339e4a] p-2 rounded-[100px] shrink-0">
-                    <img 
-                      alt="Yes" 
-                      className="w-6 h-6 object-contain" 
-                      src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg" 
+                    <img
+                      alt="Yes"
+                      className="w-6 h-6 object-contain"
+                      src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg"
+                      loading="lazy"
                     />
                   </div>
                 </div>

@@ -1,4 +1,3 @@
-import { BookOpen, Clock, Star } from 'lucide-react'
 
 const allCourses = [
   {
@@ -276,11 +275,11 @@ export default function ExploreCoursesGrid({ activeCategory }: ExploreCoursesGri
 
                   <div className="flex items-center gap-3 text-[12px] text-[#575e70] font-vietnam mt-auto pt-1">
                     <span className="flex items-center gap-1">
-                      <BookOpen size={12} />
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                       {course.lessons} bài
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock size={12} />
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                       {course.duration}
                     </span>
                   </div>
@@ -288,11 +287,9 @@ export default function ExploreCoursesGrid({ activeCategory }: ExploreCoursesGri
                   <div className="flex items-center justify-between mt-1">
                     <div className="flex items-center gap-0.5">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          size={12}
-                          className={i < course.stars ? 'text-[#fea01f] fill-[#fea01f]' : 'text-gray-200 fill-gray-200'}
-                        />
+                        <svg key={i} width="12" height="12" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={i < course.stars ? 'fill-[#fea01f] stroke-[#fea01f]' : 'fill-gray-200 stroke-gray-200'}>
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
                       ))}
                     </div>
                     <span className="text-[12px] text-[#575e70] font-vietnam">{course.level}</span>

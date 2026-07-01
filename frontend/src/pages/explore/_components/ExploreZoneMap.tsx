@@ -4,19 +4,15 @@ import { useNavigate } from 'react-router-dom'
 const DESIGN_WIDTH = 1824
 const DESIGN_HEIGHT = 1026
 
-const imgBg      = "/assets/explore_cover_banner.png"
-const imgProgress = "/assets/85904cccae7efdb562125190683cf78c2060ace9.png"
-const imgLessons  = "/assets/da92cb5be6e6e4fd040e85fdada518f2ece5db3e.png"
-const imgReward   = "/assets/6fc943659db657cb5653210363b1d069170f406f.png"
+const imgBg      = "/assets/explore_cover_banner.webp"
 const imgStar  = "/assets/cde3881a9b58bf8553a83885dd1c801f88523421.svg"
-const imgArrow = "/assets/842266eec31c7f827059850d5346f69745e98d74.svg"
 
 const zones = [
-  { name: 'Vùng Đất\nCảm Xúc',    desc: 'Nhận biết, hiểu rõ và gọi tên cảm xúc',          color: '#339e4a', img: "/assets/vung_dat_cam_xuc_island.png" },
-  { name: 'Khu Vườn\nBạn Bè',      desc: 'Nuôi dưỡng sẻ chia, quan tâm, hợp tác.',          color: '#e55c72', img: "/assets/khu_vuon_ban_be_island.png" },
-  { name: 'Thành Phố\nGiao Tiếp',  desc: 'Rèn luyện giao tiếp, lắng nghe và tự tin.',       color: '#0a7ad8', img: "/assets/thanh_pho_giao_tiep_island.png" },
-  { name: 'Ngôi Làng\nTự Lập',     desc: 'Học cách tự chăm sóc bản thân và tự lập.',        color: '#fea01f', img: "/assets/ngoi_lang_tu_lap_island.png" },
-  { name: 'Hành Tinh\nTình Huống', desc: 'Khám phá tình huống thực tế, đưa ra lựa chọn.',   color: '#9560d8', img: "/assets/hanh_tinh_tinh_huong_island.png" },
+  { name: 'Vùng Đất\nCảm Xúc',    desc: 'Nhận biết, hiểu rõ và gọi tên cảm xúc',          color: '#339e4a', img: "/assets/vung_dat_cam_xuc_island.webp" },
+  { name: 'Khu Vườn\nBạn Bè',      desc: 'Nuôi dưỡng sẻ chia, quan tâm, hợp tác.',          color: '#e55c72', img: "/assets/khu_vuon_ban_be_island.webp" },
+  { name: 'Thành Phố\nGiao Tiếp',  desc: 'Rèn luyện giao tiếp, lắng nghe và tự tin.',       color: '#0a7ad8', img: "/assets/thanh_pho_giao_tiep_island.webp" },
+  { name: 'Ngôi Làng\nTự Lập',     desc: 'Học cách tự chăm sóc bản thân và tự lập.',        color: '#fea01f', img: "/assets/ngoi_lang_tu_lap_island.webp" },
+  { name: 'Hành Tinh\nTình Huống', desc: 'Khám phá tình huống thực tế, đưa ra lựa chọn.',   color: '#9560d8', img: "/assets/hanh_tinh_tinh_huong_island.webp" },
 ]
 
 interface ZoneCardProps {
@@ -32,7 +28,7 @@ interface ZoneCardProps {
 function ZoneCard({ zone, isHovered, onHoverStart, onHoverEnd, onClick, className, style }: ZoneCardProps) {
   return (
     <div
-      className={`bg-white rounded-[20px] xl:rounded-[24px] flex gap-2.5 items-center p-2.5 xl:p-3 shrink-0 cursor-pointer hover:scale-[1.02] transition-all duration-200 ${className || 'w-[320px]'}`}
+      className={`bg-white rounded-[20px] xl:rounded-[20px] flex gap-2.5 items-center p-2.5 xl:p-2.5 shrink-0 cursor-pointer hover:scale-[1.02] transition-all duration-200 ${className || 'w-[320px]'}`}
       style={{
         boxShadow: isHovered
           ? `0px 0px 18px ${zone.color}`
@@ -43,8 +39,8 @@ function ZoneCard({ zone, isHovered, onHoverStart, onHoverEnd, onClick, classNam
       onMouseLeave={onHoverEnd}
       onClick={onClick}
     >
-      <div className="relative shrink-0 w-[75px] h-[75px] xl:w-[120px] xl:h-[120px] flex items-center justify-center">
-        <img src={zone.img} alt="" className="w-full h-full object-contain pointer-events-none select-none" />
+      <div className="relative shrink-0 w-[75px] h-[75px] xl:w-[102px] xl:h-[102px] flex items-center justify-center">
+        <img src={zone.img} alt="" className="w-full h-full object-contain pointer-events-none select-none" loading="lazy" />
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
         <p
@@ -62,7 +58,20 @@ function ZoneCard({ zone, isHovered, onHoverStart, onHoverEnd, onClick, classNam
           transform: isHovered ? 'scale(1.1)' : 'scale(1)',
         }}
       >
-        <img src={imgArrow} alt="" className="w-3 h-3 xl:w-4 xl:h-4" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="none"
+          className="w-3 h-3 xl:w-4 xl:h-4"
+        >
+          <path
+            d="M6.23999 11.5302L9.75999 8.00015L6.23999 4.47015"
+            stroke="white"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </div>
   )
@@ -149,11 +158,17 @@ export default function ExploreZoneMap() {
 
   useEffect(() => {
     const update = () => {
-      if (wrapperRef.current) {
-        const wScale = wrapperRef.current.offsetWidth / DESIGN_WIDTH
-        setScale(wScale)
-        setHeight(wrapperRef.current.offsetHeight)
-      }
+      if (!wrapperRef.current) return
+      const w = wrapperRef.current.offsetWidth
+      const wScale = w / DESIGN_WIDTH
+      const proportionalH = DESIGN_HEIGHT * wScale
+
+      // Remove forced height and cap the wrapper height to preserve aspect ratio in tall viewports
+      wrapperRef.current.style.height = ''
+      wrapperRef.current.style.maxHeight = `${proportionalH}px`
+
+      setScale(wScale)
+      setHeight(wrapperRef.current.offsetHeight)
     }
     update()
     const timer = setTimeout(update, 50)
@@ -166,27 +181,45 @@ export default function ExploreZoneMap() {
 
   // Absolute positioning bounds matching Figma Rectangle nodes (1824 x 1026 layout space)
   const islands = [
-    { zoneIdx: 0, img: "/assets/vung_dat_cam_xuc_island.png", left: 342, top: 227, width: 350, height: 317, delay: '0s', color: '#339e4a' },
-    { zoneIdx: 1, img: "/assets/khu_vuon_ban_be_island.png", left: 709, top: 552, width: 400, height: 313, delay: '0.6s', color: '#e55c72' },
-    { zoneIdx: 2, img: "/assets/thanh_pho_giao_tiep_island.png", left: 758, top: 68, width: 248, height: 248, delay: '1.2s', color: '#0a7ad8' },
-    { zoneIdx: 3, img: "/assets/ngoi_lang_tu_lap_island.png", left: 1205, top: 123, width: 288, height: 271, delay: '1.8s', color: '#fea01f' },
-    { zoneIdx: 4, img: "/assets/hanh_tinh_tinh_huong_island.png", left: 1122, top: 445, width: 350, height: 276, delay: '0.9s', color: '#9560d8' },
+    { zoneIdx: 0, img: "/assets/vung_dat_cam_xuc_island.png", left: 342, top: 287, width: 350, height: 317, delay: '0s', color: '#339e4a' },
+    { zoneIdx: 1, img: "/assets/khu_vuon_ban_be_island.png", left: 709, top: 617, width: 400, height: 313, delay: '0.6s', color: '#e55c72' },
+    { zoneIdx: 2, img: "/assets/thanh_pho_giao_tiep_island.png", left: 758, top: 148, width: 248, height: 248, delay: '1.2s', color: '#0a7ad8' },
+    { zoneIdx: 3, img: "/assets/ngoi_lang_tu_lap_island.png", left: 1205, top: 203, width: 288, height: 271, delay: '1.8s', color: '#fea01f' },
+    { zoneIdx: 4, img: "/assets/hanh_tinh_tinh_huong_island.png", left: 1122, top: 475, width: 350, height: 276, delay: '0.9s', color: '#9560d8' },
   ]
 
-  const handleNavigate = () => {
-    navigate('/courses')
+  const zoneRoutes: Record<number, string> = {
+    0: '/zone/cam-xuc',
+    1: '/zone/ban-be',
+    2: '/zone/giao-tiep',
+    3: '/zone/tu-lap',
+    4: '/zone/tinh-huong',
   }
 
-  const vScale = scale > 0 ? (height / scale) / DESIGN_HEIGHT : 1
+  const handleNavigate = (zoneIdx: number = 0) => {
+    navigate(zoneRoutes[zoneIdx] ?? '/courses')
+  }
+
   const mobileScale = 0.75
 
   useEffect(() => {
+    let attempts = 0
     const handleScroll = () => {
       const container = scrollContainerRef.current
       if (!container) return
 
       const island = islands.find(isl => isl.zoneIdx === activeZoneIdx)
       if (!island) return
+
+      const W_v = container.clientWidth
+      const H_v = container.clientHeight
+
+      // If container dimensions are not yet ready, retry
+      if ((W_v === 0 || H_v === 0) && attempts < 10) {
+        attempts++
+        setTimeout(handleScroll, 100)
+        return
+      }
 
       // Center of the island in original coordinates
       const X_c = island.left + island.width / 2
@@ -196,10 +229,6 @@ export default function ExploreZoneMap() {
       const X_scaled = X_c * mobileScale
       const Y_scaled = Y_c * mobileScale
 
-      // Viewport dimensions of the scroll container
-      const W_v = container.clientWidth
-      const H_v = container.clientHeight
-
       container.scrollTo({
         left: X_scaled - W_v / 2,
         top: Y_scaled - H_v / 2,
@@ -207,7 +236,7 @@ export default function ExploreZoneMap() {
       })
     }
 
-    const timer = setTimeout(handleScroll, 150)
+    const timer = setTimeout(handleScroll, 300)
     return () => clearTimeout(timer)
   }, [activeZoneIdx])
 
@@ -271,11 +300,11 @@ export default function ExploreZoneMap() {
         {/* Title */}
         <div className="flex flex-col items-center justify-center text-center gap-1.5 mt-2">
           <div className="flex items-center gap-2">
-            <img src={imgStar} alt="" className="w-6 h-6 animate-pulse" />
+            <img src={imgStar} alt="" className="w-6 h-6 animate-pulse" loading="lazy" />
             <h1 className="font-baloo font-bold text-[24px] text-[#004c6e] leading-[36px]">
               Khám phá 5 vùng đất
             </h1>
-            <img src={imgStar} alt="" className="w-6 h-6 animate-pulse" />
+            <img src={imgStar} alt="" className="w-6 h-6 animate-pulse" loading="lazy" />
           </div>
           <p className="font-vietnam text-[13px] text-[#004c6e] leading-[18px]">
             Mỗi vùng đất là một hành trình giúp bé học và trưởng thành hơn mỗi ngày
@@ -283,7 +312,7 @@ export default function ExploreZoneMap() {
         </div>
 
         {/* Square Map Container */}
-        <div className="w-full aspect-square max-w-[400px] mx-auto relative rounded-[24px] overflow-hidden shadow-lg bg-[#93cbee]">
+        <div className="w-full aspect-square max-w-[400px] md:max-w-[600px] mx-auto relative rounded-[24px] overflow-hidden shadow-lg bg-[#93cbee]">
           {/* Scrollable Viewport */}
           <div
             ref={scrollContainerRef}
@@ -299,7 +328,7 @@ export default function ExploreZoneMap() {
             >
               {/* Scale wrapper */}
               <div
-                className="absolute"
+                className="absolute overflow-hidden"
                 style={{
                   width: DESIGN_WIDTH,
                   height: DESIGN_HEIGHT,
@@ -311,6 +340,7 @@ export default function ExploreZoneMap() {
                   src={imgBg}
                   alt=""
                   className="absolute left-0 top-0 w-full h-full object-cover pointer-events-none select-none"
+                  loading="lazy"
                 />
 
                 {/* Clouds */}
@@ -348,7 +378,7 @@ export default function ExploreZoneMap() {
                   return (
                     <div
                       key={i}
-                      className="absolute animate-float cursor-pointer transition-all duration-300 select-none"
+                      className="absolute cursor-pointer transition-all duration-300 select-none"
                       style={{
                         left: island.left,
                         top: island.top,
@@ -363,7 +393,7 @@ export default function ExploreZoneMap() {
                       }}
                       onClick={() => {
                         if (isActive) {
-                          handleNavigate()
+                          handleNavigate(island.zoneIdx)
                         } else {
                           setActiveZoneIdx(island.zoneIdx)
                         }
@@ -372,6 +402,7 @@ export default function ExploreZoneMap() {
                       <img
                         src={island.img}
                         alt=""
+                        loading="lazy"
                         style={{
                           width: '100%',
                           height: '100%',
@@ -405,7 +436,7 @@ export default function ExploreZoneMap() {
                   onHoverEnd={() => {}}
                   onClick={() => {
                     if (isActive) {
-                      handleNavigate()
+                      handleNavigate(idx)
                     } else {
                       setActiveZoneIdx(idx)
                     }
@@ -421,65 +452,10 @@ export default function ExploreZoneMap() {
             )
           })}
         </div>
-
-        {/* Stats Row for Mobile */}
-        <div className="flex flex-col gap-4 mt-2">
-          {/* Progress */}
-          <div className="bg-white rounded-[24px] flex gap-4 items-center p-4 shadow-sm border border-slate-100">
-            <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-14 h-14 flex items-center justify-center">
-              <img src={imgProgress} alt="" className="w-full h-full object-contain" />
-            </div>
-            <div className="flex-1 flex flex-col gap-1.5">
-              <p className="font-baloo font-bold text-[18px] text-[#004c6e] leading-[24px]">
-                Tiến trình khám phá
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-3.5 bg-[#f0f2f4] rounded-full overflow-hidden">
-                  <div className="h-full bg-[#fdd444] rounded-full w-4/5" />
-                </div>
-                <span className="font-vietnam text-[14px] text-[#004c6e] whitespace-nowrap font-bold">80%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Lessons & Rewards Side-by-Side or row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Lessons */}
-            <div className="bg-white rounded-[24px] flex gap-4 items-center p-4 shadow-sm border border-slate-100">
-              <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-14 h-14 flex items-center justify-center">
-                <img src={imgLessons} alt="" className="w-full h-full object-contain" />
-              </div>
-              <div className="flex flex-col">
-                <p className="font-baloo font-bold text-[20px] text-[#004c6e] leading-[28px]">15/25</p>
-                <p className="font-vietnam text-[14px] text-[#004c6e]">Bài học đã hoàn thành</p>
-              </div>
-            </div>
-
-            {/* Rewards */}
-            <div
-              className="bg-white rounded-[24px] flex gap-4 items-center p-4 shadow-sm border border-slate-100 cursor-pointer active:scale-95 transition-transform"
-              onClick={handleNavigate}
-            >
-              <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-14 h-14 flex items-center justify-center">
-                <img src={imgReward} alt="" className="w-full h-full object-contain" />
-              </div>
-              <div className="flex-1 flex flex-col">
-                <p className="font-baloo font-bold text-[20px] text-[#004c6e] leading-[28px]">Phần thưởng</p>
-                <p className="font-vietnam text-[13px] text-[#004c6e] leading-[18px]">
-                  Thu thập sao nhận phần thưởng
-                </p>
-              </div>
-              <div className="bg-[#0a7ad8] w-7 h-7 rounded-full flex items-center justify-center shrink-0">
-                <img src={imgArrow} alt="" className="w-3.5 h-3.5" />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* DESKTOP LAYOUT (hidden xl:block) */}
       <div ref={wrapperRef} className="w-full flex-1 min-h-0 hidden xl:block">
-        {/* Container — scaled from 1824 × 1026px design */}
         <div
           className="relative rounded-[24px] overflow-hidden shadow-2xl bg-[#93cbee]"
           style={{
@@ -489,99 +465,116 @@ export default function ExploreZoneMap() {
             transformOrigin: 'top left'
           }}
         >
-          {/* ── Background: exact Figma sizing (1824 × 1026) ── */}
-          <img
-            src={imgBg}
-            alt=""
-            className="absolute left-0 pointer-events-none select-none w-full object-cover"
-            style={{
-              top: -50,
-              height: 'calc(100% + 100px)',
-              transform: 'translateY(50px)',
-            }}
-          />
+          {/* ── Sub-container for map elements (fixed 1824 × 1026) aligned at the bottom ── */}
+          <div className="absolute inset-x-0 bottom-0 w-full h-[1026px]" style={{ transform: 'translateY(100px)' }}>
+            {/* ── Background: exact Figma sizing (1824 × 1026) ── */}
+            <img
+              src={imgBg}
+              alt=""
+              className="absolute inset-0 pointer-events-none select-none w-full h-full"
+              loading="lazy"
+            />
 
-          {/* ── Drifting clouds (independent horizontal movement) ── */}
-          {DRIFTING_CLOUDS.map((cloud, idx) => {
-            const isBack = cloud.zIndex === 1;
-            const filterId = isBack ? 'url(#cloud-filter-back)' : 'url(#cloud-filter-front)';
-            const blurVal = isBack ? '3px' : '2px';
-            const shadowColor = isBack ? 'rgba(0, 50, 80, 0.12)' : 'rgba(0, 50, 80, 0.08)';
-            const gradientClass = GRADIENTS[cloud.gradIdx];
+            {/* ── Drifting clouds (independent horizontal movement) ── */}
+            {DRIFTING_CLOUDS.map((cloud, idx) => {
+              const isBack = cloud.zIndex === 1;
+              const filterId = isBack ? 'url(#cloud-filter-back)' : 'url(#cloud-filter-front)';
+              const blurVal = isBack ? '3px' : '2px';
+              const shadowColor = isBack ? 'rgba(0, 50, 80, 0.12)' : 'rgba(0, 50, 80, 0.08)';
+              const gradientClass = GRADIENTS[cloud.gradIdx];
 
-            return (
-              <div
-                key={idx}
-                className="absolute animate-drift pointer-events-none select-none"
-                style={{
-                  top: (cloud.top * vScale) + 50,
-                  width: cloud.width,
-                  height: cloud.height,
-                  zIndex: cloud.zIndex,
-                  opacity: cloud.opacity,
-                  filter: `${filterId} blur(${blurVal}) drop-shadow(0 6px 12px ${shadowColor})`,
-                  animationDuration: `${cloud.speed}s`,
-                  animationDelay: `${cloud.delay}s`,
-                }}
-              >
-                {getCloudPuffs(cloud.type, gradientClass)}
-              </div>
-            );
-          })}
-
-          {/* ── Island decorative overlays ── */}
-          {islands.map((island, i) => {
-            const isHovered = hoveredZoneIdx === island.zoneIdx
-            return (
-              <div
-                key={i}
-                className="absolute animate-float cursor-pointer transition-all duration-300 select-none"
-                style={{
-                  left: island.left,
-                  top: island.top * vScale,
-                  width: island.width,
-                  height: island.height,
-                  zIndex: 2,
-                  animationDelay: island.delay,
-                  filter: isHovered
-                    ? `drop-shadow(0 0 25px ${island.color})`
-                    : 'drop-shadow(0 10px 15px rgba(0, 40, 70, 0.25))',
-                  transform: isHovered ? 'scale(1.06) translateY(-4px)' : 'scale(1)',
-                }}
-                onMouseEnter={() => setHoveredZoneIdx(island.zoneIdx)}
-                onMouseLeave={() => setHoveredZoneIdx(null)}
-                onClick={handleNavigate}
-              >
-                {/* Island image */}
-                <img
-                  src={island.img}
-                  alt=""
+              return (
+                <div
+                  key={idx}
+                  className="absolute animate-drift pointer-events-none select-none"
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    display: 'block',
-                    position: 'relative',
-                    zIndex: 2,
+                    top: cloud.top + 50,
+                    width: cloud.width,
+                    height: cloud.height,
+                    zIndex: cloud.zIndex,
+                    opacity: cloud.opacity,
+                    filter: `${filterId} blur(${blurVal}) drop-shadow(0 6px 12px ${shadowColor})`,
+                    animationDuration: `${cloud.speed}s`,
+                    animationDelay: `${cloud.delay}s`,
                   }}
-                />
-              </div>
-            )
-          })}
+                >
+                  {getCloudPuffs(cloud.type, gradientClass)}
+                </div>
+              );
+            })}
+
+            {/* ── Islands ── */}
+            {islands.map((island, i) => {
+              const isHovered = hoveredZoneIdx === island.zoneIdx
+              const zone = zones[island.zoneIdx]
+              const tooltipBelow = island.zoneIdx === 2
+              return (
+                <div
+                  key={i}
+                  className="absolute cursor-pointer select-none"
+                  style={{
+                    left: island.left,
+                    top: island.top,
+                    width: island.width,
+                    height: island.height,
+                    zIndex: isHovered ? 5 : 2,
+                    filter: isHovered
+                      ? `drop-shadow(0 0 30px ${island.color}) drop-shadow(0 0 60px ${island.color}80)`
+                      : 'drop-shadow(0 10px 15px rgba(0, 40, 70, 0.25))',
+                    transform: isHovered ? 'scale(1.12) translateY(-12px)' : 'scale(1)',
+                    transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease',
+                  }}
+                  onMouseEnter={() => setHoveredZoneIdx(island.zoneIdx)}
+                  onMouseLeave={() => setHoveredZoneIdx(null)}
+                  onClick={() => handleNavigate(island.zoneIdx)}
+                >
+                  {/* Zone name tooltip */}
+                  <div
+                    className="absolute left-1/2 font-baloo font-bold text-white text-[18px] px-5 py-2 rounded-full whitespace-nowrap pointer-events-none"
+                    style={{
+                      transform: 'translateX(-50%)',
+                      ...(tooltipBelow
+                        ? { bottom: -48 }
+                        : { top: -48 }),
+                      backgroundColor: island.color,
+                      boxShadow: `0 4px 16px ${island.color}66`,
+                      opacity: isHovered ? 1 : 0,
+                      transition: 'opacity 0.25s ease',
+                    }}
+                  >
+                    {zone.name.replace('\\n', ' ')}
+                  </div>
+                  <img
+                    src={island.img}
+                    alt=""
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      display: 'block',
+                      position: 'relative',
+                      zIndex: 2,
+                    }}
+                  />
+                </div>
+              )
+            })}
+          </div>
 
           {/* ── Content layer (z-10, above islands) ── */}
           <div
-            className="absolute inset-x-0 bottom-0 flex flex-col justify-between"
+            className="absolute inset-x-0 bottom-0 flex flex-col justify-between pointer-events-none"
             style={{ zIndex: 10, top: 50, padding: '32px 24px 24px 24px', gap: 24 }}
           >
             {/* Title — Figma: y=24, h=80 */}
             <div className="flex flex-col items-center justify-center" style={{ height: 80, transform: 'translateY(-60px)' }}>
               <div className="flex items-center gap-4">
-                <img src={imgStar} alt="" className="w-8 h-8" />
+                <img src={imgStar} alt="" className="w-8 h-8" loading="lazy" />
                 <h1 className="font-baloo font-bold text-[32px] text-[#004c6e] leading-[56px]">
                   Khám phá 5 vùng đất
                 </h1>
-                <img src={imgStar} alt="" className="w-8 h-8" />
+                <img src={imgStar} alt="" className="w-8 h-8" loading="lazy" />
               </div>
               <p className="font-vietnam text-[16px] text-[#004c6e] text-center leading-[24px]">
                 Mỗi vùng đất là một hành trình giúp bé học và trưởng thành hơn mỗi ngày
@@ -599,14 +592,14 @@ export default function ExploreZoneMap() {
                   isHovered={hoveredZoneIdx === 0}
                   onHoverStart={() => setHoveredZoneIdx(0)}
                   onHoverEnd={() => setHoveredZoneIdx(null)}
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(0)}
                 />
                 <ZoneCard
                   zone={zones[1]}
                   isHovered={hoveredZoneIdx === 1}
                   onHoverStart={() => setHoveredZoneIdx(1)}
                   onHoverEnd={() => setHoveredZoneIdx(null)}
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(1)}
                 />
               </div>
 
@@ -617,84 +610,26 @@ export default function ExploreZoneMap() {
                   isHovered={hoveredZoneIdx === 2}
                   onHoverStart={() => setHoveredZoneIdx(2)}
                   onHoverEnd={() => setHoveredZoneIdx(null)}
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(2)}
                 />
                 <ZoneCard
                   zone={zones[3]}
                   isHovered={hoveredZoneIdx === 3}
                   onHoverStart={() => setHoveredZoneIdx(3)}
                   onHoverEnd={() => setHoveredZoneIdx(null)}
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(3)}
                 />
                 <ZoneCard
                   zone={zones[4]}
                   isHovered={hoveredZoneIdx === 4}
                   onHoverStart={() => setHoveredZoneIdx(4)}
                   onHoverEnd={() => setHoveredZoneIdx(null)}
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(4)}
                 />
               </div>
             </div>
 
-            {/* Stats row — h=104 */}
-            <div className="flex gap-[24px] shrink-0" style={{ height: 104 }}>
 
-              {/* Tiến trình */}
-              <div
-                className="flex-1 bg-white rounded-[24px] flex gap-4 items-center px-4"
-                style={{ boxShadow: '0px 0px 5px rgba(0,76,110,0.6)' }}
-              >
-                <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-16 h-16 flex items-center justify-center">
-                  <img src={imgProgress} alt="" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex-1 flex flex-col gap-2">
-                  <p className="font-baloo font-bold text-[20px] text-[#004c6e] leading-[28px]">
-                    Tiến trình khám phá
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 h-5 bg-[#f0f2f4] rounded-full overflow-hidden">
-                      <div className="h-full bg-[#fdd444] rounded-full w-4/5" />
-                    </div>
-                    <span className="font-vietnam text-[16px] text-[#004c6e] whitespace-nowrap">80%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bài học */}
-              <div
-                className="flex-1 bg-white rounded-[24px] flex gap-4 items-center px-4"
-                style={{ boxShadow: '0px 0px 5px rgba(0,76,110,0.6)' }}
-              >
-                <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-16 h-16 flex items-center justify-center">
-                  <img src={imgLessons} alt="" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <p className="font-baloo font-bold text-[24px] text-[#004c6e] leading-[40px]">15/25</p>
-                  <p className="font-vietnam text-[16px] text-[#004c6e]">Bài học đã hoàn thành</p>
-                </div>
-              </div>
-
-              {/* Phần thưởng */}
-              <div
-                className="flex-1 bg-white rounded-[24px] flex gap-4 items-center px-4 cursor-pointer hover:scale-[1.01] transition-transform"
-                style={{ boxShadow: '0px 0px 5px rgba(0,76,110,0.6)' }}
-                onClick={handleNavigate}
-              >
-                <div className="bg-[#f7f6f8] rounded-[40px] p-2 shrink-0 w-16 h-16 flex items-center justify-center">
-                  <img src={imgReward} alt="" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex-1 flex flex-col gap-1">
-                  <p className="font-baloo font-bold text-[24px] text-[#004c6e] leading-[40px]">Phần thưởng</p>
-                  <p className="font-vietnam text-[16px] text-[#004c6e]">
-                    Thu thập sao để nhận phần thưởng hấp dẫn
-                  </p>
-                </div>
-                <div className="bg-[#0a7ad8] w-8 h-8 rounded-full flex items-center justify-center shrink-0">
-                  <img src={imgArrow} alt="" className="w-4 h-4" />
-                </div>
-              </div>
-
-            </div>
           </div>
         </div>
       </div>{/* end measure wrapper */}

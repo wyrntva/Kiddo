@@ -4,7 +4,7 @@ const islands = [
   {
     nameLine1: 'Vùng Đất',
     nameLine2: 'Cảm Xúc',
-    islandImg: '/assets/d40b12e9e0ded0d71e21206c1a1fd7e7547fb778.png',
+    islandImg: '/assets/d40b12e9e0ded0d71e21206c1a1fd7e7547fb778.webp',
     pinImg: '/assets/67cbb1d253573913de929c8e5defc07216c22d02.svg',
     dotImg: '/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
     textColor: 'text-[#339e4a]',
@@ -15,7 +15,7 @@ const islands = [
   {
     nameLine1: 'Thành Phố',
     nameLine2: 'Giao Tiếp',
-    islandImg: '/assets/6649c5db8b886aa107c45f5dbb701e32edbea3c0.png',
+    islandImg: '/assets/6649c5db8b886aa107c45f5dbb701e32edbea3c0.webp',
     pinImg: '/assets/83af9dee8e53416434ffd6356eb91dd81f18a260.svg',
     dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#0a7ad8]',
@@ -26,7 +26,7 @@ const islands = [
   {
     nameLine1: 'Ngôi Làng',
     nameLine2: 'Tự Lập',
-    islandImg: '/assets/e5918ab9ae82e87df94eaff599ce35005cf104c0.png',
+    islandImg: '/assets/e5918ab9ae82e87df94eaff599ce35005cf104c0.webp',
     pinImg: '/assets/787ecf283a0ff128e81493c2847e8c3d9cd931fa.svg',
     dotImg: '/assets/3c8d21371e81a377bcca6c05c654a965af6f00ff.svg',
     textColor: 'text-[#fea01f]',
@@ -37,7 +37,7 @@ const islands = [
   {
     nameLine1: 'Khu Vườn',
     nameLine2: 'Tình Bạn',
-    islandImg: '/assets/74029fdf0a39839782dd1ef90cf3c2ab4a28201e.png',
+    islandImg: '/assets/74029fdf0a39839782dd1ef90cf3c2ab4a28201e.webp',
     pinImg: '/assets/ad00ad15470f8f06bee1c3e6c9c90fb81fdcf19d.svg',
     dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#e55c72]',
@@ -48,7 +48,7 @@ const islands = [
   {
     nameLine1: 'Hành Tinh',
     nameLine2: 'Tình Huống',
-    islandImg: '/assets/9487ee0bf430883542d2907f36b137ed4d20f6ff.png',
+    islandImg: '/assets/9487ee0bf430883542d2907f36b137ed4d20f6ff.webp',
     pinImg: '/assets/0444ca80dc53a1225dc9ec173cc989f114d681d1.svg',
     dotImg: '/assets/4a88c1a92050ca5805c351afe4a1b47c1bcdcb1e.svg',
     textColor: 'text-[#9560d8]',
@@ -86,7 +86,7 @@ export default function SkillZonesSection() {
         {/* Panoramic map background */}
         <div className="absolute inset-0 w-full h-full z-0">
           <img
-            src="/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.png"
+            src="/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.webp"
             alt="Adventure Map Background"
             className="w-full h-full object-cover select-none pointer-events-none"
           />
@@ -128,6 +128,7 @@ export default function SkillZonesSection() {
                     src={island.islandImg}
                     alt={`${island.nameLine1} ${island.nameLine2}`}
                     className="w-full h-full object-contain drop-shadow-lg select-none pointer-events-none"
+                    loading="lazy"
                   />
                 </div>
 
@@ -177,6 +178,7 @@ export default function SkillZonesSection() {
                     src={island.islandImg}
                     alt={`${island.nameLine1} ${island.nameLine2}`}
                     className={island.cropClass}
+                    loading="lazy"
                   />
                 </div>
               </div>

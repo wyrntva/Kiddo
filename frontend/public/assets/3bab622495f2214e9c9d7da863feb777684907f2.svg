@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="status_up">
+<path id="Vector" d="M6.88 18.15V16.08" stroke="var(--stroke-0, #8234E4)" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_2" d="M12 18.15V14.01" stroke="var(--stroke-0, #8234E4)" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_3" d="M17.12 18.1501V11.9301" stroke="var(--stroke-0, #8234E4)" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_4" d="M17.12 5.84997L16.66 6.38997C14.11 9.36997 10.69 11.48 6.88 12.43" stroke="var(--stroke-0, #8234E4)" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_5" d="M14.1899 5.84997H17.1199V8.76997" stroke="var(--stroke-0, #8234E4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M19.3889 2.5H4.61111C3.44518 2.5 2.5 3.44518 2.5 4.61111V19.3889C2.5 20.5548 3.44518 21.5 4.61111 21.5H19.3889C20.5548 21.5 21.5 20.5548 21.5 19.3889V4.61111C21.5 3.44518 20.5548 2.5 19.3889 2.5Z" stroke="var(--stroke-1, #8234E4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="Vector_7" opacity="0">
+</g>
+</g>
+</svg>

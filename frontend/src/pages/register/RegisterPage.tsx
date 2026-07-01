@@ -125,14 +125,14 @@ export default function RegisterPage() {
           <img
             alt=""
             className="absolute h-[162.9%] left-[-61.41%] max-w-none top-[-16.44%] w-[163.54%]"
-            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.png"
+            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
         <div className="lg:hidden absolute inset-0">
           <img
             alt=""
             className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] opacity-80"
-            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.png"
+            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
       </div>
@@ -141,7 +141,7 @@ export default function RegisterPage() {
       <div className="z-10 shrink-0 flex flex-col items-center w-full px-6 pt-8 lg:pt-8 lg:h-8">
         <div className="lg:hidden flex flex-col items-center gap-2 text-center">
           <img
-            src="/assets/logo_ottopia.png"
+            src="/assets/logo_ottopia.webp"
             alt="OTTOPIA"
             className="h-16 w-auto object-contain animate-float"
           />

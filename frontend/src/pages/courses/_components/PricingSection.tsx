@@ -88,10 +88,11 @@ export default function PricingSection() {
             {/* popular badge */}
             {plan.isPopular && (
               <div className="absolute -top-[18px] left-1/2 -translate-x-1/2 bg-[#fea01f] flex gap-1 items-center px-4 py-1 rounded-[40px] text-white font-vietnam font-medium text-[14px]">
-                <img 
-                  alt="Popular" 
-                  className="w-5 h-5 object-contain" 
-                  src="/assets/ac919f35d87a1eccc24123b31500eba2cfa34cee.svg" 
+                <img
+                  alt="Popular"
+                  className="w-5 h-5 object-contain"
+                  src="/assets/ac919f35d87a1eccc24123b31500eba2cfa34cee.svg"
+                  loading="lazy"
                 />
                 <span>Phổ biến nhất</span>
               </div>
@@ -101,10 +102,11 @@ export default function PricingSection() {
             <div className="flex flex-col gap-3 items-center">
               {/* icon */}
               <div className={`p-2 rounded-[100px] shrink-0 ${plan.iconBg}`}>
-                <img 
-                  alt="" 
-                  className="w-6 h-6 object-contain" 
-                  src={plan.icon} 
+                <img
+                  alt=""
+                  className="w-6 h-6 object-contain"
+                  src={plan.icon}
+                  loading="lazy"
                 />
               </div>
 
@@ -128,10 +130,11 @@ export default function PricingSection() {
             <div className="flex flex-col gap-3 w-full max-w-[240px] align-start">
               {plan.features.map((feat, fIdx) => (
                 <div key={fIdx} className="flex gap-2 items-center w-full">
-                  <img 
-                    alt="check" 
-                    className="w-7 h-7 object-contain shrink-0" 
-                    src={plan.checkIcon} 
+                  <img
+                    alt="check"
+                    className="w-7 h-7 object-contain shrink-0"
+                    src={plan.checkIcon}
+                    loading="lazy"
                   />
                   <span className="font-vietnam font-medium text-[16px] text-[#313235]">
                     {feat}

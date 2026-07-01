@@ -9,6 +9,16 @@ export default defineConfig({
     host: true,
     watch: {
       usePolling: true,
+      interval: 1000,
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
     },
   },
 })

@@ -1,7 +1,6 @@
-import { Search } from 'lucide-react'
 import { useState } from 'react'
 
-const imgOtterMascot = "/assets/0b3623250836b7627aaedaaaa6ad6d75ba584035.png"
+const imgOtterMascot = "/assets/0b3623250836b7627aaedaaaa6ad6d75ba584035.webp"
 const imgStarIcon = "/assets/b88c4904531cd4b1ec90fb81ed103fec521e0cab.svg"
 
 export default function ExploreHeroSection() {
@@ -33,7 +32,7 @@ export default function ExploreHeroSection() {
 
             {/* Search bar */}
             <div className="flex items-center gap-3 bg-white rounded-[16px] px-4 py-3 shadow-lg max-w-[560px]">
-              <Search className="text-[#9560d8] shrink-0" size={22} />
+              <svg className="text-[#9560d8] shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input
                 type="text"
                 value={query}

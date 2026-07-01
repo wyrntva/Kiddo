@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useChromaKey } from '../../hooks/useChromaKey'
 import Footer from '../../components/common/Footer'
 
 export default function LoginPage() {
@@ -14,62 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    const video = videoRef.current
-    const canvas = canvasRef.current
-    if (!video || !canvas) return
-
-    let animationFrameId: number
-    const ctx = canvas.getContext('2d', { willReadFrequently: true })
-    if (!ctx) return
-
-    const width = 1280
-    const height = 720
-
-    const render = () => {
-      if (video.readyState >= 2) {
-        ctx.drawImage(video, 0, 0, width, height)
-
-        const imgData = ctx.getImageData(0, 0, width, height)
-        const data = imgData.data
-
-        const tMin = 4
-        const tMax = 16
-
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i]
-          const g = data[i + 1]
-          const b = data[i + 2]
-
-          const maxRB = r > b ? r : b
-          const greenness = g - maxRB
-
-          if (greenness > 0) {
-            data[i + 1] = maxRB
-          }
-
-          if (greenness > tMin) {
-            if (greenness > tMax) {
-              data[i + 3] = 0
-            } else {
-              const alphaFactor = (tMax - greenness) / (tMax - tMin)
-              data[i + 3] = Math.round(data[i + 3] * alphaFactor)
-            }
-          }
-        }
-
-        ctx.putImageData(imgData, 0, 0)
-      }
-      animationFrameId = requestAnimationFrame(render)
-    }
-
-    video.play().catch(err => console.log("Video play failed:", err))
-    render()
-
-    return () => {
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [])
+  useChromaKey(videoRef, canvasRef, { width: 1280, height: 720 })
 
   if (!authLoading && user) return <Navigate to="/home" replace />
 
@@ -95,14 +41,14 @@ export default function LoginPage() {
           <img
             alt=""
             className="absolute h-[162.9%] left-[-61.41%] max-w-none top-[-16.44%] w-[163.54%]"
-            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.png"
+            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
         <div className="lg:hidden absolute inset-0">
           <img
             alt=""
             className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] opacity-80"
-            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.png"
+            src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
       </div>
@@ -111,7 +57,7 @@ export default function LoginPage() {
       <div className="z-10 shrink-0 flex flex-col items-center w-full px-6 pt-8 lg:pt-8 lg:h-8">
         <div className="lg:hidden flex flex-col items-center gap-2 text-center">
           <img
-            src="/assets/logo_ottopia.png"
+            src="/assets/logo_ottopia.webp"
             alt="OTTOPIA"
             className="h-16 w-auto object-contain animate-float"
           />
@@ -228,6 +174,7 @@ export default function LoginPage() {
 
                   <button
                     type="button"
+                    onClick={() => alert('Tính năng đặt lại mật khẩu sẽ sớm ra mắt!')}
                     className="font-vietnam font-medium text-[16px] text-[#fea01f] hover:text-[#e58f1a] transition-colors cursor-pointer"
                   >
                     Quên mật khẩu
