@@ -196,7 +196,7 @@ export default function ZoneQuizPage() {
             </div>
 
             {/* Mascot Waving Otter at Bottom Center (very large, sitting flush at the bottom of the banner) */}
-            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[340px] sm:w-[480px] lg:w-[600px] xl:w-[760px] pointer-events-none z-10">
+            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[400px] sm:w-[580px] lg:w-[760px] xl:w-[920px] pointer-events-none z-10">
               <img
                 src={imgWavingMascot}
                 alt="Mascot Waving"
