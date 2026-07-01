@@ -5,7 +5,7 @@ export default function CoursesHeroSection() {
       {/* Left Column: Title and Info tags */}
       <div className="flex-1 flex flex-col gap-6 items-start w-full lg:max-w-[700px]">
         <h1 className="font-baloo text-[40px] md:text-[48px] leading-[1.2] text-[#6c04ee] font-bold">
-          Khóa học kỹ năng sống cho bé - 3-6 tuổi
+          Khóa học kỹ năng sống cho bé - 3-5 tuổi
         </h1>
         
         <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-start w-full">
@@ -17,7 +17,7 @@ export default function CoursesHeroSection() {
               src="/assets/f2cc417081b8fe0b59fbe703295d6629d83b6985.svg" 
             />
             <span className="font-vietnam font-bold text-[14px] md:text-[16px] text-[#313235]">
-              Phù hợp cho bé 3-6 tuổi
+              Phù hợp cho bé 3-5 tuổi
             </span>
           </div>
 
