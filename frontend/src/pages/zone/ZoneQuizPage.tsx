@@ -670,8 +670,8 @@ export default function ZoneQuizPage() {
           /* Render the standard Quiz Content */
           <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col gap-8 md:gap-[48px] items-center justify-center min-h-[600px] py-8">
             
-            {/* Mascot floating in the bottom-left corner */}
-            <div className="absolute left-4 bottom-0 w-[180px] md:w-[280px] lg:w-[350px] xl:w-[400px] pointer-events-none z-10">
+            {/* Mascot floating on the grassy slope (user request red circle) */}
+            <div className="absolute left-[80px] sm:left-[140px] md:left-[180px] lg:left-[220px] bottom-[60px] sm:bottom-[100px] md:bottom-[130px] lg:bottom-[160px] w-[120px] sm:w-[160px] md:w-[200px] lg:w-[240px] pointer-events-none z-10">
               <img
                 src={imgMascot}
                 alt="Mascot"
