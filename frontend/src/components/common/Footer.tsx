@@ -39,7 +39,7 @@ function SocialBtn({ icon, inset }: { icon: string; inset: string }) {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
+    <footer className="relative z-10 bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
 
       {/* ── Main columns ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-[48px] items-start px-4 md:px-[48px] w-full">

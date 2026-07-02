@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { useAuth } from './context/AuthContext'
 import ScrollToTop from './components/common/ScrollToTop'
 
 const ExplorePage   = lazy(() => import('./pages/explore/ExplorePage'))
@@ -25,6 +26,22 @@ function PageLoader() {
   )
 }
 
+function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { user, loading } = useAuth()
+  const location = useLocation()
+
+  if (loading) return <PageLoader />
+
+  if (!user) return <Navigate to="/login" replace state={{ from: location }} />
+
+  return children
+}
+
+function LegacyEmotionLessonRedirect() {
+  const { id } = useParams()
+  return <Navigate to={`/zone/emotions/lesson/${id ?? ''}`} replace />
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -38,15 +55,21 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/login"   element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/diary"   element={<DiaryPage />} />
+            <Route path="/diary"   element={<ProtectedRoute><DiaryPage /></ProtectedRoute>} />
             <Route path="/parents" element={<ParentsPage />} />
-            <Route path="/zone/cam-xuc" element={<ZoneCamXucPage />} />
-            <Route path="/zone/cam-xuc/lesson/:id" element={<ZoneQuizPage />} />
-            <Route path="/zone/giao-tiep" element={<ZoneGiaoTiepPage />} />
-            <Route path="/zone/tu-lap" element={<ZoneTuLapPage />} />
-            <Route path="/zone/tu-do" element={<ZoneTuLapPage />} />
-            <Route path="/zone/ban-be" element={<ZoneBanBePage />} />
-            <Route path="/zone/tinh-huong" element={<ZoneTinhHuongPage />} />
+            <Route path="/zone/cam-xuc" element={<Navigate to="/zone/emotions" replace />} />
+            <Route path="/zone/cam-xuc/lesson/:id" element={<LegacyEmotionLessonRedirect />} />
+            <Route path="/zone/giao-tiep" element={<Navigate to="/zone/communication" replace />} />
+            <Route path="/zone/tu-lap" element={<Navigate to="/zone/independence" replace />} />
+            <Route path="/zone/tu-do" element={<Navigate to="/zone/independence" replace />} />
+            <Route path="/zone/ban-be" element={<Navigate to="/zone/friends" replace />} />
+            <Route path="/zone/tinh-huong" element={<Navigate to="/zone/situations" replace />} />
+            <Route path="/zone/emotions" element={<ProtectedRoute><ZoneCamXucPage /></ProtectedRoute>} />
+            <Route path="/zone/emotions/lesson/:id" element={<ProtectedRoute><ZoneQuizPage /></ProtectedRoute>} />
+            <Route path="/zone/communication" element={<ProtectedRoute><ZoneGiaoTiepPage /></ProtectedRoute>} />
+            <Route path="/zone/independence" element={<ProtectedRoute><ZoneTuLapPage /></ProtectedRoute>} />
+            <Route path="/zone/friends" element={<ProtectedRoute><ZoneBanBePage /></ProtectedRoute>} />
+            <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
             <Route path="*"        element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

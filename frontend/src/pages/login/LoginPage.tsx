@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react'
-import { useNavigate, Link, Navigate } from 'react-router-dom'
+import { useNavigate, Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useChromaKey } from '../../hooks/useChromaKey'
 import Footer from '../../components/common/Footer'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { login, user, loading: authLoading } = useAuth()
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -14,10 +15,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const redirectTo = location.state?.from?.pathname || '/home'
 
   useChromaKey(videoRef, canvasRef, { width: 1280, height: 720 })
 
-  if (!authLoading && user) return <Navigate to="/home" replace />
+  if (!authLoading && user) return <Navigate to={redirectTo} replace />
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,7 +27,7 @@ export default function LoginPage() {
     setError('')
     try {
       await login(phone, password)
-      navigate('/home')
+      navigate(redirectTo, { replace: true })
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Đăng nhập thất bại')
     } finally {

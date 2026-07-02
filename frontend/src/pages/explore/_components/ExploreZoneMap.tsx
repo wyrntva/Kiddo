@@ -189,11 +189,11 @@ export default function ExploreZoneMap() {
   ]
 
   const zoneRoutes: Record<number, string> = {
-    0: '/zone/cam-xuc',
-    1: '/zone/ban-be',
-    2: '/zone/giao-tiep',
-    3: '/zone/tu-lap',
-    4: '/zone/tinh-huong',
+    0: '/zone/emotions',
+    1: '/zone/friends',
+    2: '/zone/communication',
+    3: '/zone/independence',
+    4: '/zone/situations',
   }
 
   const handleNavigate = (zoneIdx: number = 0) => {

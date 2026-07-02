@@ -103,7 +103,7 @@ function LessonCard({ lesson }: { lesson: Lesson }) {
   const navigate = useNavigate()
   
   const handleStart = () => {
-    navigate(`/zone/cam-xuc/lesson/${lesson.id}`)
+    navigate(`/zone/emotions/lesson/${lesson.id}`)
   }
 
   return (
@@ -169,7 +169,7 @@ export default function ZoneCamXucPage() {
         <img
           src={imgHeroBg}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          className="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
         />
 
         {/* Content — px-[48px] py-[24px] gap-[48px] matches Figma frame 240:10773 */}

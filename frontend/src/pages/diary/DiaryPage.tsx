@@ -107,6 +107,28 @@ const ISLAND_LESSONS: { [key: string]: Lesson[] } = {
           'Luôn động viên và khích lệ từng sự cố gắng nhỏ của bé'
         ]
       }
+    },
+    {
+      id: 'lesson-5-cam-xuc',
+      title: 'Nói ra cảm xúc của mình',
+      status: 'locked',
+      statusLabel: 'Chưa học',
+      isCompleted: false,
+      feedback: {
+        title: 'Con có thể nói ra cảm xúc của mình',
+        strengths: [
+          'Bé biết chia sẻ khi con đang vui hoặc buồn',
+          'Bé bước đầu gọi tên được cảm xúc của mình'
+        ],
+        practice: [
+          'Tự tin nói cho ba mẹ biết khi con không thoải mái',
+          'Dùng câu ngắn để diễn tả cảm xúc rõ ràng hơn'
+        ],
+        tips: [
+          'Gợi ý cho bé dùng các câu như con đang buồn hoặc con cần giúp đỡ',
+          'Khuyến khích bé chia sẻ cảm xúc mỗi ngày qua trò chuyện hoặc tranh vẽ'
+        ]
+      }
     }
   ],
   'Thành phố giao tiếp': [
