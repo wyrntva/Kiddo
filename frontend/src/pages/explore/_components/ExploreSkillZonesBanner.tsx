@@ -1,5 +1,5 @@
-const imgMapIcon = "/assets/5a9453f78ced6122636cc3fcfc9d7d132cd3f8e7.svg"
-const imgArrowRight = "/assets/307df52bf95db3f8214fe9c0404892bc2b4f690d.svg"
+const imgMapIcon = '/assets/5a9453f78ced6122636cc3fcfc9d7d132cd3f8e7.svg'
+const imgArrowRight = '/assets/307df52bf95db3f8214fe9c0404892bc2b4f690d.svg'
 
 const zones = [
   { name: 'Vùng Đất Cảm Xúc', count: 12, color: 'bg-[#f2fbef] border-[#c3ffd0]', textColor: 'text-[#339e4a]', emoji: '😊' },
@@ -14,8 +14,6 @@ export default function ExploreSkillZonesBanner() {
     <section className="bg-white">
       <div className="max-w-[1920px] mx-auto px-6 md:px-12">
         <div className="bg-gradient-to-r from-[#f8f0ff] to-[#eef6ff] rounded-[24px] p-6 border border-purple-100/60 shadow-sm">
-
-          {/* Header */}
           <div className="flex items-center gap-3 mb-5">
             <img src={imgMapIcon} alt="" className="w-8 h-8 object-contain shrink-0" loading="lazy" />
             <h2 className="font-baloo font-bold text-[22px] text-[#6c04ee] leading-[32px]">
@@ -23,11 +21,10 @@ export default function ExploreSkillZonesBanner() {
             </h2>
           </div>
 
-          {/* Zone cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {zones.map((zone, idx) => (
+            {zones.map((zone, index) => (
               <button
-                key={idx}
+                key={index}
                 className={`${zone.color} border rounded-[16px] p-4 flex flex-col items-center gap-2 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:scale-95 group`}
               >
                 <span className="text-[36px] leading-none group-hover:scale-110 transition-transform duration-200">
@@ -43,14 +40,12 @@ export default function ExploreSkillZonesBanner() {
             ))}
           </div>
 
-          {/* CTA */}
           <div className="flex justify-center mt-5">
             <button className="flex items-center gap-2 bg-white border border-purple-200 text-[#6c04ee] font-baloo font-bold text-[15px] px-6 py-2.5 rounded-[100px] hover:bg-purple-50 transition-all duration-200 active:scale-95 shadow-sm">
               <span>Xem bản đồ phiêu lưu</span>
               <img src={imgArrowRight} alt="" className="w-5 h-5 object-contain" loading="lazy" />
             </button>
           </div>
-
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
@@ -11,7 +11,7 @@ function isTokenExpired(token: string): boolean {
   }
 }
 
-interface AuthUser {
+export interface AuthUser {
   id: string
   name: string
   email: string
@@ -24,15 +24,6 @@ interface AuthUser {
   weeklyProgress: number
 }
 
-interface AuthContextType {
-  user: AuthUser | null
-  accessToken: string | null
-  loading: boolean
-  login: (email: string, password: string) => Promise<void>
-  register: (data: RegisterData) => Promise<void>
-  logout: () => Promise<void>
-}
-
 interface RegisterData {
   name: string
   parentName?: string
@@ -40,6 +31,15 @@ interface RegisterData {
   password: string
   phone?: string
   role?: 'CHILD' | 'PARENT'
+}
+
+interface AuthContextType {
+  user: AuthUser | null
+  accessToken: string | null
+  loading: boolean
+  login: (email: string, password: string) => Promise<void>
+  register: (data: RegisterData) => Promise<void>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -51,26 +51,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
-    const stored = localStorage.getItem('user')
-    if (token && stored && !isTokenExpired(token)) {
+    const storedUser = localStorage.getItem('user')
+
+    if (token && storedUser && !isTokenExpired(token)) {
       setAccessToken(token)
-      setUser(JSON.parse(stored))
+      setUser(JSON.parse(storedUser))
     } else if (token) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
       localStorage.removeItem('user')
     }
+
     setLoading(false)
   }, [])
 
   async function login(email: string, password: string) {
-    const res = await fetch(`${API_URL}/api/auth/login`, {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Đăng nhập thất bại')
+
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Đăng nhập thất bại')
 
     setUser(data.user)
     setAccessToken(data.accessToken)
@@ -80,13 +83,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function register(registerData: RegisterData) {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
+    const response = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registerData),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Đăng ký thất bại')
+
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Đăng ký thất bại')
 
     setUser(data.user)
     setAccessToken(data.accessToken)
@@ -98,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function logout() {
     const refreshToken = localStorage.getItem('refreshToken')
     const token = accessToken || localStorage.getItem('accessToken')
+
     if (token) {
       await fetch(`${API_URL}/api/auth/logout`, {
         method: 'POST',
@@ -108,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ refreshToken }),
       }).catch(() => {})
     }
+
     setUser(null)
     setAccessToken(null)
     localStorage.removeItem('accessToken')
@@ -123,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth phải được dùng bên trong AuthProvider')
-  return ctx
+  const context = useContext(AuthContext)
+  if (!context) throw new Error('useAuth phải được dùng bên trong AuthProvider')
+  return context
 }

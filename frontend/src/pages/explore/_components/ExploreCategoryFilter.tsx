@@ -17,20 +17,21 @@ export default function ExploreCategoryFilter({ activeCategory, onChange }: Expl
     <section className="bg-white">
       <div className="max-w-[1920px] mx-auto px-6 md:px-12">
         <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map(cat => {
-            const isActive = activeCategory === cat.id
+          {categories.map((category) => {
+            const isActive = activeCategory === category.id
+
             return (
               <button
-                key={cat.id}
-                onClick={() => onChange(cat.id)}
+                key={category.id}
+                onClick={() => onChange(category.id)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-[100px] border text-[15px] font-semibold font-vietnam whitespace-nowrap transition-all duration-200 shrink-0 ${
                   isActive
-                    ? `${cat.activeBg} ${cat.activeText} ${cat.activeBorder} shadow-md scale-105`
-                    : `${cat.inactiveBg} ${cat.inactiveText} border-transparent hover:scale-105 hover:shadow-sm`
+                    ? `${category.activeBg} ${category.activeText} ${category.activeBorder} shadow-md scale-105`
+                    : `${category.inactiveBg} ${category.inactiveText} border-transparent hover:scale-105 hover:shadow-sm`
                 }`}
               >
-                <span className="text-[18px] leading-none">{cat.emoji}</span>
-                <span>{cat.label}</span>
+                <span className="text-[18px] leading-none">{category.emoji}</span>
+                <span>{category.label}</span>
               </button>
             )
           })}

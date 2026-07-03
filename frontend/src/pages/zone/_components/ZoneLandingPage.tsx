@@ -1,0 +1,97 @@
+import Footer from '../../../components/common/Footer'
+import Navbar from '../../../components/common/Navbar'
+import ZoneEncouragementCard from './ZoneEncouragementCard'
+import ZoneHeartIcon from './ZoneHeartIcon'
+import ZoneLessonCard from './ZoneLessonCard'
+import ZoneProgressCard from './ZoneProgressCard'
+import type { ZoneLesson, ZoneTheme } from './zoneTypes'
+
+interface ZoneLandingPageProps {
+  backgroundImage: string
+  islandImage: string
+  islandAlt: string
+  title: string
+  subtitle: string
+  lessons: ZoneLesson[]
+  completed: number
+  total: number
+  theme: ZoneTheme
+  onLessonSelect?: (lesson: ZoneLesson) => void
+}
+
+export default function ZoneLandingPage({
+  backgroundImage,
+  islandImage,
+  islandAlt,
+  title,
+  subtitle,
+  lessons,
+  completed,
+  total,
+  theme,
+  onLessonSelect,
+}: ZoneLandingPageProps) {
+  return (
+    <div className="flex flex-col">
+      <Navbar />
+
+      <main className="flex-1 min-h-[calc(100vh-64px)] relative">
+        <img
+          src={backgroundImage}
+          alt=""
+          className="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
+        />
+
+        <div className="relative z-10 max-w-[1920px] mx-auto px-4 md:px-[48px] pt-[48px] pb-[48px] flex flex-col gap-[48px]">
+          <div className="flex flex-col xl:flex-row gap-[16px] items-center justify-between w-full">
+            <div className="w-full xl:w-[350px] flex justify-center xl:justify-start shrink-0">
+              <div className="relative shrink-0 w-[170px] xl:w-[240px] aspect-square -my-[15px] xl:-my-[25px] hover:scale-110 hover:-translate-y-2 transition-all duration-300 ease-out cursor-pointer">
+                <img
+                  src={islandImage}
+                  alt={islandAlt}
+                  className="w-full h-full object-contain pointer-events-none select-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex-1 flex flex-col gap-[4px] items-center justify-center text-center">
+              <p
+                className="font-baloo text-[44px] md:text-[60px] font-bold leading-[56px] md:leading-[90px] whitespace-nowrap"
+                style={{ color: theme.titleColor }}
+              >
+                {title}
+              </p>
+              <div className="flex flex-wrap gap-[6px] justify-center items-center shrink-0">
+                <p className="font-vietnam font-bold text-[16px] md:text-[22px] leading-[24px] md:leading-[28px] text-[#37393E]">
+                  {subtitle}
+                </p>
+                <div className="w-6 h-6 md:w-7 md:h-7 shrink-0">
+                  <ZoneHeartIcon color={theme.heartColor} />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full xl:w-[350px] flex justify-center xl:justify-end shrink-0">
+              <ZoneProgressCard completed={completed} total={total} theme={theme} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 xl:grid-cols-3 xl:auto-rows-fr gap-[24px] w-full">
+            {lessons.map((lesson) => (
+              <ZoneLessonCard
+                key={lesson.id}
+                lesson={lesson}
+                theme={theme}
+                onSelect={onLessonSelect}
+              />
+            ))}
+
+            <ZoneEncouragementCard theme={theme} />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  )
+}
