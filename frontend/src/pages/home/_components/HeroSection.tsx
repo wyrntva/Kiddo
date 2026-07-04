@@ -1,61 +1,61 @@
-const imgBg = "/assets/home_cover_banner.webp";
-const imgHomepage21 = "/assets/c777ec5ebb4097e9ad8c6739be008020a6b0fd9d.webp";
-const imgVuesaxBoldVideoCircle = "/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg";
+const imgBg = '/assets/bannerhome.png'
+const imgHomepage21 = '/assets/c777ec5ebb4097e9ad8c6739be008020a6b0fd9d.webp'
+const imgVuesaxBoldVideoCircle = '/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg'
 
 export default function HeroSection() {
+  const scrollToAdventureMap = () => {
+    const el = document.getElementById('adventure-map')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section className="w-full">
-      <div className="relative aspect-[1824/650] w-full overflow-hidden rounded-[24px] shadow-lg border border-gray-100 bg-[#f4fafd]">
-        {/* Background image */}
+      <div className="relative w-full overflow-hidden rounded-[24px] shadow-lg border border-gray-100 bg-[#f4fafd] aspect-[1824/650] min-h-0">
         <div className="absolute inset-0 pointer-events-none select-none">
           <img
             src={imgBg}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            {...({ fetchpriority: "high" } as any)}
+            className="absolute inset-0 w-full h-full object-contain object-center"
+            {...({ fetchpriority: 'high' } as any)}
             loading="eager"
           />
         </div>
 
-        {/* Mascot Otter image on the right */}
         <div
-          className="absolute select-none pointer-events-none z-10"
+          className="absolute hidden sm:block select-none pointer-events-none z-10 w-[46%] h-auto aspect-[0.632] right-[2%] bottom-[4%] lg:w-[48.46%] lg:h-[76.62%]"
           style={{
-            right: '-1.21%',
-            top: '28%',
-            width: '48.46%',
-            height: '76.62%'
+            right: 'clamp(-16px, 1vw, 12px)',
+            top: 'clamp(120px, 26%, 170px)',
+            transform: 'translate(0, -40px)',
           }}
         >
           <img
             src={imgHomepage21}
             alt="OTTOPIA Hero Mascot"
             className="w-full h-full object-contain"
-            {...({ fetchpriority: "high" } as any)}
+            {...({ fetchpriority: 'high' } as any)}
             loading="eager"
           />
         </div>
 
         <button
-          onClick={() => {
-            const el = document.getElementById('adventure-map');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          className="absolute bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 py-1 sm:px-[14px] sm:py-[7px] lg:px-[20px] lg:py-[10px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
+          onClick={scrollToAdventureMap}
+          className="absolute hidden sm:flex bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white items-center justify-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-[14px] sm:py-[7px] lg:px-[28px] lg:py-[14px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
           style={{
-            left: '35.64%',
+            left: 'calc(27% + 100px)',
             top: '78%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
           }}
         >
-          <div className="size-3 sm:size-4 lg:size-[20px] relative shrink-0">
+          <div className="size-3 sm:size-4 lg:size-[24px] relative shrink-0">
             <img alt="" className="block size-full" src={imgVuesaxBoldVideoCircle} />
           </div>
-          <span className="font-baloo text-[9px] sm:text-[12px] lg:text-[15px] font-bold leading-none sm:leading-[24px] select-none whitespace-nowrap">
+          <span className="font-baloo text-[9px] sm:text-[12px] lg:text-[18px] font-bold leading-none sm:leading-[24px] lg:leading-none select-none whitespace-nowrap">
             Bắt đầu hành trình
           </span>
         </button>
       </div>
+
     </section>
-  );
+  )
 }

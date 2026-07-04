@@ -43,7 +43,7 @@ export default function AuthShell({
         </div>
       </div>
 
-      <div className="z-10 shrink-0 flex flex-col items-center w-full px-6 pt-8 lg:pt-8 lg:h-8">
+      <div className="z-10 shrink-0 flex flex-col items-center w-full px-4 sm:px-6 pt-6 md:pt-8 lg:pt-8 lg:h-8">
         <div className="lg:hidden flex flex-col items-center gap-2 text-center">
           <img src="/assets/logo_ottopia.webp" alt="OTTOPIA" className="h-16 w-auto object-contain animate-float" />
           <p className="font-vietnam text-[14px] font-bold text-[#575e70] max-w-[280px]">
@@ -52,8 +52,8 @@ export default function AuthShell({
         </div>
       </div>
 
-      <main className="w-full max-w-[1920px] mx-auto px-6 md:px-12 lg:px-[120px] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 z-10 flex-1 py-8 lg:py-6">
-        <div className="hidden lg:flex flex-col items-center justify-center h-auto lg:h-[698px] w-full lg:w-[600px] shrink-0 select-none">
+      <main className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-12 lg:px-[120px] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 md:gap-10 lg:gap-12 z-10 flex-1 py-6 md:py-8 lg:py-6">
+        <div className="hidden lg:flex flex-col items-center justify-center h-auto lg:h-[698px] w-full lg:w-[min(42vw,600px)] shrink-0 select-none">
           <div className="flex flex-col items-center leading-none text-center w-full mb-6 lg:mb-0">
             <h1 className="font-baloo text-[32px] md:text-[40px] lg:text-[48px] font-bold text-[#004c6e] leading-tight lg:leading-[80px] whitespace-normal lg:whitespace-nowrap">
               {title}
@@ -63,7 +63,7 @@ export default function AuthShell({
             </p>
           </div>
 
-          <div className="hidden lg:block h-[586px] relative shrink-0 w-[412px]">
+          <div className="hidden lg:block h-[520px] xl:h-[586px] relative shrink-0 w-[360px] xl:w-[412px]">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <video ref={videoRef} autoPlay loop muted playsInline className="hidden">
                 <source src="/login.webm" type="video/webm" />
@@ -74,8 +74,8 @@ export default function AuthShell({
           </div>
         </div>
 
-        <div className="flex items-center justify-center lg:justify-end w-full lg:w-auto">
-          <div className={`bg-white/90 backdrop-blur-md border border-[#e6f4fe] lg:border-[#8690a7] shadow-xl lg:shadow-md flex flex-col items-center max-w-[600px] rounded-[24px] shrink-0 w-full lg:w-[600px] transition-all duration-300 ${cardClassName}`}>
+        <div className="flex items-center justify-center lg:justify-end w-full lg:w-auto min-w-0">
+          <div className={`bg-white/90 backdrop-blur-md border border-[#e6f4fe] lg:border-[#8690a7] shadow-xl lg:shadow-md flex flex-col items-center max-w-[600px] rounded-[24px] shrink-0 w-full lg:w-[min(44vw,600px)] transition-all duration-300 ${cardClassName}`}>
             <div className="flex flex-col items-center text-center w-full">
               <h2 className="font-baloo text-[28px] md:text-[32px] text-[#001e2f] leading-tight lg:leading-[56px] font-bold">
                 {cardTitle}

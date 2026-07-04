@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="max-w-[1920px] mx-auto px-4 md:px-[48px] py-[24px] flex flex-col gap-[24px] bg-white">
+      <main className="max-w-[1920px] mx-auto px-4 md:px-6 xl:px-[48px] py-[20px] md:py-[24px] flex flex-col gap-[20px] md:gap-[24px] bg-white">
         <HeroSection />
         <AboutSection />
         <BenefitsSection />

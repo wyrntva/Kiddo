@@ -39,16 +39,16 @@ export default function EmotionGameCard({
     <div
       onDragOver={onDragOver}
       onDrop={(event) => onDrop(event, cardId)}
-      className={`border border-solid rounded-[24px] flex flex-col items-center justify-start select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.02)] transition-all flex-1 shrink-0 h-fit ${borderClass}`}
+      className={`border border-solid rounded-[24px] flex flex-col items-center justify-start select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.02)] transition-all h-fit min-w-0 ${borderClass}`}
       style={{ borderColor: gameChecked ? undefined : emptyBorder }}
     >
       <div
-        className="border-4 border-white border-solid w-full flex flex-col gap-[10px] items-center py-[18px] px-0 relative rounded-[24px] justify-start"
+        className="border-4 border-white border-solid w-full flex flex-col gap-[10px] items-center py-[18px] px-3 relative rounded-[24px] justify-start"
         style={{ background }}
       >
         <div
           onClick={() => onSlotClick(cardId)}
-          className="w-[72px] md:w-[108px] h-[64px] md:h-[96px] relative flex items-center justify-center cursor-pointer shrink-0 transition-transform active:scale-95 cloud-slot-container"
+          className="w-[72px] sm:w-[90px] md:w-[108px] h-[64px] sm:h-[80px] md:h-[96px] relative flex items-center justify-center cursor-pointer shrink-0 transition-transform active:scale-95 cloud-slot-container"
         >
           {placedEmotion ? (
             <img src={cloudImage} alt="" className="w-full h-full object-contain pointer-events-none scale-[1.62]" />
@@ -57,7 +57,7 @@ export default function EmotionGameCard({
           )}
         </div>
 
-        <div className="relative w-[100px] h-[100px] md:w-[130px] md:h-[130px] xl:w-[185px] xl:h-[185px] shrink-0 overflow-hidden pointer-events-none rounded-[20px] mascot-container">
+        <div className="relative w-[100px] h-[100px] sm:w-[115px] sm:h-[115px] md:w-[130px] md:h-[130px] xl:w-[185px] xl:h-[185px] shrink-0 overflow-hidden pointer-events-none rounded-[20px] mascot-container">
           <img src={image} alt={alt} className={imageClassName} />
         </div>
 

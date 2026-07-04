@@ -62,7 +62,7 @@ export default function ZoneQuizPage() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="flex-1 h-[calc(100vh-64px)] relative overflow-hidden">
+      <main className="flex-1 min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] relative overflow-hidden">
         <img
           src={zoneQuizAssets.heroBg}
           alt=""

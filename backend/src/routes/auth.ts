@@ -49,6 +49,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
       id: true, name: true, parentName: true, email: true,
       phone: true, role: true, avatar: true,
       level: true, stars: true, badges: true,
+      lessonsCompleted: true, weeklyProgress: true,
     },
   })
 

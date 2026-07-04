@@ -4,9 +4,9 @@ import ExploreZoneMap from './_components/ExploreZoneMap'
 
 export default function ExplorePage() {
   return (
-    <div className="flex flex-col bg-white">
+    <div className="flex flex-col bg-white min-h-screen">
       <Navbar />
-      <main className="h-auto xl:h-[calc(100vh-66px)] max-w-[1920px] mx-auto w-full py-[24px] flex flex-col overflow-visible xl:overflow-hidden">
+      <main className="flex-1 h-auto max-w-[1920px] mx-auto w-full py-[20px] md:py-[24px] flex flex-col overflow-visible">
         <ExploreZoneMap />
       </main>
       <Footer />

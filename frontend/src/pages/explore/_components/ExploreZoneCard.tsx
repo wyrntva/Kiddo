@@ -13,7 +13,7 @@ interface ExploreZoneCardProps {
 export default function ExploreZoneCard({ zone, isHovered, onHoverStart, onHoverEnd, onClick, className, style }: ExploreZoneCardProps) {
   return (
     <div
-      className={`bg-white rounded-[20px] xl:rounded-[20px] flex gap-2.5 items-center p-2.5 xl:p-2.5 shrink-0 cursor-pointer hover:scale-[1.02] transition-all duration-200 ${className || 'w-[320px]'}`}
+      className={`bg-white rounded-[20px] xl:rounded-[20px] flex gap-2.5 items-center p-3 xl:p-2.5 shrink-0 cursor-pointer hover:scale-[1.02] transition-all duration-200 ${className || 'w-[320px]'}`}
       style={{
         boxShadow: isHovered ? `0px 0px 18px ${zone.color}` : '0px 0px 5px rgba(0,76,110,0.6)',
         ...style,
@@ -22,7 +22,7 @@ export default function ExploreZoneCard({ zone, isHovered, onHoverStart, onHover
       onMouseLeave={onHoverEnd}
       onClick={onClick}
     >
-      <div className="relative shrink-0 w-[75px] h-[75px] xl:w-[102px] xl:h-[102px] flex items-center justify-center">
+      <div className="relative shrink-0 w-[82px] h-[82px] xl:w-[102px] xl:h-[102px] flex items-center justify-center">
         <img src={zone.img} alt="" className="w-full h-full object-contain pointer-events-none select-none" loading="lazy" />
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">

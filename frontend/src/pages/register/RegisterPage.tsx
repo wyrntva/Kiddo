@@ -68,7 +68,7 @@ export default function RegisterPage() {
       subtitle="Bắt đầu hành trình học kỹ năng sống thú vị"
       cardTitle="Đăng ký"
       cardDescription={<p>Tạo tài khoản để bắt đầu hành trình cùng OTTOPIA</p>}
-      cardClassName="gap-5 md:gap-8 p-6 md:p-10 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto"
+      cardClassName="gap-5 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto"
     >
       {error && (
         <div className="w-full bg-red-50 border border-red-200 rounded-[12px] px-4 py-3 text-red-600 text-sm font-vietnam">

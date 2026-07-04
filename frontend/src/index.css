@@ -11,6 +11,13 @@ html {
   overflow-y: scroll;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -48,6 +55,14 @@ body {
   background-color: #f8faff;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 @keyframes drift {

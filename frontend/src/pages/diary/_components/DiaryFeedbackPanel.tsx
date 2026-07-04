@@ -49,13 +49,13 @@ function FeedbackColumn({
 
 export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) {
   return (
-    <div className="relative rounded-[24px] w-full xl:w-[1236px] h-auto xl:h-[490px] p-[20px] sm:p-[32px] xl:p-[48px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
+    <div className="relative rounded-[24px] w-full h-auto p-[16px] sm:p-[24px] lg:p-[32px] xl:p-[40px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
       <div className="absolute inset-0 pointer-events-none rounded-[24px] z-0">
         <div className="absolute bg-white inset-0 rounded-[24px]" />
         <img alt="Sky Background" className="absolute max-w-none object-cover rounded-[24px] w-full h-full" loading="lazy" src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.png" />
       </div>
 
-      <div className="flex justify-between items-center relative z-10 w-full pb-2 pr-0 lg:pr-[280px]">
+      <div className="flex justify-between items-center relative z-10 w-full pb-2 pr-0 xl:pr-[280px]">
         <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start text-center sm:text-left">
           <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] xl:w-[120px] xl:h-[120px] shrink-0 relative overflow-visible">
             <div className="absolute inset-[0_9.35%]">
@@ -81,7 +81,7 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px] xl:gap-[24px] relative z-10 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-[16px] xl:gap-[24px] relative z-10 mt-2">
         <FeedbackColumn
           title="Điểm mạnh"
           titleColor="#339e4a"

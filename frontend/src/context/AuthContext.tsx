@@ -49,20 +49,81 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken')
-    const storedUser = localStorage.getItem('user')
+  function persistSession(nextAccessToken: string, nextRefreshToken: string | null, nextUser: AuthUser) {
+    setAccessToken(nextAccessToken)
+    setUser(nextUser)
+    localStorage.setItem('accessToken', nextAccessToken)
+    if (nextRefreshToken) {
+      localStorage.setItem('refreshToken', nextRefreshToken)
+    }
+    localStorage.setItem('user', JSON.stringify(nextUser))
+  }
 
-    if (token && storedUser && !isTokenExpired(token)) {
-      setAccessToken(token)
-      setUser(JSON.parse(storedUser))
-    } else if (token) {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-      localStorage.removeItem('user')
+  function clearSession() {
+    setUser(null)
+    setAccessToken(null)
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('user')
+  }
+
+  useEffect(() => {
+    async function restoreSession() {
+      const token = localStorage.getItem('accessToken')
+      const refreshToken = localStorage.getItem('refreshToken')
+      const storedUser = localStorage.getItem('user')
+
+      if (!storedUser) {
+        clearSession()
+        setLoading(false)
+        return
+      }
+
+      const parsedUser = JSON.parse(storedUser) as AuthUser
+
+      if (token && !isTokenExpired(token)) {
+        setAccessToken(token)
+        setUser(parsedUser)
+        setLoading(false)
+        return
+      }
+
+      if (!refreshToken) {
+        clearSession()
+        setLoading(false)
+        return
+      }
+
+      try {
+        const refreshResponse = await fetch(`${API_URL}/api/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+        })
+
+        const refreshData = await refreshResponse.json()
+        if (!refreshResponse.ok) {
+          throw new Error(refreshData.message || 'Khôi phục phiên đăng nhập thất bại')
+        }
+
+        const meResponse = await fetch(`${API_URL}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${refreshData.accessToken}`,
+          },
+        })
+
+        const meData = await meResponse.json().catch(() => null)
+        const nextUser = meResponse.ok && meData?.user ? (meData.user as AuthUser) : parsedUser
+
+        persistSession(refreshData.accessToken, refreshData.refreshToken, nextUser)
+      } catch {
+        clearSession()
+      } finally {
+        setLoading(false)
+      }
     }
 
-    setLoading(false)
+    void restoreSession()
   }, [])
 
   async function login(email: string, password: string) {
@@ -75,11 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await response.json()
     if (!response.ok) throw new Error(data.message || 'Đăng nhập thất bại')
 
-    setUser(data.user)
-    setAccessToken(data.accessToken)
-    localStorage.setItem('accessToken', data.accessToken)
-    localStorage.setItem('refreshToken', data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(data.user))
+    persistSession(data.accessToken, data.refreshToken, data.user)
   }
 
   async function register(registerData: RegisterData) {
@@ -92,11 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await response.json()
     if (!response.ok) throw new Error(data.message || 'Đăng ký thất bại')
 
-    setUser(data.user)
-    setAccessToken(data.accessToken)
-    localStorage.setItem('accessToken', data.accessToken)
-    localStorage.setItem('refreshToken', data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(data.user))
+    persistSession(data.accessToken, data.refreshToken, data.user)
   }
 
   async function logout() {
@@ -114,11 +167,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }).catch(() => {})
     }
 
-    setUser(null)
-    setAccessToken(null)
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('user')
+    clearSession()
   }
 
   return (

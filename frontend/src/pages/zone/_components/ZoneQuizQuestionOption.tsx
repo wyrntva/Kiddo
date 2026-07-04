@@ -30,7 +30,7 @@ export default function ZoneQuizQuestionOption({
     <button
       onClick={() => onSelect(option.id)}
       disabled={isChecked}
-      className={`flex flex-col items-center justify-center p-[48px] gap-[24px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98 cursor-pointer`}
+      className={`flex flex-col items-center justify-center p-[20px] sm:p-[32px] lg:p-[40px] gap-[20px] sm:gap-[24px] rounded-[24px] transition-all duration-300 w-full group relative ${cardClass} active:scale-98 cursor-pointer`}
     >
       {isChecked && isSelected && (
         <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-bounce">
@@ -50,7 +50,7 @@ export default function ZoneQuizQuestionOption({
         </div>
       )}
       <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center">
-        <div className="relative w-[180px] h-[180px] overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+        <div className="relative w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] lg:w-[180px] lg:h-[180px] overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
           <img src={option.sprite} alt={option.label} style={option.style} className="absolute max-w-none block select-none pointer-events-none" />
         </div>
       </div>

@@ -18,6 +18,7 @@ export default function ExploreZoneMap() {
     height,
     designWidth,
     designHeight,
+    desktopVisibleHeight,
     mobileScale,
   } = useExploreZoneMap()
 
@@ -26,7 +27,7 @@ export default function ExploreZoneMap() {
   }
 
   return (
-    <section className="px-4 xl:px-[48px] w-full h-full flex flex-col">
+    <section className="px-4 md:px-6 xl:px-[48px] w-full h-full flex flex-col">
       <style>{`
         @keyframes drift {
           0% { transform: translateX(-400px); }
@@ -69,6 +70,7 @@ export default function ExploreZoneMap() {
         height={height}
         designWidth={designWidth}
         designHeight={designHeight}
+        desktopVisibleHeight={desktopVisibleHeight}
         onHoverChange={setHoveredZoneIdx}
         onNavigate={handleNavigate}
       />

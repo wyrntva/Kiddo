@@ -80,9 +80,9 @@ export default function JourneySection() {
         </div>
 
         {/* Steps + Mascot container */}
-        <div className="content-stretch flex flex-col lg:flex-row gap-[24px] items-start relative shrink-0 w-full lg:pr-[394px]">
+        <div className="content-stretch flex flex-col xl:flex-row gap-[24px] items-start relative shrink-0 w-full xl:pr-[394px]">
           {/* Steps grid */}
-          <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-4">
+          <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-4">
             {steps.map((step, idx) => (
               <Fragment key={idx}>
                 {/* Step card */}
@@ -119,7 +119,7 @@ export default function JourneySection() {
 
                 {/* Arrow separator */}
                 {idx < steps.length - 1 && (
-                  <div className="hidden md:flex h-[138px] items-center justify-center shrink-0 w-[40px]">
+                  <div className="hidden xl:flex h-[138px] items-center justify-center shrink-0 w-[40px]">
                     <img
                       alt="Next"
                       className="block max-w-none size-10"
@@ -133,7 +133,7 @@ export default function JourneySection() {
           </div>
 
           {/* Mascot Otter Trophy on right */}
-          <div className="w-full max-w-[280px] h-[280px] overflow-hidden mx-auto lg:overflow-visible lg:absolute lg:right-0 lg:top-[50%] lg:-translate-y-1/2 lg:w-[370px] lg:h-[370px] shrink-0 pointer-events-none z-10 relative">
+          <div className="w-full max-w-[280px] h-[280px] overflow-hidden mx-auto xl:overflow-visible xl:absolute xl:right-0 xl:top-[50%] xl:-translate-y-1/2 xl:w-[370px] xl:h-[370px] shrink-0 pointer-events-none z-10 relative">
             <video ref={videoRef} autoPlay loop muted playsInline className="hidden">
               <source src="/yeah.webm" type="video/webm" />
               <source src="/yeah.mp4" type="video/mp4" />
@@ -154,7 +154,7 @@ export default function JourneySection() {
               const el = document.getElementById('adventure-map');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-98 transition-all duration-150 flex gap-[8px] items-center justify-center w-[240px] h-[56px] rounded-[40px] border border-transparent shadow-md cursor-pointer group"
+            className="bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-98 transition-all duration-150 flex gap-[8px] items-center justify-center w-full max-w-[240px] h-[56px] rounded-[40px] border border-transparent shadow-md cursor-pointer group"
           >
             <span className="font-baloo text-[18px] text-white whitespace-nowrap leading-[32px] font-bold">
               Khám phá khóa học

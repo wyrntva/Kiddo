@@ -55,8 +55,8 @@ export default function DiaryPage() {
     <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col">
       <Navbar />
 
-      <main className="flex-1 max-w-[1920px] mx-auto w-full px-4 xl:px-[48px] py-[24px] flex flex-col xl:flex-row gap-6 xl:gap-[24px]">
-        <div className="w-full xl:w-[564px] shrink-0 bg-[#fef9ed] rounded-[24px] p-[24px] pb-[80px] xl:pb-[24px] relative flex flex-col gap-[24px] overflow-hidden">
+      <main className="flex-1 max-w-[1920px] mx-auto w-full px-4 md:px-6 xl:px-[48px] py-[20px] md:py-[24px] flex flex-col 2xl:flex-row gap-6 xl:gap-[24px]">
+        <div className="w-full 2xl:w-[564px] shrink-0 bg-[#fef9ed] rounded-[24px] p-[16px] sm:p-[20px] xl:p-[24px] pb-[80px] xl:pb-[24px] relative flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden">
           <DiaryProfileCard babyAvatar={babyAvatar} babyName={babyName} babyAge={babyAge} />
           <DiaryProgressSidebar
             islands={ISLANDS}

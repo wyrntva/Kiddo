@@ -19,7 +19,7 @@ function ColHeading({ children }: { children: string }) {
 
 function FooterLink({ children }: { children: string }) {
   return (
-    <a href="#" className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors whitespace-nowrap">
+    <a href="#" className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors">
       {children}
     </a>
   )
@@ -42,7 +42,7 @@ export default function Footer() {
     <footer className="relative z-10 bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
 
       {/* ── Main columns ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-[48px] items-start px-4 md:px-[48px] w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-8 xl:gap-[48px] items-start px-4 md:px-8 xl:px-[48px] w-full">
 
         {/* Col 1 — Brand */}
         <div className="flex flex-col gap-[24px] items-start pb-[32px]">
@@ -67,10 +67,9 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>KHÁM PHÁ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Rừng Cảm Xúc</FooterLink>
+            <FooterLink>Vùng Đất Cảm Xúc</FooterLink>
             <FooterLink>Thành Phố Giao Tiếp</FooterLink>
-            <FooterLink>Làng Tự Lập</FooterLink>
-            <FooterLink>Rừng Cảm Xúc</FooterLink>
+            <FooterLink>Ngôi Làng Tự Lập</FooterLink>
             <FooterLink>Khu Vườn Bạn Bè</FooterLink>
             <FooterLink>Hành Tinh Tình Huống</FooterLink>
           </div>
@@ -80,8 +79,6 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>HỖ TRỢ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Trung tâm hỗ trợ</FooterLink>
-            <FooterLink>Hướng dẫn sử dụng</FooterLink>
             <FooterLink>Câu hỏi thường gặp</FooterLink>
             <FooterLink>Liên hệ</FooterLink>
           </div>
@@ -91,9 +88,9 @@ export default function Footer() {
         <div className="flex flex-col gap-[16px] items-start">
           <ColHeading>VỀ OTTOPIA</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Giới thiệu</FooterLink>
-            <FooterLink>Phương pháp giáo dục</FooterLink>
+            <FooterLink>Về chúng tôi</FooterLink>
             <FooterLink>Chính sách bảo mật</FooterLink>
+            <FooterLink>Quyền riêng tư của trẻ em</FooterLink>
             <FooterLink>Điều khoản sử dụng</FooterLink>
           </div>
         </div>
@@ -112,8 +109,8 @@ export default function Footer() {
       </div>
 
       {/* ── Bottom bar ── */}
-      <div className="border-t border-[#c9e6ff] px-4 md:px-[48px] w-full">
-        <div className="flex flex-col sm:flex-row items-center justify-between py-[24px] w-full gap-3 sm:gap-0">
+      <div className="border-t border-[#c9e6ff] px-4 md:px-8 xl:px-[48px] w-full">
+        <div className="flex flex-col lg:flex-row items-center justify-between py-[24px] w-full gap-4 lg:gap-0">
 
           {/* Left — copyright */}
           <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px] whitespace-nowrap">

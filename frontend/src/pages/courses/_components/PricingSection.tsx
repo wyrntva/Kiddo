@@ -79,18 +79,18 @@ const plans: Plan[] = [
 export default function PricingSection() {
   return (
     <section className="w-full pt-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 w-full">
         {plans.map((plan, idx) => (
           <div 
             key={idx} 
-            className={`relative rounded-[24px] ${plan.bgClass} ${plan.borderClass} ${plan.isPopular ? 'border-4 border-[#339e4a]' : ''} p-6 flex flex-col gap-6 items-center justify-between shadow-sm`}
+            className={`relative rounded-[24px] ${plan.bgClass} ${plan.borderClass} ${plan.isPopular ? 'border-4 border-[#339e4a]' : ''} p-4 sm:p-5 lg:p-6 flex flex-col gap-5 lg:gap-6 items-center justify-between shadow-sm w-full md:max-w-none mx-auto`}
           >
             {/* popular badge */}
             {plan.isPopular && (
-              <div className="absolute -top-[18px] left-1/2 -translate-x-1/2 bg-[#fea01f] flex gap-1 items-center px-4 py-1 rounded-[40px] text-white font-vietnam font-medium text-[14px]">
+              <div className="absolute -top-[16px] md:-top-[18px] left-1/2 -translate-x-1/2 bg-[#fea01f] flex gap-1 items-center px-4 py-1 rounded-[40px] text-white font-vietnam font-medium text-[12px] md:text-[14px] whitespace-nowrap">
                 <img
                   alt="Popular"
-                  className="w-5 h-5 object-contain"
+                  className="w-4 h-4 md:w-5 md:h-5 object-contain"
                   src="/assets/ac919f35d87a1eccc24123b31500eba2cfa34cee.svg"
                   loading="lazy"
                 />
@@ -99,12 +99,12 @@ export default function PricingSection() {
             )}
 
             {/* Header info */}
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col gap-2.5 lg:gap-3 items-center">
               {/* icon */}
-              <div className={`p-2 rounded-[100px] shrink-0 ${plan.iconBg}`}>
+              <div className={`p-1.5 lg:p-2 rounded-[100px] shrink-0 ${plan.iconBg}`}>
                 <img
                   alt=""
-                  className="w-6 h-6 object-contain"
+                  className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
                   src={plan.icon}
                   loading="lazy"
                 />
@@ -112,14 +112,14 @@ export default function PricingSection() {
 
               {/* name and price */}
               <div className="flex flex-col items-center">
-                <span className="font-vietnam font-bold text-[18px] text-black">
+                <span className="font-vietnam font-bold text-[16px] lg:text-[18px] text-black">
                   {plan.name}
                 </span>
-                <div className="flex gap-2 items-end">
-                  <span className={`font-baloo text-[48px] ${plan.textColor} leading-none font-bold`}>
+                <div className="flex gap-1 md:gap-1.5 items-end">
+                  <span className={`font-baloo text-[36px] md:text-[32px] lg:text-[40px] xl:text-[48px] ${plan.textColor} leading-none font-bold`}>
                     {plan.price}
                   </span>
-                  <span className={`font-baloo text-[16px] ${plan.textColor} mb-2`}>
+                  <span className={`font-baloo text-[13px] md:text-[12px] lg:text-[14px] xl:text-[16px] ${plan.textColor} mb-1 lg:mb-2`}>
                     {plan.period}
                   </span>
                 </div>
@@ -127,16 +127,16 @@ export default function PricingSection() {
             </div>
 
             {/* Features list */}
-            <div className="flex flex-col gap-3 w-full max-w-[240px] align-start">
+            <div className="flex flex-col gap-2.5 lg:gap-3 w-full max-w-[240px] align-start">
               {plan.features.map((feat, fIdx) => (
                 <div key={fIdx} className="flex gap-2 items-center w-full">
                   <img
                     alt="check"
-                    className="w-7 h-7 object-contain shrink-0"
+                    className="w-6 h-6 lg:w-7 lg:h-7 object-contain shrink-0"
                     src={plan.checkIcon}
                     loading="lazy"
                   />
-                  <span className="font-vietnam font-medium text-[16px] text-[#313235]">
+                  <span className="font-vietnam font-medium text-[14px] lg:text-[16px] text-[#313235] leading-snug">
                     {feat}
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export default function PricingSection() {
             </div>
 
             {/* CTA Button */}
-            <button className={`${plan.buttonBg} text-white font-baloo text-[20px] py-2 w-full rounded-[40px] transition-colors duration-150`}>
+            <button className={`${plan.buttonBg} text-white font-baloo text-[18px] lg:text-[20px] py-2 w-full rounded-[40px] transition-colors duration-150`}>
               {plan.btnText}
             </button>
           </div>

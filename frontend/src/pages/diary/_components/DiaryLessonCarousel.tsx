@@ -79,7 +79,7 @@ export default function DiaryLessonCarousel({
               <div
                 key={lesson.id}
                 onClick={() => onSelectLesson(lesson)}
-                className={`w-[220px] md:w-[240px] shrink-0 snap-start xl:flex-1 xl:w-auto xl:min-w-0 rounded-[16px] border-2 flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
+                className={`w-[220px] sm:w-[240px] lg:w-[260px] xl:flex-1 xl:w-auto xl:min-w-0 shrink-0 snap-start rounded-[16px] border-2 flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
                   isLocked ? 'cursor-not-allowed border-[#e2e2ea] bg-white' : 'cursor-pointer hover:shadow-md'
                 } ${isSelected ? 'bg-[#f4fafd] border-[#0a7ad8]' : 'bg-white border-[#e2e2ea]'}`}
               >

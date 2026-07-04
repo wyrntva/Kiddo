@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { EXPLORE_ISLANDS } from './exploreZoneMapData'
 
 const DESIGN_WIDTH = 1824
-const DESIGN_HEIGHT = 1026
-const MOBILE_SCALE = 0.75
-
+const DESIGN_HEIGHT = 840
+const DESKTOP_VISIBLE_HEIGHT = 840
 export default function useExploreZoneMap() {
   const [hoveredZoneIdx, setHoveredZoneIdx] = useState<number | null>(null)
   const [activeZoneIdx, setActiveZoneIdx] = useState(0)
@@ -13,20 +12,34 @@ export default function useExploreZoneMap() {
   const cardContainerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
   const [height, setHeight] = useState(DESIGN_HEIGHT)
+  const [mobileScale, setMobileScale] = useState(0.75)
 
   useEffect(() => {
     const update = () => {
-      if (!wrapperRef.current) return
+      if (wrapperRef.current) {
+        const width = wrapperRef.current.offsetWidth
+        const viewportTop = wrapperRef.current.getBoundingClientRect().top
+        const availableHeight = Math.max(window.innerHeight - viewportTop - 24, 320)
+        const widthScale = width / DESIGN_WIDTH
+        const heightScale = availableHeight / DESKTOP_VISIBLE_HEIGHT
+        const nextScale = Math.min(widthScale, heightScale)
+        const scaledHeight = DESKTOP_VISIBLE_HEIGHT * nextScale
 
-      const width = wrapperRef.current.offsetWidth
-      const widthScale = width / DESIGN_WIDTH
-      const proportionalHeight = DESIGN_HEIGHT * widthScale
+        wrapperRef.current.style.height = `${scaledHeight}px`
+        wrapperRef.current.style.maxHeight = `${scaledHeight}px`
 
-      wrapperRef.current.style.height = ''
-      wrapperRef.current.style.maxHeight = `${proportionalHeight}px`
+        setScale(nextScale)
+        setHeight(scaledHeight)
+      }
 
-      setScale(widthScale)
-      setHeight(wrapperRef.current.offsetHeight)
+      // Calculate dynamic mobile scale based on container width
+      const winWidth = window.innerWidth
+      const padding = winWidth < 768 ? 32 : 48
+      const containerWidth = winWidth < 768
+        ? winWidth - padding
+        : Math.min(winWidth - padding, 960) // Capped at new max-width 960px
+      const nextMobileScale = Math.max((containerWidth * 1.05) / DESIGN_HEIGHT, 0.75)
+      setMobileScale(nextMobileScale)
     }
 
     update()
@@ -58,8 +71,8 @@ export default function useExploreZoneMap() {
         return
       }
 
-      const centerX = (island.left + island.width / 2) * MOBILE_SCALE
-      const centerY = (island.top + island.height / 2) * MOBILE_SCALE
+      const centerX = (island.left + island.width / 2) * mobileScale
+      const centerY = (island.top + island.height / 2) * mobileScale
 
       container.scrollTo({
         left: centerX - viewportWidth / 2,
@@ -70,7 +83,7 @@ export default function useExploreZoneMap() {
 
     const timer = setTimeout(handleScroll, 300)
     return () => clearTimeout(timer)
-  }, [activeZoneIdx])
+  }, [activeZoneIdx, mobileScale])
 
   useEffect(() => {
     const cardContainer = cardContainerRef.current
@@ -97,6 +110,7 @@ export default function useExploreZoneMap() {
     height,
     designWidth: DESIGN_WIDTH,
     designHeight: DESIGN_HEIGHT,
-    mobileScale: MOBILE_SCALE,
+    desktopVisibleHeight: DESKTOP_VISIBLE_HEIGHT,
+    mobileScale,
   }
 }

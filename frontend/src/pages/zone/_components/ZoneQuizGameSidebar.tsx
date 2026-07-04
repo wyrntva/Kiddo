@@ -6,7 +6,7 @@ interface ZoneQuizGameSidebarProps {
 
 export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSidebarProps) {
   return (
-    <div className="w-[320px] h-full bg-white border border-[#c4c9d4] flex flex-col items-center justify-between pt-[24px] px-[24px] pb-[8px] rounded-[24px] shrink-0 gap-4">
+    <div className="w-full lg:w-[320px] bg-white border border-[#c4c9d4] flex flex-col items-center justify-between pt-[20px] px-[16px] sm:px-[20px] lg:px-[24px] pb-[12px] rounded-[24px] shrink-0 gap-4">
       <div className="flex flex-col gap-[24px] items-center w-full">
         <button
           onClick={onSpeakGuide}
@@ -52,15 +52,15 @@ export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSideba
             </span>
           </div>
           <div className="h-[25px] relative shrink-0 w-full">
-            <div className="absolute h-[20px] left-[161.3px] top-[1.8px] w-[23.7px]">
+            <div className="absolute h-[20px] left-1/2 top-[1.8px] w-[23.7px] -translate-x-1/2">
               <img src={zoneQuizAssets.tailBase} alt="" className="absolute inset-[-9%_-20%_-9%_-11%] block max-w-none size-full" />
             </div>
-            <div className="absolute h-[22px] left-[161px] top-0 w-[24px]">
+            <div className="absolute h-[22px] left-1/2 top-0 w-[24px] -translate-x-1/2">
               <img src={zoneQuizAssets.tailOutline} alt="" className="absolute block inset-0 max-w-none size-full" />
             </div>
           </div>
         </div>
-        <div className="h-[150px] relative shrink-0 w-[238px] overflow-hidden pointer-events-none">
+        <div className="hidden lg:block h-[150px] relative shrink-0 w-[238px] overflow-hidden pointer-events-none">
           <img src={zoneQuizAssets.wavingMascot} alt="" className="absolute h-[119%] left-[-8%] top-[0%] w-[116%] object-contain max-w-none" />
         </div>
       </div>

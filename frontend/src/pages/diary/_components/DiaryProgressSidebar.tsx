@@ -18,7 +18,7 @@ export default function DiaryProgressSidebar({
 }: DiaryProgressSidebarProps) {
   return (
     <div
-      className="relative overflow-hidden w-full flex flex-col h-[480px] sm:h-[590px] p-[16px] pr-0 sm:p-[24px] sm:pr-0"
+      className="relative overflow-hidden w-full flex flex-col h-[420px] sm:h-[520px] xl:h-[590px] p-[16px] pr-0 sm:p-[24px] sm:pr-0"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -73,7 +73,7 @@ export default function DiaryProgressSidebar({
               }}
             >
               <div className="flex items-center gap-[12px] w-full justify-between">
-                <div className="flex items-center gap-[12px]">
+                <div className="flex items-center gap-[12px] min-w-0">
                   <div className="relative shrink-0 size-[48px] overflow-hidden rounded-[12px]">
                     <img
                       src={island.image}
@@ -82,7 +82,7 @@ export default function DiaryProgressSidebar({
                       loading="lazy"
                     />
                   </div>
-                  <span className="font-vietnam font-bold text-[16px] leading-[24px] transition-colors duration-300" style={{ color: island.fillColor }}>
+                  <span className="font-vietnam font-bold text-[15px] sm:text-[16px] leading-[22px] sm:leading-[24px] transition-colors duration-300 break-words" style={{ color: island.fillColor }}>
                     {island.name}
                   </span>
                 </div>

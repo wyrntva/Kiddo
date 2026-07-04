@@ -2,8 +2,8 @@ import type { SkillZoneIsland } from './skillZoneData'
 
 export default function SkillZoneMobileSlide({ island }: { island: SkillZoneIsland }) {
   return (
-    <div className="w-full flex-shrink-0 flex flex-col items-center snap-center px-6 py-2">
-      <div className="w-full max-w-[260px] aspect-square flex items-center justify-center">
+    <div className="w-full flex-shrink-0 flex flex-col items-center snap-center px-4 sm:px-6 md:px-8 py-2">
+      <div className="w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] aspect-square flex items-center justify-center">
         <img
           src={island.islandImg}
           alt={`${island.nameLine1} ${island.nameLine2}`}
