@@ -13,6 +13,12 @@ enum Role {
   ADMIN
 }
 
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
 model User {
   id               String    @id @default(cuid())
   email            String    @unique
@@ -23,6 +29,10 @@ model User {
   role             Role      @default(CHILD)
   avatar           String?
   dateOfBirth      DateTime?
+  childAge         Int?
+  gender           Gender?
+  isPaid           Boolean   @default(false)
+  isActive         Boolean   @default(true)
 
   level            Int       @default(1)
   stars            Int       @default(0)
@@ -43,4 +53,82 @@ model RefreshToken {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model Zone {
+  id        String   @id @default(cuid())
+  name      String
+  desc      String
+  color     String
+  img       String
+  key       String   @unique // e.g. "emotion", "friendship", "communication", "independence", "situation"
+  lessons   Lesson[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lesson {
+  id            String         @id @default(cuid())
+  title         String
+  emoji         String
+  img           String         @default("")
+  level         String         @default("Cơ bản") // e.g. "Cơ bản", "Trung cấp"
+  duration      String         @default("20 phút")
+  stars         Int            @default(10)
+  stepsCount    Int            @default(5) // number of steps in this lesson
+  zoneId        String
+  zone          Zone           @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  quizQuestions QuizQuestion[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model QuizQuestion {
+  id              String   @id @default(cuid())
+  prompt          String
+  correctOptionId Int
+  options         Json     // Array of: { id: number, label: string, sprite: string, style: object }
+  lessonId        String
+  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String   @default("Tin tức")
+  date        String
+  author      String
+  image       String   @default("")
+  excerpt     String   @default("")
+  content     String[] @default([])
+  featured    Boolean  @default(false)
+  fanpage_image String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StoreSettings {
+  id                Int      @id @default(1)
+  name              String   @default("Kiddo")
+  phone             String?
+  currency          String   @default("VND")
+  address           String?
+  province          String?
+  district          String?
+  ward              String?
+  business_type     String?
+  tiktok_url        String?
+  facebook_url      String?
+  youtube_url       String?
+  phone_number      String?
+  gmail             String?
+  social_address    String?
+  banner_scoreboard String?  @default("[]")
+  banner_tournament String?  @default("[]")
+  banner_ranking    String?
+  banner_member     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

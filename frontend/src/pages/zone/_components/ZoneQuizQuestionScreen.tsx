@@ -6,13 +6,13 @@ interface ZoneQuizQuestionScreenProps {
   quiz: QuizQuestion
   quizLesson: QuizLessonData
   currentQuestionIndex: number
-  selectedOptionId: number | null
+  selectedOptionId: number | string | null
   isChecked: boolean
   isCorrect: boolean
   isSpeaking: boolean
   onBack: () => void
   onSpeakQuestion: () => void
-  onSelect: (optionId: number) => void
+  onSelect: (optionId: string | number) => void
 }
 
 export default function ZoneQuizQuestionScreen({

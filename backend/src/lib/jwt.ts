@@ -1,7 +1,15 @@
 import jwt from 'jsonwebtoken'
 
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET!
-const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!
+function requiredSecret(name: 'JWT_ACCESS_SECRET' | 'JWT_REFRESH_SECRET'): string {
+  const value = process.env[name]
+  if (!value || value.length < 32) {
+    throw new Error(`${name} must be configured with at least 32 characters`)
+  }
+  return value
+}
+
+const ACCESS_SECRET = requiredSecret('JWT_ACCESS_SECRET')
+const REFRESH_SECRET = requiredSecret('JWT_REFRESH_SECRET')
 const ACCESS_EXPIRES = process.env.JWT_ACCESS_EXPIRES_IN || '15m'
 const REFRESH_EXPIRES = process.env.JWT_REFRESH_EXPIRES_IN || '7d'
 

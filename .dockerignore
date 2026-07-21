@@ -1,0 +1,13 @@
+**/.git
+**/node_modules
+**/dist
+**/build
+**/.next
+**/.vscode
+**/.idea
+**/*.log
+**/*.mp4
+**/*.webm
+**/*.png
+**/*.jpg
+**/postgres_data

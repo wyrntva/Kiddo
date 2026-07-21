@@ -18,11 +18,11 @@ export default function useExploreZoneMap() {
     const update = () => {
       if (wrapperRef.current) {
         const width = wrapperRef.current.offsetWidth
-        const viewportTop = wrapperRef.current.getBoundingClientRect().top
-        const availableHeight = Math.max(window.innerHeight - viewportTop - 24, 320)
-        const widthScale = width / DESIGN_WIDTH
-        const heightScale = availableHeight / DESKTOP_VISIBLE_HEIGHT
-        const nextScale = Math.min(widthScale, heightScale)
+        // Keep the map tied to its container width. Limiting it by the remaining
+        // viewport height made the whole banner (including every island) shrink
+        // on laptops with a short screen or a non-default display scale.
+        // The page can scroll vertically, so height must not affect its scale.
+        const nextScale = width / DESIGN_WIDTH
         const scaledHeight = DESKTOP_VISIBLE_HEIGHT * nextScale
 
         wrapperRef.current.style.height = `${scaledHeight}px`
@@ -45,10 +45,13 @@ export default function useExploreZoneMap() {
     update()
     const timer = setTimeout(update, 50)
     window.addEventListener('resize', update)
+    const resizeObserver = new ResizeObserver(update)
+    if (wrapperRef.current) resizeObserver.observe(wrapperRef.current)
 
     return () => {
       clearTimeout(timer)
       window.removeEventListener('resize', update)
+      resizeObserver.disconnect()
     }
   }, [])
 

@@ -10,12 +10,12 @@ export default function HeroSection() {
 
   return (
     <section className="w-full">
-      <div className="relative w-full overflow-hidden rounded-[24px] shadow-lg border border-gray-100 bg-[#f4fafd] aspect-[1824/650] min-h-0">
+      <div className="relative isolate w-full overflow-hidden rounded-[16px] bg-[#bfeaff] shadow-[0_6px_18px_rgba(0,76,110,0.12)] aspect-[1824/650] md:rounded-[20px]">
         <div className="absolute inset-0 pointer-events-none select-none">
           <img
             src={imgBg}
             alt=""
-            className="absolute inset-0 w-full h-full object-contain object-center"
+            className="absolute inset-0 block h-full w-full object-cover object-center"
             {...({ fetchpriority: 'high' } as any)}
             loading="eager"
           />

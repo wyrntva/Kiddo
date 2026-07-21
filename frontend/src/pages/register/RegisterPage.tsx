@@ -18,6 +18,7 @@ export default function RegisterPage() {
     email: '',
     childName: '',
     childAge: '3',
+    gender: '',
     password: '',
     confirmPassword: '',
   })
@@ -32,13 +33,19 @@ export default function RegisterPage() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
 
+    const normalizedEmail = form.email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError('Vui lòng nhập đúng địa chỉ email')
+      return
+    }
+
     if (form.password !== form.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp')
       return
     }
 
-    if (form.password.length < 6) {
-      setError('Mật khẩu phải có ít nhất 6 ký tự')
+    if (form.password.length < 10) {
+      setError('Mật khẩu phải có ít nhất 10 ký tự')
       return
     }
 
@@ -49,9 +56,11 @@ export default function RegisterPage() {
       await register({
         name: form.childName,
         parentName: form.parentName || undefined,
-        email: form.email,
+        email: normalizedEmail,
         password: form.password,
         phone: form.phone || undefined,
+        gender: form.gender as 'MALE' | 'FEMALE' | 'OTHER',
+        childAge: Number(form.childAge),
         role: 'CHILD',
       })
       navigate('/home')
@@ -68,7 +77,7 @@ export default function RegisterPage() {
       subtitle="Bắt đầu hành trình học kỹ năng sống thú vị"
       cardTitle="Đăng ký"
       cardDescription={<p>Tạo tài khoản để bắt đầu hành trình cùng OTTOPIA</p>}
-      cardClassName="gap-5 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto"
+      cardClassName="gap-5 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10"
     >
       {error && (
         <div className="w-full bg-red-50 border border-red-200 rounded-[12px] px-4 py-3 text-red-600 text-sm font-vietnam">
@@ -86,7 +95,7 @@ export default function RegisterPage() {
         </AuthInput>
 
         <AuthInput icon={<EmailIcon />}>
-          <input name="email" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Email" type="email" value={form.email} onChange={handleChange} required />
+          <input name="email" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Email" type="email" inputMode="email" autoComplete="email" value={form.email} onChange={handleChange} required />
         </AuthInput>
 
         <AuthInput icon={<UserIcon />}>
@@ -101,6 +110,15 @@ export default function RegisterPage() {
           </select>
         </AuthInput>
 
+        <AuthInput icon={<UserIcon />}>
+          <select name="gender" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam cursor-pointer" value={form.gender} onChange={handleChange} required>
+            <option value="" disabled>Chọn giới tính</option>
+            <option value="MALE">Nam</option>
+            <option value="FEMALE">Nữ</option>
+            <option value="OTHER">Khác</option>
+          </select>
+        </AuthInput>
+
         <AuthInput
           icon={<LockIcon />}
           suffix={
@@ -109,7 +127,7 @@ export default function RegisterPage() {
             </button>
           }
         >
-          <input name="password" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Mật khẩu (tối thiểu 6 ký tự)" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} required />
+          <input name="password" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Mật khẩu (tối thiểu 10 ký tự)" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} minLength={10} maxLength={128} required />
         </AuthInput>
 
         <AuthInput

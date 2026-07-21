@@ -1,7 +1,8 @@
 export type ZoneLessonStatus = 'completed' | 'in-progress' | 'not-started'
 
 export interface ZoneLesson {
-  id: number
+  id: string | number
+  fallbackId?: number
   title: string
   description: string
   status: ZoneLessonStatus

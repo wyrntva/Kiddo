@@ -35,11 +35,17 @@ services:
       PORT: 5000
       NODE_ENV: development
       CLIENT_URL: http://localhost:5180
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GA4_PROPERTY_ID: ${GA4_PROPERTY_ID:-}
+      GA4_CLIENT_EMAIL: ${GA4_CLIENT_EMAIL:-}
+      GA4_PRIVATE_KEY: ${GA4_PRIVATE_KEY:-}
+      GA4_MOCK: ${GA4_MOCK:-true}
     ports:
       - "5000:5000"
     volumes:
       - ./backend/src:/app/src
       - ./backend/prisma:/app/prisma
+      - ./backend/uploads:/app/uploads
 
   frontend:
     build:
@@ -51,6 +57,7 @@ services:
       - backend
     environment:
       VITE_API_URL: http://localhost:5000
+      VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
     ports:
       - "5180:5180"
     volumes:
@@ -58,6 +65,25 @@ services:
       - ./frontend/public:/app/public
       - ./frontend/index.html:/app/index.html
       - ./frontend/vite.config.ts:/app/vite.config.ts:ro
+
+  cms:
+    build:
+      context: ./backend/cms
+      dockerfile: Dockerfile
+      target: development
+    container_name: kiddo_cms
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      BACKEND_API_URL: http://backend:5000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./backend/cms/src:/app/src
+      - ./backend/cms/public:/app/public
+      - ./backend/cms/index.html:/app/index.html
+      - ./backend/cms/vite.config.ts:/app/vite.config.ts:ro
 
 volumes:
   postgres_data:

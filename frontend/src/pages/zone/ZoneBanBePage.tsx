@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
 
-const lessons: ZoneLesson[] = [
+const fallbackLessons: ZoneLesson[] = [
   { id: 1, title: 'Biết cách chia sẻ', description: '- Trẻ học cách chia sẻ đồ chơi và đồ ăn với các bạn.', status: 'completed', stars: 5 },
   { id: 2, title: 'Lắng nghe bạn bè', description: '- Trẻ học cách lắng nghe và tôn trọng ý kiến của bạn.', status: 'in-progress', stars: 0 },
   { id: 3, title: 'Hợp tác nhóm', description: '- Trẻ học cách hợp tác và chơi chung vui vẻ với nhóm bạn.', status: 'not-started', stars: 0 },
@@ -27,6 +29,38 @@ const theme: ZoneTheme = {
 }
 
 export default function ZoneBanBePage() {
+  const navigate = useNavigate()
+  const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    const token = localStorage.getItem('accessToken')
+
+    fetch(`${API_URL}/api/zones`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        const currentZone = json.data?.find((z: any) => z.key === 'friendship')
+        if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
+          const dbLessons = currentZone.lessons.map((l: any, index: number) => ({
+            id: l.id,
+            fallbackId: (index % 5) + 1,
+            title: l.title,
+            description: `- Nhận quà tặng: ${l.stars} ⭐\n- Học thử: ${l.stepsCount} bước học\n- Thời gian học: ${l.duration}\n- Độ khó: ${l.level}`,
+            status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
+            stars: index === 0 ? 5 : 0,
+          }))
+          setLessons(dbLessons)
+        }
+      })
+      .catch(err => console.error('Lỗi khi tải bài học:', err))
+  }, [])
+
+  const completedCount = lessons.filter(l => l.status === 'completed').length
+
   return (
     <ZoneLandingPage
       backgroundImage="/assets/2404296262476703df2b4a673defe4ce7ede08d1.png"
@@ -35,9 +69,10 @@ export default function ZoneBanBePage() {
       title="Khu vườn bạn bè"
       subtitle="Cùng Toro học cách kết bạn và chia sẻ yêu thương nhé!"
       lessons={lessons}
-      completed={2}
-      total={5}
+      completed={completedCount}
+      total={lessons.length}
       theme={theme}
+      onLessonSelect={(lesson) => navigate(`/zone/emotions/lesson/${lesson.id}`)}
     />
   )
 }

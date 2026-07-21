@@ -11,15 +11,15 @@ const imgMessages   = "/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
 
 function ColHeading({ children }: { children: string }) {
   return (
-    <p className="font-baloo font-normal text-[18px] leading-[32px] text-[#004c6e] not-italic">
+    <p className="font-baloo font-bold text-[18px] leading-[32px] text-[#004c6e] not-italic uppercase">
       {children}
     </p>
   )
 }
 
-function FooterLink({ children }: { children: string }) {
+function FooterLink({ children, href = '#' }: { children: string; href?: string }) {
   return (
-    <a href="#" className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors">
+    <a href={href} className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors">
       {children}
     </a>
   )
@@ -85,24 +85,21 @@ export default function Footer() {
         </div>
 
         {/* Col 4 — Về Ottopia */}
-        <div className="flex flex-col gap-[16px] items-start">
+        <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>VỀ OTTOPIA</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Về chúng tôi</FooterLink>
             <FooterLink>Chính sách bảo mật</FooterLink>
-            <FooterLink>Quyền riêng tư của trẻ em</FooterLink>
-            <FooterLink>Điều khoản sử dụng</FooterLink>
+            <FooterLink href="/terms">Điều khoản sử dụng</FooterLink>
           </div>
         </div>
 
-        {/* Col 5 — Dành cho phụ huynh */}
+        {/* Col 5 — Kết nối */}
         <div className="flex flex-col gap-[24px] items-start">
-          <ColHeading>DÀNH CHO PHỤ HUYNH</ColHeading>
+          <ColHeading>KẾT NỐI</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Kiến thức nuôi dạy con</FooterLink>
-            <FooterLink>Hoạt động cùng bé</FooterLink>
-            <FooterLink>Gợi ý theo độ tuổi</FooterLink>
-            <FooterLink>Cộng đồng phụ huynh</FooterLink>
+            <FooterLink>Email: ottopia@gmail.com</FooterLink>
+            <FooterLink>Số điện thoại: 0987654321</FooterLink>
           </div>
         </div>
 

@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../../context/AuthContext'
 import AuthShell from '../auth/_components/AuthShell'
 import AuthInput from '../auth/_components/AuthInput'
-import { EyeToggleIcon, LockIcon, PhoneIcon } from '../auth/_components/authIcons'
+import { EmailIcon, EyeToggleIcon, LockIcon } from '../auth/_components/authIcons'
 
 export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, user, loading: authLoading } = useAuth()
+  const { login, loginWithGoogle, user, loading: authLoading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -20,14 +21,45 @@ export default function LoginPage() {
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault()
-    setLoading(true)
     setError('')
 
+    const normalizedEmail = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError('Vui lòng nhập đúng địa chỉ email')
+      return
+    }
+
+    setLoading(true)
+
     try {
-      await login(phone, password)
+      await login(normalizedEmail, password)
       navigate(redirectTo, { replace: true })
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Đăng nhập thất bại')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleLogin = async (credential?: string) => {
+    if (!credential) {
+      setError('Google không trả về thông tin đăng nhập')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    try {
+      const result = await loginWithGoogle(credential)
+      if (result.requiresProfile) {
+        sessionStorage.setItem('googleOnboardingCredential', credential)
+        sessionStorage.setItem('googleOnboardingRedirect', redirectTo)
+        navigate('/google-onboarding', { replace: true })
+      } else {
+        navigate(redirectTo, { replace: true })
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Đăng nhập Google thất bại')
     } finally {
       setLoading(false)
     }
@@ -54,14 +86,16 @@ export default function LoginPage() {
 
       <form onSubmit={handleLogin} className="flex flex-col gap-6 items-start w-full">
         <div className="flex flex-col gap-6 items-start w-full">
-          <AuthInput icon={<PhoneIcon />}>
+          <AuthInput icon={<EmailIcon />}>
             <input
               className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam font-normal placeholder-[#8690a7]"
-              placeholder="Số điện thoại"
-              type="text"
-              value={phone}
+              placeholder="Email"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              value={email}
               onChange={(event) => {
-                setPhone(event.target.value)
+                setEmail(event.target.value)
                 setError('')
               }}
               required
@@ -81,6 +115,7 @@ export default function LoginPage() {
                 className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam font-normal placeholder-[#8690a7]"
                 placeholder="Mật khẩu"
                 type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value)
@@ -108,6 +143,33 @@ export default function LoginPage() {
           >
             {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
+
+          <div className="flex items-center gap-3 w-full text-[#8690a7] text-[14px]">
+            <span className="h-px bg-[#b7bfd0] flex-1" />
+            <span>hoặc</span>
+            <span className="h-px bg-[#b7bfd0] flex-1" />
+          </div>
+
+          <div className="w-full flex justify-center min-h-[44px]">
+            {import.meta.env.VITE_GOOGLE_CLIENT_ID ? (
+              <GoogleLogin
+                onSuccess={(response) => void handleGoogleLogin(response.credential)}
+                onError={() => setError('Không thể kết nối đăng nhập Google')}
+                text="signin_with"
+                shape="pill"
+                size="large"
+                width="320"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setError('Chưa cấu hình VITE_GOOGLE_CLIENT_ID')}
+                className="w-full max-w-[320px] h-[44px] rounded-full border border-[#8690a7] bg-white font-medium text-[#313235]"
+              >
+                Đăng nhập với Google
+              </button>
+            )}
+          </div>
 
           <div className="flex gap-2 items-center justify-center shrink-0 w-full">
             <span className="font-vietnam text-[16px] text-[#8690a7] whitespace-nowrap">Chưa có tài khoản?</span>

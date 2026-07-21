@@ -5,13 +5,13 @@ import ZoneQuizGameScreen from './_components/ZoneQuizGameScreen'
 import ZoneQuizIntroScreen from './_components/ZoneQuizIntroScreen'
 import ZoneQuizQuestionScreen from './_components/ZoneQuizQuestionScreen'
 import ZoneQuizSuccessModal from './_components/ZoneQuizSuccessModal'
-import { quizDatabase, zoneQuizAssets } from './quizData'
+import { zoneQuizAssets } from './quizData'
 import useZoneQuiz from './useZoneQuiz'
 
 export default function ZoneQuizPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const initialLessonId = id ? parseInt(id, 10) : 1
+  const initialLessonId = id ? (isNaN(Number(id)) ? id : parseInt(id, 10)) : 1
   const {
     quiz,
     quizLesson,
@@ -38,24 +38,42 @@ export default function ZoneQuizPage() {
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
+    loading,
+    lessonsList,
+    backPath,
   } = useZoneQuiz(initialLessonId)
 
   useEffect(() => {
     if (id) {
-      setCurrentLessonId(parseInt(id, 10))
+      const parsedId = isNaN(Number(id)) ? id : parseInt(id, 10)
+      setCurrentLessonId(parsedId)
     }
   }, [id, setCurrentLessonId])
 
   const handleNextLesson = () => {
-    const nextLessonId = currentLessonId + 1
-
-    if (quizDatabase[nextLessonId]) {
-      setCurrentLessonId(nextLessonId)
-      navigate(`/zone/emotions/lesson/${nextLessonId}`)
+    const currentIndex = lessonsList.findIndex((l) => l.id === currentLessonId)
+    if (currentIndex !== -1 && currentIndex < lessonsList.length - 1) {
+      const nextLesson = lessonsList[currentIndex + 1]
+      setCurrentLessonId(nextLesson.id)
+      navigate(`/zone/emotions/lesson/${nextLesson.id}`)
       return
     }
 
-    navigate('/zone/emotions')
+    navigate(backPath)
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col justify-between bg-cover bg-center" style={{ backgroundImage: `url(${zoneQuizAssets.heroBg})` }}>
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4 bg-white/80 p-8 rounded-[32px] border-4 border-[#339E4A] shadow-xl backdrop-blur-sm">
+            <div className="w-12 h-12 border-4 border-[#339E4A] border-t-transparent rounded-full animate-spin" />
+            <p className="font-vietnam font-bold text-gray-700">Đang chuẩn bị câu hỏi...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -75,7 +93,7 @@ export default function ZoneQuizPage() {
             placedEmotions={placedEmotions}
             selectedEmotionId={selectedEmotionId}
             gameChecked={gameChecked}
-            onBack={() => navigate('/zone/emotions')}
+            onBack={() => navigate(backPath)}
             onCheckAnswers={handleCheckAnswers}
             onSpeakGuide={() => speakText(gameGuideText)}
             onSelectEmotion={setSelectedEmotionId}
@@ -97,7 +115,7 @@ export default function ZoneQuizPage() {
             isChecked={isChecked}
             isCorrect={isCorrect}
             isSpeaking={isSpeaking}
-            onBack={() => navigate('/zone/emotions')}
+            onBack={() => navigate(backPath)}
             onSpeakQuestion={() => speakText(quiz.prompt)}
             onSelect={handleSelect}
           />

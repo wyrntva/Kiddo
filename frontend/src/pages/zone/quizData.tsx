@@ -1,19 +1,19 @@
 export interface QuizOption {
-  id: number
+  id: string | number
   label: string
   sprite: string
   style: React.CSSProperties
 }
 
 export interface QuizQuestion {
-  id: number
+  id: string | number
   prompt: string
   options: QuizOption[]
-  correctOptionId: number
+  correctOptionId: string | number
 }
 
 export interface QuizLessonData {
-  lessonId: number
+  lessonId: string | number
   lessonTitle: string
   questions: QuizQuestion[]
 }

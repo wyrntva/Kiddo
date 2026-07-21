@@ -15,6 +15,8 @@ export interface AuthUser {
   id: string
   name: string
   email: string
+  gender?: 'MALE' | 'FEMALE' | 'OTHER'
+  childAge?: number
   role: string
   avatar?: string
   level: number
@@ -30,6 +32,8 @@ interface RegisterData {
   email: string
   password: string
   phone?: string
+  gender: 'MALE' | 'FEMALE' | 'OTHER'
+  childAge: number
   role?: 'CHILD' | 'PARENT'
 }
 
@@ -38,8 +42,18 @@ interface AuthContextType {
   accessToken: string | null
   loading: boolean
   login: (email: string, password: string) => Promise<void>
+  loginWithGoogle: (credential: string) => Promise<{ requiresProfile: boolean }>
+  completeGoogleRegistration: (credential: string, data: GoogleProfileData) => Promise<void>
   register: (data: RegisterData) => Promise<void>
   logout: () => Promise<void>
+}
+
+interface GoogleProfileData {
+  parentName: string
+  phone: string
+  name: string
+  childAge: number
+  gender: 'MALE' | 'FEMALE' | 'OTHER'
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -49,13 +63,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  function persistSession(nextAccessToken: string, nextRefreshToken: string | null, nextUser: AuthUser) {
+  function persistSession(nextAccessToken: string, nextUser: AuthUser) {
     setAccessToken(nextAccessToken)
     setUser(nextUser)
     localStorage.setItem('accessToken', nextAccessToken)
-    if (nextRefreshToken) {
-      localStorage.setItem('refreshToken', nextRefreshToken)
-    }
     localStorage.setItem('user', JSON.stringify(nextUser))
   }
 
@@ -70,7 +81,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function restoreSession() {
       const token = localStorage.getItem('accessToken')
-      const refreshToken = localStorage.getItem('refreshToken')
       const storedUser = localStorage.getItem('user')
 
       if (!storedUser) {
@@ -88,17 +98,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      if (!refreshToken) {
-        clearSession()
-        setLoading(false)
-        return
-      }
-
       try {
         const refreshResponse = await fetch(`${API_URL}/api/auth/refresh`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refreshToken }),
+          credentials: 'include',
         })
 
         const refreshData = await refreshResponse.json()
@@ -115,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const meData = await meResponse.json().catch(() => null)
         const nextUser = meResponse.ok && meData?.user ? (meData.user as AuthUser) : parsedUser
 
-        persistSession(refreshData.accessToken, refreshData.refreshToken, nextUser)
+        persistSession(refreshData.accessToken, nextUser)
       } catch {
         clearSession()
       } finally {
@@ -129,6 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function login(email: string, password: string) {
     const response = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     })
@@ -136,12 +141,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await response.json()
     if (!response.ok) throw new Error(data.message || 'Đăng nhập thất bại')
 
-    persistSession(data.accessToken, data.refreshToken, data.user)
+    persistSession(data.accessToken, data.user)
+  }
+
+  async function loginWithGoogle(credential: string) {
+    const response = await fetch(`${API_URL}/api/auth/google`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential }),
+    })
+
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Đăng nhập Google thất bại')
+
+    if (data.requiresProfile) return { requiresProfile: true }
+
+    persistSession(data.accessToken, data.user)
+    return { requiresProfile: false }
+  }
+
+  async function completeGoogleRegistration(credential: string, profileData: GoogleProfileData) {
+    const response = await fetch(`${API_URL}/api/auth/google/complete`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential, ...profileData }),
+    })
+
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Không thể hoàn tất đăng ký Google')
+
+    persistSession(data.accessToken, data.user)
   }
 
   async function register(registerData: RegisterData) {
     const response = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registerData),
     })
@@ -149,29 +186,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await response.json()
     if (!response.ok) throw new Error(data.message || 'Đăng ký thất bại')
 
-    persistSession(data.accessToken, data.refreshToken, data.user)
+    persistSession(data.accessToken, data.user)
   }
 
   async function logout() {
-    const refreshToken = localStorage.getItem('refreshToken')
-    const token = accessToken || localStorage.getItem('accessToken')
-
-    if (token) {
-      await fetch(`${API_URL}/api/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ refreshToken }),
-      }).catch(() => {})
-    }
+    await fetch(`${API_URL}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    }).catch(() => {})
 
     clearSession()
   }
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout }}>
       {children}
     </AuthContext.Provider>
   )

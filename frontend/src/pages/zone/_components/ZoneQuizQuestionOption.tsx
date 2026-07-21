@@ -5,7 +5,7 @@ interface ZoneQuizQuestionOptionProps {
   isSelected: boolean
   isChecked: boolean
   isCorrect: boolean
-  onSelect: (optionId: number) => void
+  onSelect: (optionId: string | number) => void
 }
 
 export default function ZoneQuizQuestionOption({

@@ -138,14 +138,11 @@ export default function ParentsArticlesSection() {
             onChange={e => setSearch(e.target.value)}
             className="flex-1 min-w-0 font-vietnam text-[16px] text-[#8690a7] outline-none bg-transparent placeholder:text-[#8690a7]"
           />
-          <svg className="shrink-0 size-[24px] text-[#8690a7]" viewBox="0 0 24 24" fill="none">
-            <path fillRule="evenodd" clipRule="evenodd" d="M16.875 15.4554L20.875 19.4602C21.0536 19.6589 21.0448 19.9631 20.855 20.1511L20.155 20.8519C20.0611 20.9467 19.9333 21 19.8 21C19.6667 21 19.5389 20.9467 19.445 20.8519L15.445 16.8471C15.3344 16.7362 15.234 16.6156 15.145 16.4867L14.395 15.4855C13.1541 16.4776 11.613 17.0178 10.025 17.0173C6.75261 17.0287 3.90902 14.7686 3.17773 11.5751C2.44643 8.38161 4.0226 5.10699 6.9731 3.68991C9.92359 2.27284 13.461 3.09151 15.491 5.66125C17.521 8.23099 17.5019 11.866 15.445 14.4142L16.445 15.105C16.6012 15.2051 16.7454 15.3226 16.875 15.4554ZM5.025 10.0089C5.025 12.7736 7.26357 15.0149 10.025 15.0149C11.3511 15.0149 12.6228 14.4875 13.5605 13.5487C14.4982 12.6099 15.025 11.3365 15.025 10.0089C15.025 7.24411 12.7864 5.00284 10.025 5.00284C7.26357 5.00284 5.025 7.24411 5.025 10.0089Z" fill="currentColor"/>
-          </svg>
         </div>
       </div>
 
       {/* Articles grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
         {filtered.map(article => (
           <ArticleCard key={article.id} article={article} />
         ))}

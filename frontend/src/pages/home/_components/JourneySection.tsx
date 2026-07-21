@@ -6,7 +6,6 @@ const imgStep2 = "/assets/c4c145bdc92e82b499f0d001cecefebd8aafba1a.webp";
 const imgStep3 = "/assets/7560c65991fbb16b6ca4f3a6b08308cb3ccb7f27.webp";
 const imgStep4 = "/assets/495e9096e9f0604fa22b069fe71439a9f48058af.webp";
 const imgIconBookOpen = "/assets/51b5c0f4bc021efcf8e7d4d1e261510ef9e0740d.svg";
-const imgArrowRight = "/assets/d80f752fefa7907f9ee7fe2b8b35ccb522b28767.svg";
 const imgIconCircleRightFilled = "/assets/307df52bf95db3f8214fe9c0404892bc2b4f690d.svg";
 
 const steps = [
@@ -120,12 +119,9 @@ export default function JourneySection() {
                 {/* Arrow separator */}
                 {idx < steps.length - 1 && (
                   <div className="hidden xl:flex h-[138px] items-center justify-center shrink-0 w-[40px]">
-                    <img
-                      alt="Next"
-                      className="block max-w-none size-10"
-                      src={imgArrowRight}
-                      loading="lazy"
-                    />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" className="block max-w-none size-10">
+                      <path d="M22.4495 14.2173C21.9613 13.7291 21.9613 12.9376 22.4495 12.4495C22.9376 11.9613 23.7291 11.9613 24.2172 12.4495L30.8839 19.1162C31.372 19.6043 31.372 20.3958 30.8839 20.8839L24.2172 27.5506C23.7291 28.0387 22.9376 28.0387 22.4495 27.5506C21.9613 27.0624 21.9613 26.271 22.4495 25.7828L26.9822 21.25H10.8333C10.143 21.25 9.58334 20.6904 9.58334 20C9.58334 19.3097 10.143 18.75 10.8333 18.75H26.9822L22.4495 14.2173Z" fill="#004C6E"/>
+                    </svg>
                   </div>
                 )}
               </Fragment>

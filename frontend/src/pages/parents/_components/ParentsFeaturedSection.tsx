@@ -36,9 +36,9 @@ const FEATURED_ARTICLES: FeaturedArticle[] = [
 
 function FeaturedCard({ article }: { article: FeaturedArticle }) {
   return (
-    <div className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+    <div className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col lg:flex-row flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
       {/* Image side */}
-      <div className="relative flex-1 min-w-0 min-h-[200px] sm:min-h-[240px]">
+      <div className="relative w-full h-[200px] sm:h-[240px] lg:w-[45%] lg:h-auto shrink-0">
         <img
           alt={article.title}
           src={article.image}
@@ -56,7 +56,7 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
       </div>
 
       {/* Content side */}
-      <div className="flex flex-col gap-4 items-start p-4 flex-1 min-w-0">
+      <div className="flex flex-col gap-4 items-start p-5 lg:p-6 flex-1 min-w-0">
         {/* Tag */}
         <div className="bg-[#e5f2ff] border border-[#0a7ad8] flex items-center px-2 py-1 rounded-[8px] shrink-0">
           <span className="font-vietnam text-[14px] text-[#0a7ad8] tracking-[0.28px] whitespace-nowrap">{article.tag}</span>

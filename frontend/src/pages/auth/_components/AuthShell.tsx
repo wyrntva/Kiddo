@@ -26,18 +26,18 @@ export default function AuthShell({
 
   return (
     <div className="relative min-h-screen w-full flex flex-col justify-between bg-white font-vietnam select-none overflow-x-hidden">
-      <div aria-hidden className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-white">
+      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-white">
         <div className="hidden lg:block absolute inset-0">
           <img
             alt=""
-            className="absolute h-[162.9%] left-[-61.41%] max-w-none top-[-16.44%] w-[163.54%]"
+            className="absolute h-[162.9%] left-[-61.41%] max-w-none top-[-16.44%] w-[163.54%] -translate-y-[200px]"
             src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
         <div className="lg:hidden absolute inset-0">
           <img
             alt=""
-            className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] opacity-80"
+            className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] -translate-y-[200px] opacity-80"
             src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>

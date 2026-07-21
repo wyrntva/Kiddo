@@ -9,8 +9,10 @@ const HomePage      = lazy(() => import('./pages/home/HomePage'))
 const CoursesPage   = lazy(() => import('./pages/courses/CoursesPage'))
 const LoginPage     = lazy(() => import('./pages/login/LoginPage'))
 const RegisterPage  = lazy(() => import('./pages/register/RegisterPage'))
+const GoogleOnboardingPage = lazy(() => import('./pages/auth/GoogleOnboardingPage'))
 const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
+const TermsPage     = lazy(() => import('./pages/terms/TermsPage'))
 const ZoneCamXucPage = lazy(() => import('./pages/zone/ZoneCamXucPage'))
 const ZoneGiaoTiepPage = lazy(() => import('./pages/zone/ZoneGiaoTiepPage'))
 const ZoneTuLapPage = lazy(() => import('./pages/zone/ZoneTuLapPage'))
@@ -55,8 +57,10 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/login"   element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/google-onboarding" element={<GoogleOnboardingPage />} />
             <Route path="/diary"   element={<ProtectedRoute><DiaryPage /></ProtectedRoute>} />
             <Route path="/parents" element={<ParentsPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="/zone/cam-xuc" element={<Navigate to="/zone/emotions" replace />} />
             <Route path="/zone/cam-xuc/lesson/:id" element={<LegacyEmotionLessonRedirect />} />
             <Route path="/zone/giao-tiep" element={<Navigate to="/zone/communication" replace />} />

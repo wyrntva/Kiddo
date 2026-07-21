@@ -8,10 +8,10 @@ const GAME_GUIDE_TEXT =
 const GAME_RETRY_TEXT =
   'Có câu trả lời chưa đúng rồi, bé hãy kiểm tra và thử lại nhé!'
 
-export default function useZoneQuiz(initialLessonId: number) {
+export default function useZoneQuiz(initialLessonId: string | number) {
   const [currentLessonId, setCurrentLessonId] = useState(initialLessonId)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null)
+  const [selectedOptionId, setSelectedOptionId] = useState<string | number | null>(null)
   const [isChecked, setIsChecked] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -24,8 +24,113 @@ export default function useZoneQuiz(initialLessonId: number) {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const navigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const quizLesson = quizDatabase[currentLessonId] || quizDatabase[1]
-  const quiz = quizLesson.questions[currentQuestionIndex] || quizLesson.questions[0]
+  // API states
+  const [questions, setQuestions] = useState<any[]>([])
+  const [lessonTitle, setLessonTitle] = useState('')
+  const [zoneKey, setZoneKey] = useState('emotion')
+  const [lessonsList, setLessonsList] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const ZONE_PATHS: Record<string, string> = {
+    emotion: '/zone/emotions',
+    friendship: '/zone/friends',
+    communication: '/zone/communication',
+    independence: '/zone/independence',
+    situation: '/zone/situations',
+  }
+
+  const backPath = ZONE_PATHS[zoneKey] || '/zone/emotions'
+
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      setLoading(true)
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const token = localStorage.getItem('accessToken')
+
+      try {
+        // 1. Fetch lesson metadata
+        const lessonRes = await fetch(`${API_URL}/api/lessons/${currentLessonId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        if (!lessonRes.ok) throw new Error('Failed to fetch lesson')
+        const lessonData = await lessonRes.json()
+        const title = lessonData?.title || ''
+        const key = lessonData?.zone?.key || 'emotion'
+        setLessonTitle(title)
+        setZoneKey(key)
+
+        // 2. Fetch all lessons in this zone to determine next lesson
+        if (lessonData?.zoneId) {
+          const zonesRes = await fetch(`${API_URL}/api/zones`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          })
+          if (zonesRes.ok) {
+            const zonesJson = await zonesRes.json()
+            const currentZone = zonesJson.data?.find((z: any) => z.id === lessonData.zoneId)
+            if (currentZone && Array.isArray(currentZone.lessons)) {
+              setLessonsList(currentZone.lessons)
+            }
+          }
+        }
+
+        // 3. Fetch quiz questions
+        const quizRes = await fetch(`${API_URL}/api/lessons/${currentLessonId}/quiz`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        const quizJson = await quizRes.json()
+        const quizQuestions = quizJson?.data || []
+
+        if (quizQuestions.length > 0) {
+          const formattedQuestions = quizQuestions.map((q: any) => ({
+            ...q,
+            options: q.options.map((opt: any) => ({
+              ...opt,
+              sprite: opt.sprite?.startsWith('/uploads/') ? `${API_URL}${opt.sprite}` : opt.sprite
+            }))
+          }))
+          setQuestions(formattedQuestions)
+        } else {
+          // Fallback by title comparison
+          const staticQuiz = Object.values(quizDatabase).find(
+            (q) => q.lessonTitle.toLowerCase() === title.toLowerCase()
+          )
+          if (staticQuiz) {
+            setQuestions(staticQuiz.questions)
+          } else {
+            const numericId = typeof currentLessonId === 'number' ? currentLessonId : parseInt(currentLessonId, 10)
+            const fallbackQuiz = quizDatabase[numericId] || quizDatabase[1]
+            setQuestions(fallbackQuiz.questions)
+          }
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải câu hỏi:', err)
+        // Fallback to static quiz
+        const numericId = typeof currentLessonId === 'number' ? currentLessonId : parseInt(currentLessonId, 10)
+        const fallbackQuiz = quizDatabase[numericId] || quizDatabase[1]
+        setQuestions(fallbackQuiz.questions)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (currentLessonId) {
+      fetchQuizData()
+    }
+  }, [currentLessonId])
+
+  const quizLesson = {
+    lessonId: currentLessonId,
+    lessonTitle: lessonTitle || 'Bài học',
+    questions: questions,
+  }
+
+  const quiz = questions[currentQuestionIndex] || {
+    id: 1,
+    prompt: 'Đang tải câu hỏi...',
+    options: [],
+    correctOptionId: 1
+  }
+
   const allPlaced = gameCards.every((card) => Boolean(placedEmotions[card.id]))
 
   const speakText = (text: string) => {
@@ -102,7 +207,7 @@ export default function useZoneQuiz(initialLessonId: number) {
     }
   }, [])
 
-  const handleSelect = (optionId: number) => {
+  const handleSelect = (optionId: string | number) => {
     if (isChecked) return
 
     setSelectedOptionId(optionId)
@@ -110,7 +215,7 @@ export default function useZoneQuiz(initialLessonId: number) {
     setIsChecked(true)
 
     navigateTimeoutRef.current = setTimeout(() => {
-      if (currentQuestionIndex < quizLesson.questions.length - 1) {
+      if (currentQuestionIndex < questions.length - 1) {
         resetQuestionState()
         setCurrentQuestionIndex((value) => value + 1)
       } else {
@@ -205,5 +310,8 @@ export default function useZoneQuiz(initialLessonId: number) {
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
+    loading,
+    lessonsList,
+    backPath,
   }
 }
