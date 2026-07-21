@@ -74,8 +74,9 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 
 // POST /api/users - Create a new admin account
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-  const { full_name, phone, email, password, is_active } = req.body
-  if (!full_name || !phone || !email || !password) {
+  const { full_name, phone, username, email, password, is_active } = req.body
+  const activePhone = phone || username
+  if (!full_name || !activePhone || !email || !password) {
     res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin' })
     return
   }
@@ -84,7 +85,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const existing = await prisma.user.findFirst({
       where: {
         OR: [
-          { phone },
+          { phone: activePhone },
           { email }
         ]
       }
@@ -98,7 +99,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const user = await prisma.user.create({
       data: {
         name: full_name,
-        phone,
+        phone: activePhone,
         email,
         password: hashedPassword,
         role: 'ADMIN',
@@ -155,13 +156,14 @@ router.post('/promote-from-customer', async (req: Request, res: Response): Promi
 
 // PATCH /api/users/:id - Update user details
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
-  const { full_name, email, phone, password, role_id, is_active } = req.body
+  const { full_name, email, phone, username, password, role_id, is_active } = req.body
+  const activePhone = phone !== undefined ? phone : username
 
   try {
     const updateData: any = {}
     if (full_name !== undefined) updateData.name = full_name
     if (email !== undefined) updateData.email = email
-    if (phone !== undefined) updateData.phone = phone
+    if (activePhone !== undefined) updateData.phone = activePhone
     if (is_active !== undefined) updateData.isActive = is_active
     if (password && password.trim() !== '') {
       updateData.password = await bcrypt.hash(password, 12)
