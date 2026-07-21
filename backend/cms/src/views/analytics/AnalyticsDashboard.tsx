@@ -272,11 +272,11 @@ const AnalyticsDashboard = () => {
                   value={fmtDur(data.ga4.summary.avg_session_duration)} />
               </div>
 
-              {data.ga4.top_pages.length > 0 && (
-                <div className="bg-white dark:bg-darkgray rounded-xl shadow-md dark:shadow-dark-md overflow-hidden">
-                  <div className="px-5 py-4 border-b border-gray-100">
-                    <h3 className="text-sm font-semibold text-dark">Top 10 trang phổ biến nhất</h3>
-                  </div>
+              <div className="bg-white dark:bg-darkgray rounded-xl shadow-md dark:shadow-dark-md overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100">
+                  <h3 className="text-sm font-semibold text-dark">Top 10 trang phổ biến nhất</h3>
+                </div>
+                {data.ga4.top_pages.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-gray-50 text-xs text-gray-500 uppercase">
@@ -304,8 +304,10 @@ const AnalyticsDashboard = () => {
                       </tbody>
                     </table>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <p className="px-5 py-8 text-center text-sm text-gray-400">Chưa có dữ liệu truy cập trang</p>
+                )}
+              </div>
 
               {/* Nguồn truy cập + Thiết bị + Quốc gia */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
