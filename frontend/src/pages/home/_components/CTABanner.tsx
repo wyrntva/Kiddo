@@ -28,7 +28,7 @@ export default function CTABanner() {
                 alt=""
                 className="absolute h-[278.45%] left-[-2.24%] max-w-none top-0 w-[104.49%]"
                 src={imgGiftBoxTop}
-                loading="lazy"
+                loading="lazy" decoding="async"
               />
             </div>
             <div className="absolute h-[245px] left-0 top-0 w-[36px] overflow-hidden pointer-events-none">
@@ -36,7 +36,7 @@ export default function CTABanner() {
                 alt=""
                 className="absolute h-[102.29%] left-[-15.59%] max-w-none top-0 w-[725.62%]"
                 src={imgGiftBoxTop}
-                loading="lazy"
+                loading="lazy" decoding="async"
               />
             </div>
             <div className="absolute h-[176px] left-0 top-[74px] w-[250px] overflow-hidden pointer-events-none">
@@ -44,7 +44,7 @@ export default function CTABanner() {
                 alt=""
                 className="absolute h-[142.05%] left-[-10.42%] max-w-none top-[-42.05%] w-[104.46%]"
                 src={imgGiftBoxBottom}
-                loading="lazy"
+                loading="lazy" decoding="async"
               />
             </div>
           </div>
@@ -68,7 +68,7 @@ export default function CTABanner() {
                 Tạo tài khoản miễn phí
               </span>
               <div className="relative shrink-0 size-[24px] flex items-center justify-center group-hover:scale-105 transition-transform">
-                <img alt="Plus icon" className="size-6 block max-w-none" src={imgIconCirclePlus} loading="lazy" />
+                <img alt="Plus icon" className="size-6 block max-w-none" src={imgIconCirclePlus} loading="lazy" decoding="async" />
               </div>
             </button>
           </div>

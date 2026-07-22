@@ -37,7 +37,7 @@ function FeedbackColumn({
         {items.map((item, idx) => (
           <li key={idx} className="flex gap-2 items-start">
             <span className="shrink-0 w-6 h-6 mt-0.5">
-              <img src={bulletIcon} alt="Check" className="w-full h-full" loading="lazy" />
+              <img src={bulletIcon} alt="Check" className="w-full h-full" loading="lazy" decoding="async" />
             </span>
             <span className="font-vietnam text-[16px] font-medium leading-[24px] text-[#313235]">{item}</span>
           </li>
@@ -52,14 +52,14 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
     <div className="relative rounded-[24px] w-full h-auto p-[16px] sm:p-[24px] lg:p-[32px] xl:p-[40px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
       <div className="absolute inset-0 pointer-events-none rounded-[24px] z-0">
         <div className="absolute bg-white inset-0 rounded-[24px]" />
-        <img alt="Sky Background" className="absolute max-w-none object-cover rounded-[24px] w-full h-full" loading="lazy" src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.png" />
+        <img width="1457" height="720" alt="Sky Background" className="absolute max-w-none object-cover rounded-[24px] w-full h-full" loading="lazy" decoding="async" src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.webp" />
       </div>
 
       <div className="flex justify-between items-center relative z-10 w-full pb-2 pr-0 xl:pr-[280px]">
         <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start text-center sm:text-left">
           <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] xl:w-[120px] xl:h-[120px] shrink-0 relative overflow-visible">
             <div className="absolute inset-[0_9.35%]">
-              <img src="/assets/e07e743fd476475cd05aedf502e19c4792f1a76e.svg" alt="Medal" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+              <img width="98" height="120" src="/assets/e07e743fd476475cd05aedf502e19c4792f1a76e.svg" alt="Medal" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -73,10 +73,10 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
       </div>
 
       <div className="absolute right-[24px] xl:right-[48px] top-[24px] w-[200px] xl:w-[280px] h-[150px] xl:h-[200px] pointer-events-none z-10 hidden lg:block">
-        <img
-          src="/assets/63994d049c46d89ab6ace318a3f3b1fb39d17839.png"
+        <img width="1920" height="1080"
+          src="/assets/63994d049c46d89ab6ace318a3f3b1fb39d17839.webp"
           alt="Mascot Otter holding Trophy"
-          loading="lazy"
+          loading="lazy" decoding="async"
           className="absolute h-[154.71%] left-[-48.13%] max-w-none top-[-9.52%] w-[196.55%] object-contain"
         />
       </div>
@@ -89,7 +89,7 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
           borderColor="#9de4af"
           iconBorderColor="#9de4af"
           iconBgColor="#339e4a"
-          icon={<img src="/assets/781765e07dba9b19c7235eef3c818a8faf26e891.svg" alt="Star" className="w-6 h-6" loading="lazy" />}
+          icon={<img width="21" height="21" src="/assets/781765e07dba9b19c7235eef3c818a8faf26e891.svg" alt="Star" className="w-6 h-6" loading="lazy" decoding="async" />}
           bulletIcon="/assets/0b40b5852870bd86ba33ba6078e2bd0b4b0b6bad.svg"
           items={lesson.feedback.strengths}
         />
@@ -100,7 +100,7 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
           borderColor="#ffdc64"
           iconBorderColor="#ffdc64"
           iconBgColor="#fea01f"
-          icon={<img src="/assets/a7de906b07dd2bfbe826ef5f3ae618e76bfa3ef3.svg" alt="Practice" className="w-6 h-6" loading="lazy" />}
+          icon={<img width="20" height="18" src="/assets/a7de906b07dd2bfbe826ef5f3ae618e76bfa3ef3.svg" alt="Practice" className="w-6 h-6" loading="lazy" decoding="async" />}
           bulletIcon="/assets/5ff06334161ed0621fed80bef95568a1a034d49f.svg"
           items={lesson.feedback.practice}
         />

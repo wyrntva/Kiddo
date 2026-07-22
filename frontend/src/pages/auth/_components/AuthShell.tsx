@@ -28,14 +28,14 @@ export default function AuthShell({
     <div className="relative min-h-screen w-full flex flex-col justify-between bg-white font-vietnam select-none overflow-x-hidden">
       <div aria-hidden className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-white">
         <div className="hidden lg:block absolute inset-0">
-          <img
+          <img width="1920" height="1080"
             alt=""
             className="absolute h-[162.9%] left-[-61.41%] max-w-none top-[-16.44%] w-[163.54%] -translate-y-[200px]"
             src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
           />
         </div>
         <div className="lg:hidden absolute inset-0">
-          <img
+          <img width="1920" height="1080"
             alt=""
             className="absolute h-[175%] w-auto max-w-none top-[-37.5%] left-[50%] -translate-x-[68%] -translate-y-[200px] opacity-80"
             src="/assets/121f63ceef1e389d2946ff30bafb9c25e7246752.webp"
@@ -45,7 +45,7 @@ export default function AuthShell({
 
       <div className="z-10 shrink-0 flex flex-col items-center w-full px-4 sm:px-6 pt-6 md:pt-8 lg:pt-8 lg:h-8">
         <div className="lg:hidden flex flex-col items-center gap-2 text-center">
-          <img src="/assets/logo_ottopia.webp" alt="OTTOPIA" className="h-16 w-auto object-contain animate-float" />
+          <img width="692" height="319" src="/assets/logo_ottopia.webp" alt="OTTOPIA" className="h-16 w-auto object-contain animate-float" />
           <p className="font-vietnam text-[14px] font-bold text-[#575e70] max-w-[280px]">
             Cùng bé học hỏi, trưởng thành và khám phá mỗi ngày
           </p>

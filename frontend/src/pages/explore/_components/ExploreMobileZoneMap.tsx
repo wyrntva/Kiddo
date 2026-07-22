@@ -4,7 +4,7 @@ import ExploreZoneIslandsLayer from './ExploreZoneIslandsLayer'
 import ExploreZoneMapHeader from './ExploreZoneMapHeader'
 import { EXPLORE_ZONES } from './exploreZoneMapData'
 
-const imgBg = '/assets/khampha-display.png'
+const imgBg = '/assets/khampha-display.webp'
 
 interface ExploreMobileZoneMapProps {
   activeZoneIdx: number
@@ -46,7 +46,7 @@ export default function ExploreMobileZoneMap({
               className="absolute overflow-hidden"
               style={{ width: designWidth, height: designHeight, transform: `scale(${mobileScale})`, transformOrigin: 'top left' }}
             >
-              <img src={imgBg} alt="" className="absolute left-0 top-0 w-full h-full object-cover pointer-events-none select-none" loading="lazy" />
+              <img src={imgBg} alt="" className="absolute left-0 top-0 w-full h-full object-cover pointer-events-none select-none" loading="lazy" decoding="async" />
               <ExploreCloudLayer />
               <ExploreZoneIslandsLayer
                 mobile

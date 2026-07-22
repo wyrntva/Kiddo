@@ -10,7 +10,7 @@ export const friendshipIsland: DiaryIsland = {
   textColor: 'text-[#E83552]',
   fillColor: '#E83552',
   caretIcon: '/assets/d2a5480bd7290e1918a69d355d9003da4d4a24fd.svg',
-  image: '/assets/khu_vuon_ban_be_island.png',
+  image: '/assets/khu_vuon_ban_be_island.webp',
   skills: [
     { label: 'Biết cách chia sẻ', color: '#E83552', progress: 80, spriteOffset: '-3.85%' },
     { label: 'Lắng nghe bạn bè', color: '#FEA01F', progress: 80, spriteOffset: '-131.84%' },

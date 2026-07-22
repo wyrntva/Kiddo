@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 export const PAGE_ROUTES = {
-  home: '/home',
+  home: '/',
   explore: '/explore',
   courses: '/courses',
   diary: '/diary',

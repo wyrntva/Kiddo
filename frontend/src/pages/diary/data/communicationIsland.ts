@@ -10,7 +10,7 @@ export const communicationIsland: DiaryIsland = {
   textColor: 'text-[#0A7AD8]',
   fillColor: '#0A7AD8',
   caretIcon: '/assets/79c3e72202752af311f2a7c4b05755536c38fb62.svg',
-  image: '/assets/thanh_pho_giao_tiep_island.png',
+  image: '/assets/thanh_pho_giao_tiep_island.webp',
   skills: [
     { label: 'Con biết chào hỏi', color: '#0A7AD8', progress: 80, spriteOffset: '-3.85%' },
     { label: 'Con nói lời cảm ơn', color: '#FEA01F', progress: 80, spriteOffset: '-131.84%' },

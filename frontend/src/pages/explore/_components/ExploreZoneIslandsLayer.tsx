@@ -82,7 +82,7 @@ export default function ExploreZoneIslandsLayer({
                 {zone.name.replace('\n', ' ')}
               </div>
             )}
-            <img src={island.img} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', position: 'relative', zIndex: 2 }} />
+            <img src={island.img} alt="" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', position: 'relative', zIndex: 2 }} />
           </div>
         )
       })}

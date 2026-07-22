@@ -88,11 +88,11 @@ export default function PricingSection() {
             {/* popular badge */}
             {plan.isPopular && (
               <div className="absolute -top-[16px] md:-top-[18px] left-1/2 -translate-x-1/2 bg-[#fea01f] flex gap-1 items-center px-4 py-1 rounded-[40px] text-white font-vietnam font-medium text-[12px] md:text-[14px] whitespace-nowrap">
-                <img
+                <img width="14" height="19"
                   alt="Popular"
                   className="w-4 h-4 md:w-5 md:h-5 object-contain"
                   src="/assets/ac919f35d87a1eccc24123b31500eba2cfa34cee.svg"
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
                 <span>Phổ biến nhất</span>
               </div>
@@ -106,7 +106,7 @@ export default function PricingSection() {
                   alt=""
                   className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
                   src={plan.icon}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
               </div>
 
@@ -134,7 +134,7 @@ export default function PricingSection() {
                     alt="check"
                     className="w-6 h-6 lg:w-7 lg:h-7 object-contain shrink-0"
                     src={plan.checkIcon}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                   <span className="font-vietnam font-medium text-[14px] lg:text-[16px] text-[#313235] leading-snug">
                     {feat}

@@ -33,7 +33,7 @@ export default function DiaryProgressSidebar({
     >
       <div className="flex items-center gap-[12px] w-full pr-[16px] sm:pr-[24px]">
         <div className="bg-[#f2f0fe] p-[8px] rounded-full shrink-0 size-[40px] flex items-center justify-center">
-          <img src="/assets/3bab622495f2214e9c9d7da863feb777684907f2.svg" alt="Status Up" className="block size-[24px] object-contain" loading="lazy" />
+          <img width="24" height="24" src="/assets/3bab622495f2214e9c9d7da863feb777684907f2.svg" alt="Status Up" className="block size-[24px] object-contain" loading="lazy" decoding="async" />
         </div>
         <h3 className="font-vietnam text-[20px] sm:text-[24px] font-bold text-[#37393e] leading-snug sm:leading-[32px]">Tiến độ kỹ năng</h3>
       </div>
@@ -79,7 +79,7 @@ export default function DiaryProgressSidebar({
                       src={island.image}
                       alt={island.name}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                      loading="lazy"
+                      loading="lazy" decoding="async"
                     />
                   </div>
                   <span className="font-vietnam font-bold text-[15px] sm:text-[16px] leading-[22px] sm:leading-[24px] transition-colors duration-300 break-words" style={{ color: island.fillColor }}>
@@ -108,8 +108,8 @@ export default function DiaryProgressSidebar({
                   {island.skills.map((skill) => (
                     <div key={skill.label} className="flex items-center gap-[24px] w-full">
                       <div className="overflow-clip relative shrink-0 size-[48px]">
-                        <img
-                          src="/assets/71a60f62f566a1e60279961c156dc98659392a01.png"
+                        <img width="228" height="1024"
+                          src="/assets/71a60f62f566a1e60279961c156dc98659392a01.webp"
                           alt={skill.label}
                           className="absolute max-w-none"
                           style={{
@@ -118,7 +118,7 @@ export default function DiaryProgressSidebar({
                             left: '-8.31%',
                             top: skill.spriteOffset,
                           }}
-                          loading="lazy"
+                          loading="lazy" decoding="async"
                         />
                       </div>
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import SEO from '../../components/common/SEO'
 import AuthInput from './_components/AuthInput'
 import AuthShell from './_components/AuthShell'
 import { ChildAgeIcon, PhoneIcon, UserIcon } from './_components/authIcons'
@@ -19,7 +20,7 @@ export default function GoogleOnboardingPage() {
     gender: '',
   })
 
-  if (!authLoading && user) return <Navigate to="/home" replace />
+  if (!authLoading && user) return <Navigate to="/" replace />
   if (!credential) return <Navigate to="/login" replace />
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -44,7 +45,7 @@ export default function GoogleOnboardingPage() {
         childAge: Number(form.childAge),
         gender: form.gender as 'MALE' | 'FEMALE' | 'OTHER',
       })
-      const redirectTo = sessionStorage.getItem('googleOnboardingRedirect') || '/home'
+      const redirectTo = sessionStorage.getItem('googleOnboardingRedirect') || '/'
       sessionStorage.removeItem('googleOnboardingCredential')
       sessionStorage.removeItem('googleOnboardingRedirect')
       navigate(redirectTo, { replace: true })
@@ -56,8 +57,10 @@ export default function GoogleOnboardingPage() {
   }
 
   return (
-    <AuthShell
-      title="Chào mừng đến với OTTOPIA!"
+    <>
+      <SEO title="Hoàn tất thông tin đăng ký" noindex={true} />
+      <AuthShell
+        title="Chào mừng đến với OTTOPIA!"
       subtitle="Chỉ còn một bước để bắt đầu hành trình cùng bé"
       cardTitle="Hoàn tất thông tin"
       cardDescription={<p>Vui lòng bổ sung thông tin của bé và phụ huynh</p>}
@@ -104,5 +107,6 @@ export default function GoogleOnboardingPage() {
         </button>
       </form>
     </AuthShell>
+    </>
   )
 }

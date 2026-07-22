@@ -1,5 +1,6 @@
 import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
+import SEO from '../../components/common/SEO'
 import termsContent from './termsContent'
 
 type TermsSection = {
@@ -31,6 +32,10 @@ const terms = parseTerms()
 export default function TermsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-[#f8faff]">
+      <SEO
+        title="Điều khoản & Chính sách bảo mật"
+        description="Điều khoản sử dụng dịch vụ và chính sách bảo mật thông tin người dùng trên nền tảng OTTOPIA."
+      />
       <Navbar />
       <main className="w-full flex-1 px-2 pb-8 pt-2 sm:px-6 sm:pb-10 sm:pt-[10px] md:px-8 md:pb-14 xl:px-12">
         <article className="mx-auto w-full max-w-[1824px] overflow-hidden rounded-[16px] border border-[#d8edfa] bg-white shadow-[0_8px_28px_rgba(0,76,110,0.07)] sm:rounded-[20px] md:rounded-[24px]">

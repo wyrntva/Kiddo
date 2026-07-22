@@ -47,11 +47,11 @@ export const DRIFTING_CLOUDS = [
 ] as const
 
 export const EXPLORE_ISLANDS = [
-  { zoneIdx: 0, img: '/assets/vung_dat_cam_xuc_island.png', left: 477, top: 239, width: 280, height: 254, delay: '0s', color: '#339e4a' },
-  { zoneIdx: 1, img: '/assets/khu_vuon_ban_be_island.png', left: 722, top: 502, width: 387, height: 303, delay: '0.6s', color: '#e55c72' },
-  { zoneIdx: 2, img: '/assets/thanh_pho_giao_tiep_island.png', left: 783, top: 88, width: 238, height: 238, delay: '1.2s', color: '#0a7ad8' },
-  { zoneIdx: 3, img: '/assets/ngoi_lang_tu_lap_island.png', left: 1163, top: 154, width: 253, height: 239, delay: '1.8s', color: '#fea01f' },
-  { zoneIdx: 4, img: '/assets/hanh_tinh_tinh_huong_island.png', left: 1088, top: 360, width: 339, height: 267, delay: '0.9s', color: '#9560d8' },
+  { zoneIdx: 0, img: '/assets/vung_dat_cam_xuc_island.webp', left: 477, top: 239, width: 280, height: 254, delay: '0s', color: '#339e4a' },
+  { zoneIdx: 1, img: '/assets/khu_vuon_ban_be_island.webp', left: 722, top: 502, width: 387, height: 303, delay: '0.6s', color: '#e55c72' },
+  { zoneIdx: 2, img: '/assets/thanh_pho_giao_tiep_island.webp', left: 783, top: 88, width: 238, height: 238, delay: '1.2s', color: '#0a7ad8' },
+  { zoneIdx: 3, img: '/assets/ngoi_lang_tu_lap_island.webp', left: 1163, top: 154, width: 253, height: 239, delay: '1.8s', color: '#fea01f' },
+  { zoneIdx: 4, img: '/assets/hanh_tinh_tinh_huong_island.webp', left: 1088, top: 360, width: 339, height: 267, delay: '0.9s', color: '#9560d8' },
 ] as const
 
 export const ZONE_ROUTES: Record<number, string> = {

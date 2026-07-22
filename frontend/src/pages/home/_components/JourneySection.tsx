@@ -65,7 +65,7 @@ export default function JourneySection() {
         <div className="content-stretch flex gap-[16px] items-center justify-center relative shrink-0 w-full">
           <div className="relative shrink-0 size-[32px]">
             <div className="absolute inset-[10.92%_6.25%_9.92%_6.25%]">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconBookOpen} loading="lazy" />
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconBookOpen} loading="lazy" decoding="async" />
             </div>
           </div>
           <h2 className="font-baloo text-[22px] sm:text-[32px] text-[#004c6e] text-center leading-[36px] sm:leading-[56px] font-bold">
@@ -73,7 +73,7 @@ export default function JourneySection() {
           </h2>
           <div className="relative shrink-0 size-[32px]">
             <div className="absolute inset-[10.92%_6.25%_9.92%_6.25%]">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconBookOpen} loading="lazy" />
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconBookOpen} loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function JourneySection() {
                         src={step.img}
                         alt=""
                         className={step.cropClass}
-                        loading="lazy"
+                        loading="lazy" decoding="async"
                       />
                     </div>
                   </div>
@@ -160,7 +160,7 @@ export default function JourneySection() {
                 alt="Arrow circle right"
                 className="block max-w-none size-6"
                 src={imgIconCircleRightFilled}
-                loading="lazy"
+                loading="lazy" decoding="async"
               />
             </div>
           </button>

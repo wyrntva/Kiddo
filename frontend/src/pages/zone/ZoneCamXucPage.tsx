@@ -98,8 +98,8 @@ export default function ZoneCamXucPage() {
 
   return (
     <ZoneLandingPage
-      backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.png"
-      islandImage="/assets/vung_dat_cam_xuc_island.png"
+      backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
+      islandImage="/assets/vung_dat_cam_xuc_island.webp"
       islandAlt="Vùng đất cảm xúc"
       title="Vùng đất cảm xúc"
       subtitle="Cùng Toro học cách nhận biết, chia sẻ và gọi tên cảm xúc nhé!"

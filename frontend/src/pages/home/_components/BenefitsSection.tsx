@@ -65,7 +65,7 @@ export default function BenefitsSection() {
               src={imgVuesaxBoldMagicStar}
               alt=""
               className="absolute inset-0 size-full object-contain shrink-0 animate-pulse"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
           <h2 className="font-baloo text-[22px] sm:text-[32px] font-bold text-[#004c6e] text-center leading-[36px] sm:leading-[56px] select-none">
@@ -76,7 +76,7 @@ export default function BenefitsSection() {
               src={imgVuesaxBoldMagicStar}
               alt=""
               className="absolute inset-0 size-full object-contain shrink-0 animate-pulse"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function BenefitsSection() {
                   src={b.img}
                   alt={b.title}
                   className={`absolute max-w-none ${b.left} ${b.top} ${b.width} ${b.height}`}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
               </div>
               <h3 className={`font-vietnam font-bold text-[18px] leading-[24px] mb-2 select-none ${b.titleColor}`}>

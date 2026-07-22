@@ -1,7 +1,7 @@
 import ZoneHeartIcon from './ZoneHeartIcon'
 import type { ZoneTheme } from './zoneTypes'
 
-const imgToro = '/assets/8a42d8a694f66237d91d5cac631d21ee780cbf64.png'
+const imgToro = '/assets/8a42d8a694f66237d91d5cac631d21ee780cbf64.webp'
 
 export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
   return (

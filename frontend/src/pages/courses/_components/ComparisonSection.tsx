@@ -39,20 +39,20 @@ const features = [
 function StatusIcon({ active }: { active: boolean }) {
   return active ? (
     <div className="bg-[#339e4a] p-1 md:p-2 rounded-[100px] shrink-0">
-      <img
+      <img width="21" height="15"
         alt="Có"
         className="w-[18px] h-[18px] md:w-6 md:h-6 object-contain"
         src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg"
-        loading="lazy"
+        loading="lazy" decoding="async"
       />
     </div>
   ) : (
     <div className="p-1 md:p-2 shrink-0">
-      <img
+      <img width="14" height="2"
         alt="Không"
         className="w-[18px] h-[18px] md:w-6 md:h-6 object-contain"
         src="/assets/6b55ea1258a2e294aac35c0b5c34c5efbaee5d50.svg"
-        loading="lazy"
+        loading="lazy" decoding="async"
       />
     </div>
   )
@@ -77,7 +77,7 @@ export default function ComparisonSection() {
                       alt=""
                       className="w-4 h-4 object-contain"
                       src={feature.icon}
-                      loading="lazy"
+                      loading="lazy" decoding="async"
                     />
                   </div>
                   <span className="font-vietnam font-medium text-[11px] text-black leading-snug">
@@ -135,7 +135,7 @@ export default function ComparisonSection() {
                       alt=""
                       className="w-6 h-6 object-contain"
                       src={feature.icon}
-                      loading="lazy"
+                      loading="lazy" decoding="async"
                     />
                   </div>
                   <span className="font-vietnam font-medium text-[16px] text-black leading-tight">

@@ -23,7 +23,7 @@ export default function ExploreZoneCard({ zone, isHovered, onHoverStart, onHover
       onClick={onClick}
     >
       <div className="relative shrink-0 w-[82px] h-[82px] xl:w-[102px] xl:h-[102px] flex items-center justify-center">
-        <img src={zone.img} alt="" className="w-full h-full object-contain pointer-events-none select-none" loading="lazy" />
+        <img src={zone.img} alt="" className="w-full h-full object-contain pointer-events-none select-none" loading="lazy" decoding="async" />
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
         <p className="font-baloo text-[15px] leading-[20px] xl:text-[22px] xl:leading-[34px] font-bold whitespace-pre-line" style={{ color: zone.color }}>

@@ -10,7 +10,7 @@ export const independenceIsland: DiaryIsland = {
   textColor: 'text-[#FEA01F]',
   fillColor: '#FEA01F',
   caretIcon: '/assets/3c19b0558b9c088774326ac1629f87c98aff3e3d.svg',
-  image: '/assets/ngoi_lang_tu_lap_island.png',
+  image: '/assets/ngoi_lang_tu_lap_island.webp',
   skills: [
     { label: 'Tự dọn dẹp đồ chơi', color: '#FEA01F', progress: 80, spriteOffset: '-3.85%' },
     { label: 'Tự mặc quần áo', color: '#339E4A', progress: 80, spriteOffset: '-131.84%' },

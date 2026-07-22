@@ -1,4 +1,4 @@
-const imgFeatured   = "/assets/2ef900d41652ded63060baf5f80eaa8c41302f1c.png"
+const imgFeatured   = "/assets/2ef900d41652ded63060baf5f80eaa8c41302f1c.webp"
 const imgStar       = "/assets/fab336f52963bda96bf7fd3972c00e6f48413f30.svg"
 const imgCalendar   = "/assets/301795cd9061ae01af0f35a90267af9138916e7e.svg"
 const imgEye        = "/assets/b21e2894a8889fed5ba2dc562524705ab4d680eb.svg"
@@ -39,7 +39,7 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
     <div className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col lg:flex-row flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
       {/* Image side */}
       <div className="relative w-full h-[200px] sm:h-[240px] lg:w-[45%] lg:h-auto shrink-0">
-        <img
+        <img loading="lazy" decoding="async"
           alt={article.title}
           src={article.image}
           className="absolute inset-0 w-full h-full object-cover"
@@ -48,7 +48,7 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
         <div className="absolute top-4 left-4 bg-[#fea01f] flex items-center gap-2 px-3 py-1 rounded-[40px]">
           <div className="relative shrink-0 size-[20px] overflow-clip">
             <div className="absolute inset-[10.42%_8.34%]">
-              <img alt="" className="absolute inset-0 w-full h-full" src={imgStar} />
+              <img loading="lazy" decoding="async" alt="" className="absolute inset-0 w-full h-full" src={imgStar} />
             </div>
           </div>
           <span className="font-vietnam text-[14px] font-medium text-white tracking-[0.28px]">Nổi bật</span>
@@ -74,7 +74,7 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
             <div className="relative shrink-0 size-[24px] overflow-clip">
               <div className="absolute inset-[6.25%_12.5%_11.46%_12.5%]">
                 <div className="absolute inset-[-3.8%_-4.17%]">
-                  <img alt="" className="block w-full h-full" src={imgCalendar} />
+                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgCalendar} />
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
             <div className="relative shrink-0 size-[24px] overflow-clip">
               <div className="absolute bottom-1/4 left-[12.5%] right-[12.5%] top-1/4">
                 <div className="absolute inset-[-6.25%_-4.17%]">
-                  <img alt="" className="block w-full h-full" src={imgEye} />
+                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgEye} />
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-const imgHero = "/assets/377651128d24e7eb79bd46db361e99329c29b8e0.png"
+const imgHero = "/assets/377651128d24e7eb79bd46db361e99329c29b8e0.webp"
 
 export default function ParentsHeroSection() {
   return (

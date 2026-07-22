@@ -1,4 +1,4 @@
-const imgBg = '/assets/bannerhome.png'
+const imgBg = '/assets/home_cover_banner.webp'
 const imgHomepage21 = '/assets/c777ec5ebb4097e9ad8c6739be008020a6b0fd9d.webp'
 const imgVuesaxBoldVideoCircle = '/assets/a8aa9c327c70d29bff93ebdafffee5038ef57062.svg'
 
@@ -18,6 +18,8 @@ export default function HeroSection() {
             className="absolute inset-0 block h-full w-full object-cover object-center"
             {...({ fetchpriority: 'high' } as any)}
             loading="eager"
+            width="1920"
+            height="789"
           />
         </div>
 
@@ -35,6 +37,8 @@ export default function HeroSection() {
             className="w-full h-full object-contain"
             {...({ fetchpriority: 'high' } as any)}
             loading="eager"
+            width="1920"
+            height="1080"
           />
         </div>
 

@@ -63,8 +63,8 @@ export default function ZoneTuLapPage() {
 
   return (
     <ZoneLandingPage
-      backgroundImage="/assets/414120eafd7f43fce93ce3ecb953fc4142aa8c32.png"
-      islandImage="/assets/ngoi_lang_tu_lap_island.png"
+      backgroundImage="/assets/414120eafd7f43fce93ce3ecb953fc4142aa8c32.webp"
+      islandImage="/assets/ngoi_lang_tu_lap_island.webp"
       islandAlt="Ngôi làng tự lập"
       title="Ngôi làng tự lập"
       subtitle="Cùng Toro học cách tự lập và tự chăm sóc bản thân nhé!"

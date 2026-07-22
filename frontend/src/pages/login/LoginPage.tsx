@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../../context/AuthContext'
+import SEO from '../../components/common/SEO'
 import AuthShell from '../auth/_components/AuthShell'
 import AuthInput from '../auth/_components/AuthInput'
 import { EmailIcon, EyeToggleIcon, LockIcon } from '../auth/_components/authIcons'
@@ -15,7 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const redirectTo = location.state?.from?.pathname || '/home'
+  const redirectTo = location.state?.from?.pathname || '/'
 
   if (!authLoading && user) return <Navigate to={redirectTo} replace />
 
@@ -66,9 +67,11 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell
-      title="Chào mừng đến với OTTOPIA!"
-      subtitle="Cùng bé học hỏi, trưởng thành và khám phá mỗi ngày"
+    <>
+      <SEO title="Đăng nhập tài khoản" noindex={true} />
+      <AuthShell
+        title="Chào mừng đến với OTTOPIA!"
+        subtitle="Cùng bé học hỏi, trưởng thành và khám phá mỗi ngày"
       cardTitle="Đăng nhập"
       cardDescription={
         <>
@@ -180,5 +183,6 @@ export default function LoginPage() {
         </div>
       </form>
     </AuthShell>
+    </>
   )
 }

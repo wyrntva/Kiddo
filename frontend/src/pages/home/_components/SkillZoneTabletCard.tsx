@@ -10,14 +10,14 @@ export default function SkillZoneTabletCard({ island }: { island: SkillZoneIslan
           src={island.islandImg}
           alt={`${island.nameLine1} ${island.nameLine2}`}
           className="w-full h-full object-contain drop-shadow-lg select-none pointer-events-none"
-          loading="lazy"
+          loading="lazy" decoding="async"
         />
       </div>
 
       <div className="relative z-10 mt-[-10px] flex flex-col items-center">
         <div className="relative w-[52px] h-[60px] drop-shadow-sm">
-          <img src={island.pinImg} alt="" className="absolute inset-0 w-full h-full object-contain" />
-          <img src={island.dotImg} alt="" className="absolute left-[17px] top-[11px] size-[18px] object-contain" />
+          <img loading="lazy" decoding="async" src={island.pinImg} alt="" className="absolute inset-0 w-full h-full object-contain" />
+          <img loading="lazy" decoding="async" src={island.dotImg} alt="" className="absolute left-[17px] top-[11px] size-[18px] object-contain" />
         </div>
         <div className="bg-white flex flex-col items-center justify-center px-5 py-2.5 rounded-[100px] border border-gray-100 shadow-md min-w-[126px] -mt-1">
           <div className={`flex flex-col items-center font-baloo text-[16px] font-bold text-center leading-[22px] ${island.textColor}`}>

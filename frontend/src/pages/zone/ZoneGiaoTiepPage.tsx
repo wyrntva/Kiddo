@@ -63,8 +63,8 @@ export default function ZoneGiaoTiepPage() {
 
   return (
     <ZoneLandingPage
-      backgroundImage="/assets/91f866117dd6591a067bf62bae3766ed02c65b97.png"
-      islandImage="/assets/thanh_pho_giao_tiep_island.png"
+      backgroundImage="/assets/91f866117dd6591a067bf62bae3766ed02c65b97.webp"
+      islandImage="/assets/thanh_pho_giao_tiep_island.webp"
       islandAlt="Thành phố giao tiếp"
       title="Thành phố giao tiếp"
       subtitle="Cùng Toro học cách giao tiếp lễ phép và tự tin nhé!"

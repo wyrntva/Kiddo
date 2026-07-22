@@ -12,7 +12,7 @@ function LessonStatusButton({ lesson }: { lesson: DiaryLesson }) {
       <div className="w-full flex items-center justify-center gap-[4px] md:gap-[6px] border-2 border-solid border-[#757e95] text-[#757e95] py-[6px] px-[8px] md:px-[12px] rounded-[40px] text-[14px] md:text-[15px] font-medium bg-[#f0f2f4]">
         <div className="relative shrink-0 size-[24px]">
           <div className="absolute inset-[8.33%_20.83%]">
-            <img src="/assets/cfbbb7b1e9e9f60ab7b5d78cf3396285d4ff7e75.svg" alt="Lock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+            <img width="14" height="20" src="/assets/cfbbb7b1e9e9f60ab7b5d78cf3396285d4ff7e75.svg" alt="Lock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
           </div>
         </div>
         <span className="leading-[20px]">{lesson.statusLabel}</span>
@@ -25,7 +25,7 @@ function LessonStatusButton({ lesson }: { lesson: DiaryLesson }) {
       <div className="w-full flex items-center justify-center gap-[4px] md:gap-[6px] border-2 border-solid border-[#fdd444] text-[#fea01f] py-[6px] px-[8px] md:px-[12px] rounded-[40px] text-[14px] md:text-[15px] font-medium bg-white hover:bg-[#FEA01F]/5 transition-colors">
         <div className="relative shrink-0 size-[24px]">
           <div className="absolute inset-[14.58%]">
-            <img src="/assets/d701165fd92f8f0911b84de6d50d64b8c17335d7.svg" alt="Clock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+            <img width="17" height="17" src="/assets/d701165fd92f8f0911b84de6d50d64b8c17335d7.svg" alt="Clock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
           </div>
         </div>
         <span className="leading-[20px]">{lesson.statusLabel}</span>
@@ -37,7 +37,7 @@ function LessonStatusButton({ lesson }: { lesson: DiaryLesson }) {
     <div className="w-full flex items-center justify-center gap-[4px] md:gap-[6px] border-2 border-solid border-[#418457] text-[#418457] py-[6px] px-[8px] md:px-[12px] rounded-[40px] text-[14px] md:text-[15px] font-medium bg-white hover:bg-[#418457]/5 transition-colors">
       <div className="relative shrink-0 size-[24px]">
         <div className="absolute inset-[14.58%]">
-          <img src="/assets/503f657f6c193f24dfa03bfb41d21c410490385e.svg" alt="Check Clock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+          <img width="17" height="17" src="/assets/503f657f6c193f24dfa03bfb41d21c410490385e.svg" alt="Check Clock" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
         </div>
       </div>
       <span className="leading-[20px]">{lesson.statusLabel}</span>
@@ -56,7 +56,7 @@ export default function DiaryLessonCarousel({
         <div className="bg-[#c3ffd0] flex gap-[10px] items-center p-[8px] relative rounded-[100px] shrink-0">
           <div className="relative shrink-0 size-[24px]">
             <div className="absolute inset-[10.92%_6.25%_9.92%_6.25%]">
-              <img src="/assets/9acfa3ffa817d27da5068ef459f020ca126d7621.svg" alt="Book Open Icon" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+              <img width="21" height="19" src="/assets/9acfa3ffa817d27da5068ef459f020ca126d7621.svg" alt="Book Open Icon" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function DiaryLessonCarousel({
                       <div className="bg-[#339e4a] p-[8px] rounded-full shrink-0 flex items-center justify-center text-white">
                         <div className="relative shrink-0 w-6 h-6">
                           <div className="absolute inset-[20.83%_6.25%_16.67%_6.25%]">
-                            <img src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg" alt="Check" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" />
+                            <img width="21" height="15" src="/assets/36ad9f1432da45db964bbac8d805b994e5cf282a.svg" alt="Check" className="absolute block inset-0 max-w-none size-full object-contain" loading="lazy" decoding="async" />
                           </div>
                         </div>
                       </div>

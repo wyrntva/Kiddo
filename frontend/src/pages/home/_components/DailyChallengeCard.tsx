@@ -6,7 +6,7 @@ export default function DailyChallengeCard() {
     <div className="bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 rounded-2xl overflow-hidden relative flex flex-col">
       {/* Otter image at top */}
       <div className="relative h-44 flex items-end justify-center bg-gradient-to-b from-sky-100 to-blue-100 overflow-hidden">
-        <img
+        <img loading="lazy" decoding="async"
           src={otterMascot}
           alt="OTTOPIA mascot"
           className="h-full w-auto object-contain object-bottom select-none pointer-events-none drop-shadow-lg"

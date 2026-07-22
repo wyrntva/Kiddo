@@ -63,8 +63,8 @@ export default function ZoneBanBePage() {
 
   return (
     <ZoneLandingPage
-      backgroundImage="/assets/2404296262476703df2b4a673defe4ce7ede08d1.png"
-      islandImage="/assets/khu_vuon_ban_be_island.png"
+      backgroundImage="/assets/2404296262476703df2b4a673defe4ce7ede08d1.webp"
+      islandImage="/assets/khu_vuon_ban_be_island.webp"
       islandAlt="Khu vườn bạn bè"
       title="Khu vườn bạn bè"
       subtitle="Cùng Toro học cách kết bạn và chia sẻ yêu thương nhé!"

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import SEO from '../../components/common/SEO'
 import AuthShell from '../auth/_components/AuthShell'
 import AuthInput from '../auth/_components/AuthInput'
 import { ChildAgeIcon, EmailIcon, EyeToggleIcon, LockIcon, PhoneIcon, UserIcon } from '../auth/_components/authIcons'
@@ -23,7 +24,7 @@ export default function RegisterPage() {
     confirmPassword: '',
   })
 
-  if (!authLoading && user) return <Navigate to="/home" replace />
+  if (!authLoading && user) return <Navigate to="/" replace />
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm((previous) => ({ ...previous, [event.target.name]: event.target.value }))
@@ -63,7 +64,7 @@ export default function RegisterPage() {
         childAge: Number(form.childAge),
         role: 'CHILD',
       })
-      navigate('/home')
+      navigate('/')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Đăng ký thất bại')
     } finally {
@@ -72,9 +73,11 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthShell
-      title="Tham gia OTTOPIA!"
-      subtitle="Bắt đầu hành trình học kỹ năng sống thú vị"
+    <>
+      <SEO title="Đăng ký tài khoản" noindex={true} />
+      <AuthShell
+        title="Tham gia OTTOPIA!"
+        subtitle="Bắt đầu hành trình học kỹ năng sống thú vị"
       cardTitle="Đăng ký"
       cardDescription={<p>Tạo tài khoản để bắt đầu hành trình cùng OTTOPIA</p>}
       cardClassName="gap-5 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10"
@@ -157,5 +160,6 @@ export default function RegisterPage() {
         </div>
       </form>
     </AuthShell>
+    </>
   )
 }

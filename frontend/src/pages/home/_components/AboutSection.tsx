@@ -20,7 +20,7 @@ export default function AboutSection() {
                     alt="Mascot Otter"
                     className="absolute h-full left-[-38.89%] max-w-none top-0 w-[177.78%]"
                     src={imgHomepage31}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                 </div>
               </div>
@@ -54,7 +54,7 @@ export default function AboutSection() {
                     alt="Dễ hiểu"
                     className="absolute h-[165.62%] left-[-97.22%] max-w-none top-[-29.69%] w-[294.44%]"
                     src={imgFrame1171277269}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default function AboutSection() {
               <div className="flex-none rotate-90">
                 <div className="h-0 relative w-[184px]">
                   <div className="absolute inset-[-1px_0_0_0]">
-                    <img alt="" className="block max-w-none size-full" src={imgLine3} loading="lazy" />
+                    <img alt="" className="block max-w-none size-full" src={imgLine3} loading="lazy" decoding="async" />
                   </div>
                 </div>
               </div>
@@ -86,7 +86,7 @@ export default function AboutSection() {
                     alt="An toàn"
                     className="absolute h-[165.62%] left-[-97.22%] max-w-none top-[-31.25%] w-[294.44%]"
                     src={imgFrame1171277270}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function AboutSection() {
               <div className="flex-none rotate-90">
                 <div className="h-0 relative w-[184px]">
                   <div className="absolute inset-[-1px_0_0_0]">
-                    <img alt="" className="block max-w-none size-full" src={imgLine3} loading="lazy" />
+                    <img alt="" className="block max-w-none size-full" src={imgLine3} loading="lazy" decoding="async" />
                   </div>
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default function AboutSection() {
                     alt="Hiệu quả"
                     className="absolute h-[160.94%] left-[-93.06%] max-w-none top-[-28.12%] w-[286.11%]"
                     src={imgFrame1171277271}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                 </div>
               </div>

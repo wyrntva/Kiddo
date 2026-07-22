@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-const imgCard1      = "/assets/e8804dfc93d2a6f7e86dfd11a04dcfe495214e95.png"
-const imgCard2      = "/assets/cd8eb4ae612b9c9fea7a4434916202f28d3f600f.png"
-const imgCard3      = "/assets/72930f953788db5aa9e8963a388682969be217ab.png"
-const imgCard4      = "/assets/17f3f0ac4921ae7dbae01d54bab257633af33b57.png"
+const imgCard1      = "/assets/e8804dfc93d2a6f7e86dfd11a04dcfe495214e95.webp"
+const imgCard2      = "/assets/cd8eb4ae612b9c9fea7a4434916202f28d3f600f.webp"
+const imgCard3      = "/assets/72930f953788db5aa9e8963a388682969be217ab.webp"
+const imgCard4      = "/assets/17f3f0ac4921ae7dbae01d54bab257633af33b57.webp"
 const imgCalendar   = "/assets/301795cd9061ae01af0f35a90267af9138916e7e.svg"
 const imgEye        = "/assets/b21e2894a8889fed5ba2dc562524705ab4d680eb.svg"
 const imgStar       = "/assets/840e2a429f658f653956cea3592d2b076218c88d.svg"
@@ -59,7 +59,7 @@ function ArticleCard({ article }: { article: Article }) {
       {/* Thumbnail */}
       <div className="h-[200px] relative w-full overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-[#d2d2d2]" />
-        <img
+        <img loading="lazy" decoding="async"
           alt={article.title}
           src={article.image}
           className="absolute inset-0 w-full h-full object-cover"
@@ -79,7 +79,7 @@ function ArticleCard({ article }: { article: Article }) {
             <div className="relative shrink-0 size-[24px] overflow-clip">
               <div className="absolute inset-[6.25%_12.5%_11.46%_12.5%]">
                 <div className="absolute inset-[-3.8%_-4.17%]">
-                  <img alt="" className="block w-full h-full" src={imgCalendar} />
+                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgCalendar} />
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@ function ArticleCard({ article }: { article: Article }) {
             <div className="relative shrink-0 size-[24px] overflow-clip">
               <div className="absolute bottom-1/4 left-[12.5%] right-[12.5%] top-1/4">
                 <div className="absolute inset-[-6.25%_-4.17%]">
-                  <img alt="" className="block w-full h-full" src={imgEye} />
+                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgEye} />
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function ParentsArticlesSection() {
             <div className="relative size-[24px] overflow-clip">
               <div className="absolute inset-[10.42%_8.34%]">
                 <div className="absolute inset-[-3.95%_-3.75%]">
-                  <img alt="" className="block w-full h-full" src={imgStar} />
+                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgStar} />
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function ParentsArticlesSection() {
           <span className="font-vietnam text-[16px] font-medium text-[#0a7ad8] whitespace-nowrap">Xem thêm bài viết</span>
           <div className="relative shrink-0 size-[24px]">
             <div className="absolute inset-[36.46%_30.21%_40.63%_30.21%]">
-              <img alt="" className="absolute inset-0 w-full h-full" src={imgCaretDown} />
+              <img loading="lazy" decoding="async" alt="" className="absolute inset-0 w-full h-full" src={imgCaretDown} />
             </div>
           </div>
         </button>

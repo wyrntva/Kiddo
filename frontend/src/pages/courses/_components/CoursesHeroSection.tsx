@@ -11,7 +11,7 @@ export default function CoursesHeroSection() {
         <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-start w-full">
           {/* Button tag 1 */}
           <div className="bg-[#f9f9fb] border border-[#313235] flex gap-2 items-center px-4 py-2 rounded-[40px] shrink-0">
-            <img 
+            <img width="21" height="21"
               alt="Star" 
               className="w-6 h-6 object-contain" 
               src="/assets/f2cc417081b8fe0b59fbe703295d6629d83b6985.svg" 
@@ -23,7 +23,7 @@ export default function CoursesHeroSection() {
 
           {/* Button tag 2 */}
           <div className="bg-[#f9f9fb] border border-[#313235] flex gap-2 items-center px-4 py-2 rounded-[40px] shrink-0">
-            <img 
+            <img width="24" height="24"
               alt="Play" 
               className="w-6 h-6 object-contain" 
               src="/assets/cb0fd9852f3b881b5a2ac006035c4768a2646742.svg" 
@@ -38,7 +38,7 @@ export default function CoursesHeroSection() {
       {/* Right Column: Hero Illustration banner */}
       <div className="flex-1 w-full flex justify-center items-center">
         <div className="relative w-full max-w-[800px] aspect-[1003/313] overflow-hidden rounded-[24px]">
-          <img 
+          <img width="1847" height="576"
             alt="Courses Hero Banner" 
             className="w-full h-full object-cover pointer-events-none" 
             src="/assets/6d12ccb4debf5997e86a9ef84b9e5cfee43a927c.webp" 

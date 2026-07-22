@@ -38,7 +38,7 @@ export default function SkillZonesSection() {
     <section id="adventure-map" className="w-full scroll-mt-20">
       <div className="bg-[#f2fbef] flex flex-col gap-[16px] sm:gap-[24px] items-start p-[16px] sm:p-[24px] rounded-[24px] relative w-full overflow-hidden shadow-lg border border-gray-100 min-h-[420px] md:min-h-0 md:aspect-[1824/760] lg:h-auto lg:aspect-[1824/440]">
         <div className="absolute inset-0 w-full h-full z-0">
-          <img
+          <img width="2090" height="682" loading="lazy" decoding="async"
             src="/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.webp"
             alt="Adventure Map Background"
             className="w-full h-full object-cover select-none pointer-events-none"
@@ -47,7 +47,7 @@ export default function SkillZonesSection() {
 
         <div className="relative z-10 w-full md:absolute md:left-4 md:top-4 md:w-[320px] lg:left-6 lg:top-6 lg:w-[280px] xl:w-[clamp(320px,30vw,607px)]">
           <div className="flex gap-2 sm:gap-[12px] items-center w-full bg-white/85 backdrop-blur-sm px-3 md:px-3.5 xl:px-4 py-2 md:py-2.5 rounded-2xl border border-[#c3ffd0]/60 shadow-sm select-none">
-            <img
+            <img width="48" height="48" loading="lazy" decoding="async"
               src="/assets/5a9453f78ced6122636cc3fcfc9d7d132cd3f8e7.svg"
               alt="Map icon"
               className="size-[34px] md:size-[38px] xl:size-[48px] object-contain shrink-0"

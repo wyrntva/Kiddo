@@ -13,10 +13,10 @@ export default function ZoneQuizSuccessModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 sm:p-4 backdrop-blur-sm">
       <div className="relative flex h-auto max-h-[calc(100vh-24px)] sm:max-h-[calc(100vh-32px)] w-full max-w-[1140px] flex-col overflow-y-auto overflow-x-hidden rounded-[24px] border border-[#BAE6FD] bg-white p-[20px] sm:p-[24px] lg:p-[40px] xl:p-[48px] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] animate-in fade-in zoom-in duration-300">
         <div className="absolute inset-0 z-0 pointer-events-none rounded-[24px]">
-          <img
+          <img width="1457" height="720"
             alt="Sky Background"
             className="absolute h-full w-full max-w-none rounded-[24px] object-cover"
-            src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.png"
+            src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.webp"
           />
         </div>
 
@@ -42,8 +42,8 @@ export default function ZoneQuizSuccessModal({
           </div>
 
           <div className="absolute right-[20px] top-[20px] z-10 hidden h-[150px] w-[200px] pointer-events-none lg:block xl:right-[40px] xl:top-[32px] xl:h-[225px] xl:w-[315px]">
-            <img
-              src="/assets/63994d049c46d89ab6ace318a3f3b1fb39d17839.png"
+            <img width="1920" height="1080"
+              src="/assets/63994d049c46d89ab6ace318a3f3b1fb39d17839.webp"
               alt="Mascot Otter holding Trophy"
               className="absolute left-[-48.13%] top-[-9.52%] h-[154.71%] w-[196.55%] max-w-none object-contain"
             />

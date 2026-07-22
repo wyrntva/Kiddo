@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../components/common/Navbar'
+import SEO from '../../components/common/SEO'
 import ZoneQuizGameScreen from './_components/ZoneQuizGameScreen'
 import ZoneQuizIntroScreen from './_components/ZoneQuizIntroScreen'
 import ZoneQuizQuestionScreen from './_components/ZoneQuizQuestionScreen'
@@ -78,6 +79,7 @@ export default function ZoneQuizPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
       <main className="flex-1 min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] relative overflow-hidden">

@@ -8,14 +8,14 @@ export default function SkillZoneMobileSlide({ island }: { island: SkillZoneIsla
           src={island.islandImg}
           alt={`${island.nameLine1} ${island.nameLine2}`}
           className={`${island.cropClass} select-none pointer-events-none`}
-          loading="lazy"
+          loading="lazy" decoding="async"
         />
       </div>
 
       <div className="flex flex-col items-center -mt-3">
         <div className="relative w-[52px] h-[60px] drop-shadow-sm">
-          <img src={island.pinImg} alt="" className="absolute inset-0 w-full h-full object-contain" />
-          <img src={island.dotImg} alt="" className="absolute left-[17px] top-[11px] size-[18px] object-contain" />
+          <img loading="lazy" decoding="async" src={island.pinImg} alt="" className="absolute inset-0 w-full h-full object-contain" />
+          <img loading="lazy" decoding="async" src={island.dotImg} alt="" className="absolute left-[17px] top-[11px] size-[18px] object-contain" />
         </div>
         <div className="bg-white flex flex-col items-center justify-center px-[22px] py-[10px] rounded-[100px] border border-gray-100 shadow-md cursor-pointer select-none min-w-[120px] -mt-1">
           <div className={`flex flex-col items-center font-baloo text-[15px] font-bold text-center leading-[21px] ${island.textColor}`}>

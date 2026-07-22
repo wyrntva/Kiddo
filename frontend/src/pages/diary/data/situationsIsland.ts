@@ -10,7 +10,7 @@ export const situationsIsland: DiaryIsland = {
   textColor: 'text-[#8234E4]',
   fillColor: '#8234E4',
   caretIcon: '/assets/2272e67b001e06fe0c8546a967e8640d1eec1796.svg',
-  image: '/assets/hanh_tinh_tinh_huong_island.png',
+  image: '/assets/hanh_tinh_tinh_huong_island.webp',
   skills: [
     { label: 'Khi bị lạc đường', color: '#8234E4', progress: 80, spriteOffset: '-3.85%' },
     { label: 'Gặp người lạ nói chuyện', color: '#0A7AD8', progress: 80, spriteOffset: '-131.84%' },

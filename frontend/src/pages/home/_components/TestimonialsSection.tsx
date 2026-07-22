@@ -21,7 +21,7 @@ function Rate({ className }: RateProps) {
       {Array.from({ length: 5 }).map((_, idx) => (
         <div key={idx} className="relative shrink-0 size-[16px]">
           <div className="absolute inset-[10.42%_8.34%]">
-            <img alt="" className="absolute block inset-0 max-w-none size-full scale-120" src={imgStarIcon} loading="lazy" />
+            <img alt="" className="absolute block inset-0 max-w-none size-full scale-120" src={imgStarIcon} loading="lazy" decoding="async" />
           </div>
         </div>
       ))}
@@ -39,7 +39,7 @@ export default function TestimonialsSection() {
             Phụ huynh nói gì về OTTOPIA?
           </h2>
           <div className="relative shrink-0 size-[32px] flex items-center justify-center">
-            <img alt="" className="size-6 block max-w-none" src={imgChatIcon} loading="lazy" />
+            <img alt="" className="size-6 block max-w-none" src={imgChatIcon} loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -49,7 +49,7 @@ export default function TestimonialsSection() {
           {/* Card 1: Chị Minh Thư */}
           <div className="bg-[#f2fbef] content-stretch flex flex-col sm:flex-row gap-[12px] items-start p-[24px] rounded-[12px] hover:shadow-md transition-shadow duration-200">
             <div className="border-2 border-[#d1ecfa] relative rounded-[100px] shrink-0 size-[100px] overflow-hidden">
-              <img alt="Chị Minh Thư" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar1} loading="lazy" />
+              <img alt="Chị Minh Thư" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar1} loading="lazy" decoding="async" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="content-stretch flex flex-col gap-[12px] items-start w-full">
@@ -71,7 +71,7 @@ export default function TestimonialsSection() {
           {/* Card 2: Chị Hoài An */}
           <div className="bg-[#fef9ed] content-stretch flex flex-col sm:flex-row gap-[12px] items-start p-[24px] rounded-[12px] hover:shadow-md transition-shadow duration-200">
             <div className="border-2 border-[#d1ecfa] relative rounded-[100px] shrink-0 size-[100px] overflow-hidden">
-              <img alt="Chị Hoài An" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar2} loading="lazy" />
+              <img alt="Chị Hoài An" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar2} loading="lazy" decoding="async" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="content-stretch flex flex-col gap-[12px] items-start w-full">
@@ -93,7 +93,7 @@ export default function TestimonialsSection() {
           {/* Card 3: Anh Quân Bảo */}
           <div className="bg-[#f4fafd] content-stretch flex flex-col sm:flex-row gap-[12px] items-start p-[24px] rounded-[12px] hover:shadow-md transition-shadow duration-200">
             <div className="border-2 border-[#d1ecfa] relative rounded-[100px] shrink-0 size-[100px] overflow-hidden">
-              <img alt="Anh Quân Bảo" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar3} loading="lazy" />
+              <img alt="Anh Quân Bảo" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgAvatar3} loading="lazy" decoding="async" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="content-stretch flex flex-col gap-[12px] items-start w-full">
@@ -116,7 +116,7 @@ export default function TestimonialsSection() {
           <div className="bg-[#f2f0fe] content-stretch flex flex-col gap-[12px] items-center p-[24px] rounded-[12px] text-center justify-center relative overflow-hidden shadow-[0px_10px_30px_-10px_rgba(0,101,142,0.3)] hover:-translate-y-0.5 transition-transform duration-200">
             {/* Top icon */}
             <div className="relative shrink-0 size-[48px] z-10">
-              <img alt="Heart" className="absolute block inset-0 size-full" src={imgHeartIcon} loading="lazy" />
+              <img alt="Heart" className="absolute block inset-0 size-full" src={imgHeartIcon} loading="lazy" decoding="async" />
             </div>
 
             {/* Text info */}
@@ -130,16 +130,16 @@ export default function TestimonialsSection() {
             <div className="relative shrink-0 h-10 w-[136px] z-10">
               <div className="flex items-start justify-center relative size-full">
                 <div className="border-2 border-solid border-white relative rounded-[9999px] shrink-0 size-[40px] overflow-hidden -mr-4 z-10 shadow-sm">
-                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb61} loading="lazy" />
+                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb61} loading="lazy" decoding="async" />
                 </div>
                 <div className="border-2 border-solid border-white relative rounded-[9999px] shrink-0 size-[40px] overflow-hidden -mr-4 z-20 shadow-sm">
-                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb62} loading="lazy" />
+                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb62} loading="lazy" decoding="async" />
                 </div>
                 <div className="border-2 border-solid border-white relative rounded-[9999px] shrink-0 size-[40px] overflow-hidden -mr-4 z-30 shadow-sm">
-                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb63} loading="lazy" />
+                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb63} loading="lazy" decoding="async" />
                 </div>
                 <div className="border-2 border-solid border-white relative rounded-[9999px] shrink-0 size-[40px] overflow-hidden -mr-4 z-40 shadow-sm">
-                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb64} loading="lazy" />
+                  <img alt="" className="absolute left-0 max-w-none size-full top-0 object-cover" src={imgAb64} loading="lazy" decoding="async" />
                 </div>
                 <div className="bg-[#27a4e0] border-2 border-solid border-white flex items-center justify-center rounded-[9999px] shrink-0 size-[40px] z-50 shadow-sm">
                   <span className="font-vietnam font-semibold text-[#00364e] text-[12px] leading-none">+10k</span>

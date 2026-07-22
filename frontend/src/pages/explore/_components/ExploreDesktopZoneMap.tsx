@@ -3,7 +3,7 @@ import ExploreDesktopZoneList from './ExploreDesktopZoneList'
 import ExploreZoneIslandsLayer from './ExploreZoneIslandsLayer'
 import ExploreZoneMapHeader from './ExploreZoneMapHeader'
 
-const imgBg = '/assets/khampha-display.png'
+const imgBg = '/assets/khampha-display.webp'
 
 interface ExploreDesktopZoneMapProps {
   wrapperRef: React.RefObject<HTMLDivElement>
@@ -38,7 +38,7 @@ export default function ExploreDesktopZoneMap({
           className="absolute left-0 top-0"
           style={{ width: designWidth, height: designHeight }}
         >
-          <img src={imgBg} alt="" className="absolute inset-0 pointer-events-none select-none w-full h-full" loading="lazy" />
+          <img src={imgBg} alt="" className="absolute inset-0 pointer-events-none select-none w-full h-full" loading="lazy" decoding="async" />
           <ExploreCloudLayer />
           <ExploreZoneIslandsLayer
             hoveredZoneIdx={hoveredZoneIdx}

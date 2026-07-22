@@ -23,13 +23,13 @@ export function ChildAgeIcon() {
 }
 
 export function LockIcon() {
-  return <img alt="" className="w-4 h-5 object-contain shrink-0" src="/assets/98e20cdb15ee154c0636276207e8cf86aaff39b3.svg" />
+  return <img width="14" height="20" alt="" className="w-4 h-5 object-contain shrink-0" src="/assets/98e20cdb15ee154c0636276207e8cf86aaff39b3.svg" />
 }
 
 export function EmailIcon() {
-  return <img alt="" className="w-5 h-5 object-contain shrink-0" src="/assets/26636ea7fb3d641da1aa96bf95733065868fa787.svg" />
+  return <img width="20" height="20" alt="" className="w-5 h-5 object-contain shrink-0" src="/assets/26636ea7fb3d641da1aa96bf95733065868fa787.svg" />
 }
 
 export function EyeToggleIcon() {
-  return <img alt="" className="w-5 h-[14px] object-contain" src="/assets/0f1fdc8e06de81e48e422b04c4231df34e8ce723.svg" />
+  return <img width="20" height="14" alt="" className="w-5 h-[14px] object-contain" src="/assets/0f1fdc8e06de81e48e422b04c4231df34e8ce723.svg" />
 }

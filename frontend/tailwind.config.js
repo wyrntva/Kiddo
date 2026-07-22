@@ -4,7 +4,6 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        nunito: ['Nunito', 'sans-serif'],
         baloo: ['"Baloo 2"', 'sans-serif'],
         vietnam: ['"Be Vietnam Pro"', 'sans-serif'],
       },

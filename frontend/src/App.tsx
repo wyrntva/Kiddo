@@ -19,6 +19,7 @@ const ZoneTuLapPage = lazy(() => import('./pages/zone/ZoneTuLapPage'))
 const ZoneBanBePage = lazy(() => import('./pages/zone/ZoneBanBePage'))
 const ZoneTinhHuongPage = lazy(() => import('./pages/zone/ZoneTinhHuongPage'))
 const ZoneQuizPage = lazy(() => import('./pages/zone/ZoneQuizPage'))
+const NotFoundPage = lazy(() => import('./pages/not-found/NotFoundPage'))
 
 function PageLoader() {
   return (
@@ -51,8 +52,8 @@ function App() {
         <ScrollToTop />
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/"        element={<Navigate to="/home" replace />} />
-            <Route path="/home"    element={<HomePage />} />
+            <Route path="/"        element={<HomePage />} />
+            <Route path="/home"    element={<Navigate to="/" replace />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/login"   element={<LoginPage />} />
@@ -74,7 +75,7 @@ function App() {
             <Route path="/zone/independence" element={<ProtectedRoute><ZoneTuLapPage /></ProtectedRoute>} />
             <Route path="/zone/friends" element={<ProtectedRoute><ZoneBanBePage /></ProtectedRoute>} />
             <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
-            <Route path="*"        element={<Navigate to="/" replace />} />
+            <Route path="*"        element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

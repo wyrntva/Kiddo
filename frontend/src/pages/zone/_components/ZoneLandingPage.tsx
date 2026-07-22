@@ -1,5 +1,6 @@
 import Footer from '../../../components/common/Footer'
 import Navbar from '../../../components/common/Navbar'
+import SEO from '../../../components/common/SEO'
 import ZoneEncouragementCard from './ZoneEncouragementCard'
 import ZoneHeartIcon from './ZoneHeartIcon'
 import ZoneLessonCard from './ZoneLessonCard'
@@ -33,6 +34,7 @@ export default function ZoneLandingPage({
 }: ZoneLandingPageProps) {
   return (
     <div className="flex flex-col min-h-screen">
+      <SEO title={title} noindex={true} />
       <Navbar />
 
       <main className="flex-1 min-h-[calc(100vh-64px)] relative">

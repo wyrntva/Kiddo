@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
+import SEO from '../../components/common/SEO'
 import { useAuth } from '../../context/AuthContext'
 import DiaryFeedbackPanel from './_components/DiaryFeedbackPanel'
 import DiaryLessonCarousel from './_components/DiaryLessonCarousel'
@@ -43,7 +44,7 @@ export default function DiaryPage() {
 
   const babyName = user?.name || 'An Hoang Duong'
   const babyAge = '4 tuổi'
-  const babyAvatar = user?.avatar || '/assets/dda751c0cf7a1aed55f732ffba2b65dc1e21acf3.png'
+  const babyAvatar = user?.avatar || '/assets/dda751c0cf7a1aed55f732ffba2b65dc1e21acf3.webp'
 
   const handleSelectLesson = (lesson: Lesson) => {
     if (lesson.status !== 'locked') {
@@ -53,6 +54,7 @@ export default function DiaryPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col">
+      <SEO title="Nhật ký học tập" noindex={true} />
       <Navbar />
 
       <main className="flex-1 max-w-[1920px] mx-auto w-full px-4 md:px-6 xl:px-[48px] py-[20px] md:py-[24px] flex flex-col 2xl:flex-row gap-6 xl:gap-[24px]">
@@ -67,11 +69,11 @@ export default function DiaryPage() {
           />
 
           <div className="absolute bottom-0 left-0 right-0 h-[62px] pointer-events-none z-10">
-            <img
-              src="/assets/e6d6816d50b03ad893cebe7baab05e61452035d1.png"
+            <img width="1080" height="124"
+              src="/assets/e6d6816d50b03ad893cebe7baab05e61452035d1.webp"
               alt="Grass decoration"
               className="w-full h-full object-cover rounded-b-[24px] xl:rounded-none"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>

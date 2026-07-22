@@ -63,8 +63,8 @@ export default function ZoneTinhHuongPage() {
 
   return (
     <ZoneLandingPage
-      backgroundImage="/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.png"
-      islandImage="/assets/hanh_tinh_tinh_huong_island.png"
+      backgroundImage="/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.webp"
+      islandImage="/assets/hanh_tinh_tinh_huong_island.webp"
       islandAlt="Hành tinh tình huống"
       title="Hành tinh tình huống"
       subtitle="Cùng Toro học cách xử lý các tình huống khéo léo nhé!"

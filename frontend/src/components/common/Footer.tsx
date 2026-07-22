@@ -30,7 +30,7 @@ function SocialBtn({ icon, inset }: { icon: string; inset: string }) {
     <div className="bg-[#0a7ad8] flex items-center justify-center p-[8px] rounded-[100px] shrink-0 cursor-pointer hover:bg-[#085fb0] transition-colors">
       <div className="relative size-[24px]">
         <div className={`absolute ${inset}`}>
-          <img alt="" className="absolute block inset-0 size-full max-w-none" src={icon} />
+          <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 size-full max-w-none" src={icon} />
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start pb-[32px]">
           {/* Logo — aspect ratio 506:224 từ Figma */}
           <div className="w-full max-w-[220px]" style={{ aspectRatio: '506/224' }}>
-            <img alt="OTTOPIA" className="w-full h-full object-contain" src={imgLogo} />
+            <img loading="lazy" decoding="async" alt="OTTOPIA" className="w-full h-full object-contain" src={imgLogo} />
           </div>
           <p className="font-vietnam text-[16px] leading-[24px] text-[#3e484f] pr-[16px]">
             Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.
@@ -119,7 +119,7 @@ export default function Footer() {
             <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px]">Made with</p>
             <div className="relative size-[16px]">
               <div className="absolute inset-[21.88%_13.54%_17.71%_13.54%]">
-                <img alt="❤" className="absolute block inset-0 size-full max-w-none" src={imgHeart} />
+                <img loading="lazy" decoding="async" alt="❤" className="absolute block inset-0 size-full max-w-none" src={imgHeart} />
               </div>
             </div>
             <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px]">for kids and parents</p>
@@ -129,9 +129,9 @@ export default function Footer() {
           <div className="bg-[#fef9ed] flex gap-[8px] items-center justify-center px-[16px] py-[8px] rounded-[40px] cursor-pointer hover:bg-[#fef3d3] transition-colors shrink-0">
             <div className="relative rounded-[66.667px] size-[24px] shrink-0">
               <div className="absolute inset-0 pointer-events-none rounded-[66.667px] overflow-hidden">
-                <img alt="" className="absolute size-full object-cover rounded-[66.667px]" src={imgAvatar} />
+                <img loading="lazy" decoding="async" alt="" className="absolute size-full object-cover rounded-[66.667px]" src={imgAvatar} />
                 <div className="absolute inset-0 overflow-hidden rounded-[66.667px]">
-                  <img
+                  <img loading="lazy" decoding="async"
                     alt=""
                     className="absolute max-w-none"
                     style={{ height: '153.33%', left: '-52.76%', top: '0.3%', width: '182.9%' }}
@@ -144,7 +144,7 @@ export default function Footer() {
               Liên hệ với OTTOPIA
             </p>
             <div className="relative size-[24px] shrink-0">
-              <img alt="" className="absolute block inset-0 size-full max-w-none" src={imgMessages} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 size-full max-w-none" src={imgMessages} />
             </div>
           </div>
 
