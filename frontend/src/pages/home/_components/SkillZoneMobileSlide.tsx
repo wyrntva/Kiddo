@@ -1,8 +1,13 @@
+import { Link } from 'react-router-dom'
 import type { SkillZoneIsland } from './skillZoneData'
 
 export default function SkillZoneMobileSlide({ island }: { island: SkillZoneIsland }) {
   return (
-    <div className="w-full flex-shrink-0 flex flex-col items-center snap-center px-4 sm:px-6 md:px-8 py-2">
+    <Link
+      to="/explore"
+      aria-label={`Khám phá ${island.nameLine1} ${island.nameLine2}`}
+      className="w-full flex-shrink-0 flex flex-col items-center snap-center px-4 sm:px-6 md:px-8 py-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-2xl"
+    >
       <div className="w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] aspect-square relative overflow-hidden filter drop-shadow-lg">
         <img
           src={island.islandImg}
@@ -24,6 +29,6 @@ export default function SkillZoneMobileSlide({ island }: { island: SkillZoneIsla
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

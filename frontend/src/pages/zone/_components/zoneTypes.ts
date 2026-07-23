@@ -7,6 +7,7 @@ export interface ZoneLesson {
   description: string
   status: ZoneLessonStatus
   stars: number
+  image?: string
 }
 
 export interface ZoneTheme {

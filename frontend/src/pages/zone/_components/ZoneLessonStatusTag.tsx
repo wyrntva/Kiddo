@@ -13,7 +13,7 @@ export default function ZoneLessonStatusTag({ status }: { status: ZoneLessonStat
     <div
       className={`flex flex-[1_0_0] items-center justify-center min-w-px px-2 py-1 rounded-lg border ${value.bg} ${value.border}`}
     >
-      <span className={`font-vietnam text-sm tracking-[0.28px] leading-5 ${value.color}`}>
+      <span className={`font-vietnam text-sm 2xl:text-[12px] min-[1800px]:text-sm tracking-[0.28px] leading-5 2xl:leading-4 min-[1800px]:leading-5 ${value.color}`}>
         {value.label}
       </span>
     </div>

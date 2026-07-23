@@ -10,6 +10,7 @@ export interface DiaryLesson {
     practice: string[]
     tips: string[]
   }
+  image?: string
 }
 
 export interface DiarySkill {

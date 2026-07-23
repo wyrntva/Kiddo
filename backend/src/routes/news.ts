@@ -9,16 +9,43 @@ const router = Router()
 // Configure multer storage for news images
 const upload = createImageUpload('news')
 
-// All routes require authentication
-router.use(authenticate, requireAdmin)
-
 // POST /api/news/upload-image - Upload news image
-router.post('/upload-image', upload.single('file'), (req, res) => {
+router.post('/upload-image', authenticate, requireAdmin, upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'Không có file nào được tải lên' })
   }
   const filePath = `/uploads/news/${req.file.filename}`
   res.json({ url: filePath })
+})
+
+// GET /api/news/categories - Get reusable news categories
+router.get('/categories', authenticate, requireAdmin, async (_req, res) => {
+  try {
+    const categories = await prisma.newsCategory.findMany({
+      orderBy: { name: 'asc' },
+    })
+    res.json(categories)
+  } catch {
+    res.status(500).json({ message: 'Không thể tải danh sách danh mục' })
+  }
+})
+
+// POST /api/news/categories - Create a reusable news category
+router.post('/categories', authenticate, requireAdmin, async (req, res) => {
+  const name = typeof req.body.name === 'string' ? req.body.name.trim() : ''
+  if (!name) return res.status(400).json({ message: 'Tên danh mục không được để trống' })
+
+  try {
+    const existing = await prisma.newsCategory.findFirst({
+      where: { name: { equals: name, mode: 'insensitive' } },
+    })
+    if (existing) return res.status(409).json({ message: 'Danh mục đã tồn tại', category: existing })
+
+    const category = await prisma.newsCategory.create({ data: { name } })
+    res.status(201).json(category)
+  } catch {
+    res.status(500).json({ message: 'Tạo danh mục thất bại' })
+  }
 })
 
 // GET /api/news - Get all news with pagination
@@ -68,7 +95,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/news - Create news
-router.post('/', async (req, res) => {
+router.post('/', authenticate, requireAdmin, async (req, res) => {
   const { title, category, date, author, image, excerpt, content, featured, fanpage_image } = req.body
   try {
     const news = await prisma.news.create({
@@ -91,7 +118,7 @@ router.post('/', async (req, res) => {
 })
 
 // PUT /api/news/:id - Update news
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, requireAdmin, async (req, res) => {
   const { title, category, date, author, image, excerpt, content, featured, fanpage_image } = req.body
   try {
     const updateData: any = {}
@@ -116,7 +143,7 @@ router.put('/:id', async (req, res) => {
 })
 
 // DELETE /api/news/:id - Delete news
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, requireAdmin, async (req, res) => {
   try {
     await prisma.news.delete({
       where: { id: parseInt(req.params.id, 10) },

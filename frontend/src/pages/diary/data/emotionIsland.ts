@@ -26,6 +26,7 @@ export const emotionIslandLessons: DiaryLesson[] = [
     status: 'completed',
     statusLabel: 'Hoàn thành',
     isCompleted: true,
+    image: '/assets/emotions_lesson_1.jpg',
     feedback: {
       title: 'Con đang cảm thấy gì?',
       strengths: ['Bé nhận ra cảm xúc của mình', 'Bé biết gọi tên cảm xúc vui, buồn'],
@@ -39,6 +40,7 @@ export const emotionIslandLessons: DiaryLesson[] = [
     status: 'learning',
     statusLabel: 'Đang học',
     isCompleted: false,
+    image: '/assets/emotions_lesson_2.jpg',
     feedback: {
       title: 'Con đang cảm thấy gì?',
       strengths: [
@@ -55,6 +57,7 @@ export const emotionIslandLessons: DiaryLesson[] = [
     status: 'locked',
     statusLabel: 'Chưa học',
     isCompleted: false,
+    image: '/assets/emotions_lesson_3.jpg',
     feedback: {
       title: 'Con đang cảm thấy gì?',
       strengths: [
@@ -71,6 +74,7 @@ export const emotionIslandLessons: DiaryLesson[] = [
     status: 'locked',
     statusLabel: 'Chưa học',
     isCompleted: false,
+    image: '/assets/emotions_lesson_4.jpg',
     feedback: {
       title: 'Con đang cảm thấy gì?',
       strengths: ['Bé tự tin giới thiệu bản thân trước cả lớp', 'Bé nói to, rõ ràng và có ánh mắt tương tác tốt'],
@@ -84,6 +88,7 @@ export const emotionIslandLessons: DiaryLesson[] = [
     status: 'locked',
     statusLabel: 'Chưa học',
     isCompleted: false,
+    image: '/assets/emotions_lesson_5.jpg',
     feedback: {
       title: 'Con có thể nói ra cảm xúc của mình',
       strengths: ['Bé biết chia sẻ khi con đang vui hoặc buồn', 'Bé bước đầu gọi tên được cảm xúc của mình'],

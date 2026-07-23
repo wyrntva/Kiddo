@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button, Card, Table, Modal, TextInput, Label, Textarea, Badge, Pagination, Select, ToggleSwitch } from 'flowbite-react';
-import { Icon } from '@iconify/react';
 import toast from 'react-hot-toast';
-import { newsAPI, type NewsArticle, type NewsPayload } from '../../api/news.api';
+import { newsAPI, type NewsArticle, type NewsCategory, type NewsPayload } from '../../api/news.api';
 import { API_BASE } from '../../constants/shared';
 import QuillEditor from '../../components/QuillEditor';
 
-const CATEGORIES = ['Tin tức', 'Giải đấu', 'Thông báo', 'Hướng dẫn & Mẹo', 'Khuyến mãi'];
 const IMAGE_W = 1920;
 const IMAGE_H = 450;
 const PAGE_SIZE = 10;
@@ -16,7 +14,7 @@ const FB_IMAGE_H = 630;
 
 const emptyForm = {
   title: '',
-  category: 'Tin tức',
+  category: '',
   date: new Date().toLocaleDateString('vi-VN'),
   author: '',
   imageFile: null as File | null,
@@ -40,6 +38,10 @@ const News = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [categories, setCategories] = useState<NewsCategory[]>([]);
+  const [categoryInputVisible, setCategoryInputVisible] = useState(false);
+  const [newCategory, setNewCategory] = useState('');
+  const [categorySaving, setCategorySaving] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [fanpageImageUploading, setFanpageImageUploading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,6 +68,19 @@ const News = () => {
     fetchArticles(currentPage, search);
   }, [currentPage, search, fetchArticles]);
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await newsAPI.getCategories();
+      setCategories(res.data);
+    } catch {
+      toast.error('Không thể tải danh sách danh mục');
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   const handleSearchChange = (value: string) => {
     setSearchInput(value);
     if (searchTimer.current) clearTimeout(searchTimer.current);
@@ -80,6 +95,8 @@ const News = () => {
   const openCreate = () => {
     setEditingId(null);
     setForm(emptyForm);
+    setCategoryInputVisible(false);
+    setNewCategory('');
     setModalOpen(true);
   };
 
@@ -98,7 +115,39 @@ const News = () => {
       postToFanpage: !!article.fanpage_image,
       fanpageImageUrl: article.fanpage_image || '',
     });
+    setCategoryInputVisible(false);
+    setNewCategory('');
     setModalOpen(true);
+  };
+
+  const handleCreateCategory = async () => {
+    const name = newCategory.trim();
+    if (!name) {
+      toast.error('Vui lòng nhập tên danh mục');
+      return;
+    }
+
+    setCategorySaving(true);
+    try {
+      const res = await newsAPI.createCategory(name);
+      setCategories((items) => [...items, res.data].sort((a, b) => a.name.localeCompare(b.name, 'vi')));
+      setForm((f) => ({ ...f, category: res.data.name }));
+      setNewCategory('');
+      setCategoryInputVisible(false);
+      toast.success('Đã thêm danh mục');
+    } catch (error: any) {
+      if (error?.response?.status === 409 && error.response.data?.category) {
+        const existing = error.response.data.category as NewsCategory;
+        setForm((f) => ({ ...f, category: existing.name }));
+        setCategoryInputVisible(false);
+        await fetchCategories();
+        toast.success('Đã chọn danh mục có sẵn');
+      } else {
+        toast.error(error?.response?.data?.message || 'Thêm danh mục thất bại');
+      }
+    } finally {
+      setCategorySaving(false);
+    }
   };
 
   const openDelete = (id: number) => {
@@ -153,6 +202,7 @@ const News = () => {
 
   const handleSave = async () => {
     if (!form.title.trim()) { toast.error('Vui lòng nhập tiêu đề'); return; }
+    if (!form.category.trim()) { toast.error('Vui lòng thêm danh mục'); return; }
     if (!form.author.trim()) { toast.error('Vui lòng nhập tác giả'); return; }
     if (!form.excerpt.trim()) { toast.error('Vui lòng nhập mô tả ngắn'); return; }
     if (!form.contentHtml.trim()) { toast.error('Vui lòng nhập nội dung bài viết'); return; }
@@ -331,9 +381,62 @@ const News = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="n-category" value="Danh mục *" />
-                <Select id="n-category" value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}>
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                </Select>
+                <div className="flex items-center gap-2">
+                  <Select
+                    id="n-category"
+                    value={form.category}
+                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                    className="flex-1"
+                  >
+                    <option value="">Chọn danh mục</option>
+                    {form.category && !categories.some((category) => category.name === form.category) && (
+                      <option value={form.category}>{form.category}</option>
+                    )}
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.name}>{category.name}</option>
+                    ))}
+                  </Select>
+                  <Button
+                    type="button"
+                    color="light"
+                    className="shrink-0"
+                    onClick={() => setCategoryInputVisible(true)}
+                  >
+                    <span className="mr-2 text-lg leading-none">+</span>
+                    Thêm danh mục
+                  </Button>
+                </div>
+                {categoryInputVisible && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <TextInput
+                      id="n-new-category"
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleCreateCategory();
+                        }
+                      }}
+                      placeholder="Nhập tên danh mục"
+                      autoFocus
+                      className="flex-1"
+                    />
+                    <Button type="button" onClick={handleCreateCategory} disabled={categorySaving}>
+                      {categorySaving ? 'Đang lưu...' : 'Lưu'}
+                    </Button>
+                    <Button
+                      type="button"
+                      color="light"
+                      onClick={() => {
+                        setNewCategory('');
+                        setCategoryInputVisible(false);
+                      }}
+                    >
+                      Hủy
+                    </Button>
+                  </div>
+                )}
               </div>
               <div>
                 <Label htmlFor="n-author" value="Tác giả *" />

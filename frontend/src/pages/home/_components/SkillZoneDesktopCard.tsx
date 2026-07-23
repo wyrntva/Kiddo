@@ -1,8 +1,13 @@
+import { Link } from 'react-router-dom'
 import type { SkillZoneIsland } from './skillZoneData'
 
 export default function SkillZoneDesktopCard({ island, className = '' }: { island: SkillZoneIsland; className?: string }) {
   return (
-    <div className={`flex-1 min-w-0 flex flex-col h-[180px] md:h-[360px] lg:h-[360px] xl:h-[289px] items-center relative group ${className}`}>
+    <Link
+      to="/explore"
+      aria-label={`Khám phá ${island.nameLine1} ${island.nameLine2}`}
+      className={`flex-1 min-w-0 flex flex-col h-[180px] md:h-[360px] lg:h-[360px] xl:h-[289px] items-center relative group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a7ad8] focus-visible:ring-offset-2 rounded-2xl ${className}`}
+    >
       <div className="aspect-[2254/2254] overflow-clip relative w-full shrink-0 select-none pointer-events-none transition-transform duration-300 group-hover:scale-[1.03] filter drop-shadow-md">
         <div className="-translate-x-1/2 absolute left-1/2 top-0 overflow-hidden w-full max-w-[160px] md:max-w-[260px] lg:max-w-[280px] xl:max-w-[280px] aspect-square">
           <img
@@ -28,6 +33,6 @@ export default function SkillZoneDesktopCard({ island, className = '' }: { islan
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

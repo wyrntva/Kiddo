@@ -11,7 +11,9 @@ export default function ZoneStarRow({
   emptyIcon,
   size = 'small',
 }: ZoneStarRowProps) {
-  const dimensions = size === 'large' ? 'w-[50px] h-[50px]' : 'w-4 h-4'
+  const dimensions = size === 'large'
+    ? 'w-[50px] h-[50px]'
+    : 'w-4 h-4 2xl:w-[14px] 2xl:h-[14px] min-[1800px]:w-4 min-[1800px]:h-4'
 
   return (
     <div className="flex flex-[1_0_0] gap-[4px] items-start min-w-px">

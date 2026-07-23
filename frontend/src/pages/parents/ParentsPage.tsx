@@ -1,14 +1,41 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
 import ParentsHeroSection from './_components/ParentsHeroSection'
 import ParentsFeaturedSection from './_components/ParentsFeaturedSection'
 import ParentsArticlesSection from './_components/ParentsArticlesSection'
+import { getNews, type NewsArticle } from './newsApi'
 
 export default function ParentsPage() {
   const [category, setCategory] = useState('Tất cả')
-  const categories = ['Tất cả', 'Kỹ năng sống', 'Phát triển cảm xúc']
+  const [articles, setArticles] = useState<NewsArticle[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    getNews()
+      .then(result => {
+        if (active) setArticles(result.items)
+      })
+      .catch(() => {
+        if (active) setError('Không thể tải danh sách bài viết. Vui lòng thử lại sau.')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const categories = useMemo(
+    () => ['Tất cả', ...Array.from(new Set(articles.map(article => article.category).filter(Boolean)))],
+    [articles],
+  )
+  const featuredArticles = articles.filter(article => article.featured)
+  const regularArticles = articles.filter(article => !article.featured)
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
@@ -43,8 +70,17 @@ export default function ParentsPage() {
               ))}
             </div>
           </div>
-          <ParentsFeaturedSection activeCategory={category} />
-          <ParentsArticlesSection activeCategory={category} />
+          {loading && <p className="w-full py-10 text-center font-vietnam text-[#575e70]">Đang tải bài viết...</p>}
+          {error && <p className="w-full py-10 text-center font-vietnam text-red-600">{error}</p>}
+          {!loading && !error && (
+            <>
+              <ParentsFeaturedSection articles={featuredArticles} activeCategory={category} />
+              <ParentsArticlesSection
+                articles={regularArticles.length > 0 ? regularArticles : articles}
+                activeCategory={category}
+              />
+            </>
+          )}
         </div>
       </main>
       <Footer />

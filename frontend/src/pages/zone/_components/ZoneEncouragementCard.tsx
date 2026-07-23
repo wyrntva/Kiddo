@@ -6,9 +6,8 @@ const imgToro = '/assets/8a42d8a694f66237d91d5cac631d21ee780cbf64.webp'
 export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
   return (
     <div
-      className="rounded-[12px] flex flex-col sm:flex-row items-center overflow-clip relative w-full h-full kiddo-zone-card transition-all duration-300 ease-out hover:-translate-y-1.5"
+      className="rounded-[12px] flex flex-col xl:flex-row items-center overflow-clip relative w-full h-full kiddo-zone-card transition-all duration-300 ease-out hover:-translate-y-1.5"
       style={{
-        minHeight: '224px',
         backgroundColor: theme.encouragementBg,
         border: `1px solid ${theme.encouragementBorder}`,
         boxShadow: theme.encouragementShadow,
@@ -20,16 +19,16 @@ export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
         event.currentTarget.style.boxShadow = theme.encouragementShadow
       }}
     >
-      <div className="flex flex-col justify-center items-start p-6 shrink-0 w-full sm:w-[279px] text-left self-stretch">
+      <div className="flex w-full shrink-0 flex-col items-center justify-center p-5 text-center xl:w-[44%] xl:items-start xl:self-stretch xl:text-left min-[1800px]:w-[279px] min-[1800px]:p-6">
         <div className="flex flex-col gap-[12px] items-start w-full">
           <p
-            className="font-baloo font-bold text-[28px] leading-[48px] whitespace-nowrap"
+            className="font-baloo font-bold text-[28px] 2xl:text-[24px] min-[1800px]:text-[28px] leading-[48px] 2xl:leading-[36px] min-[1800px]:leading-[48px] whitespace-nowrap"
             style={{ color: theme.encouragementTitleColor }}
           >
             Cố lên nhé!
           </p>
           <div className="flex gap-[4px] items-center">
-            <p className="font-vietnam font-bold text-[18px] leading-[24px] text-[#37393e] whitespace-nowrap">
+            <p className="font-vietnam font-bold text-[18px] 2xl:text-[15px] min-[1800px]:text-[18px] leading-[24px] 2xl:leading-[20px] min-[1800px]:leading-[24px] text-[#37393e] whitespace-nowrap">
               Toro tin bạn làm được!
             </p>
             <div className="w-4 h-4 shrink-0">
@@ -39,7 +38,7 @@ export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
         </div>
       </div>
 
-      <div className="flex flex-1 h-[140px] sm:h-full relative overflow-hidden self-stretch">
+      <div className="relative flex min-h-0 w-full flex-1 self-stretch overflow-hidden">
         <img
           src={imgToro}
           alt="Toro"

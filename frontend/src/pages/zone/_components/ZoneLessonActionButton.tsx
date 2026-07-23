@@ -11,7 +11,7 @@ export default function ZoneLessonActionButton({ status }: { status: ZoneLessonS
 
   return (
     <div className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[40px] ${action.className}`}>
-      <span className="font-vietnam font-medium text-base leading-6 text-white whitespace-nowrap">
+      <span className="font-vietnam font-medium text-base 2xl:text-[14px] min-[1800px]:text-base leading-6 2xl:leading-5 min-[1800px]:leading-6 text-white whitespace-nowrap">
         {action.label}
       </span>
     </div>

@@ -11,6 +11,7 @@ const fallbackLessons: ZoneLesson[] = [
       '- Trẻ nhận biết cảm xúc vui của bản thân.\n- Trẻ biết cách chia sẻ niềm vui với người khác.',
     status: 'completed',
     stars: 5,
+    image: '/assets/emotions_lesson_1.jpg',
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const fallbackLessons: ZoneLesson[] = [
       '- Biết rằng buồn không phải là điều xấu và có thể nói ra nỗi buồn để được lắng nghe, an ủi.',
     status: 'in-progress',
     stars: 0,
+    image: '/assets/emotions_lesson_2.jpg',
   },
   {
     id: 3,
@@ -27,6 +29,7 @@ const fallbackLessons: ZoneLesson[] = [
       '- Trẻ nhận biết cảm xúc tức giận và biết lựa chọn cách bình tĩnh phù hợp.',
     status: 'not-started',
     stars: 0,
+    image: '/assets/emotions_lesson_3.jpg',
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ const fallbackLessons: ZoneLesson[] = [
       '- Trẻ nhận biết cảm xúc sợ hãi và biết tìm kiếm sự giúp đỡ khi cần.',
     status: 'not-started',
     stars: 0,
+    image: '/assets/emotions_lesson_4.jpg',
   },
   {
     id: 5,
@@ -43,6 +47,7 @@ const fallbackLessons: ZoneLesson[] = [
       '- Trẻ học cách gọi tên cảm xúc và chia sẻ với người lớn hoặc bạn bè khi cần.',
     status: 'not-started',
     stars: 0,
+    image: '/assets/emotions_lesson_5.jpg',
   },
 ]
 
@@ -80,14 +85,18 @@ export default function ZoneCamXucPage() {
       .then(json => {
         const currentZone = json.data?.find((z: any) => z.key === 'emotion')
         if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
-          const dbLessons = currentZone.lessons.map((l: any, index: number) => ({
-            id: l.id,
-            fallbackId: (index % 5) + 1,
-            title: l.title,
-            description: `- Nhận quà tặng: ${l.stars} ⭐\n- Học thử: ${l.stepsCount} bước học\n- Thời gian học: ${l.duration}\n- Độ khó: ${l.level}`,
-            status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
-            stars: index === 0 ? 5 : 0,
-          }))
+          const dbLessons = currentZone.lessons.map((l: any, index: number) => {
+            const fallbackId = (index % 5) + 1
+            return {
+              id: l.id,
+              fallbackId,
+              title: l.title,
+              description: `- Nhận quà tặng: ${l.stars} ⭐\n- Học thử: ${l.stepsCount} bước học\n- Thời gian học: ${l.duration}\n- Độ khó: ${l.level}`,
+              status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
+              stars: index === 0 ? 5 : 0,
+              image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : `/assets/emotions_lesson_${fallbackId}.jpg`,
+            }
+          })
           setLessons(dbLessons)
         }
       })

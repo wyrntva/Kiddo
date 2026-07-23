@@ -22,6 +22,11 @@ export interface NewsListResponse {
   limit: number;
 }
 
+export interface NewsCategory {
+  id: number;
+  name: string;
+}
+
 export interface NewsPayload {
   title: string;
   category: string;
@@ -47,6 +52,12 @@ export const newsAPI = {
 
   getAll: (page = 1, limit = 10, search = ''): Promise<{ data: NewsListResponse }> =>
     axiosClient.get('/api/news', { params: { page, limit, search } }),
+
+  getCategories: (): Promise<{ data: NewsCategory[] }> =>
+    axiosClient.get('/api/news/categories'),
+
+  createCategory: (name: string): Promise<{ data: NewsCategory }> =>
+    axiosClient.post('/api/news/categories', { name }),
 
   getOne: (id: number): Promise<{ data: NewsArticle }> =>
     axiosClient.get(`/api/news/${id}`),

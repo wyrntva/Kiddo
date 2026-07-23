@@ -6,6 +6,8 @@ import ZoneQuizGameScreen from './_components/ZoneQuizGameScreen'
 import ZoneQuizIntroScreen from './_components/ZoneQuizIntroScreen'
 import ZoneQuizQuestionScreen from './_components/ZoneQuizQuestionScreen'
 import ZoneQuizSuccessModal from './_components/ZoneQuizSuccessModal'
+import ZoneQuizWelcomeScreen from './_components/ZoneQuizWelcomeScreen'
+import ZoneQuizPreVideoScreen from './_components/ZoneQuizPreVideoScreen'
 import { zoneQuizAssets } from './quizData'
 import useZoneQuiz from './useZoneQuiz'
 
@@ -23,6 +25,14 @@ export default function ZoneQuizPage() {
     isChecked,
     isCorrect,
     isSpeaking,
+    showWelcome,
+    setShowWelcome,
+    showPreVideo,
+    setShowPreVideo,
+    showVideo,
+    setShowVideo,
+    showPostVideo,
+    setShowPostVideo,
     showIntro,
     showGame,
     placedEmotions,
@@ -32,8 +42,15 @@ export default function ZoneQuizPage() {
     showSuccessModal,
     allPlaced,
     introText,
+    welcomeText,
+    preVideoText,
+    postVideoText,
     gameGuideText,
     speakText,
+    speakWelcome,
+    speakPreVideo,
+    speakPostVideo,
+    stopAudio,
     handleSelect,
     handleDrop,
     handleSlotClick,
@@ -78,50 +95,97 @@ export default function ZoneQuizPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-screen overflow-hidden bg-[#F3F9FC]">
       <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
-      <main className="flex-1 min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] relative overflow-hidden">
-        <img
-          src={zoneQuizAssets.heroBg}
-          alt=""
-          className="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
-        />
+      <main className="flex-1 min-h-0 p-4 md:py-6 md:px-12 relative flex flex-col bg-[#F3F9FC] overflow-hidden">
+        <div className="relative flex-1 w-full h-full rounded-[20px] md:rounded-[32px] overflow-hidden shadow-2xl flex flex-col bg-[#f2f6f9]">
+          <img
+            src={zoneQuizAssets.heroBg}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
+          />
 
-        {showGame ? (
-          <ZoneQuizGameScreen
-            allPlaced={allPlaced}
-            placedEmotions={placedEmotions}
-            selectedEmotionId={selectedEmotionId}
-            gameChecked={gameChecked}
-            onBack={() => navigate(backPath)}
-            onCheckAnswers={handleCheckAnswers}
-            onSpeakGuide={() => speakText(gameGuideText)}
-            onSelectEmotion={setSelectedEmotionId}
-            onDrop={handleDrop}
-            onSlotClick={handleSlotClick}
-          />
-        ) : showIntro ? (
-          <ZoneQuizIntroScreen
-            introText={introText}
-            isSpeaking={isSpeaking}
-            onSpeak={() => speakText(introText)}
-          />
-        ) : (
-          <ZoneQuizQuestionScreen
-            quiz={quiz}
-            quizLesson={quizLesson}
-            currentQuestionIndex={currentQuestionIndex}
-            selectedOptionId={selectedOptionId}
-            isChecked={isChecked}
-            isCorrect={isCorrect}
-            isSpeaking={isSpeaking}
-            onBack={() => navigate(backPath)}
-            onSpeakQuestion={() => speakText(quiz.prompt)}
-            onSelect={handleSelect}
-          />
-        )}
+          {showWelcome ? (
+            <ZoneQuizWelcomeScreen
+              welcomeText={welcomeText}
+              isSpeaking={isSpeaking}
+              onSpeak={speakWelcome}
+              onStart={() => {
+                setShowWelcome(false)
+                setShowPreVideo(true)
+                stopAudio()
+              }}
+            />
+          ) : showPreVideo ? (
+            <ZoneQuizPreVideoScreen
+              preVideoText={preVideoText}
+              isSpeaking={isSpeaking}
+              onSpeak={speakPreVideo}
+            />
+          ) : showVideo ? (
+            <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center">
+              <video
+                src="/assets/videobai1.mov"
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+                onEnded={() => {
+                  setShowVideo(false)
+                  setShowPostVideo(true)
+                }}
+              />
+              <button
+                onClick={() => {
+                  setShowVideo(false)
+                  setShowPostVideo(true)
+                }}
+                className="absolute top-4 right-4 z-30 bg-black/60 hover:bg-black/85 active:scale-95 transition-all text-white px-6 py-2.5 rounded-full font-baloo text-[16px] sm:text-[18px] font-bold shadow-md cursor-pointer border border-white/20"
+              >
+                Bỏ qua
+              </button>
+            </div>
+          ) : showPostVideo ? (
+            <ZoneQuizPreVideoScreen
+              preVideoText={postVideoText}
+              isSpeaking={isSpeaking}
+              onSpeak={speakPostVideo}
+            />
+          ) : showGame ? (
+            <ZoneQuizGameScreen
+              allPlaced={allPlaced}
+              placedEmotions={placedEmotions}
+              selectedEmotionId={selectedEmotionId}
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onCheckAnswers={handleCheckAnswers}
+              onSpeakGuide={() => speakText(gameGuideText)}
+              onSelectEmotion={setSelectedEmotionId}
+              onDrop={handleDrop}
+              onSlotClick={handleSlotClick}
+            />
+          ) : showIntro ? (
+            <ZoneQuizIntroScreen
+              introText={introText}
+              isSpeaking={isSpeaking}
+              onSpeak={() => speakText(introText)}
+            />
+          ) : (
+            <ZoneQuizQuestionScreen
+              quiz={quiz}
+              quizLesson={quizLesson}
+              currentQuestionIndex={currentQuestionIndex}
+              selectedOptionId={selectedOptionId}
+              isChecked={isChecked}
+              isCorrect={isCorrect}
+              isSpeaking={isSpeaking}
+              onBack={() => navigate(backPath)}
+              onSpeakQuestion={() => speakText(quiz.prompt)}
+              onSelect={handleSelect}
+            />
+          )}
+        </div>
       </main>
 
       {showSuccessModal && (

@@ -29,7 +29,7 @@ export default function ZoneQuizQuestionScreen({
 }: ZoneQuizQuestionScreenProps) {
   return (
     <div className="relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-col items-center justify-start gap-6 px-4 sm:px-6 py-6 md:gap-[40px] md:py-8">
-      <div className="hidden lg:block fixed bottom-[220px] left-[32px] xl:left-[60px] z-10 w-[220px] xl:w-[310px] pointer-events-none">
+      <div className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"

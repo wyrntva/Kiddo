@@ -1,120 +1,51 @@
-const imgFeatured   = "/assets/2ef900d41652ded63060baf5f80eaa8c41302f1c.webp"
-const imgStar       = "/assets/fab336f52963bda96bf7fd3972c00e6f48413f30.svg"
-const imgCalendar   = "/assets/301795cd9061ae01af0f35a90267af9138916e7e.svg"
-const imgEye        = "/assets/b21e2894a8889fed5ba2dc562524705ab4d680eb.svg"
+import { Link } from 'react-router-dom'
+import { resolveNewsImage, type NewsArticle } from '../newsApi'
 
-export interface FeaturedArticle {
-  id: number
-  slug: string
-  image: string
-  title: string
-  description: string
-  date: string
-  views: string
-  tag: string
-  category: string
-}
+const imgStar = '/assets/fab336f52963bda96bf7fd3972c00e6f48413f30.svg'
+const imgCalendar = '/assets/301795cd9061ae01af0f35a90267af9138916e7e.svg'
 
-export const FEATURED_ARTICLES: FeaturedArticle[] = [
-  {
-    id: 1,
-    slug: '5-cach-giup-con-hieu-va-goi-ten-cam-xuc',
-    image: imgFeatured,
-    title: '5 cách giúp con hiểu và gọi tên cảm xúc của mình',
-    description: 'Giúp trẻ nhận biết cảm xúc là bước đầu quan trọng để con học cách kiểm soát và thể hiện cảm xúc một cách tích cực.',
-    date: '15:00 20/05/2026',
-    views: '24 lượt xem',
-    tag: 'Phát triển cảm xúc',
-    category: 'Phát triển cảm xúc',
-  },
-  {
-    id: 2,
-    slug: 'dong-hanh-cung-con-quan-ly-cam-xuc',
-    image: imgFeatured,
-    title: '5 cách giúp con hiểu và gọi tên cảm xúc của mình',
-    description: 'Giúp trẻ nhận biết cảm xúc là bước đầu quan trọng để con học cách kiểm soát và thể hiện cảm xúc một cách tích cực.',
-    date: '15:00 20/05/2026',
-    views: '24 lượt xem',
-    tag: 'Phát triển cảm xúc',
-    category: 'Phát triển cảm xúc',
-  },
-]
-
-function FeaturedCard({ article }: { article: FeaturedArticle }) {
+function FeaturedCard({ article }: { article: NewsArticle }) {
   return (
-    <Link to={`/parents/articles/${article.slug}`} className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col lg:flex-row flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a7ad8]">
-      {/* Image side */}
-      <div className="relative w-full h-[200px] sm:h-[240px] lg:w-[45%] lg:h-auto shrink-0">
-        <img loading="lazy" decoding="async"
-          alt={article.title}
-          src={article.image}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Nổi bật badge */}
-        <div className="absolute top-4 left-4 bg-[#fea01f] flex items-center gap-2 px-3 py-1 rounded-[40px]">
-          <div className="relative shrink-0 size-[20px] overflow-clip">
-            <div className="absolute inset-[10.42%_8.34%]">
-              <img loading="lazy" decoding="async" alt="" className="absolute inset-0 w-full h-full" src={imgStar} />
-            </div>
-          </div>
-          <span className="font-vietnam text-[14px] font-medium text-white tracking-[0.28px]">Nổi bật</span>
+    <Link to={`/parents/articles/${article.id}`} className="flex flex-1 min-w-0 flex-col overflow-hidden rounded-[24px] border border-[#e2e2ea] bg-white transition-shadow hover:shadow-md lg:flex-row xl:h-[264px]">
+      <div className="relative h-[200px] w-full shrink-0 sm:h-[240px] lg:h-auto lg:w-[45%] xl:h-[264px] xl:w-[400px]">
+        <img loading="lazy" decoding="async" alt={article.title} src={resolveNewsImage(article.image)} className="absolute inset-0 size-full object-cover" />
+        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-[40px] bg-[#fea01f] px-3 py-1">
+          <img alt="" src={imgStar} className="size-5" />
+          <span className="font-vietnam text-[14px] font-medium text-white">Nổi bật</span>
         </div>
       </div>
-
-      {/* Content side */}
-      <div className="flex flex-col gap-4 items-start p-5 lg:p-6 flex-1 min-w-0">
-        {/* Tag */}
-        <div className="bg-[#e5f2ff] border border-[#0a7ad8] flex items-center px-2 py-1 rounded-[8px] shrink-0">
-          <span className="font-vietnam text-[14px] text-[#0a7ad8] tracking-[0.28px] whitespace-nowrap">{article.tag}</span>
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-4 p-5 lg:p-6">
+        <div className="rounded-[8px] border border-[#0a7ad8] bg-[#e5f2ff] px-2 py-1">
+          <span className="font-vietnam text-[14px] text-[#0a7ad8]">{article.category}</span>
         </div>
-
-        {/* Text */}
-        <div className="flex flex-col gap-2 w-full">
-          <p className="font-baloo font-bold text-[18px] leading-[32px] text-[#37393e]">{article.title}</p>
-          <p className="font-vietnam text-[16px] leading-[24px] text-[#575e70]">{article.description}</p>
+        <div className="w-full">
+          <p className="font-baloo text-[18px] font-bold leading-8 text-[#37393e]">{article.title}</p>
+          <p className="line-clamp-2 font-vietnam text-[16px] leading-6 text-[#575e70]">{article.excerpt}</p>
         </div>
-
-        {/* Meta */}
-        <div className="flex gap-4 items-start w-full">
-          <div className="flex flex-1 gap-2 items-center py-2">
-            <div className="relative shrink-0 size-[24px] overflow-clip">
-              <div className="absolute inset-[6.25%_12.5%_11.46%_12.5%]">
-                <div className="absolute inset-[-3.8%_-4.17%]">
-                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgCalendar} />
-                </div>
-              </div>
-            </div>
-            <span className="font-vietnam font-medium text-[14px] leading-[20px] text-[#8690a7] tracking-[0.28px] whitespace-nowrap">{article.date}</span>
-          </div>
-          <div className="flex flex-1 gap-2 items-center justify-end py-2">
-            <div className="relative shrink-0 size-[24px] overflow-clip">
-              <div className="absolute bottom-1/4 left-[12.5%] right-[12.5%] top-1/4">
-                <div className="absolute inset-[-6.25%_-4.17%]">
-                  <img loading="lazy" decoding="async" alt="" className="block w-full h-full" src={imgEye} />
-                </div>
-              </div>
-            </div>
-            <span className="font-vietnam font-medium text-[14px] leading-[20px] text-[#8690a7] tracking-[0.28px] whitespace-nowrap">{article.views}</span>
-          </div>
+        <div className="mt-auto flex items-center gap-2 text-[14px] text-[#8690a7]">
+          <img alt="" src={imgCalendar} className="size-6" />
+          <span>{article.date}</span>
+          <span>•</span>
+          <span>{article.author}</span>
         </div>
       </div>
     </Link>
   )
 }
 
-export default function ParentsFeaturedSection({ activeCategory = 'Tất cả' }: { activeCategory?: string }) {
-  const filteredArticles = FEATURED_ARTICLES.filter(
-    article => activeCategory === 'Tất cả' || article.category === activeCategory,
-  )
-
-  if (filteredArticles.length === 0) return null
+export default function ParentsFeaturedSection({
+  articles,
+  activeCategory,
+}: {
+  articles: NewsArticle[]
+  activeCategory: string
+}) {
+  const filtered = articles.filter(article => activeCategory === 'Tất cả' || article.category === activeCategory)
+  if (filtered.length === 0) return null
 
   return (
-    <div className="flex flex-col sm:flex-row gap-6 w-full">
-      {filteredArticles.map(article => (
-        <FeaturedCard key={article.id} article={article} />
-      ))}
+    <div className="flex w-full flex-col gap-6 sm:flex-row">
+      {filtered.map(article => <FeaturedCard key={article.id} article={article} />)}
     </div>
   )
 }
-import { Link } from 'react-router-dom'

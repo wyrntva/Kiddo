@@ -187,12 +187,16 @@ const Lessons = () => {
                                 filtered.map((item) => (
                                     <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                         <Table.Cell>
-                                            <div className="w-16 h-12 flex items-center justify-center bg-gray-50 rounded-lg p-1 border border-gray-100 dark:bg-gray-900 dark:border-gray-700">
+                                            <div className={`w-16 h-12 flex items-center justify-center rounded-lg overflow-hidden ${
+                                                item.img 
+                                                    ? '' 
+                                                    : 'bg-gray-50 border border-gray-100 p-1 dark:bg-gray-900 dark:border-gray-700'
+                                            }`}>
                                                 {item.img ? (
                                                     <img 
                                                         src={item.img} 
                                                         alt={item.title} 
-                                                        className="max-w-full max-h-full object-contain"
+                                                        className="w-full h-full object-cover"
                                                     />
                                                 ) : (
                                                     <span className="text-gray-400 text-xs">Chưa có</span>

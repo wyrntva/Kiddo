@@ -84,6 +84,14 @@ export default function DiaryLessonCarousel({
                 } ${isSelected ? 'bg-[#f4fafd] border-[#0a7ad8]' : 'bg-white border-[#e2e2ea]'}`}
               >
                 <div className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[14px] overflow-hidden" style={{ aspectRatio: '260 / 176' }}>
+                  {lesson.image && (
+                    <img
+                      src={lesson.image}
+                      alt={lesson.title}
+                      className="absolute inset-0 size-full object-cover rounded-t-[14px]"
+                      loading="lazy"
+                    />
+                  )}
                   {lesson.isCompleted && (
                     <div className="absolute left-0 top-0 p-[10px] flex items-center">
                       <div className="bg-[#339e4a] p-[8px] rounded-full shrink-0 flex items-center justify-center text-white">

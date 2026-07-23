@@ -63,11 +63,11 @@ async function main() {
   // Seed Lessons
   const lessonsData = [
     // Vùng Đất Cảm Xúc
-    { title: 'Niềm vui của con', zoneKey: 'emotion', emoji: '😊', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5 },
-    { title: 'Nỗi buồn bé nhỏ', zoneKey: 'emotion', emoji: '😢', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5 },
-    { title: 'Cơn giận đang tới', zoneKey: 'emotion', emoji: '😤', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5 },
-    { title: 'Khi con thấy sợ', zoneKey: 'emotion', emoji: '😰', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5 },
-    { title: 'Nói ra cảm xúc của mình', zoneKey: 'emotion', emoji: '🗣️', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5 },
+    { title: 'Niềm vui của con', zoneKey: 'emotion', emoji: '😊', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5, img: '/uploads/emotions_lesson_1.jpg' },
+    { title: 'Nỗi buồn bé nhỏ', zoneKey: 'emotion', emoji: '😢', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5, img: '/uploads/emotions_lesson_2.jpg' },
+    { title: 'Cơn giận đang tới', zoneKey: 'emotion', emoji: '😤', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5, img: '/uploads/emotions_lesson_3.jpg' },
+    { title: 'Khi con thấy sợ', zoneKey: 'emotion', emoji: '😰', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5, img: '/uploads/emotions_lesson_4.jpg' },
+    { title: 'Nói ra cảm xúc của mình', zoneKey: 'emotion', emoji: '🗣️', level: 'Cơ bản', duration: '20 phút', stars: 5, stepsCount: 5, img: '/uploads/emotions_lesson_5.jpg' },
 
     // Khu Vườn Bạn Bè
     { title: 'Biết cách chia sẻ', zoneKey: 'friendship', emoji: '🎁', level: 'Cơ bản', duration: '22 phút', stars: 5, stepsCount: 5 },
@@ -179,6 +179,7 @@ async function main() {
         data: {
           title: l.title,
           emoji: l.emoji,
+          img: (l as any).img || '',
           level: l.level,
           duration: l.duration,
           stars: l.stars,

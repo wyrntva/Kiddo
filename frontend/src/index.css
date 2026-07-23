@@ -85,13 +85,6 @@ svg {
   scrollbar-width: none;  /* Firefox */
 }
 
-/* Custom layout constraints to bypass Tailwind JIT compilation issues */
-@media (min-width: 640px) {
-  .kiddo-zone-card {
-    min-height: 224px !important;
-  }
-}
-
 /* Custom 4px thin scrollbar class matching brand colors */
 .scrollbar-thin-custom::-webkit-scrollbar {
   width: 4px;
