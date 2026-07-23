@@ -36,7 +36,7 @@ export default function SkillZonesSection() {
 
   return (
     <section id="adventure-map" className="w-full scroll-mt-20">
-      <div className="bg-[#f2fbef] flex flex-col gap-[16px] sm:gap-[24px] items-start p-[16px] sm:p-[24px] rounded-[24px] relative w-full overflow-hidden shadow-lg border border-gray-100 min-h-[420px] md:min-h-0 md:aspect-[1824/760] lg:h-auto lg:aspect-[1824/440]">
+      <div className="bg-[#f2fbef] flex flex-col gap-[16px] sm:gap-[24px] items-start p-[16px] sm:p-[24px] rounded-[24px] relative w-full overflow-hidden shadow-lg border border-gray-100 min-h-[420px] md:min-h-[520px] lg:min-h-[520px] xl:min-h-[440px] xl:h-[440px]">
         <div className="absolute inset-0 w-full h-full z-0">
           <img width="2090" height="682" loading="lazy" decoding="async"
             src="/assets/33efcd0a6cadb8258948d753e0545715b83e8b64.webp"
@@ -87,10 +87,25 @@ export default function SkillZonesSection() {
           </div>
         </div>
 
-        <div className="hidden md:flex justify-center relative z-10 w-full shrink-0 pt-[76px] md:pb-1 md:mt-auto lg:absolute lg:left-0 lg:right-0 lg:top-[60%] lg:-translate-y-1/2 lg:mt-0 lg:pt-0 lg:pb-0 xl:top-[59%]">
+        <div className="hidden md:block xl:hidden relative z-10 w-full shrink-0 pt-[88px] mt-auto">
+          <div
+            className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none pb-2"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+          >
+            {skillZoneIslands.map((island, index) => (
+              <div
+                key={index}
+                className="basis-1/2 lg:basis-1/3 min-w-0 shrink-0 snap-start px-2"
+              >
+                <SkillZoneDesktopCard island={island} className="flex" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden xl:flex justify-center relative z-10 w-full shrink-0 xl:absolute xl:left-0 xl:right-0 xl:top-[66%] xl:-translate-y-1/2">
           <div
             className="flex justify-center gap-1.5 lg:gap-3 xl:gap-[24px] items-end w-full px-0 lg:px-2 xl:px-4 origin-center"
-            style={{ transform: 'scale(clamp(0.72, calc(100vw / 1500), 1))' }}
           >
             {skillZoneIslands.map((island, index) => (
               <SkillZoneDesktopCard key={index} island={island} className={desktopVisibilityClasses[index] ?? 'hidden'} />

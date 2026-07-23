@@ -23,6 +23,7 @@ const SOCIAL_FIELDS: {
         { key: 'tiktok', label: 'TikTok', id: 'tiktok', type: 'url', placeholder: 'https://www.tiktok.com/@username' },
         { key: 'facebook', label: 'Facebook', id: 'facebook', type: 'url', placeholder: 'https://www.facebook.com/username' },
         { key: 'youtube', label: 'YouTube', id: 'youtube', type: 'url', placeholder: 'https://www.youtube.com/@channel' },
+        { key: 'instagram', label: 'Instagram', id: 'instagram', type: 'url', placeholder: 'https://www.instagram.com/username' },
         { key: 'phone', label: 'Số điện thoại', id: 'social_phone', type: 'tel', placeholder: '0842486222' },
         { key: 'gmail', label: 'Gmail', id: 'gmail', type: 'email', placeholder: 'example@gmail.com' },
         { key: 'address', label: 'Địa chỉ', id: 'social_address', type: 'text', placeholder: 'Nhập địa chỉ' },

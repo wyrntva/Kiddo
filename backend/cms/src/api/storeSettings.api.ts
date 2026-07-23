@@ -15,9 +15,12 @@ export interface StoreSettings {
     tiktok_url: string | null;
     facebook_url: string | null;
     youtube_url: string | null;
+    instagram_url: string | null;
     phone_number: string | null;
     gmail: string | null;
     social_address: string | null;
+    footer_description: string | null;
+    footer_copyright: string | null;
     // Banner fields
     banner_scoreboard: string | null;
     banner_tournament: string | null;
@@ -40,9 +43,12 @@ export interface StoreSettingsUpdate {
     tiktok_url?: string | null;
     facebook_url?: string | null;
     youtube_url?: string | null;
+    instagram_url?: string | null;
     phone_number?: string | null;
     gmail?: string | null;
     social_address?: string | null;
+    footer_description?: string | null;
+    footer_copyright?: string | null;
     // Banner fields
     banner_scoreboard?: string | null;
     banner_tournament?: string | null;

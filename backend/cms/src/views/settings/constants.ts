@@ -37,9 +37,21 @@ export interface SocialMediaInfo {
     tiktok: string;
     facebook: string;
     youtube: string;
+    instagram: string;
     phone: string;
     gmail: string;
     address: string;
+}
+
+export interface FooterSettings {
+    description: string;
+    copyright: string;
+    facebookUrl: string;
+    tiktokUrl: string;
+    instagramUrl: string;
+    youtubeUrl: string;
+    email: string;
+    phone: string;
 }
 
 // ============================================
@@ -101,6 +113,12 @@ export const SETTING_SECTIONS: SettingSection[] = [
                 description: 'Xem và điều chỉnh banner trang tin tức của bạn',
                 action: 'banner-news',
             },
+            {
+                icon: 'solar:window-frame-outline',
+                title: 'Thiết lập chân trang',
+                description: 'Xem và điều chỉnh thông tin chân trang (footer) của website',
+                action: 'footer-settings',
+            },
         ],
     },
     {
@@ -136,7 +154,19 @@ export const DEFAULT_SOCIAL_MEDIA: SocialMediaInfo = {
     tiktok: '',
     facebook: '',
     youtube: '',
+    instagram: '',
     phone: '',
     gmail: '',
     address: '',
+};
+
+export const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
+    description: 'Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.',
+    copyright: '© 2026 OTTOPIA Learning. All rights reserved.',
+    facebookUrl: '',
+    tiktokUrl: '',
+    instagramUrl: '',
+    youtubeUrl: '',
+    email: '',
+    phone: '',
 };

@@ -4,7 +4,7 @@ import type { DiaryIsland } from '../types'
 interface DiaryProgressSidebarProps {
   islands: DiaryIsland[]
   expandedIsland: string
-  setExpandedIsland: (name: string) => void
+  onSelectIsland: (name: string) => void
   accordionScrollRef: RefObject<HTMLDivElement>
   islandRefs: MutableRefObject<Record<string, HTMLDivElement | null>>
 }
@@ -12,7 +12,7 @@ interface DiaryProgressSidebarProps {
 export default function DiaryProgressSidebar({
   islands,
   expandedIsland,
-  setExpandedIsland,
+  onSelectIsland,
   accordionScrollRef,
   islandRefs,
 }: DiaryProgressSidebarProps) {
@@ -54,7 +54,7 @@ export default function DiaryProgressSidebar({
               key={island.name}
               onClick={() => {
                 if (!isExpanded) {
-                  setExpandedIsland(island.name)
+                  onSelectIsland(island.name)
                 }
               }}
               className="transition-all duration-300 w-full flex flex-col cursor-pointer hover:scale-[1.01]"

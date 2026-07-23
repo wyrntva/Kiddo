@@ -42,7 +42,7 @@ export default function ZoneLessonCard({ lesson, theme, onSelect }: ZoneLessonCa
           style={{ left: -7, top: -9, backgroundColor: theme.badgeBg }}
         >
           <span className="font-baloo text-[18px] leading-[32px] text-white text-center">
-            {lesson.id}
+            {lesson.fallbackId ?? lesson.id}
           </span>
         </div>
       </div>

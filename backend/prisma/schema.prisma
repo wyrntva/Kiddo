@@ -122,13 +122,28 @@ model StoreSettings {
   tiktok_url        String?
   facebook_url      String?
   youtube_url       String?
+  instagram_url     String?
   phone_number      String?
   gmail             String?
   social_address    String?
+  footer_description String?  @default("Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.")
+  footer_copyright   String?  @default("© 2026 OTTOPIA Learning. All rights reserved.")
   banner_scoreboard String?  @default("[]")
   banner_tournament String?  @default("[]")
   banner_ranking    String?
   banner_member     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+}
+
+model SubscriptionPlan {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String
+  price       Int
+  period      String
+  features    Json
+  isPopular   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

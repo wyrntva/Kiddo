@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 // Assets — all already in public/assets/
 const imgLogo       = "/assets/logo_ottopia.webp"
 const imgAvatar     = "/assets/567c1f8e1a376373c8c7749b158426dd62cb60c2.webp"
@@ -8,6 +10,19 @@ const imgTiktok     = "/assets/d90e182ab78acaa1ae26ca4006a9509dc49db0ca.svg"
 const imgInstagram  = "/assets/89c64997fd9e5661072f99cb94c0efd17ab9e551.svg"
 const imgHeart      = "/assets/bdbbb95075ff18bc1732686588996909478aedcc.svg"
 const imgMessages   = "/assets/159e68ad449696f37117068d1ffc4c11894c8114.svg"
+
+interface StoreSettings {
+  name: string
+  phone: string | null
+  gmail: string | null
+  facebook_url: string | null
+  youtube_url: string | null
+  tiktok_url: string | null
+  instagram_url: string | null
+  footer_description: string | null
+  footer_copyright: string | null
+  phone_number: string | null
+}
 
 function ColHeading({ children }: { children: string }) {
   return (
@@ -38,6 +53,23 @@ function SocialBtn({ icon, inset }: { icon: string; inset: string }) {
 }
 
 export default function Footer() {
+  const [settings, setSettings] = useState<StoreSettings | null>(null)
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/store-settings`)
+      .then(res => res.json())
+      .then(data => setSettings(data))
+      .catch(err => console.error('Lỗi tải cấu hình footer:', err))
+  }, [API_URL])
+
+  const facebookUrl = settings?.facebook_url || "https://www.facebook.com/ottopia.kynangsongchotre";
+  const youtubeUrl = settings?.youtube_url || "";
+  const tiktokUrl = settings?.tiktok_url || "";
+  const instagramUrl = settings?.instagram_url || "";
+  const email = settings?.gmail || "ottopia@gmail.com";
+  const phone = settings?.phone_number || "0987654321";
+
   return (
     <footer className="relative z-10 bg-[#e6f6ff] flex flex-col items-start pt-[48px] w-full font-vietnam">
 
@@ -51,15 +83,29 @@ export default function Footer() {
             <img loading="lazy" decoding="async" alt="OTTOPIA" className="w-full h-full object-contain" src={imgLogo} />
           </div>
           <p className="font-vietnam text-[16px] leading-[24px] text-[#3e484f] pr-[16px]">
-            Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.
+            {settings?.footer_description || "Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày."}
           </p>
           <div className="flex gap-[24px] items-start">
-            <a href="https://www.facebook.com/ottopia.kynangsongchotre" target="_blank" rel="noopener noreferrer">
-              <SocialBtn icon={imgFacebook}  inset="inset-[11.98%_29.06%_11.98%_28.65%]" />
-            </a>
-            <SocialBtn icon={imgYoutube}   inset="inset-[19.56%_7.86%]" />
-            <SocialBtn icon={imgTiktok}    inset="inset-[12.5%_15.9%_10.75%_16.67%]" />
-            <SocialBtn icon={imgInstagram} inset="inset-[11.64%_11.7%]" />
+            {facebookUrl && (
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
+                <SocialBtn icon={imgFacebook}  inset="inset-[11.98%_29.06%_11.98%_28.65%]" />
+              </a>
+            )}
+            {youtubeUrl && (
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer">
+                <SocialBtn icon={imgYoutube}   inset="inset-[19.56%_7.86%]" />
+              </a>
+            )}
+            {tiktokUrl && (
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer">
+                <SocialBtn icon={imgTiktok}    inset="inset-[12.5%_15.9%_10.75%_16.67%]" />
+              </a>
+            )}
+            {instagramUrl && (
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+                <SocialBtn icon={imgInstagram} inset="inset-[11.64%_11.7%]" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -98,8 +144,8 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>KẾT NỐI</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Email: ottopia@gmail.com</FooterLink>
-            <FooterLink>Số điện thoại: 0987654321</FooterLink>
+            <FooterLink href={`mailto:${email}`}>{`Email: ${email}`}</FooterLink>
+            <FooterLink href={`tel:${phone}`}>{`Số điện thoại: ${phone}`}</FooterLink>
           </div>
         </div>
 
@@ -111,7 +157,7 @@ export default function Footer() {
 
           {/* Left — copyright */}
           <p className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px] whitespace-nowrap">
-            © 2026 OTTOPIA Learning. All rights reserved.
+            {settings?.footer_copyright || "© 2026 OTTOPIA Learning. All rights reserved."}
           </p>
 
           {/* Center — Made with ❤ */}

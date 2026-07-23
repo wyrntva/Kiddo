@@ -44,7 +44,7 @@ export default function AboutSection() {
 
         {/* Right Side: Core Pillars */}
         <div className="flex-1 min-w-0 w-full">
-          <div className="flex flex-col sm:flex-row gap-[24px] items-start w-full">
+          <div className="flex flex-col sm:flex-row gap-[24px] items-center sm:items-start w-full">
 
             {/* Pillar 1: Dễ hiểu */}
             <div className="flex-1 flex flex-col gap-[8px] items-center p-[24px] rounded-[32px] hover:bg-white/30 transition-colors duration-200">

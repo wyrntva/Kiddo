@@ -3,40 +3,46 @@ const imgStar       = "/assets/fab336f52963bda96bf7fd3972c00e6f48413f30.svg"
 const imgCalendar   = "/assets/301795cd9061ae01af0f35a90267af9138916e7e.svg"
 const imgEye        = "/assets/b21e2894a8889fed5ba2dc562524705ab4d680eb.svg"
 
-interface FeaturedArticle {
+export interface FeaturedArticle {
   id: number
+  slug: string
   image: string
   title: string
   description: string
   date: string
   views: string
   tag: string
+  category: string
 }
 
-const FEATURED_ARTICLES: FeaturedArticle[] = [
+export const FEATURED_ARTICLES: FeaturedArticle[] = [
   {
     id: 1,
+    slug: '5-cach-giup-con-hieu-va-goi-ten-cam-xuc',
     image: imgFeatured,
     title: '5 cách giúp con hiểu và gọi tên cảm xúc của mình',
     description: 'Giúp trẻ nhận biết cảm xúc là bước đầu quan trọng để con học cách kiểm soát và thể hiện cảm xúc một cách tích cực.',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
     tag: 'Phát triển cảm xúc',
+    category: 'Phát triển cảm xúc',
   },
   {
     id: 2,
+    slug: 'dong-hanh-cung-con-quan-ly-cam-xuc',
     image: imgFeatured,
     title: '5 cách giúp con hiểu và gọi tên cảm xúc của mình',
     description: 'Giúp trẻ nhận biết cảm xúc là bước đầu quan trọng để con học cách kiểm soát và thể hiện cảm xúc một cách tích cực.',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
     tag: 'Phát triển cảm xúc',
+    category: 'Phát triển cảm xúc',
   },
 ]
 
 function FeaturedCard({ article }: { article: FeaturedArticle }) {
   return (
-    <div className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col lg:flex-row flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+    <Link to={`/parents/articles/${article.slug}`} className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col lg:flex-row flex-1 min-w-0 overflow-hidden cursor-pointer hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a7ad8]">
       {/* Image side */}
       <div className="relative w-full h-[200px] sm:h-[240px] lg:w-[45%] lg:h-auto shrink-0">
         <img loading="lazy" decoding="async"
@@ -92,16 +98,23 @@ function FeaturedCard({ article }: { article: FeaturedArticle }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
-export default function ParentsFeaturedSection() {
+export default function ParentsFeaturedSection({ activeCategory = 'Tất cả' }: { activeCategory?: string }) {
+  const filteredArticles = FEATURED_ARTICLES.filter(
+    article => activeCategory === 'Tất cả' || article.category === activeCategory,
+  )
+
+  if (filteredArticles.length === 0) return null
+
   return (
     <div className="flex flex-col sm:flex-row gap-6 w-full">
-      {FEATURED_ARTICLES.map(article => (
+      {filteredArticles.map(article => (
         <FeaturedCard key={article.id} article={article} />
       ))}
     </div>
   )
 }
+import { Link } from 'react-router-dom'

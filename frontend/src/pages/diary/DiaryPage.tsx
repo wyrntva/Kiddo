@@ -21,13 +21,6 @@ export default function DiaryPage() {
   const islandRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   useEffect(() => {
-    const lessonsForIsland = ISLAND_LESSONS[expandedIsland] || []
-    if (lessonsForIsland.length > 0) {
-      setSelectedLesson(lessonsForIsland[0])
-    }
-  }, [expandedIsland])
-
-  useEffect(() => {
     const cardElement = islandRefs.current[expandedIsland]
     const containerElement = accordionScrollRef.current
     if (!expandedIsland || !cardElement || !containerElement) return
@@ -52,6 +45,17 @@ export default function DiaryPage() {
     }
   }
 
+  const handleSelectIsland = (islandName: string) => {
+    const firstLesson = ISLAND_LESSONS[islandName]?.[0]
+    if (!firstLesson) return
+
+    // Keep the accordion, carousel and feedback panel on the same island in a
+    // single render. Updating the lesson later in an effect briefly mixed the
+    // newly selected island with feedback from the previous one.
+    setExpandedIsland(islandName)
+    setSelectedLesson(firstLesson)
+  }
+
   return (
     <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col">
       <SEO title="Nhật ký học tập" noindex={true} />
@@ -63,7 +67,7 @@ export default function DiaryPage() {
           <DiaryProgressSidebar
             islands={ISLANDS}
             expandedIsland={expandedIsland}
-            setExpandedIsland={setExpandedIsland}
+            onSelectIsland={handleSelectIsland}
             accordionScrollRef={accordionScrollRef}
             islandRefs={islandRefs}
           />

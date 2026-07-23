@@ -22,7 +22,7 @@ function FeedbackColumn({
   items: string[]
 }) {
   return (
-    <div className="rounded-[24px] p-[24px] shadow-[0px_0px_5px_rgba(0,0,0,0.1)] hover:shadow-md transition-all duration-200 flex flex-col gap-[24px]" style={{ backgroundColor: bgColor, border: `1px solid ${borderColor}` }}>
+    <div className="rounded-[24px] p-[24px] shadow-[0px_0px_5px_rgba(0,0,0,0.1)] hover:shadow-md transition-all duration-200 flex flex-col gap-[24px] 2xl:h-[232px]" style={{ backgroundColor: bgColor, border: `1px solid ${borderColor}` }}>
       <div className="flex items-center gap-[12px] shrink-0 w-full">
         <div className="p-[4px] rounded-full shrink-0 flex items-center justify-center" style={{ border: `1px solid ${iconBorderColor}` }}>
           <div className="p-[8px] rounded-full shrink-0 flex items-center justify-center text-white" style={{ backgroundColor: iconBgColor }}>
@@ -49,7 +49,7 @@ function FeedbackColumn({
 
 export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) {
   return (
-    <div className="relative rounded-[24px] w-full h-auto p-[16px] sm:p-[24px] lg:p-[32px] xl:p-[40px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
+    <div className="relative rounded-[24px] w-full h-auto 2xl:h-[472px] p-[16px] sm:p-[24px] lg:p-[32px] xl:p-[40px] border border-[#BAE6FD] shadow-[0px_0px_5px_rgba(0,0,0,0.05)] flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden justify-between">
       <div className="absolute inset-0 pointer-events-none rounded-[24px] z-0">
         <div className="absolute bg-white inset-0 rounded-[24px]" />
         <img width="1457" height="720" alt="Sky Background" className="absolute max-w-none object-cover rounded-[24px] w-full h-full" loading="lazy" decoding="async" src="/assets/9df33b1557a9d97afd069c95e8a6f06c6f083c6d.webp" />

@@ -16,7 +16,7 @@ function setRefreshCookie(res: Response, token: string): void {
   res.cookie(REFRESH_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/api/auth',
     maxAge: REFRESH_TTL_MS,
   })
@@ -26,7 +26,7 @@ function clearRefreshCookie(res: Response): void {
   res.clearCookie(REFRESH_COOKIE, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/api/auth',
   })
 }
@@ -175,6 +175,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       badges: user.badges,
       lessonsCompleted: user.lessonsCompleted,
       weeklyProgress: user.weeklyProgress,
+      isPaid: user.isPaid,
     },
     accessToken,
   })
@@ -248,6 +249,7 @@ router.post('/google', async (req: Request, res: Response): Promise<void> => {
         badges: user.badges,
         lessonsCompleted: user.lessonsCompleted,
         weeklyProgress: user.weeklyProgress,
+        isPaid: user.isPaid,
       },
       accessToken,
     })
@@ -343,6 +345,7 @@ router.post('/google/complete', async (req: Request, res: Response): Promise<voi
         badges: user.badges,
         lessonsCompleted: user.lessonsCompleted,
         weeklyProgress: user.weeklyProgress,
+        isPaid: user.isPaid,
       },
       accessToken,
     })
@@ -355,7 +358,7 @@ router.post('/google/complete', async (req: Request, res: Response): Promise<voi
 router.post('/refresh', async (req: Request, res: Response): Promise<void> => {
   const refreshToken = req.cookies?.[REFRESH_COOKIE]
   if (!refreshToken) {
-    res.status(400).json({ message: 'Thiếu refresh token' })
+    res.status(401).json({ message: 'Thiếu refresh token' })
     return
   }
 
@@ -411,6 +414,7 @@ router.get('/me', authenticate, async (req: AuthRequest, res: Response): Promise
       id: true, name: true, parentName: true, email: true, phone: true,
       role: true, avatar: true, level: true, stars: true,
       badges: true, lessonsCompleted: true, weeklyProgress: true,
+      isPaid: true,
       createdAt: true,
     },
   })
@@ -419,6 +423,36 @@ router.get('/me', authenticate, async (req: AuthRequest, res: Response): Promise
     return
   }
   res.json({ user })
+})
+
+// POST /api/auth/upgrade - Upgrade user to paid
+router.post('/upgrade', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const user = await prisma.user.update({
+      where: { id: req.user!.userId },
+      data: { isPaid: true },
+    })
+    res.json({
+      message: 'Nâng cấp tài khoản thành công',
+      user: {
+        id: user.id,
+        name: user.name,
+        parentName: user.parentName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        avatar: user.avatar,
+        level: user.level,
+        stars: user.stars,
+        badges: user.badges,
+        lessonsCompleted: user.lessonsCompleted,
+        weeklyProgress: user.weeklyProgress,
+        isPaid: user.isPaid,
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể nâng cấp tài khoản' })
+  }
 })
 
 export default router

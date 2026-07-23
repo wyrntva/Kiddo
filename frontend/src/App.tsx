@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from '
 import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
 import ScrollToTop from './components/common/ScrollToTop'
+import FloatingChatbot from './components/common/FloatingChatbot'
 
 const ExplorePage   = lazy(() => import('./pages/explore/ExplorePage'))
 const HomePage      = lazy(() => import('./pages/home/HomePage'))
@@ -12,6 +13,7 @@ const RegisterPage  = lazy(() => import('./pages/register/RegisterPage'))
 const GoogleOnboardingPage = lazy(() => import('./pages/auth/GoogleOnboardingPage'))
 const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
+const ParentArticlePage = lazy(() => import('./pages/parents/ParentArticlePage'))
 const TermsPage     = lazy(() => import('./pages/terms/TermsPage'))
 const ZoneCamXucPage = lazy(() => import('./pages/zone/ZoneCamXucPage'))
 const ZoneGiaoTiepPage = lazy(() => import('./pages/zone/ZoneGiaoTiepPage'))
@@ -61,6 +63,7 @@ function App() {
             <Route path="/google-onboarding" element={<GoogleOnboardingPage />} />
             <Route path="/diary"   element={<ProtectedRoute><DiaryPage /></ProtectedRoute>} />
             <Route path="/parents" element={<ParentsPage />} />
+            <Route path="/parents/articles/:slug" element={<ParentArticlePage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/zone/cam-xuc" element={<Navigate to="/zone/emotions" replace />} />
             <Route path="/zone/cam-xuc/lesson/:id" element={<LegacyEmotionLessonRedirect />} />
@@ -77,6 +80,7 @@ function App() {
             <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
             <Route path="*"        element={<NotFoundPage />} />
           </Routes>
+          <FloatingChatbot />
         </Suspense>
       </BrowserRouter>
     </AuthProvider>

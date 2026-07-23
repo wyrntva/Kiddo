@@ -24,6 +24,7 @@ export interface AuthUser {
   badges: number
   lessonsCompleted: number
   weeklyProgress: number
+  isPaid: boolean
 }
 
 interface RegisterData {
@@ -46,6 +47,7 @@ interface AuthContextType {
   completeGoogleRegistration: (credential: string, data: GoogleProfileData) => Promise<void>
   register: (data: RegisterData) => Promise<void>
   logout: () => Promise<void>
+  upgradeSubscription: () => Promise<void>
 }
 
 interface GoogleProfileData {
@@ -198,8 +200,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearSession()
   }
 
+  async function upgradeSubscription() {
+    if (!accessToken) return
+    const response = await fetch(`${API_URL}/api/auth/upgrade`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Không thể nâng cấp tài khoản')
+    persistSession(accessToken, data.user)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout, upgradeSubscription }}>
       {children}
     </AuthContext.Provider>
   )

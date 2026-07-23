@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const imgCard1      = "/assets/e8804dfc93d2a6f7e86dfd11a04dcfe495214e95.webp"
 const imgCard2      = "/assets/cd8eb4ae612b9c9fea7a4434916202f28d3f600f.webp"
@@ -9,53 +10,63 @@ const imgEye        = "/assets/b21e2894a8889fed5ba2dc562524705ab4d680eb.svg"
 const imgStar       = "/assets/840e2a429f658f653956cea3592d2b076218c88d.svg"
 const imgCaretDown  = "/assets/db119c5879e533666bf4d57c819bd3abd97eb956.svg"
 
-interface Article {
+export interface Article {
   id: number
+  slug: string
   image: string
   title: string
   description: string
   date: string
   views: string
+  category: string
 }
 
-const ARTICLES: Article[] = [
+export const ARTICLES: Article[] = [
   {
     id: 1,
+    slug: 'ky-nang-giao-tiep-cho-tre-3-6-tuoi',
     image: imgCard1,
     title: 'Kỹ năng giao tiếp cho trẻ 3-6 tuổi',
     description: 'Gợi ý những cách đơn giản giúp con tự tin nói và lắng nghe mỗi ngày.',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
+    category: 'Kỹ năng sống',
   },
   {
     id: 2,
+    slug: 'huong-dan-con-tu-lap-tung-buoc-nho',
     image: imgCard2,
     title: 'Hướng dẫn con tự lập từng bước nhỏ',
     description: 'Những thói quen nhỏ mỗi ngày sẽ giúp con tự tin và chủ động hơn.',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
+    category: 'Kỹ năng sống',
   },
   {
     id: 3,
+    slug: 'day-con-biet-chia-se-va-quan-tam',
     image: imgCard3,
     title: 'Dạy con biết chia sẻ và quan tâm',
     description: 'Nuôi dưỡng lòng nhân ái và dạy con biết chia sẻ với mọi người',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
+    category: 'Phát triển cảm xúc',
   },
   {
     id: 4,
+    slug: '3-buoc-giup-con-binh-tinh-khi-gap-tinh-huong-kho',
     image: imgCard4,
     title: '3 bước giúp con bình tĩnh khi gặp tình huống khó',
     description: 'Cùng con học cách hít thở, suy nghĩ và chọn cách xử lý phù hợp',
     date: '15:00 20/05/2026',
     views: '24 lượt xem',
+    category: 'Phát triển cảm xúc',
   },
 ]
 
 function ArticleCard({ article }: { article: Article }) {
   return (
-    <div className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+    <Link to={`/parents/articles/${article.slug}`} className="bg-white border border-[#e2e2ea] rounded-[24px] flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a7ad8]">
       {/* Thumbnail */}
       <div className="h-[200px] relative w-full overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-[#d2d2d2]" />
@@ -97,17 +108,19 @@ function ArticleCard({ article }: { article: Article }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
-export default function ParentsArticlesSection() {
+export default function ParentsArticlesSection({ activeCategory = 'Tất cả' }: { activeCategory?: string }) {
   const [search, setSearch] = useState('')
 
-  const filtered = ARTICLES.filter(a =>
-    a.title.toLowerCase().includes(search.toLowerCase()) ||
-    a.description.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = ARTICLES.filter(a => {
+    const matchesCategory = activeCategory === 'Tất cả' || a.category === activeCategory
+    const matchesSearch = a.title.toLowerCase().includes(search.toLowerCase()) ||
+      a.description.toLowerCase().includes(search.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
 
   return (
     <div className="flex flex-col gap-6 w-full">

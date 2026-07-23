@@ -18,13 +18,16 @@ import {
     type SettingItem,
     type StoreInfo,
     type SocialMediaInfo,
+    type FooterSettings,
     SETTING_SECTIONS,
     DEFAULT_STORE_INFO,
     DEFAULT_SOCIAL_MEDIA,
+    DEFAULT_FOOTER_SETTINGS,
 } from './constants';
 import StoreInfoModal from './modals/StoreInfoModal';
 import SocialMediaModal from './modals/SocialMediaModal';
 import BannerSettingsModal from './modals/BannerSettingsModal';
+import FooterSettingsModal from './modals/FooterSettingsModal';
 
 // ============================================
 // MAIN COMPONENT
@@ -34,11 +37,13 @@ const Settings = () => {
     const [storeInfoModalOpen, setStoreInfoModalOpen] = useState(false);
     const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
     const [bannerModalOpen, setBannerModalOpen] = useState(false);
+    const [footerModalOpen, setFooterModalOpen] = useState(false);
     const [selectedBannerType, setSelectedBannerType] = useState<'home' | 'news'>('home');
     const [_loading, setLoading] = useState(false);
     const [storeSettings, setStoreSettings] = useState<StoreSettings | null>(null);
     const [storeInfo, setStoreInfo] = useState<StoreInfo>(DEFAULT_STORE_INFO);
     const [socialMediaInfo, setSocialMediaInfo] = useState<SocialMediaInfo>(DEFAULT_SOCIAL_MEDIA);
+    const [footerSettings, setFooterSettings] = useState<FooterSettings>(DEFAULT_FOOTER_SETTINGS);
 
     useEffect(() => {
         loadStoreSettings();
@@ -69,9 +74,21 @@ const Settings = () => {
                 tiktok: settings.tiktok_url || '',
                 facebook: settings.facebook_url || '',
                 youtube: settings.youtube_url || '',
+                instagram: settings.instagram_url || '',
                 phone: settings.phone_number || '',
                 gmail: settings.gmail || '',
                 address: settings.social_address || '',
+            });
+
+            setFooterSettings({
+                description: settings.footer_description || DEFAULT_FOOTER_SETTINGS.description,
+                copyright: settings.footer_copyright || DEFAULT_FOOTER_SETTINGS.copyright,
+                facebookUrl: settings.facebook_url || '',
+                tiktokUrl: settings.tiktok_url || '',
+                instagramUrl: settings.instagram_url || '',
+                youtubeUrl: settings.youtube_url || '',
+                email: settings.gmail || '',
+                phone: settings.phone_number || '',
             });
         } catch (_error) {
             toast.error('Không thể tải thông tin cửa hàng');
@@ -112,6 +129,7 @@ const Settings = () => {
                 tiktok_url: socialMediaInfo.tiktok || null,
                 facebook_url: socialMediaInfo.facebook || null,
                 youtube_url: socialMediaInfo.youtube || null,
+                instagram_url: socialMediaInfo.instagram || null,
                 phone_number: socialMediaInfo.phone || null,
                 gmail: socialMediaInfo.gmail || null,
                 social_address: socialMediaInfo.address || null,
@@ -126,11 +144,35 @@ const Settings = () => {
         }
     };
 
+    const handleSaveFooterSettings = async () => {
+        try {
+            setLoading(true);
+            await storeSettingsAPI.update({
+                footer_description: footerSettings.description,
+                footer_copyright: footerSettings.copyright,
+                facebook_url: footerSettings.facebookUrl || null,
+                tiktok_url: footerSettings.tiktokUrl || null,
+                instagram_url: footerSettings.instagramUrl || null,
+                youtube_url: footerSettings.youtubeUrl || null,
+                gmail: footerSettings.email || null,
+                phone_number: footerSettings.phone || null,
+            });
+            toast.success('Đã lưu thiết lập chân trang');
+            setFooterModalOpen(false);
+            await loadStoreSettings();
+        } catch (_error) {
+            toast.error('Không thể lưu thiết lập chân trang');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // --- Action Routing ---
 
     const handleItemClick = (item: SettingItem) => {
         if (item.action === 'store-info') setStoreInfoModalOpen(true);
         else if (item.action === 'social-media') setSocialMediaModalOpen(true);
+        else if (item.action === 'footer-settings') setFooterModalOpen(true);
         else if (item.action === 'banner-home') {
             setSelectedBannerType('home');
             setBannerModalOpen(true);
@@ -189,6 +231,14 @@ const Settings = () => {
                 onSettingsChange={setStoreSettings}
                 onReload={loadStoreSettings}
                 type={selectedBannerType}
+            />
+
+            <FooterSettingsModal
+                open={footerModalOpen}
+                onClose={() => setFooterModalOpen(false)}
+                footerSettings={footerSettings}
+                onChange={setFooterSettings}
+                onSave={handleSaveFooterSettings}
             />
         </div>
     );

@@ -20,6 +20,8 @@ const getOrCreateSettings = async () => {
         currency: 'VND',
         banner_scoreboard: '[]',
         banner_tournament: '[]',
+        footer_description: 'Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.',
+        footer_copyright: '© 2026 OTTOPIA Learning. All rights reserved.',
       }
     })
   }
@@ -40,7 +42,8 @@ router.get('/', async (req, res) => {
 router.put('/', authenticate, requireAdmin, async (req, res) => {
   const {
     name, phone, currency, address, province, district, ward, business_type,
-    tiktok_url, facebook_url, youtube_url, phone_number, gmail, social_address
+    tiktok_url, facebook_url, youtube_url, instagram_url, phone_number, gmail, social_address,
+    footer_description, footer_copyright
   } = req.body
 
   try {
@@ -57,9 +60,12 @@ router.put('/', authenticate, requireAdmin, async (req, res) => {
     if (tiktok_url !== undefined) updateData.tiktok_url = tiktok_url
     if (facebook_url !== undefined) updateData.facebook_url = facebook_url
     if (youtube_url !== undefined) updateData.youtube_url = youtube_url
+    if (instagram_url !== undefined) updateData.instagram_url = instagram_url
     if (phone_number !== undefined) updateData.phone_number = phone_number
     if (gmail !== undefined) updateData.gmail = gmail
     if (social_address !== undefined) updateData.social_address = social_address
+    if (footer_description !== undefined) updateData.footer_description = footer_description
+    if (footer_copyright !== undefined) updateData.footer_copyright = footer_copyright
 
     const updated = await prisma.storeSettings.update({
       where: { id: current.id },
