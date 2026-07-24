@@ -9,7 +9,13 @@ import defaultAvatarImage from '../assets/images/generic-profile_mini_dcryfs.web
 // API BASE URL
 // ============================================
 
-export const API_BASE = import.meta.env.VITE_API_URL || '';
+export const API_BASE = ((): string => {
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+    if (typeof window !== 'undefined' && window.location && window.location.origin) {
+        return window.location.origin;
+    }
+    return 'https://cms.ottopia.vn';
+})();
 
 // ============================================
 // LABELS & MAPS

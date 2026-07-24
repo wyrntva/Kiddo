@@ -4,9 +4,12 @@ import axiosRetry from 'axios-retry';
 const getApiUrl = (): string => {
     if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
     if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+        if (window.location.hostname === 'cms.ottopia.vn' || window.location.hostname.endsWith('ottopia.vn')) {
+            return 'https://cms.ottopia.vn';
+        }
         return `${window.location.protocol}//${window.location.hostname}:5000`;
     }
-    return 'http://127.0.0.1:5000';
+    return 'https://cms.ottopia.vn';
 };
 
 const API_URL = getApiUrl();
