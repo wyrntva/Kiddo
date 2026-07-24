@@ -387,32 +387,26 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const playQuestionAudio = () => {
     stopAudio()
     const currentQ = questions[currentQuestionIndex]
-    if (!currentQ) return
+    if (!currentQ || !currentQ.voiceUrl) return
 
-    if (currentQ.voiceUrl) {
-      setIsSpeaking(true)
-      const audio = new Audio(getFullMediaUrl(currentQ.voiceUrl))
-      audioRef.current = audio
-      audio.onended = () => {
-        setIsSpeaking(false)
-        audioRef.current = null
-      }
-      audio.onerror = () => {
-        setIsSpeaking(false)
-        audioRef.current = null
-        speakText(currentQ.prompt || '')
-      }
-      audio.play().catch((err) => {
-        setIsSpeaking(false)
-        audioRef.current = null
-        if (err?.name !== 'NotAllowedError') {
-          console.error('Question audio play failed:', err)
-        }
-        speakText(currentQ.prompt || '')
-      })
-    } else if (currentQ.prompt) {
-      speakText(currentQ.prompt)
+    setIsSpeaking(true)
+    const audio = new Audio(getFullMediaUrl(currentQ.voiceUrl))
+    audioRef.current = audio
+    audio.onended = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
     }
+    audio.onerror = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+    audio.play().catch((err) => {
+      setIsSpeaking(false)
+      audioRef.current = null
+      if (err?.name !== 'NotAllowedError') {
+        console.error('Question audio play failed:', err)
+      }
+    })
   }
 
   const speakQuestion = () => {
