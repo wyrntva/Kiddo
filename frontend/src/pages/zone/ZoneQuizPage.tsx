@@ -48,6 +48,7 @@ export default function ZoneQuizPage() {
     speakText,
     speakWelcome,
     speakPreVideo,
+    startVideoNow,
     speakPostVideo,
     speakPostQuestion,
     speakQuestion,
@@ -124,14 +125,17 @@ export default function ZoneQuizPage() {
               preVideoText={preVideoText}
               isSpeaking={isSpeaking}
               onSpeak={speakPreVideo}
+              onStartVideo={startVideoNow}
             />
           ) : showVideo ? (
-            <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center">
+            <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center bg-black">
               <video
                 src={videoUrl || "/uploads/videos/videobai1.mp4"}
                 autoPlay
                 playsInline
-                className="w-full h-full object-contain"
+                controls
+                preload="auto"
+                className="w-full h-full object-contain z-10"
                 onEnded={() => {
                   setShowVideo(false)
                   setShowPostVideo(true)
@@ -142,7 +146,7 @@ export default function ZoneQuizPage() {
                   setShowVideo(false)
                   setShowPostVideo(true)
                 }}
-                className="absolute top-4 right-4 z-30 bg-black/60 hover:bg-black/85 active:scale-95 transition-all text-white px-6 py-2.5 rounded-full font-baloo text-[16px] sm:text-[18px] font-bold shadow-md cursor-pointer border border-white/20"
+                className="absolute top-4 right-4 z-30 bg-black/75 hover:bg-black active:scale-95 transition-all text-white px-6 py-2.5 rounded-full font-baloo text-[16px] sm:text-[18px] font-bold shadow-md cursor-pointer border border-white/20"
               >
                 Bỏ qua
               </button>

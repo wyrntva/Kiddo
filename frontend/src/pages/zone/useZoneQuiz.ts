@@ -256,6 +256,15 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     })
   }
 
+  const startVideoNow = () => {
+    stopAudio()
+    if (navigateTimeoutRef.current) {
+      clearTimeout(navigateTimeoutRef.current)
+    }
+    setShowPreVideo(false)
+    setShowVideo(true)
+  }
+
   const speakPreVideo = () => {
     playPreVideoAudio()
   }
@@ -629,6 +638,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     speakText,
     speakWelcome,
     speakPreVideo,
+    startVideoNow,
     speakPostVideo,
     speakPostQuestion,
     speakQuestion,
