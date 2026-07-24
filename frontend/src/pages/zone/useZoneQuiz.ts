@@ -202,10 +202,23 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     setIsSpeaking(false)
   }
 
-  const speakText = (_text: string) => {
+  const speakText = (text: string) => {
     stopAudio()
-    // TTS (speechSynthesis) is disabled.
-  };
+    if (!text || typeof window === 'undefined' || !('speechSynthesis' in window)) return
+
+    try {
+      window.speechSynthesis.cancel()
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'vi-VN'
+      utterance.rate = 0.95
+      utterance.onstart = () => setIsSpeaking(true)
+      utterance.onend = () => setIsSpeaking(false)
+      utterance.onerror = () => setIsSpeaking(false)
+      window.speechSynthesis.speak(utterance)
+    } catch {
+      setIsSpeaking(false)
+    }
+  }
 
   const playWelcomeAudio = () => {
     stopAudio()
@@ -519,6 +532,34 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       return () => clearTimeout(timer)
     }
   }, [showIntro])
+
+  useEffect(() => {
+    const isQuestionScreenVisible =
+      !showWelcome &&
+      !showPreVideo &&
+      !showVideo &&
+      !showPostVideo &&
+      !showIntro &&
+      !showGame &&
+      !loading
+
+    if (isQuestionScreenVisible && questions.length > 0) {
+      const timer = setTimeout(() => {
+        speakQuestion()
+      }, 400)
+      return () => clearTimeout(timer)
+    }
+  }, [
+    showWelcome,
+    showPreVideo,
+    showVideo,
+    showPostVideo,
+    showIntro,
+    showGame,
+    loading,
+    currentQuestionIndex,
+    questions,
+  ])
 
   useEffect(() => {
     return () => {
