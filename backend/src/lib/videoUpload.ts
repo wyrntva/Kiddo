@@ -32,7 +32,7 @@ export function createVideoUpload(subdirectory = 'videos'): multer.Multer {
 
   return multer({
     storage,
-    limits: { fileSize: 100 * 1024 * 1024, files: 1 },
+    limits: { fileSize: 500 * 1024 * 1024, files: 1 },
     fileFilter: (_req, file, callback) => {
       if (!file.mimetype.startsWith('video/')) {
         callback(new multer.MulterError('LIMIT_UNEXPECTED_FILE', file.fieldname))

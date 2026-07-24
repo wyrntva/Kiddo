@@ -45,8 +45,8 @@ app.use(cors({
   credentials: true,
 }))
 
-app.use(express.json({ limit: '200kb' }))
-app.use(express.urlencoded({ extended: false, limit: '200kb' }))
+app.use(express.json({ limit: '500mb' }))
+app.use(express.urlencoded({ extended: false, limit: '500mb' }))
 app.use(cookieParser())
 
 // Serve static uploads
