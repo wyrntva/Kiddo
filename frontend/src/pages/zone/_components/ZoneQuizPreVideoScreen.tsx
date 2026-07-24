@@ -4,14 +4,12 @@ interface ZoneQuizPreVideoScreenProps {
   preVideoText: string
   isSpeaking: boolean
   onSpeak: () => void
-  onStartVideo?: () => void
 }
 
 export default function ZoneQuizPreVideoScreen({
   preVideoText,
   isSpeaking,
   onSpeak,
-  onStartVideo,
 }: ZoneQuizPreVideoScreenProps) {
   return (
     <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
@@ -28,20 +26,10 @@ export default function ZoneQuizPreVideoScreen({
 
       {/* Speech Bubble */}
       <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 md:px-8 md:pt-12 relative z-20">
-        <div className="relative mx-auto w-full max-w-[850px] rounded-[32px] md:rounded-[48px] border-4 border-[#339E4A] bg-white px-6 py-8 text-center shadow-lg md:px-12 md:py-10 flex flex-col items-center justify-center gap-4">
+        <div className="relative mx-auto w-full max-w-[850px] rounded-[32px] md:rounded-[48px] border-4 border-[#339E4A] bg-white px-6 py-8 text-center shadow-lg md:px-12 md:py-10 flex flex-col items-center justify-center">
           <p className="font-baloo text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-normal md:leading-[42px] text-[#001e2f]">
             {preVideoText}
           </p>
-
-          {onStartVideo && (
-            <button
-              onClick={onStartVideo}
-              className="mt-2 bg-[#339E4A] hover:bg-[#28833b] active:scale-95 transition-all text-white font-baloo font-bold text-lg sm:text-xl px-8 py-3 rounded-full shadow-lg border-2 border-white flex items-center gap-2 cursor-pointer z-30 animate-bounce"
-            >
-              <span>Xem phim ngay</span>
-              <span className="text-2xl">🎬</span>
-            </button>
-          )}
           
           {/* Bubble Arrow pointing down at Toro */}
           <div className="pointer-events-none absolute -bottom-[28px] left-1/2 h-[32px] w-[48px] -translate-x-1/2">

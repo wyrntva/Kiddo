@@ -125,7 +125,6 @@ export default function ZoneQuizPage() {
               preVideoText={preVideoText}
               isSpeaking={isSpeaking}
               onSpeak={speakPreVideo}
-              onStartVideo={startVideoNow}
             />
           ) : showVideo ? (
             <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center bg-black">
