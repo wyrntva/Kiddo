@@ -101,7 +101,7 @@ export default function ZoneQuizPage() {
       <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
-      <main className="flex-1 p-4 md:py-6 md:px-12 relative flex flex-col bg-[#F3F9FC] overflow-y-auto md:overflow-hidden">
+      <main className="flex-1 p-2 sm:p-4 lg:p-5 relative flex flex-col bg-[#F3F9FC] overflow-y-auto md:overflow-hidden">
         <div className="relative flex-1 w-full min-h-[500px] md:h-full rounded-[20px] md:rounded-[32px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col bg-[#f2f6f9]">
           <img
             src={zoneQuizAssets.heroBg}

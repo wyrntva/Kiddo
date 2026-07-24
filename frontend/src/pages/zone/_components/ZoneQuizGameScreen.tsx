@@ -39,46 +39,55 @@ export default function ZoneQuizGameScreen({
 }: ZoneQuizGameScreenProps) {
   const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
   return (
-    <div className="relative z-10 w-full h-full flex flex-col lg:flex-row gap-5 lg:gap-[32px] items-stretch justify-start lg:justify-center p-4 sm:p-6 lg:p-[24px] overflow-y-auto">
+    <div className="relative z-10 w-full h-full flex flex-col xl:flex-row gap-4 xl:gap-6 items-stretch justify-start xl:justify-center p-3 sm:p-5 lg:p-6 overflow-y-auto">
+      {/* Sidebar - Side on XL screens, compact top/bottom on smaller screens */}
       <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
 
-      <div className="flex-1 min-h-0 flex flex-col items-center relative min-w-0 gap-5 lg:gap-6">
-        <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 lg:block">
+      {/* Main Board Area */}
+      <div className="flex-1 min-h-0 flex flex-col items-center justify-between relative min-w-0 gap-4 xl:gap-6">
+        {/* Top Header Bar */}
+        <div className="w-full flex items-center justify-between gap-2 sm:gap-4 relative px-1">
           <button
             onClick={onBack}
-            className="lg:absolute lg:left-0 lg:top-0 z-30 bg-white hover:bg-red-50 active:scale-95 transition-all border border-[#e83552] text-[#e83552] font-baloo text-[16px] sm:text-[18px] font-bold rounded-[40px] px-5 sm:px-6 py-2.5 flex items-center gap-2 shadow-sm self-start"
+            className="z-30 bg-white hover:bg-red-50 active:scale-95 transition-all border-2 border-[#e83552] text-[#e83552] font-baloo text-[14px] sm:text-[16px] md:text-[18px] font-bold rounded-[40px] px-4 sm:px-6 py-2 flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer"
           >
             Quay lại
           </button>
-          {allPlaced && (
-            <button
-              onClick={onCheckAnswers}
-              className="lg:absolute lg:right-0 lg:top-0 z-30 bg-gradient-to-r from-[#339e4a] to-[#45c25e] hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 transition-all border-2 border-white text-white font-baloo text-[16px] sm:text-[18px] font-bold rounded-[40px] px-5 sm:px-6 py-2.5 shadow-lg self-end animate-[pulseGlow_2s_ease-in-out_infinite] hover:shadow-[0_0_20px_rgba(51,158,74,0.5)]"
-            >
-              ✨ Hoàn thành
-            </button>
-          )}
-        </div>
 
-        <div className="flex flex-col items-center gap-2 text-center shrink-0 z-20 px-2">
-          <h1
-            style={{ WebkitTextStrokeWidth: '8px', WebkitTextStrokeColor: '#FFF', paintOrder: 'stroke fill' }}
-            className="font-baloo font-bold text-[32px] sm:text-[40px] xl:text-[48px] text-[#fea01f] leading-[40px] sm:leading-[52px] xl:leading-[60px] select-none"
-          >
-            Kéo thả cảm xúc
-          </h1>
-          <div className="bg-[#f2fbef] border-4 border-[#339e4a] flex items-center justify-center p-[8px] rounded-[1000px] shadow-sm">
-            <div className="border-2 border-[#02522b] border-dashed px-[16px] sm:px-[24px] py-[8px] rounded-[100px]">
-              <span className="font-baloo text-[18px] sm:text-[22px] xl:text-[24px] text-[#418457] leading-[28px] sm:leading-[36px] xl:leading-[40px] font-bold text-center">
-                Con đang cảm thấy gì
-              </span>
+          <div className="flex flex-col items-center gap-1 text-center shrink-0 z-20">
+            <h1
+              style={{ WebkitTextStrokeWidth: '6px', WebkitTextStrokeColor: '#FFF', paintOrder: 'stroke fill' }}
+              className="font-baloo font-bold text-[24px] sm:text-[34px] xl:text-[42px] text-[#fea01f] leading-tight select-none"
+            >
+              Kéo thả cảm xúc
+            </h1>
+            <div className="bg-[#f2fbef] border-2 border-[#339e4a] flex items-center justify-center p-[4px] sm:p-[6px] rounded-[1000px] shadow-sm">
+              <div className="border border-[#02522b] border-dashed px-[12px] sm:px-[20px] py-[3px] sm:py-[6px] rounded-[100px]">
+                <span className="font-baloo text-[14px] sm:text-[18px] xl:text-[20px] text-[#418457] font-bold text-center">
+                  Con đang cảm thấy gì
+                </span>
+              </div>
             </div>
+          </div>
+
+          <div className="shrink-0 min-w-[90px] sm:min-w-[120px] flex justify-end">
+            {allPlaced ? (
+              <button
+                onClick={onCheckAnswers}
+                className="z-30 bg-gradient-to-r from-[#339e4a] to-[#45c25e] hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 transition-all border-2 border-white text-white font-baloo text-[14px] sm:text-[16px] md:text-[18px] font-bold rounded-[40px] px-4 sm:px-6 py-2 shadow-lg animate-[pulseGlow_2s_ease-in-out_infinite]"
+              >
+                ✨ Hoàn thành
+              </button>
+            ) : (
+              <div className="w-10 sm:w-16 h-1" />
+            )}
           </div>
         </div>
 
-        <div className="flex-1 w-full flex flex-col items-center justify-start lg:justify-center gap-5 lg:gap-6 min-h-0">
+        {/* Center Cards & Emotion Picker Area */}
+        <div className="flex-1 w-full flex flex-col items-center justify-center gap-4 xl:gap-5 min-h-0">
           <div
-            className="bg-white rounded-[24px] p-[16px] sm:p-[20px] lg:p-[24px] w-full max-w-[1100px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[24px] items-stretch justify-center shrink-0 h-fit z-20"
+            className="bg-white rounded-[24px] p-3 sm:p-5 w-full max-w-[950px] grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 items-stretch justify-center shrink-0 z-20"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (
@@ -102,11 +111,13 @@ export default function ZoneQuizGameScreen({
             ))}
           </div>
 
-          <ZoneQuizEmotionPicker
-            emotions={shuffledEmotions}
-            placedEmotions={placedEmotions}
-            onSelectEmotion={onSelectEmotion}
-          />
+          <div className="w-full max-w-[950px] flex justify-center">
+            <ZoneQuizEmotionPicker
+              emotions={shuffledEmotions}
+              placedEmotions={placedEmotions}
+              onSelectEmotion={onSelectEmotion}
+            />
+          </div>
         </div>
       </div>
     </div>
