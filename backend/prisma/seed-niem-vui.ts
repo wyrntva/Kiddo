@@ -11,20 +11,21 @@ async function main() {
   console.log('🌱 Seeding lesson "Niềm vui của con"...')
 
   // 1. Tìm hoặc tạo zone "Cảm xúc"
-  let zone = await prisma.zone.findFirst({ where: { name: 'Cảm xúc' } })
+  let zone = await prisma.zone.findFirst({ where: { key: 'emotion' } })
   if (!zone) {
-    zone = await prisma.zone.findFirst({ where: { name: { contains: 'c' } } })
+    zone = await prisma.zone.findFirst({ where: { name: { contains: 'Cảm' } } })
   }
   if (!zone) {
     zone = await prisma.zone.create({
       data: {
-        name: 'Cảm xúc',
-        description: 'Vùng đất cảm xúc',
-        icon: '😊',
-        color: '#FEA01F',
+        name: 'Vùng Đất Cảm Xúc',
+        desc: 'Nhận biết, hiểu rõ và gọi tên cảm xúc',
+        color: '#339e4a',
+        img: '/assets/vung_dat_cam_xuc_island.webp',
+        key: 'emotion',
       },
     })
-    console.log('  ✅ Created zone "Cảm xúc"')
+    console.log('  ✅ Created zone "Vùng Đất Cảm Xúc"')
   }
 
   // 2. Upsert bài học "Niềm vui của con"
