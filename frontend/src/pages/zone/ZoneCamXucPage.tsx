@@ -73,7 +73,7 @@ export default function ZoneCamXucPage() {
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
 
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
     const token = localStorage.getItem('accessToken')
 
     fetch(`${API_URL}/api/zones`, {

@@ -12,7 +12,7 @@ const GAME_RETRY_TEXT =
 const getFullMediaUrl = (url: string) => {
   if (!url) return ''
   if (url.startsWith('/uploads/')) {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
     return `${API_URL}${url}`
   }
   return url
@@ -69,14 +69,32 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   useEffect(() => {
     const fetchQuizData = async () => {
       setLoading(true)
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
       const token = localStorage.getItem('accessToken')
 
       try {
         // 1. Fetch lesson metadata
-        const lessonRes = await fetch(`${API_URL}/api/lessons/${currentLessonId}`, {
+        let activeLessonId = currentLessonId
+        let lessonRes = await fetch(`${API_URL}/api/lessons/${activeLessonId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
+
+        // Fallback: If lesson ID is invalid or 404 (e.g. stale URL), auto-fetch valid active lesson from DB
+        if (!lessonRes.ok) {
+          const fallbackRes = await fetch(`${API_URL}/api/lessons`)
+          if (fallbackRes.ok) {
+            const allLessons = await fallbackRes.json()
+            if (Array.isArray(allLessons) && allLessons.length > 0) {
+              const matched = allLessons.find((l: any) => l.title === 'Niềm vui của con') || allLessons[0]
+              activeLessonId = matched.id
+              setCurrentLessonId(matched.id)
+              lessonRes = await fetch(`${API_URL}/api/lessons/${matched.id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+              })
+            }
+          }
+        }
+
         if (!lessonRes.ok) throw new Error('Failed to fetch lesson')
         const lessonData = await lessonRes.json()
         const title = lessonData?.title || ''
