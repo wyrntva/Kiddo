@@ -454,7 +454,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     setWelcomeAudio(current => current || getFullMediaUrl('/uploads/voices/gioi_thieu.mp3'))
     setPreVideoAudio(current => current || getFullMediaUrl('/uploads/voices/truoc_video.mp3'))
     setPostVideoAudio(current => current || getFullMediaUrl('/uploads/voices/sau_video.mp3'))
-    setVideoUrl(current => current || getFullMediaUrl('/uploads/videos/videobai1.mov'))
+    setVideoUrl(current => current || getFullMediaUrl('/uploads/videos/videobai1.mp4'))
   }, [lessonTitle])
 
   useEffect(() => {

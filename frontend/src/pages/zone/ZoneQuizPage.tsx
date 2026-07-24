@@ -128,7 +128,7 @@ export default function ZoneQuizPage() {
           ) : showVideo ? (
             <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center">
               <video
-                src={videoUrl || "/assets/videobai1.mov"}
+                src={videoUrl || "/uploads/videos/videobai1.mp4"}
                 autoPlay
                 playsInline
                 className="w-full h-full object-contain"

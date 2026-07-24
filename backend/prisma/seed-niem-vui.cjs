@@ -46,7 +46,7 @@ async function main() {
     welcomeAudio: '/uploads/voices/gioi_thieu.mp3',
     preVideoAudio: '/uploads/voices/truoc_video.mp3',
     postVideoAudio: '/uploads/voices/sau_video.mp3',
-    videoUrl: '/uploads/videos/videobai1.mov',
+    videoUrl: '/uploads/videos/videobai1.mp4',
     postQuestionText:
       'Tadaaa, chúc mừng bé đã hoàn thành bài học hôm nay. Giờ thì hãy cùng Toro giải trí một chút nhé. Nhớ nhìn kỹ màn hình rồi làm theo hướng dẫn nha.',
     postQuestionAudio: '/uploads/voices/1784898985604-df5946d2bffbc7950694a82d.mp3',
