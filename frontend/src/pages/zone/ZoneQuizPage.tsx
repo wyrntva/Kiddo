@@ -48,7 +48,6 @@ export default function ZoneQuizPage() {
     speakText,
     speakWelcome,
     speakPreVideo,
-    startVideoNow,
     speakPostVideo,
     speakPostQuestion,
     speakQuestion,
