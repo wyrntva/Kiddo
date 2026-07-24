@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 interface EmotionGameCardProps {
   cardId: string
   alt: string
@@ -35,11 +37,43 @@ export default function EmotionGameCard({
   const borderClass = gameChecked ? (isCorrect ? 'border-[#339e4a]' : 'border-[#ef4444]') : ''
   const background = gameChecked ? (isCorrect ? '#eefcf2' : '#fdf2f2') : gradient
 
+  const [justPlaced, setJustPlaced] = useState(false)
+  const [isDragOver, setIsDragOver] = useState(false)
+
+  const handleDrop = (event: React.DragEvent) => {
+    setIsDragOver(false)
+    setJustPlaced(true)
+    onDrop(event, cardId)
+    setTimeout(() => setJustPlaced(false), 500)
+  }
+
+  const handleDragOver = (event: React.DragEvent) => {
+    onDragOver(event)
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = () => {
+    setIsDragOver(false)
+  }
+
+  const handleSlotClick = () => {
+    if (!placedEmotion) {
+      setJustPlaced(true)
+      setTimeout(() => setJustPlaced(false), 500)
+    }
+    onSlotClick(cardId)
+  }
+
   return (
     <div
-      onDragOver={onDragOver}
-      onDrop={(event) => onDrop(event, cardId)}
-      className={`border border-solid rounded-[24px] flex flex-col items-center justify-start select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.02)] transition-all h-fit min-w-0 ${borderClass}`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={`border border-solid rounded-[24px] flex flex-col items-center justify-start select-none relative shadow-[0_8px_16px_rgba(0,0,0,0.02)] transition-all duration-300 h-fit min-w-0 ${borderClass} ${
+        isDragOver ? 'scale-105 shadow-[0_0_20px_rgba(51,158,74,0.4)] ring-2 ring-[#339e4a]/50' : ''
+      } ${gameChecked && isCorrect ? 'animate-[celebrateCard_0.5s_ease-in-out]' : ''} ${
+        gameChecked && !isCorrect ? 'animate-[shakeCard_0.4s_ease-in-out]' : ''
+      }`}
       style={{ borderColor: gameChecked ? undefined : emptyBorder }}
     >
       <div
@@ -47,22 +81,32 @@ export default function EmotionGameCard({
         style={{ background }}
       >
         <div
-          onClick={() => onSlotClick(cardId)}
-          className="w-[72px] sm:w-[90px] md:w-[108px] h-[64px] sm:h-[80px] md:h-[96px] relative flex items-center justify-center cursor-pointer shrink-0 transition-transform active:scale-95 cloud-slot-container"
+          onClick={handleSlotClick}
+          className={`w-[72px] sm:w-[90px] md:w-[108px] h-[64px] sm:h-[80px] md:h-[96px] relative flex items-center justify-center cursor-pointer shrink-0 transition-transform active:scale-95 cloud-slot-container ${
+            isDragOver && !placedEmotion ? 'animate-pulse scale-110' : ''
+          }`}
         >
           {placedEmotion ? (
-            <img src={cloudImage} alt="" className="w-full h-full object-contain pointer-events-none scale-[1.62]" />
+            <img
+              src={cloudImage}
+              alt=""
+              className={`w-full h-full object-contain pointer-events-none scale-[1.62] transition-all duration-300 ${
+                justPlaced ? 'animate-[bounceIn_0.5s_ease-out]' : ''
+              }`}
+            />
           ) : (
-            renderSlotOutline(emptyBorder)
+            <div className={`transition-transform duration-200 ${isDragOver ? 'scale-125' : ''}`}>
+              {renderSlotOutline(emptyBorder)}
+            </div>
           )}
         </div>
 
-        <div className="relative w-[100px] h-[100px] sm:w-[115px] sm:h-[115px] md:w-[130px] md:h-[130px] xl:w-[185px] xl:h-[185px] shrink-0 overflow-hidden pointer-events-none rounded-[20px] mascot-container">
+        <div className="relative w-[90px] h-[90px] sm:w-[105px] sm:h-[105px] md:w-[115px] md:h-[115px] xl:w-[130px] xl:h-[130px] shrink-0 overflow-hidden pointer-events-none rounded-[20px] mascot-container">
           <img src={image} alt={alt} className={imageClassName} />
         </div>
 
         {gameChecked && (
-          <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-in zoom-in duration-300">
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-20 animate-[popIn_0.3s_ease-out]">
             {isCorrect ? (
               <div className="bg-[#339e4a] rounded-full p-1.5"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>
             ) : (

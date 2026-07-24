@@ -1,8 +1,9 @@
 export interface QuizOption {
   id: string | number
-  label: string
-  sprite: string
-  style: React.CSSProperties
+  label?: string
+  sprite?: string
+  img?: string
+  style?: React.CSSProperties
 }
 
 export interface QuizQuestion {

@@ -12,7 +12,7 @@ export default function ZoneQuizIntroScreen({
   onSpeak,
 }: ZoneQuizIntroScreenProps) {
   return (
-    <div className="relative z-10 flex h-full flex-col overflow-hidden">
+    <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
       <button
         onClick={onSpeak}
         className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full shadow-md z-30 ${
@@ -43,9 +43,9 @@ export default function ZoneQuizIntroScreen({
           alt="Mascot Waving"
           className="block h-auto w-auto max-w-none object-contain select-none"
           style={{
-            maxHeight: 'min(800px, calc(100% - 12px))',
-            maxWidth: 'min(1180px, 118vw)',
-            transform: 'translateY(0px)',
+            maxHeight: 'min(850px, 105%)',
+            maxWidth: 'min(1200px, 120vw)',
+            transform: 'scale(1.06) translateY(4px)',
           }}
         />
       </div>

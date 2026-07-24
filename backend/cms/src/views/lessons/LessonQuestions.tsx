@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import { lessonAPI, QuizQuestion, Lesson } from '../../api/lesson.api';
+import LessonTabs from './LessonTabs';
 import ImageCropModal from '../../components/ImageCropModal';
 
 const OPTION_PRESETS = [
@@ -422,10 +423,10 @@ export default function LessonQuestions() {
             return;
         }
 
-        // Validate that all options have labels
+        // Validate that all options have images
         for (let i = 0; i < options.length; i++) {
-            if (!options[i].label.trim()) {
-                toast.error(`Vui lòng nhập câu trả lời cho Lựa chọn ${i + 1}`);
+            if (!options[i].img && !options[i].sprite) {
+                toast.error(`Vui lòng chọn hình ảnh cho Lựa chọn ${i + 1}`);
                 return;
             }
         }
@@ -514,8 +515,11 @@ export default function LessonQuestions() {
                 </div>
             </div>
 
-            {/* Main Content Card Layout */}
-            <div className="bg-white dark:bg-gray-800 rounded-[16px] shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col md:flex-row flex-1 min-h-0">
+            <div className="overflow-hidden rounded-[16px] border border-gray-100 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800 flex flex-col flex-1 min-h-0">
+                <LessonTabs lessonId={id!} activeTab="questions" />
+
+                {/* Main Content Card Layout */}
+                <div className="bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col md:flex-row flex-1 min-h-0">
                 {/* Left Sidebar - Question list */}
                 <div className="w-full md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 flex flex-col h-full bg-gray-50/50 dark:bg-gray-900/10">
                     <div className="p-4 flex items-center justify-between border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -840,6 +844,7 @@ export default function LessonQuestions() {
                             </div>
                         </div>
                     </form>
+                </div>
                 </div>
             </div>
             

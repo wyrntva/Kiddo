@@ -49,7 +49,7 @@ export default function ZoneBanBePage() {
             id: l.id,
             fallbackId: (index % 5) + 1,
             title: l.title,
-            description: `- Nhận quà tặng: ${l.stars} ⭐\n- Học thử: ${l.stepsCount} bước học\n- Thời gian học: ${l.duration}\n- Độ khó: ${l.level}`,
+            description: l.description || '',
             status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
             stars: index === 0 ? 5 : 0,
             image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : undefined,

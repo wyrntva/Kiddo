@@ -1,13 +1,22 @@
+import { useState } from 'react'
 import EmotionGameCard from './EmotionGameCard'
 import ZoneQuizEmotionPicker from './ZoneQuizEmotionPicker'
 import ZoneQuizGameSidebar from './ZoneQuizGameSidebar'
 import ZoneQuizSlotOutline from './ZoneQuizSlotOutline'
 import { emotionsList, gameCards } from '../quizData'
 
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const arr = [...array]
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
+
 interface ZoneQuizGameScreenProps {
   allPlaced: boolean
   placedEmotions: Record<string, string | null>
-  selectedEmotionId: string | null
   gameChecked: boolean
   onBack: () => void
   onCheckAnswers: () => void
@@ -20,7 +29,6 @@ interface ZoneQuizGameScreenProps {
 export default function ZoneQuizGameScreen({
   allPlaced,
   placedEmotions,
-  selectedEmotionId,
   gameChecked,
   onBack,
   onCheckAnswers,
@@ -29,8 +37,9 @@ export default function ZoneQuizGameScreen({
   onDrop,
   onSlotClick,
 }: ZoneQuizGameScreenProps) {
+  const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
   return (
-    <div className="relative z-10 w-full h-full flex flex-col lg:flex-row gap-5 lg:gap-[32px] items-stretch justify-start lg:justify-center p-4 sm:p-6 lg:p-[32px] overflow-y-auto">
+    <div className="relative z-10 w-full h-full flex flex-col lg:flex-row gap-5 lg:gap-[32px] items-stretch justify-start lg:justify-center p-4 sm:p-6 lg:p-[24px] overflow-y-auto">
       <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
 
       <div className="flex-1 min-h-0 flex flex-col items-center relative min-w-0 gap-5 lg:gap-6">
@@ -44,9 +53,9 @@ export default function ZoneQuizGameScreen({
           {allPlaced && (
             <button
               onClick={onCheckAnswers}
-              className="lg:absolute lg:right-0 lg:top-0 z-30 bg-[#339e4a] hover:bg-[#2c883f] active:scale-95 transition-all border border-white text-white font-baloo text-[16px] sm:text-[18px] font-bold rounded-[40px] px-5 sm:px-6 py-2.5 shadow-md self-end"
+              className="lg:absolute lg:right-0 lg:top-0 z-30 bg-gradient-to-r from-[#339e4a] to-[#45c25e] hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 transition-all border-2 border-white text-white font-baloo text-[16px] sm:text-[18px] font-bold rounded-[40px] px-5 sm:px-6 py-2.5 shadow-lg self-end animate-[pulseGlow_2s_ease-in-out_infinite] hover:shadow-[0_0_20px_rgba(51,158,74,0.5)]"
             >
-              Hoàn thành
+              ✨ Hoàn thành
             </button>
           )}
         </div>
@@ -69,7 +78,7 @@ export default function ZoneQuizGameScreen({
 
         <div className="flex-1 w-full flex flex-col items-center justify-start lg:justify-center gap-5 lg:gap-6 min-h-0">
           <div
-            className="bg-white rounded-[24px] p-[16px] sm:p-[20px] lg:p-[24px] w-full max-w-[1100px] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-[16px] lg:gap-[24px] items-stretch justify-center shrink-0 h-fit z-20"
+            className="bg-white rounded-[24px] p-[16px] sm:p-[20px] lg:p-[24px] w-full max-w-[1100px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[24px] items-stretch justify-center shrink-0 h-fit z-20"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (
@@ -94,9 +103,8 @@ export default function ZoneQuizGameScreen({
           </div>
 
           <ZoneQuizEmotionPicker
-            emotions={emotionsList}
+            emotions={shuffledEmotions}
             placedEmotions={placedEmotions}
-            selectedEmotionId={selectedEmotionId}
             onSelectEmotion={onSelectEmotion}
           />
         </div>

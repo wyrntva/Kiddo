@@ -14,14 +14,13 @@ const Lessons = () => {
 
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
     const [formData, setFormData] = useState({
         title: '',
+        description: '',
         emoji: '📚',
         img: '',
+        level: '',
         zoneId: '',
-        stepsCount: 5,
-        duration: '20 phút',
         stars: 10,
     });
 
@@ -63,35 +62,20 @@ const Lessons = () => {
     };
 
     const handleAddClick = () => {
-        setSelectedLesson(null);
         setFormData({
             title: '',
+            description: '',
             emoji: '📚',
             img: '',
+            level: '',
             zoneId: zones[0]?.id || '',
-            stepsCount: 5,
-            duration: '20 phút',
             stars: 10,
         });
         setIsModalOpen(true);
     };
 
     const handleEditClick = (lesson: Lesson) => {
-        setSelectedLesson(lesson);
-        setFormData({
-            title: lesson.title,
-            emoji: lesson.emoji,
-            img: lesson.img || '',
-            zoneId: lesson.zoneId,
-            stepsCount: lesson.stepsCount,
-            duration: lesson.duration,
-            stars: lesson.stars,
-        });
-        setIsModalOpen(true);
-    };
-
-    const handleEditQuestionsClick = (lesson: Lesson) => {
-        navigate(`/lessons/${lesson.id}/questions`);
+        navigate(`/lessons/${lesson.id}/edit`);
     };
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,13 +99,8 @@ const Lessons = () => {
             return;
         }
         try {
-            if (selectedLesson) {
-                await lessonAPI.updateLesson(selectedLesson.id, formData);
-                toast.success('Cập nhật bài học thành công');
-            } else {
-                await lessonAPI.createLesson(formData);
-                toast.success('Thêm bài học mới thành công');
-            }
+            await lessonAPI.createLesson(formData);
+            toast.success('Thêm bài học mới thành công');
             setIsModalOpen(false);
             fetchLessons();
         } catch (err) {
@@ -166,26 +145,38 @@ const Lessons = () => {
                             <Table.HeadCell>Ảnh</Table.HeadCell>
                             <Table.HeadCell>Tên bài học</Table.HeadCell>
                             <Table.HeadCell>Vùng đất</Table.HeadCell>
-                            <Table.HeadCell>Số bước học</Table.HeadCell>
                             <Table.HeadCell>Sao thưởng</Table.HeadCell>
                             <Table.HeadCell><span className="sr-only">Actions</span></Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
                             {loading ? (
                                 <Table.Row>
-                                    <Table.Cell colSpan={6} className="text-center py-8">
+                                    <Table.Cell colSpan={5} className="text-center py-8">
                                         Đang tải dữ liệu...
                                     </Table.Cell>
                                 </Table.Row>
                             ) : filtered.length === 0 ? (
                                 <Table.Row>
-                                    <Table.Cell colSpan={6} className="text-center py-8 text-gray-500">
+                                    <Table.Cell colSpan={5} className="text-center py-8 text-gray-500">
                                         Không tìm thấy bài học nào
                                     </Table.Cell>
                                 </Table.Row>
                             ) : (
                                 filtered.map((item) => (
-                                    <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    <Table.Row
+                                        key={item.id}
+                                        tabIndex={0}
+                                        role="button"
+                                        aria-label={`Sửa bài học ${item.title}`}
+                                        onClick={() => handleEditClick(item)}
+                                        onKeyDown={(event) => {
+                                            if (event.key === 'Enter' || event.key === ' ') {
+                                                event.preventDefault();
+                                                handleEditClick(item);
+                                            }
+                                        }}
+                                        className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer transition-colors hover:bg-gray-50 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#FEA01F] dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                                    >
                                         <Table.Cell>
                                             <div className={`w-16 h-12 flex items-center justify-center rounded-lg overflow-hidden ${
                                                 item.img 
@@ -209,14 +200,18 @@ const Lessons = () => {
                                                 {item.zone?.name || 'Chưa phân loại'}
                                             </span>
                                         </Table.Cell>
-                                        <Table.Cell>{item.stepsCount} bước ({item.duration})</Table.Cell>
                                         <Table.Cell className="text-yellow-500 font-bold">{item.stars} ⭐</Table.Cell>
                                         <Table.Cell>
-                                            <div className="flex gap-4">
-                                                <button onClick={() => handleEditClick(item)} className="text-[#0A7AD8] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">Sửa</button>
-                                                <button onClick={() => handleEditQuestionsClick(item)} className="text-[#FEA01F] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">Câu hỏi</button>
-                                                <button onClick={() => handleDelete(item.id, item.title)} className="text-[#ED052A] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">Xóa</button>
-                                            </div>
+                                            <button
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    handleDelete(item.id, item.title);
+                                                }}
+                                                onKeyDown={(event) => event.stopPropagation()}
+                                                className="text-[#ED052A] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer"
+                                            >
+                                                Xóa
+                                            </button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
@@ -231,7 +226,7 @@ const Lessons = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white dark:bg-gray-800 rounded-[16px] shadow-xl w-full max-w-lg p-6 mx-4">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                            {selectedLesson ? 'Cập nhật Bài học' : 'Thêm Bài học mới'}
+                            Thêm Bài học mới
                         </h2>
                         <form onSubmit={handleFormSubmit} className="space-y-4">
                             <div>
@@ -241,6 +236,18 @@ const Lessons = () => {
                                     required 
                                     value={formData.title} 
                                     onChange={e => setFormData({ ...formData, title: e.target.value })}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nội dung bài học</label>
+                                <textarea
+                                    required
+                                    rows={4}
+                                    value={formData.description}
+                                    onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                    placeholder="Nhập nội dung giới thiệu hiển thị bên dưới tên bài học..."
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
                                 />
                             </div>
@@ -276,31 +283,6 @@ const Lessons = () => {
                                             className="hidden" 
                                         />
                                     </label>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Thời lượng ước tính</label>
-                                    <input 
-                                        type="text" 
-                                        required 
-                                        value={formData.duration} 
-                                        onChange={e => setFormData({ ...formData, duration: e.target.value })}
-                                        placeholder="Ví dụ: 20 phút"
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Số bước học</label>
-                                    <input 
-                                        type="number" 
-                                        required 
-                                        min={1}
-                                        value={formData.stepsCount} 
-                                        onChange={e => setFormData({ ...formData, stepsCount: parseInt(e.target.value, 10) || 5 })}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
-                                    />
                                 </div>
                             </div>
 

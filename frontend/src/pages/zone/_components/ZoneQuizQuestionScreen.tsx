@@ -8,7 +8,6 @@ interface ZoneQuizQuestionScreenProps {
   currentQuestionIndex: number
   selectedOptionId: number | string | null
   isChecked: boolean
-  isCorrect: boolean
   isSpeaking: boolean
   onBack: () => void
   onSpeakQuestion: () => void
@@ -21,7 +20,6 @@ export default function ZoneQuizQuestionScreen({
   currentQuestionIndex,
   selectedOptionId,
   isChecked,
-  isCorrect,
   isSpeaking,
   onBack,
   onSpeakQuestion,
@@ -29,7 +27,10 @@ export default function ZoneQuizQuestionScreen({
 }: ZoneQuizQuestionScreenProps) {
   return (
     <div className="relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-col items-center justify-start gap-6 px-4 sm:px-6 py-6 md:gap-[40px] md:py-8">
-      <div className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none">
+      <div
+        className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none"
+        style={{ transform: 'translate(-300px, -200px)' }}
+      >
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -66,14 +67,14 @@ export default function ZoneQuizQuestionScreen({
         </div>
       </div>
 
-      <div className="grid w-full max-w-[900px] grid-cols-1 justify-center gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid w-full max-w-[1050px] grid-cols-1 justify-center gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
             option={option}
             isSelected={selectedOptionId === option.id}
             isChecked={isChecked}
-            isCorrect={isCorrect}
+            isCorrectOption={option.id === quiz.correctOptionId}
             onSelect={onSelect}
           />
         ))}

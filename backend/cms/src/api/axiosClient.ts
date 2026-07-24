@@ -1,10 +1,15 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 
-// Use empty string for dev with proxy, or explicit URL
-const API_URL = import.meta.env.VITE_API_URL !== undefined
-    ? import.meta.env.VITE_API_URL
-    : "";
+const getApiUrl = (): string => {
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+    if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+        return `${window.location.protocol}//${window.location.hostname}:5000`;
+    }
+    return 'http://127.0.0.1:5000';
+};
+
+const API_URL = getApiUrl();
 
 // Track pending requests for cleanup
 const pendingRequests = new Map<string, AbortController>();

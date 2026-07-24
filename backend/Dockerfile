@@ -22,6 +22,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY prisma ./prisma
 COPY package.json ./
+COPY uploads ./uploads
 
 EXPOSE 5000
 

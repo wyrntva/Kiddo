@@ -5,6 +5,7 @@ import { Zone } from './zone.api';
 export interface Lesson {
     id: string;
     title: string;
+    description: string;
     emoji: string;
     img: string;
     level: string;
@@ -13,11 +14,21 @@ export interface Lesson {
     stepsCount: number;
     zoneId: string;
     zone?: Zone;
+    welcomeText?: string;
+    preVideoText?: string;
+    postVideoText?: string;
+    welcomeAudio?: string;
+    preVideoAudio?: string;
+    postVideoAudio?: string;
+    videoUrl?: string;
+    postQuestionText?: string;
+    postQuestionAudio?: string;
 }
 
 export interface QuizQuestion {
     id: string;
     prompt: string;
+    voiceUrl?: string;
     correctOptionId: number;
     options: {
         id: number;
@@ -53,6 +64,20 @@ export const lessonAPI = {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+        });
+    },
+    uploadVoice: (file: File): Promise<AxiosResponse<{ url: string }>> => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return axiosClient.post('/api/lessons/upload-audio', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+    uploadVideo: (file: File): Promise<AxiosResponse<{ url: string }>> => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return axiosClient.post('/api/lessons/upload-video', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
     getQuestions: (lessonId: string): Promise<AxiosResponse<{ data: QuizQuestion[] }>> => {

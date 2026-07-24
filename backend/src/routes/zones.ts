@@ -17,7 +17,9 @@ router.get('/', async (req, res) => {
   try {
     const zones = await prisma.zone.findMany({
       include: {
-        lessons: true,
+        lessons: {
+          orderBy: { createdAt: 'asc' },
+        },
       },
       orderBy: { key: 'asc' },
     })

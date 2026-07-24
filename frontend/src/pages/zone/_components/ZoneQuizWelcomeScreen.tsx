@@ -14,7 +14,7 @@ export default function ZoneQuizWelcomeScreen({
   onStart,
 }: ZoneQuizWelcomeScreenProps) {
   return (
-    <div className="relative z-10 flex h-full flex-col overflow-hidden">
+    <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
       {/* Speaker icon to read aloud the intro again */}
       <button
         onClick={onSpeak}
@@ -56,9 +56,9 @@ export default function ZoneQuizWelcomeScreen({
           alt="Toro Waving"
           className="block h-auto w-auto max-w-none object-contain select-none z-10"
           style={{
-            maxHeight: 'min(700px, calc(100% - 12px))',
-            maxWidth: 'min(1080px, 108vw)',
-            transform: 'translateY(0px)',
+            maxHeight: 'min(750px, 100%)',
+            maxWidth: 'min(1100px, 110vw)',
+            transform: 'scale(1.06) translateY(4px)',
           }}
         />
       </div>

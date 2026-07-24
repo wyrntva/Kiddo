@@ -23,7 +23,6 @@ export default function ZoneQuizPage() {
     setCurrentLessonId,
     selectedOptionId,
     isChecked,
-    isCorrect,
     isSpeaking,
     showWelcome,
     setShowWelcome,
@@ -36,7 +35,6 @@ export default function ZoneQuizPage() {
     showIntro,
     showGame,
     placedEmotions,
-    selectedEmotionId,
     setSelectedEmotionId,
     gameChecked,
     showSuccessModal,
@@ -45,11 +43,14 @@ export default function ZoneQuizPage() {
     welcomeText,
     preVideoText,
     postVideoText,
+    videoUrl,
     gameGuideText,
     speakText,
     speakWelcome,
     speakPreVideo,
     speakPostVideo,
+    speakPostQuestion,
+    speakQuestion,
     stopAudio,
     handleSelect,
     handleDrop,
@@ -95,12 +96,12 @@ export default function ZoneQuizPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#F3F9FC]">
+    <div className="flex flex-col min-h-screen md:h-screen md:overflow-hidden bg-[#F3F9FC]">
       <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
-      <main className="flex-1 min-h-0 p-4 md:py-6 md:px-12 relative flex flex-col bg-[#F3F9FC] overflow-hidden">
-        <div className="relative flex-1 w-full h-full rounded-[20px] md:rounded-[32px] overflow-hidden shadow-2xl flex flex-col bg-[#f2f6f9]">
+      <main className="flex-1 p-4 md:py-6 md:px-12 relative flex flex-col bg-[#F3F9FC] overflow-y-auto md:overflow-hidden">
+        <div className="relative flex-1 w-full min-h-[500px] md:h-full rounded-[20px] md:rounded-[32px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col bg-[#f2f6f9]">
           <img
             src={zoneQuizAssets.heroBg}
             alt=""
@@ -127,7 +128,7 @@ export default function ZoneQuizPage() {
           ) : showVideo ? (
             <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center">
               <video
-                src="/assets/videobai1.mov"
+                src={videoUrl || "/assets/videobai1.mov"}
                 autoPlay
                 playsInline
                 className="w-full h-full object-contain"
@@ -156,7 +157,6 @@ export default function ZoneQuizPage() {
             <ZoneQuizGameScreen
               allPlaced={allPlaced}
               placedEmotions={placedEmotions}
-              selectedEmotionId={selectedEmotionId}
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onCheckAnswers={handleCheckAnswers}
@@ -169,7 +169,7 @@ export default function ZoneQuizPage() {
             <ZoneQuizIntroScreen
               introText={introText}
               isSpeaking={isSpeaking}
-              onSpeak={() => speakText(introText)}
+              onSpeak={speakPostQuestion}
             />
           ) : (
             <ZoneQuizQuestionScreen
@@ -178,10 +178,9 @@ export default function ZoneQuizPage() {
               currentQuestionIndex={currentQuestionIndex}
               selectedOptionId={selectedOptionId}
               isChecked={isChecked}
-              isCorrect={isCorrect}
               isSpeaking={isSpeaking}
               onBack={() => navigate(backPath)}
-              onSpeakQuestion={() => speakText(quiz.prompt)}
+              onSpeakQuestion={speakQuestion}
               onSelect={handleSelect}
             />
           )}

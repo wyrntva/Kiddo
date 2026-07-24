@@ -3,14 +3,18 @@ import { prisma } from '../lib/prisma'
 import { authenticate } from '../middleware/authMiddleware'
 import { requireAdmin } from '../middleware/security'
 import { createImageUpload } from '../lib/imageUpload'
+import { createAudioUpload } from '../lib/audioUpload'
+import { createVideoUpload } from '../lib/videoUpload'
 
 const router = Router()
 
 // Configure multer storage for lessons
 const upload = createImageUpload()
+const audioUpload = createAudioUpload()
+const videoUpload = createVideoUpload()
 
-// GET /api/lessons/:id/quiz - Get quiz questions (accessible to all authenticated users)
-router.get('/:id/quiz', authenticate, async (req, res) => {
+// GET /api/lessons/:id/quiz - Get quiz questions (public for student client)
+router.get('/:id/quiz', async (req, res) => {
   try {
     const questions = await prisma.quizQuestion.findMany({
       where: { lessonId: req.params.id },
@@ -22,8 +26,8 @@ router.get('/:id/quiz', authenticate, async (req, res) => {
   }
 })
 
-// GET /api/lessons/:id - Get a lesson by ID (accessible to all authenticated users)
-router.get('/:id', authenticate, async (req, res) => {
+// GET /api/lessons/:id - Get a lesson by ID (public for student client)
+router.get('/:id', async (req, res) => {
   try {
     const lesson = await prisma.lesson.findUnique({
       where: { id: req.params.id },
@@ -50,6 +54,20 @@ router.post('/upload', upload.single('file'), (req, res) => {
   res.json({ url: filePath })
 })
 
+router.post('/upload-audio', audioUpload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'Không có file âm thanh nào được tải lên' })
+  }
+  res.json({ url: `/uploads/voices/${req.file.filename}` })
+})
+
+router.post('/upload-video', videoUpload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'Không có file video nào được tải lên' })
+  }
+  res.json({ url: `/uploads/videos/${req.file.filename}` })
+})
+
 // GET /api/lessons - Get all lessons
 router.get('/', async (req, res) => {
   try {
@@ -67,11 +85,14 @@ router.get('/', async (req, res) => {
 
 // POST /api/lessons - Create a lesson
 router.post('/', async (req, res) => {
-  const { title, emoji, img, level, duration, stars, stepsCount, zoneId } = req.body
+  const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
+          welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
+          postQuestionText, postQuestionAudio } = req.body
   try {
     const lesson = await prisma.lesson.create({
       data: {
         title,
+        description: description || '',
         emoji,
         img: img || '',
         level,
@@ -79,6 +100,15 @@ router.post('/', async (req, res) => {
         stars: parseInt(stars, 10) || 10,
         stepsCount: parseInt(stepsCount, 10) || 5,
         zoneId,
+        welcomeText: welcomeText || '',
+        preVideoText: preVideoText || '',
+        postVideoText: postVideoText || '',
+        welcomeAudio: welcomeAudio || '',
+        preVideoAudio: preVideoAudio || '',
+        postVideoAudio: postVideoAudio || '',
+        videoUrl: videoUrl || '',
+        postQuestionText: postQuestionText || '',
+        postQuestionAudio: postQuestionAudio || '',
       },
       include: {
         zone: true,
@@ -92,10 +122,13 @@ router.post('/', async (req, res) => {
 
 // PATCH /api/lessons/:id - Update a lesson
 router.patch('/:id', async (req, res) => {
-  const { title, emoji, img, level, duration, stars, stepsCount, zoneId } = req.body
+  const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
+          welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
+          postQuestionText, postQuestionAudio } = req.body
   try {
     const updateData: any = {}
     if (title !== undefined) updateData.title = title
+    if (description !== undefined) updateData.description = description
     if (emoji !== undefined) updateData.emoji = emoji
     if (img !== undefined) updateData.img = img
     if (level !== undefined) updateData.level = level
@@ -103,6 +136,15 @@ router.patch('/:id', async (req, res) => {
     if (stars !== undefined) updateData.stars = parseInt(stars, 10) || 0
     if (stepsCount !== undefined) updateData.stepsCount = parseInt(stepsCount, 10) || 0
     if (zoneId !== undefined) updateData.zoneId = zoneId
+    if (welcomeText !== undefined) updateData.welcomeText = welcomeText
+    if (preVideoText !== undefined) updateData.preVideoText = preVideoText
+    if (postVideoText !== undefined) updateData.postVideoText = postVideoText
+    if (welcomeAudio !== undefined) updateData.welcomeAudio = welcomeAudio
+    if (preVideoAudio !== undefined) updateData.preVideoAudio = preVideoAudio
+    if (postVideoAudio !== undefined) updateData.postVideoAudio = postVideoAudio
+    if (videoUrl !== undefined) updateData.videoUrl = videoUrl
+    if (postQuestionText !== undefined) updateData.postQuestionText = postQuestionText
+    if (postQuestionAudio !== undefined) updateData.postQuestionAudio = postQuestionAudio
 
     const lesson = await prisma.lesson.update({
       where: { id: req.params.id },
@@ -145,11 +187,12 @@ router.get('/:id/questions', async (req, res) => {
 
 // POST /api/lessons/:id/questions - Admin create question
 router.post('/:id/questions', async (req, res) => {
-  const { prompt, correctOptionId, options } = req.body
+  const { prompt, voiceUrl, correctOptionId, options } = req.body
   try {
     const question = await prisma.quizQuestion.create({
       data: {
         prompt,
+        voiceUrl: voiceUrl || '',
         correctOptionId: parseInt(correctOptionId, 10) || 1,
         options: options || [],
         lessonId: req.params.id,
@@ -164,10 +207,11 @@ router.post('/:id/questions', async (req, res) => {
 
 // PATCH /api/lessons/:id/questions/:questionId - Admin update question
 router.patch('/:id/questions/:questionId', async (req, res) => {
-  const { prompt, correctOptionId, options } = req.body
+  const { prompt, voiceUrl, correctOptionId, options } = req.body
   try {
     const updateData: any = {}
     if (prompt !== undefined) updateData.prompt = prompt
+    if (voiceUrl !== undefined) updateData.voiceUrl = voiceUrl
     if (correctOptionId !== undefined) updateData.correctOptionId = parseInt(correctOptionId, 10) || 1
     if (options !== undefined) updateData.options = options
 

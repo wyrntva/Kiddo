@@ -85,14 +85,22 @@ export default function ZoneCamXucPage() {
       .then(json => {
         const currentZone = json.data?.find((z: any) => z.key === 'emotion')
         if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
-          const dbLessons = currentZone.lessons.map((l: any, index: number) => {
+          const desiredTitles = ['niềm vui', 'nỗi buồn', 'cơn giận', 'sợ', 'nói ra']
+          const sortedLessons = [...currentZone.lessons].sort((a: any, b: any) => {
+            const idxA = desiredTitles.findIndex(t => a.title.toLowerCase().includes(t))
+            const idxB = desiredTitles.findIndex(t => b.title.toLowerCase().includes(t))
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB
+            return 0
+          })
+
+          const dbLessons = sortedLessons.map((l: any, index: number) => {
             const fallbackId = (index % 5) + 1
             return {
               id: l.id,
               fallbackId,
               title: l.title,
-              description: `- Nhận quà tặng: ${l.stars} ⭐\n- Học thử: ${l.stepsCount} bước học\n- Thời gian học: ${l.duration}\n- Độ khó: ${l.level}`,
-              status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
+              description: l.description || '',
+              status: (index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started') as ZoneLesson['status'],
               stars: index === 0 ? 5 : 0,
               image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : `/assets/emotions_lesson_${fallbackId}.jpg`,
             }

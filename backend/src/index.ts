@@ -35,7 +35,7 @@ app.use(cors({
 
     if (
       allowedOrigins.includes(origin) ||
-      (process.env.NODE_ENV === 'development' && isLocal)
+      isLocal
     ) {
       return callback(null, true)
     }
@@ -50,7 +50,10 @@ app.use(express.urlencoded({ extended: false, limit: '200kb' }))
 app.use(cookieParser())
 
 // Serve static uploads
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
+const backendUploads = path.resolve(__dirname, '../uploads')
+const cwdUploads = path.resolve(process.cwd(), 'uploads')
+app.use('/uploads', express.static(backendUploads))
+app.use('/uploads', express.static(cwdUploads))
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'KIDDO API', timestamp: new Date().toISOString() })
