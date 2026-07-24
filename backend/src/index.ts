@@ -52,8 +52,9 @@ app.use(cookieParser())
 // Serve static uploads
 const backendUploads = path.resolve(__dirname, '../uploads')
 const cwdUploads = path.resolve(process.cwd(), 'uploads')
-app.use('/uploads', express.static(backendUploads))
-app.use('/uploads', express.static(cwdUploads))
+const staticOptions = { maxAge: '30d', immutable: true }
+app.use('/uploads', express.static(backendUploads, staticOptions))
+app.use('/uploads', express.static(cwdUploads, staticOptions))
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'KIDDO API', timestamp: new Date().toISOString() })
