@@ -19,6 +19,7 @@ interface ZoneQuizGameScreenProps {
   placedEmotions: Record<string, string | null>
   gameChecked: boolean
   onBack: () => void
+  onRewatchVideo?: () => void
   onCheckAnswers: () => void
   onSpeakGuide: () => void
   onSelectEmotion: (emotionId: string) => void
@@ -31,6 +32,7 @@ export default function ZoneQuizGameScreen({
   placedEmotions,
   gameChecked,
   onBack,
+  onRewatchVideo,
   onCheckAnswers,
   onSpeakGuide,
   onSelectEmotion,
@@ -47,12 +49,23 @@ export default function ZoneQuizGameScreen({
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 xl:gap-5">
         {/* Top Header Bar */}
         <div className="relative grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-center gap-1.5 px-0.5 sm:gap-3">
-          <button
-            onClick={onBack}
-            className="z-30 flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
-          >
-            Quay lại
-          </button>
+          <div className="z-30 flex items-center gap-2">
+            <button
+              onClick={onBack}
+              className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
+            >
+              Quay lại
+            </button>
+
+            {onRewatchVideo && (
+              <button
+                onClick={onRewatchVideo}
+                className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#0a7ad8] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#0a7ad8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
+              >
+                🎬 Xem lại video
+              </button>
+            )}
+          </div>
 
           <div className="z-20 flex min-w-0 flex-col items-center gap-1 text-center">
             <h1

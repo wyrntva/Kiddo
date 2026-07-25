@@ -58,6 +58,7 @@ export default function ZoneQuizPage() {
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
+    handleRewatchVideo,
     loading,
     lessonsList,
     backPath,
@@ -179,6 +180,7 @@ export default function ZoneQuizPage() {
               placedEmotions={placedEmotions}
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
+              onRewatchVideo={handleRewatchVideo}
               onCheckAnswers={handleCheckAnswers}
               onSpeakGuide={() => speakText(gameGuideText)}
               onSelectEmotion={setSelectedEmotionId}
@@ -200,6 +202,7 @@ export default function ZoneQuizPage() {
               isChecked={isChecked}
               isSpeaking={isSpeaking}
               onBack={() => navigate(backPath)}
+              onRewatchVideo={handleRewatchVideo}
               onSpeakQuestion={speakQuestion}
               onSelect={handleSelect}
             />

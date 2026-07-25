@@ -815,10 +815,21 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       clearTimeout(completionTimeoutRef.current)
       completionTimeoutRef.current = null
     }
-    setPlacedEmotions(initialPlacedEmotions)
-    setGameChecked(false)
     setSelectedEmotionId(null)
     setShowSuccessModal(false)
+  }
+
+  const handleRewatchVideo = () => {
+    stopAudio()
+    if (navigateTimeoutRef.current) {
+      clearTimeout(navigateTimeoutRef.current)
+    }
+    setShowWelcome(false)
+    setShowPreVideo(false)
+    setShowPostVideo(false)
+    setShowIntro(false)
+    setShowGame(false)
+    setShowVideo(true)
   }
 
   return {
@@ -869,6 +880,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
+    handleRewatchVideo,
     loading,
     lessonsList,
     backPath,

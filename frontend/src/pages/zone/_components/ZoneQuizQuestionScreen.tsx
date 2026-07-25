@@ -10,6 +10,7 @@ interface ZoneQuizQuestionScreenProps {
   isChecked: boolean
   isSpeaking: boolean
   onBack: () => void
+  onRewatchVideo?: () => void
   onSpeakQuestion: () => void
   onSelect: (optionId: string | number) => void
 }
@@ -22,6 +23,7 @@ export default function ZoneQuizQuestionScreen({
   isChecked,
   isSpeaking,
   onBack,
+  onRewatchVideo,
   onSpeakQuestion,
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
@@ -38,13 +40,23 @@ export default function ZoneQuizQuestionScreen({
         />
       </div>
 
-      <div className="flex w-full justify-start">
+      <div className="flex w-full items-center justify-between">
         <button
           onClick={onBack}
           className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[40px] border border-[#e83552] bg-white px-5 py-2 font-baloo text-[15px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-6 sm:text-[18px]"
         >
           Quay lại
         </button>
+
+        {onRewatchVideo && (
+          <button
+            onClick={onRewatchVideo}
+            className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[40px] border border-[#0A7AD8] bg-white px-5 py-2 font-baloo text-[15px] font-bold text-[#0A7AD8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-6 sm:text-[18px]"
+          >
+            <span className="text-lg sm:text-xl">🎬</span>
+            <span>Xem lại video</span>
+          </button>
+        )}
       </div>
 
       <div className="flex w-full items-start justify-start gap-3 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-3 py-4 shadow-sm sm:items-center sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-6 sm:py-5">
