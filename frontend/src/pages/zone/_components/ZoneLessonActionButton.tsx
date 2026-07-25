@@ -10,8 +10,8 @@ export default function ZoneLessonActionButton({ status }: { status: ZoneLessonS
   const action = actionMap[status]
 
   return (
-    <div className={`w-full flex items-center justify-center gap-[0.8rem] px-[2rem] py-[1rem] sm:py-[1.2rem] rounded-[4rem] shadow-sm ${action.className}`}>
-      <span className="font-vietnam font-medium text-[14px] md:text-[1.5rem] xl:text-[1.6rem] leading-normal text-white whitespace-nowrap">
+    <div className={`w-full flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full shadow-sm ${action.className}`}>
+      <span className="font-vietnam font-bold text-[15px] leading-normal text-white whitespace-nowrap">
         {action.label}
       </span>
     </div>

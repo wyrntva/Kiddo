@@ -6,10 +6,10 @@ const imgToro = '/assets/8a42d8a694f66237d91d5cac631d21ee780cbf64.webp'
 export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
   return (
     <div
-      className="kiddo-zone-card relative flex h-full min-h-[17rem] w-full items-center overflow-clip rounded-[2rem] p-[1.6rem] md:p-[2rem] xl:p-[2.4rem] transition-all duration-300 ease-out hover:-translate-y-1.5"
+      className="encouragement-card kiddo-zone-card"
       style={{
         backgroundColor: theme.encouragementBg,
-        border: `1px solid ${theme.encouragementBorder}`,
+        borderColor: theme.encouragementBorder,
         boxShadow: theme.encouragementShadow,
       }}
       onMouseEnter={(event) => {
@@ -19,19 +19,19 @@ export default function ZoneEncouragementCard({ theme }: { theme: ZoneTheme }) {
         event.currentTarget.style.boxShadow = theme.encouragementShadow
       }}
     >
-      <div className="z-10 flex w-[60%] sm:w-[58%] shrink-0 flex-col items-start justify-center text-left">
-        <div className="flex flex-col gap-[0.8rem] md:gap-[1.2rem] items-start w-full">
+      <div className="z-10 flex flex-col items-start justify-center text-left w-full pr-2">
+        <div className="flex flex-col gap-2 items-start w-full">
           <p
-            className="whitespace-nowrap font-baloo text-[1.8rem] md:text-[2.2rem] xl:text-[2.6rem] font-bold leading-tight"
+            className="page-subtitle font-baloo font-bold leading-tight"
             style={{ color: theme.encouragementTitleColor }}
           >
             Cố lên nhé!
           </p>
-          <div className="flex items-center gap-[0.4rem]">
-            <p className="font-vietnam text-[1.3rem] md:text-[1.4rem] xl:text-[1.6rem] font-bold leading-snug text-[#37393e]">
+          <div className="flex items-center gap-1 flex-wrap">
+            <p className="font-vietnam text-[13px] sm:text-[14px] md:text-[15px] font-bold leading-snug text-[#37393e]">
               Toro tin bạn làm được!
             </p>
-            <div className="w-[1.6rem] h-[1.6rem] shrink-0">
+            <div className="w-4 h-4 shrink-0">
               <ZoneHeartIcon color={theme.heartColor} />
             </div>
           </div>

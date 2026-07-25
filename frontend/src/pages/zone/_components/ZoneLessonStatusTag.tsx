@@ -11,9 +11,9 @@ export default function ZoneLessonStatusTag({ status }: { status: ZoneLessonStat
 
   return (
     <div
-      className={`flex items-center justify-center shrink-0 px-3 py-1.5 rounded-lg border ${value.bg} ${value.border}`}
+      className={`flex items-center justify-center shrink-0 px-2.5 py-1.5 rounded-lg border ${value.bg} ${value.border}`}
     >
-      <span className={`whitespace-nowrap font-vietnam font-normal text-[11px] md:text-[1.3rem] xl:text-[1.4rem] leading-none tracking-[0.28px] ${value.color}`}>
+      <span className={`whitespace-nowrap font-vietnam font-bold text-[12px] leading-none tracking-[0.28px] ${value.color}`}>
         {value.label}
       </span>
     </div>
