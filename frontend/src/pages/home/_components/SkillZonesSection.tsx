@@ -6,9 +6,9 @@ import { skillZoneIslands } from './skillZoneData'
 const desktopVisibilityClasses = [
   'flex',
   'flex',
-  'hidden lg:flex',
-  'hidden xl:flex',
-  'hidden xl:flex',
+  'flex',
+  'flex',
+  'flex',
 ]
 
 export default function SkillZonesSection() {
@@ -87,7 +87,7 @@ export default function SkillZonesSection() {
           </div>
         </div>
 
-        <div className="hidden md:block xl:hidden relative z-10 w-full shrink-0 pt-[88px] mt-auto">
+        <div className="hidden md:block lg:hidden relative z-10 w-full shrink-0 pt-[88px] mt-auto">
           <div
             className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none pb-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
@@ -95,7 +95,7 @@ export default function SkillZonesSection() {
             {skillZoneIslands.map((island, index) => (
               <div
                 key={index}
-                className="basis-1/2 lg:basis-1/3 min-w-0 shrink-0 snap-start px-2"
+                className="basis-1/2 min-w-0 shrink-0 snap-start px-2"
               >
                 <SkillZoneDesktopCard island={island} className="flex" />
               </div>
@@ -103,12 +103,12 @@ export default function SkillZonesSection() {
           </div>
         </div>
 
-        <div className="hidden xl:flex justify-center relative z-10 w-full shrink-0 xl:absolute xl:left-0 xl:right-0 xl:top-[66%] xl:-translate-y-1/2">
+        <div className="hidden lg:flex justify-center relative z-10 w-full shrink-0 lg:absolute lg:left-0 lg:right-0 lg:top-[66%] lg:-translate-y-1/2">
           <div
-            className="flex justify-center gap-1.5 lg:gap-3 xl:gap-[24px] items-end w-full px-0 lg:px-2 xl:px-4 origin-center"
+            className="flex justify-center gap-1.5 lg:gap-2 xl:gap-[20px] 2xl:gap-[24px] items-end w-full px-1 lg:px-2 xl:px-4 origin-center scale-95 lg:scale-90 xl:scale-100 transition-transform duration-200"
           >
             {skillZoneIslands.map((island, index) => (
-              <SkillZoneDesktopCard key={index} island={island} className={desktopVisibilityClasses[index] ?? 'hidden'} />
+              <SkillZoneDesktopCard key={index} island={island} className={desktopVisibilityClasses[index] ?? 'flex'} />
             ))}
           </div>
         </div>

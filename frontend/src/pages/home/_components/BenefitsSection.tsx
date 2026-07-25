@@ -82,7 +82,7 @@ export default function BenefitsSection() {
         </div>
 
         {/* Grid list of benefits */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-4 w-full">
           {benefits.map((b, idx) => (
             <div
               key={idx}

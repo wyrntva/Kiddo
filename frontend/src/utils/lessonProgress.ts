@@ -360,6 +360,31 @@ export function getSavedQuestionResultsForAccount(
   return {}
 }
 
+export function clearQuestionResultsForAccount(
+  lessonId: string | number,
+  userId?: string | null,
+  lessonTitle?: string
+) {
+  if (typeof window === 'undefined') return
+  const allResults = getAccountQuestionResults(userId)
+  const idStr = String(lessonId)
+  if (allResults[idStr]) {
+    delete allResults[idStr]
+  }
+  const match = idStr.match(/lesson-(\d+)/i)
+  if (match && allResults[match[1]]) {
+    delete allResults[match[1]]
+  }
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    if (allResults[titleKey]) {
+      delete allResults[titleKey]
+    }
+  }
+  const key = getQuestionResultsKey(userId)
+  localStorage.setItem(key, JSON.stringify(allResults))
+}
+
 export function saveQuestionResultsForAccount(
   lessonId: string | number,
   results: Record<number, boolean>,

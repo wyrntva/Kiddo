@@ -79,9 +79,9 @@ export default function JourneySection() {
         </div>
 
         {/* Steps + Mascot container */}
-        <div className="content-stretch flex flex-col xl:flex-row gap-[24px] items-start relative shrink-0 w-full xl:pr-[394px]">
+        <div className="content-stretch flex flex-col 2xl:flex-row gap-[24px] items-center 2xl:items-start relative shrink-0 w-full 2xl:pr-[394px]">
           {/* Steps grid */}
-          <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-4">
+          <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-4">
             {steps.map((step, idx) => (
               <Fragment key={idx}>
                 {/* Step card */}
@@ -99,11 +99,11 @@ export default function JourneySection() {
                   </div>
 
                   {/* Step label info */}
-                  <div className="content-stretch flex flex-col gap-[12px] items-center px-[12px] text-center w-full">
-                    <h3 className={`font-vietnam font-bold text-[18px] ${step.textColor} leading-[24px]`}>
+                  <div className="content-stretch flex flex-col gap-[8px] items-center px-[12px] text-center w-full">
+                    <h3 className={`font-vietnam font-bold text-[17px] xl:text-[18px] ${step.textColor} leading-[24px]`}>
                       {step.title}
                     </h3>
-                    <p className="font-vietnam text-[16px] text-[#37393e] leading-[24px] max-w-[256px]">
+                    <p className="font-vietnam text-[14px] xl:text-[15px] text-[#37393e] leading-[22px] max-w-[256px]">
                       {step.desc}
                     </p>
                   </div>
@@ -118,8 +118,8 @@ export default function JourneySection() {
 
                 {/* Arrow separator */}
                 {idx < steps.length - 1 && (
-                  <div className="hidden xl:flex h-[138px] items-center justify-center shrink-0 w-[40px]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" className="block max-w-none size-10">
+                  <div className="hidden 2xl:flex h-[138px] items-center justify-center shrink-0 w-[30px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 40 40" fill="none" className="block max-w-none size-8">
                       <path d="M22.4495 14.2173C21.9613 13.7291 21.9613 12.9376 22.4495 12.4495C22.9376 11.9613 23.7291 11.9613 24.2172 12.4495L30.8839 19.1162C31.372 19.6043 31.372 20.3958 30.8839 20.8839L24.2172 27.5506C23.7291 28.0387 22.9376 28.0387 22.4495 27.5506C21.9613 27.0624 21.9613 26.271 22.4495 25.7828L26.9822 21.25H10.8333C10.143 21.25 9.58334 20.6904 9.58334 20C9.58334 19.3097 10.143 18.75 10.8333 18.75H26.9822L22.4495 14.2173Z" fill="#004C6E"/>
                     </svg>
                   </div>
@@ -129,7 +129,7 @@ export default function JourneySection() {
           </div>
 
           {/* Mascot Otter Trophy on right */}
-          <div className="w-full max-w-[280px] h-[280px] overflow-hidden mx-auto xl:overflow-visible xl:absolute xl:right-0 xl:top-[50%] xl:-translate-y-1/2 xl:w-[370px] xl:h-[370px] shrink-0 pointer-events-none z-10 relative">
+          <div className="w-full max-w-[260px] h-[260px] overflow-hidden mx-auto 2xl:overflow-visible 2xl:absolute 2xl:right-0 2xl:top-[50%] 2xl:-translate-y-1/2 2xl:w-[370px] 2xl:h-[370px] shrink-0 pointer-events-none z-10 relative">
             <video ref={videoRef} autoPlay loop muted playsInline className="hidden">
               <source src="/yeah.webm" type="video/webm" />
               <source src="/yeah.mp4" type="video/mp4" />

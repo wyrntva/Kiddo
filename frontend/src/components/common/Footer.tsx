@@ -58,9 +58,14 @@ export default function Footer() {
 
   useEffect(() => {
     fetch(`${API_URL}/api/store-settings`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP status ${res.status}`)
+        return res.json()
+      })
       .then(data => setSettings(data))
-      .catch(err => console.error('Lỗi tải cấu hình footer:', err))
+      .catch(err => {
+        console.warn('Cấu hình footer sử dụng thông tin mặc định:', err)
+      })
   }, [API_URL])
 
   const facebookUrl = settings?.facebook_url || "https://www.facebook.com/ottopia.kynangsongchotre";

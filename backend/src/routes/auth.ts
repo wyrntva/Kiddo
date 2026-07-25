@@ -43,7 +43,7 @@ const registerSchema = z.object({
     required_error: 'Vui lòng chọn giới tính',
   }),
   childAge: z.coerce.number().int().min(3).max(5),
-  password: z.string().min(10, 'Mật khẩu phải có ít nhất 10 ký tự').max(128),
+  password: z.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').max(128),
   role: z.enum(['CHILD', 'PARENT']).default('CHILD'),
 })
 

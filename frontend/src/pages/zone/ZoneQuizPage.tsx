@@ -59,6 +59,7 @@ export default function ZoneQuizPage() {
     handleRestartLesson,
     handleRewatchVideo,
     handleVideoEnded,
+    handleSkip,
     loading,
     lessonsList,
     backPath,
@@ -137,12 +138,14 @@ export default function ZoneQuizPage() {
                 setShowPreVideo(true)
                 stopAudio()
               }}
+              onSkip={handleSkip}
             />
           ) : showPreVideo ? (
             <ZoneQuizPreVideoScreen
               preVideoText={preVideoText}
               isSpeaking={isSpeaking}
               onSpeak={speakPreVideo}
+              onSkip={handleSkip}
             />
           ) : showVideo ? (
             <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center bg-black">
@@ -167,6 +170,7 @@ export default function ZoneQuizPage() {
               preVideoText={postVideoText}
               isSpeaking={isSpeaking}
               onSpeak={speakPostVideo}
+              onSkip={handleSkip}
             />
           ) : showGame ? (
             <ZoneQuizGameScreen
@@ -186,6 +190,7 @@ export default function ZoneQuizPage() {
               introText={introText}
               isSpeaking={isSpeaking}
               onSpeak={speakPostQuestion}
+              onSkip={handleSkip}
             />
           ) : (
             <ZoneQuizQuestionScreen

@@ -66,7 +66,7 @@ export default function Navbar() {
   const isActive = (page: Page) => pathname === PAGE_ROUTES[page]
 
   const tabClassName = (page: Page) =>
-    `h-full flex gap-[8px] items-center justify-center px-[16px] shrink-0 cursor-pointer border-b-2 transition-colors duration-150 font-vietnam text-[16px] leading-[24px] not-italic ${
+    `h-full flex gap-[4px] lg:gap-[6px] xl:gap-[8px] items-center justify-center px-[8px] lg:px-[12px] xl:px-[16px] shrink-0 cursor-pointer border-b-2 transition-colors duration-150 font-vietnam text-[14px] lg:text-[15px] xl:text-[16px] leading-[24px] not-italic ${
       isActive(page)
         ? 'border-[#fea01f] text-[#fea01f]'
         : 'border-transparent text-[#313235] hover:bg-gray-50'
@@ -82,7 +82,7 @@ export default function Navbar() {
               <img alt="OTTOPIA" className="w-full h-[40px] md:h-[44px] xl:h-[65px] object-contain" src={navbarAssets.logo} />
             </div>
 
-            <div className="hidden xl:flex flex-1 h-full items-stretch justify-start xl:justify-center overflow-x-auto scrollbar-none">
+            <div className="hidden lg:flex flex-1 h-full items-stretch justify-start lg:justify-center overflow-x-auto scrollbar-none">
               {NAV_ITEMS.map(({ page, label, icon }) => (
                 <button key={page} onClick={() => nav(page)} className={tabClassName(page)}>
                   <div className="relative shrink-0 size-[24px] flex items-center justify-center">{icon}</div>
@@ -91,7 +91,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="flex-1 xl:hidden" />
+            <div className="flex-1 lg:hidden" />
 
             <NavbarAccountSection
               user={user}
@@ -105,7 +105,7 @@ export default function Navbar() {
 
             <button
               id="mobile-menu-btn"
-              className="xl:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-50 transition-colors shrink-0"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-50 transition-colors shrink-0"
               onClick={() => setDrawerOpen((value) => !value)}
               aria-label="Mở menu"
             >

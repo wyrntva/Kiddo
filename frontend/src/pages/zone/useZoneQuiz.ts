@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
-import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount, getSavedQuestionResultsForAccount, getLessonStatusForAccount } from '../../utils/lessonProgress'
+import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount, getSavedQuestionResultsForAccount, getLessonStatusForAccount, clearQuestionResultsForAccount } from '../../utils/lessonProgress'
 
 export const DEFAULT_LESSON_EVALUATIONS = [
   {
@@ -913,12 +913,22 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       clearTimeout(navigateTimeoutRef.current)
       navigateTimeoutRef.current = null
     }
+
+    let userId: string | undefined
+    try {
+      const stored = localStorage.getItem('user')
+      if (stored) userId = JSON.parse(stored)?.id
+    } catch {}
+
+    clearQuestionResultsForAccount(currentLessonId, userId, lessonTitle || quizLesson.lessonTitle)
+
     setShowSuccessModal(false)
     setGameChecked(false)
-    setPlacedEmotions({})
+    setPlacedEmotions(initialPlacedEmotions)
     setSelectedEmotionId(null)
     setCurrentQuestionIndex(0)
     setQuestionResults({})
+    resetQuestionState()
     setShowVideo(false)
     setShowPreVideo(false)
     setShowPostVideo(false)
@@ -948,6 +958,29 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       setIsRewatchingVideo(false)
     } else {
       setShowPostVideo(true)
+    }
+  }
+
+  const handleSkip = () => {
+    stopAudio()
+    if (navigateTimeoutRef.current) {
+      clearTimeout(navigateTimeoutRef.current)
+      navigateTimeoutRef.current = null
+    }
+
+    if (showWelcome) {
+      setShowWelcome(false)
+      setShowPreVideo(true)
+    } else if (showPreVideo) {
+      setShowPreVideo(false)
+      setShowVideo(true)
+    } else if (showVideo) {
+      handleVideoEnded()
+    } else if (showPostVideo) {
+      setShowPostVideo(false)
+    } else if (showIntro) {
+      setShowIntro(false)
+      setShowGame(true)
     }
   }
 
@@ -1002,6 +1035,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     handleRestartLesson,
     handleRewatchVideo,
     handleVideoEnded,
+    handleSkip,
     loading,
     lessonsList,
     backPath,

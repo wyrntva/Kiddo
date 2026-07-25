@@ -5,6 +5,7 @@ interface ZoneQuizWelcomeScreenProps {
   isSpeaking: boolean
   onSpeak: () => void
   onStart: () => void
+  onSkip?: () => void
 }
 
 export default function ZoneQuizWelcomeScreen({
@@ -12,19 +13,30 @@ export default function ZoneQuizWelcomeScreen({
   isSpeaking,
   onSpeak,
   onStart,
+  onSkip,
 }: ZoneQuizWelcomeScreenProps) {
   return (
     <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
-      {/* Speaker icon to read aloud the intro again */}
-      <button
-        onClick={onSpeak}
-        className={`zone-lesson-speaker absolute right-3 top-3 z-30 rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:right-5 sm:top-5 sm:p-3 ${
-          isSpeaking ? 'animate-pulse scale-105' : ''
-        }`}
-        title="Nghe hướng dẫn"
-      >
-        <img src={zoneQuizAssets.speaker} alt="Speak" className="w-6 h-6 select-none" />
-      </button>
+      {/* Top action buttons */}
+      <div className="absolute right-3 top-3 z-30 flex items-center gap-2 sm:right-5 sm:top-5">
+        {onSkip && (
+          <button
+            onClick={onSkip}
+            className="cursor-pointer rounded-full border border-[#0a7ad8] bg-white/90 px-4 py-1.5 font-baloo text-[14px] font-bold text-[#0a7ad8] shadow-md transition-all hover:bg-[#e6f6ff] active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
+          >
+            Bỏ qua ➔
+          </button>
+        )}
+        <button
+          onClick={onSpeak}
+          className={`zone-lesson-speaker rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:p-3 ${
+            isSpeaking ? 'animate-pulse scale-105' : ''
+          }`}
+          title="Nghe hướng dẫn"
+        >
+          <img src={zoneQuizAssets.speaker} alt="Speak" className="w-6 h-6 select-none" />
+        </button>
+      </div>
 
       {/* Welcome Speech Bubble */}
       <div className="relative z-20 mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">

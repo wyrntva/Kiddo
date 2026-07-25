@@ -21,19 +21,19 @@ export default function ExploreSkillZonesBanner() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
             {zones.map((zone, index) => (
               <button
                 key={index}
-                className={`${zone.color} border rounded-[16px] p-4 flex flex-col items-center gap-2 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:scale-95 group`}
+                className={`${zone.color} border rounded-[16px] p-3 xl:p-4 flex flex-col items-center gap-1.5 xl:gap-2 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:scale-95 group`}
               >
-                <span className="text-[36px] leading-none group-hover:scale-110 transition-transform duration-200">
+                <span className="text-[30px] xl:text-[36px] leading-none group-hover:scale-110 transition-transform duration-200">
                   {zone.emoji}
                 </span>
-                <span className={`font-baloo font-bold text-[14px] text-center leading-[20px] ${zone.textColor}`}>
+                <span className={`font-baloo font-bold text-[13px] xl:text-[14px] text-center leading-[18px] xl:leading-[20px] ${zone.textColor}`}>
                   {zone.name}
                 </span>
-                <span className="text-[12px] text-[#575e70] font-vietnam">
+                <span className="text-[11px] xl:text-[12px] text-[#575e70] font-vietnam">
                   {zone.count} bài học
                 </span>
               </button>

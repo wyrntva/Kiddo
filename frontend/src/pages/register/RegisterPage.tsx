@@ -45,8 +45,8 @@ export default function RegisterPage() {
       return
     }
 
-    if (form.password.length < 10) {
-      setError('Mật khẩu phải có ít nhất 10 ký tự')
+    if (form.password.length < 6) {
+      setError('Mật khẩu phải có ít nhất 6 ký tự')
       return
     }
 
@@ -130,7 +130,7 @@ export default function RegisterPage() {
             </button>
           }
         >
-          <input name="password" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Mật khẩu (tối thiểu 10 ký tự)" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} minLength={10} maxLength={128} required />
+          <input name="password" className="outline-none bg-transparent w-full text-[16px] text-black font-vietnam placeholder-[#8690a7]" placeholder="Mật khẩu (tối thiểu 6 ký tự)" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} minLength={6} maxLength={128} required />
         </AuthInput>
 
         <AuthInput

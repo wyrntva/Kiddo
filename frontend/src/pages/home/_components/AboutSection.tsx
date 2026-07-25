@@ -61,9 +61,8 @@ export default function AboutSection() {
               <h3 className="font-vietnam font-bold text-[18px] text-[#004c6e] leading-[24px] text-center">
                 Dễ hiểu
               </h3>
-              <div className="font-vietnam text-[16px] text-[#37393e] leading-[24px] text-center">
-                <p className="mb-0">Hình ảnh sinh</p>
-                <p>động, gần gũi với trẻ</p>
+              <div className="font-vietnam text-[15px] sm:text-[16px] text-[#37393e] leading-[24px] text-center">
+                Hình ảnh sinh động, gần gũi với trẻ
               </div>
             </div>
 
@@ -93,9 +92,8 @@ export default function AboutSection() {
               <h3 className="font-vietnam font-bold text-[18px] text-[#004c6e] leading-[24px] text-center">
                 An toàn
               </h3>
-              <div className="font-vietnam text-[16px] text-[#37393e] leading-[24px] text-center">
-                <p className="mb-0">Nội dung chuẩn,</p>
-                <p>lành mạnh</p>
+              <div className="font-vietnam text-[15px] sm:text-[16px] text-[#37393e] leading-[24px] text-center">
+                Nội dung chuẩn, lành mạnh
               </div>
             </div>
 
@@ -125,9 +123,8 @@ export default function AboutSection() {
               <h3 className="font-vietnam font-bold text-[18px] text-[#004c6e] leading-[24px] text-center">
                 Hiệu quả
               </h3>
-              <div className="font-vietnam text-[16px] text-[#37393e] leading-[24px] text-center">
-                <p className="mb-0">Học mà chơi, nhớ</p>
-                <p>lâu hơn</p>
+              <div className="font-vietnam text-[15px] sm:text-[16px] text-[#37393e] leading-[24px] text-center">
+                Học mà chơi, nhớ lâu hơn
               </div>
             </div>
 

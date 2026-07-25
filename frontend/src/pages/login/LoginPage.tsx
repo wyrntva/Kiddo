@@ -157,7 +157,7 @@ export default function LoginPage() {
             {import.meta.env.VITE_GOOGLE_CLIENT_ID ? (
               <GoogleLogin
                 onSuccess={(response) => void handleGoogleLogin(response.credential)}
-                onError={() => setError('Không thể kết nối đăng nhập Google')}
+                onError={() => setError('Đăng nhập Google thất bại: Domain/Origin chưa được cấp phép trong Google Cloud Console hoặc kết nối bị từ chối.')}
                 text="signin_with"
                 shape="pill"
                 size="large"
