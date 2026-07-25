@@ -3,7 +3,11 @@ let audioCtx: AudioContext | null = null
 
 function getAudioContext(): AudioContext {
   if (!audioCtx) {
-    audioCtx = new AudioContext()
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+    audioCtx = new AudioContextClass()
+  }
+  if (audioCtx.state === 'suspended') {
+    void audioCtx.resume()
   }
   return audioCtx
 }

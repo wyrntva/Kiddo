@@ -880,6 +880,8 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       clearTimeout(completionTimeoutRef.current)
       completionTimeoutRef.current = null
     }
+    setPlacedEmotions({})
+    setGameChecked(false)
     setSelectedEmotionId(null)
     setShowSuccessModal(false)
   }
