@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
-import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount, getSavedQuestionResultsForAccount } from '../../utils/lessonProgress'
+import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount, getSavedQuestionResultsForAccount, getLessonStatusForAccount } from '../../utils/lessonProgress'
 
 export const DEFAULT_LESSON_EVALUATIONS = [
   {
@@ -585,6 +585,23 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       if (stored) userId = JSON.parse(stored)?.id
     } catch {}
 
+    const status = getLessonStatusForAccount(currentLessonId, undefined, userId, lessonTitle)
+
+    // If lesson status is 'completed', clicking "Học lại" MUST start from step 1 (Welcome screen)
+    if (status === 'completed') {
+      setCurrentQuestionIndex(0)
+      setShowWelcome(true)
+      setShowPreVideo(false)
+      setShowVideo(false)
+      setShowPostVideo(false)
+      setShowIntro(false)
+      setShowGame(false)
+      setGameChecked(false)
+      setShowSuccessModal(false)
+      setPlacedEmotions(initialPlacedEmotions)
+      return
+    }
+
     const savedResults = getSavedQuestionResultsForAccount(currentLessonId, userId, lessonTitle)
     const answeredKeys = Object.keys(savedResults).map(Number)
 
@@ -613,7 +630,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       setShowIntro(false)
       setShowGame(false)
     }
-  }, [currentLessonId, lessonTitle, loading, questions.length])
+  }, [loading, currentLessonId, lessonTitle, questions.length])
 
   useEffect(() => {
     if (showWelcome && welcomeText && !loading) {
