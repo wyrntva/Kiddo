@@ -28,9 +28,9 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-start gap-3 p-3 sm:gap-5 sm:p-6 lg:gap-6 overflow-hidden">
-      {/* Toro mascot sitting cleanly on the left lawn grass with zero overlap */}
-      <div className="hidden lg:block absolute bottom-3 left-3 xl:left-5 z-10 w-[140px] xl:w-[175px] 2xl:w-[205px] pointer-events-none">
+    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-start gap-3 p-3 sm:gap-4 sm:p-5 lg:gap-5 overflow-hidden">
+      {/* Toro mascot sitting under the big green tree trunk on the left */}
+      <div className="hidden lg:block absolute bottom-[17%] left-[1.5%] xl:left-[2.5%] z-10 w-[140px] xl:w-[170px] 2xl:w-[200px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -56,8 +56,8 @@ export default function ZoneQuizQuestionScreen({
         )}
       </div>
 
-      {/* Prominent, large, readable Question Prompt Box */}
-      <div className="flex w-full shrink-0 items-center justify-start gap-4 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-4 py-3 shadow-md sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-7 sm:py-4">
+      {/* Question Prompt Box: indented ~100px (6rem) from left and right edges */}
+      <div className="flex w-full max-w-[calc(100%-12rem)] shrink-0 items-center justify-start gap-4 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-4 py-3 shadow-md sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-7 sm:py-4">
         <button
           onClick={onSpeakQuestion}
           className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:p-3.5 ${
@@ -78,7 +78,7 @@ export default function ZoneQuizQuestionScreen({
       </div>
 
       {/* Compact 4:3 Answer Options Grid */}
-      <div className="zone-question-options grid w-full max-w-[55rem] grid-cols-3 items-center justify-center gap-4 sm:gap-6 mt-3 lg:mt-4 mb-auto py-1">
+      <div className="zone-question-options grid w-full max-w-[45rem] grid-cols-3 items-center justify-center gap-4 sm:gap-5 mt-2 lg:mt-3 mb-auto py-1">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
