@@ -29,6 +29,11 @@ export function getLessonStatusForAccount(
     return progress[idStr]
   }
 
+  const match = idStr.match(/lesson-(\d+)/i)
+  if (match && progress[match[1]]) {
+    return progress[match[1]]
+  }
+
   if (lessonTitle) {
     const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
     if (progress[titleKey]) {
@@ -93,17 +98,24 @@ export async function syncProgressFromAPI(userId?: string | null): Promise<boole
     const data = await res.json()
 
     if (data.progress) {
-      const progressMap: Record<string, LessonStatus> = {}
+      const progressMap = getAccountLessonProgress(userId)
       for (const p of data.progress) {
-        progressMap[p.lessonId] = p.status as LessonStatus
+        const idStr = String(p.lessonId)
+        progressMap[idStr] = p.status as LessonStatus
+        const match = idStr.match(/lesson-(\d+)/i)
+        if (match) {
+          progressMap[match[1]] = p.status as LessonStatus
+        }
       }
       const key = getUserProgressKey(userId)
       localStorage.setItem(key, JSON.stringify(progressMap))
     }
 
     if (data.questionResults) {
+      const existingResults = getAccountQuestionResults(userId)
+      const mergedResults = { ...existingResults, ...data.questionResults }
       const key = getQuestionResultsKey(userId)
-      localStorage.setItem(key, JSON.stringify(data.questionResults))
+      localStorage.setItem(key, JSON.stringify(mergedResults))
     }
 
     return true
@@ -310,18 +322,28 @@ export function getSavedQuestionResultsForAccount(
   index?: number
 ): Record<number, boolean> {
   const allResults = getAccountQuestionResults(userId)
-  if (lessonId && allResults[String(lessonId)]) {
-    return allResults[String(lessonId)]
+  const idStr = String(lessonId)
+
+  if (lessonId && allResults[idStr]) {
+    return allResults[idStr]
   }
+
+  const match = idStr.match(/lesson-(\d+)/i)
+  if (match && allResults[match[1]]) {
+    return allResults[match[1]]
+  }
+
   if (lessonTitle) {
     const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
     if (allResults[titleKey]) {
       return allResults[titleKey]
     }
   }
+
   if (index !== undefined && allResults[String(index + 1)]) {
     return allResults[String(index + 1)]
   }
+
   return {}
 }
 
