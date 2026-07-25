@@ -18,8 +18,9 @@ export function getAccountLessonProgress(userId?: string | null): Record<string,
 
 export function getLessonStatusForAccount(
   lessonId: string | number,
-  _index?: number,
-  userId?: string | null
+  index?: number,
+  userId?: string | null,
+  lessonTitle?: string
 ): LessonStatus {
   const progress = getAccountLessonProgress(userId)
   const idStr = String(lessonId)
@@ -28,19 +29,33 @@ export function getLessonStatusForAccount(
     return progress[idStr]
   }
 
-  // Brand new account or no saved progress yet:
-  // All lessons start as 'not-started'
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    if (progress[titleKey]) {
+      return progress[titleKey]
+    }
+  }
+
+  if (index !== undefined && progress[String(index + 1)]) {
+    return progress[String(index + 1)]
+  }
+
   return 'not-started'
 }
 
 export function saveLessonStatusForAccount(
   lessonId: string | number,
   status: LessonStatus,
-  userId?: string | null
+  userId?: string | null,
+  lessonTitle?: string
 ) {
   if (typeof window === 'undefined') return
   const progress = getAccountLessonProgress(userId)
   progress[String(lessonId)] = status
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    progress[titleKey] = status
+  }
   const key = getUserProgressKey(userId)
   localStorage.setItem(key, JSON.stringify(progress))
 }
@@ -48,11 +63,16 @@ export function saveLessonStatusForAccount(
 export function markLessonCompleted(
   completedLessonId: string | number,
   nextLessonId?: string | number | null,
-  userId?: string | null
+  userId?: string | null,
+  completedLessonTitle?: string
 ) {
   if (typeof window === 'undefined') return
   const progress = getAccountLessonProgress(userId)
   progress[String(completedLessonId)] = 'completed'
+  if (completedLessonTitle) {
+    const titleKey = `title_${completedLessonTitle.toLowerCase().trim()}`
+    progress[titleKey] = 'completed'
+  }
   if (nextLessonId && progress[String(nextLessonId)] !== 'completed') {
     progress[String(nextLessonId)] = 'in-progress'
   }
@@ -62,15 +82,23 @@ export function markLessonCompleted(
 
 export function markLessonInProgress(
   lessonId: string | number,
-  userId?: string | null
+  userId?: string | null,
+  lessonTitle?: string
 ) {
   if (typeof window === 'undefined') return
   const progress = getAccountLessonProgress(userId)
-  if (progress[String(lessonId)] !== 'completed') {
-    progress[String(lessonId)] = 'in-progress'
-    const key = getUserProgressKey(userId)
-    localStorage.setItem(key, JSON.stringify(progress))
+  const idStr = String(lessonId)
+  if (progress[idStr] !== 'completed') {
+    progress[idStr] = 'in-progress'
   }
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    if (progress[titleKey] !== 'completed') {
+      progress[titleKey] = 'in-progress'
+    }
+  }
+  const key = getUserProgressKey(userId)
+  localStorage.setItem(key, JSON.stringify(progress))
 }
 
 export interface SavedLessonFeedback {
@@ -99,7 +127,8 @@ export function getAccountLessonFeedbacks(userId?: string | null): Record<string
 export function getSavedLessonFeedbackForAccount(
   lessonId: string | number,
   userId?: string | null,
-  lessonTitle?: string
+  lessonTitle?: string,
+  index?: number
 ): SavedLessonFeedback | null {
   const feedbacks = getAccountLessonFeedbacks(userId)
   if (lessonId && feedbacks[String(lessonId)]) {
@@ -110,6 +139,9 @@ export function getSavedLessonFeedbackForAccount(
     if (feedbacks[titleKey]) {
       return feedbacks[titleKey]
     }
+  }
+  if (index !== undefined && feedbacks[String(index + 1)]) {
+    return feedbacks[String(index + 1)]
   }
   return null
 }

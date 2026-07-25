@@ -686,28 +686,29 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     const qCount = questions.length > 0 ? questions.length : 4
 
     for (let i = 0; i < qCount; i++) {
+      const isQCorrect = questionResults[i]
+      if (isQCorrect === undefined) {
+        // Skip unanswered questions so they don't show up in feedback before being answered
+        continue
+      }
+
       const evalItem = DEFAULT_LESSON_EVALUATIONS[i] || DEFAULT_LESSON_EVALUATIONS[0]
-      // Always include parent tip for all 4 questions
       tips.push(evalItem.parentTip)
 
-      const isQCorrect = questionResults[i]
       if (isQCorrect === true) {
         strengths.push(evalItem.passedText)
       } else if (isQCorrect === false) {
         practice.push(evalItem.failedText)
-      } else {
-        // Default if not explicitly answered yet
-        strengths.push(evalItem.passedText)
       }
     }
 
     return {
-      title: 'Con đang cảm thấy gì?',
+      title: lessonTitle || quizLesson.lessonTitle || 'Con đang cảm thấy gì?',
       strengths,
       practice,
       tips,
     }
-  }, [questions, questionResults])
+  }, [questions, questionResults, lessonTitle, quizLesson.lessonTitle])
 
   const placeEmotion = (cardId: string, emotionId: string) => {
     setPlacedEmotions((previous) => {
@@ -757,12 +758,16 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         const stored = localStorage.getItem('user')
         if (stored) userId = JSON.parse(stored)?.id
       } catch {}
-      markLessonInProgress(currentLessonId, userId)
+      markLessonInProgress(currentLessonId, userId, lessonTitle || quizLesson.lessonTitle)
     }
-  }, [currentLessonId])
+  }, [currentLessonId, lessonTitle, quizLesson.lessonTitle])
 
   useEffect(() => {
-    if (calculatedFeedback && currentLessonId) {
+    if (
+      calculatedFeedback &&
+      currentLessonId &&
+      (calculatedFeedback.strengths.length > 0 || calculatedFeedback.practice.length > 0)
+    ) {
       let userId: string | undefined
       try {
         const stored = localStorage.getItem('user')

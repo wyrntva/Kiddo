@@ -101,6 +101,7 @@ export function DiaryFeedbackColumns({
 
 export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) {
   if (!lesson.feedback) {
+    const isLearning = lesson.status === 'learning'
     return (
       <div className="relative flex h-auto w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-[20px] border border-[#BAE6FD] bg-white p-8 text-center shadow-[0px_0px_5px_rgba(0,0,0,0.05)] sm:rounded-[24px] sm:p-12 xl:gap-6 2xl:min-h-0 2xl:flex-1 2xl:p-8">
         <div className="absolute inset-0 pointer-events-none rounded-[24px] z-0 opacity-40">
@@ -109,16 +110,18 @@ export default function DiaryFeedbackPanel({ lesson }: { lesson: DiaryLesson }) 
 
         <div className="relative z-10 flex flex-col items-center max-w-md">
           <div className="size-20 sm:size-24 mb-3 p-4 rounded-full bg-[#FEF9ED] border-2 border-[#FFDC64] flex items-center justify-center shadow-sm">
-            <span className="text-3xl sm:text-4xl">🔒</span>
+            <span className="text-3xl sm:text-4xl">{isLearning ? '📖' : '🔒'}</span>
           </div>
           <h3 className="font-baloo text-2xl sm:text-3xl font-extrabold text-[#313235] mb-2">
-            Bé chưa học bài này
+            {isLearning ? 'Bé đang học bài này' : 'Bé chưa học bài này'}
           </h3>
           <p className="font-vietnam text-sm sm:text-base text-[#61646B] leading-relaxed mb-6">
-            Hãy cùng bé hoàn thành bài học <span className="font-bold text-[#0A7AD8]">"{lesson.title}"</span> để nhận nhận xét và những gợi ý bổ ích dành cho phụ huynh nhé!
+            {isLearning
+              ? <>Bé đang học dở bài học <span className="font-bold text-[#0A7AD8]">"{lesson.title}"</span>. Hãy cùng bé trả lời các câu hỏi trắc nghiệm để nhận đánh giá chi tiết nhé!</>
+              : <>Hãy cùng bé hoàn thành bài học <span className="font-bold text-[#0A7AD8]">"{lesson.title}"</span> để nhận nhận xét và những gợi ý bổ ích dành cho phụ huynh nhé!</>}
           </p>
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#FEA01F] hover:bg-[#e89115] text-white font-baloo font-bold text-base sm:text-lg shadow-md transition-all">
-            <span>🌟 Hãy cùng bé hoàn thành bài học ngay</span>
+            <span>🌟 {isLearning ? 'Tiếp tục học cùng bé ngay' : 'Hãy cùng bé hoàn thành bài học ngay'}</span>
           </div>
         </div>
       </div>

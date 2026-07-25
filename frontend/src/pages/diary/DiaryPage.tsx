@@ -19,13 +19,14 @@ export default function DiaryPage() {
   const rawLessons = ISLAND_LESSONS[expandedIsland] || []
 
   const currentLessons: Lesson[] = rawLessons.map((lesson, index) => {
-    const accStatus = getLessonStatusForAccount(lesson.id, index, user?.id)
+    const accStatus = getLessonStatusForAccount(lesson.id, index, user?.id, lesson.title)
     const status: Lesson['status'] = accStatus === 'completed' ? 'completed' : accStatus === 'in-progress' ? 'learning' : 'locked'
     const statusLabel = status === 'completed' ? 'Hoàn thành' : status === 'learning' ? 'Đang học' : 'Chưa học'
     const isCompleted = status === 'completed'
 
-    const savedFeedback = getSavedLessonFeedbackForAccount(lesson.id, user?.id, lesson.title)
-    const feedback = isCompleted || savedFeedback ? (savedFeedback || lesson.feedback) : null
+    const savedFeedback = getSavedLessonFeedbackForAccount(lesson.id, user?.id, lesson.title, index)
+    const hasAnsweredQuestions = Boolean(savedFeedback && (savedFeedback.strengths.length > 0 || savedFeedback.practice.length > 0))
+    const feedback = hasAnsweredQuestions ? savedFeedback : isCompleted ? lesson.feedback : null
 
     return {
       ...lesson,
