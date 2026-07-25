@@ -67,14 +67,13 @@ export default function DiaryPage() {
     }
   })
 
-  const [selectedLesson, setSelectedLesson] = useState<Lesson>(currentLessons[0])
+  const [selectedIndex, setSelectedIndex] = useState<number>(0)
+  const selectedLesson = currentLessons[selectedIndex] || currentLessons[0]
   const accordionScrollRef = useRef<HTMLDivElement>(null)
   const islandRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   useEffect(() => {
-    if (currentLessons.length > 0) {
-      setSelectedLesson(currentLessons[0])
-    }
+    setSelectedIndex(0)
   }, [expandedIsland])
 
   useEffect(() => {
@@ -97,7 +96,10 @@ export default function DiaryPage() {
   const babyAvatar = user?.avatar || '/assets/dda751c0cf7a1aed55f732ffba2b65dc1e21acf3.webp'
 
   const handleSelectLesson = (lesson: Lesson) => {
-    setSelectedLesson(lesson)
+    const idx = currentLessons.findIndex((l) => l.id === lesson.id)
+    if (idx !== -1) {
+      setSelectedIndex(idx)
+    }
   }
 
   const handleSelectIsland = (islandName: string) => {

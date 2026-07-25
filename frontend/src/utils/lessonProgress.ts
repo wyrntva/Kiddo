@@ -40,6 +40,11 @@ export function getLessonStatusForAccount(
     return progress[String(index + 1)]
   }
 
+  const qResults = getSavedQuestionResultsForAccount(lessonId, userId, lessonTitle, index)
+  if (Object.keys(qResults).length > 0) {
+    return 'in-progress'
+  }
+
   return 'not-started'
 }
 
