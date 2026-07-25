@@ -17,20 +17,21 @@ html {
   overflow-y: auto;
 }
 
-/* Fluid rem scaling across OS display scale factors (100%, 125%, 150%) */
-@media (max-width: 1600px), (max-height: 900px) {
+/* Fluid rem scaling — only width-based to avoid height-triggered inconsistencies
+   across desktops with different OS display scale factors (100%, 125%, 150%) */
+@media (max-width: 1600px) {
   html {
     font-size: 58.5%; /* ~9.36px - smooth transition for 125% OS display scale */
   }
 }
 
-@media (max-width: 1300px), (max-height: 780px) {
+@media (max-width: 1300px) {
   html {
     font-size: 54%; /* ~8.64px - smooth transition for 150% OS display scale */
   }
 }
 
-@media (max-width: 992px), (max-height: 680px) {
+@media (max-width: 992px) {
   html {
     font-size: 48%;
   }
@@ -424,8 +425,8 @@ svg {
   }
 }
 
-/* --- 2. TABLET / LAPTOP (768px - 1359px) --- */
-@media (min-width: 768px) and (max-width: 1359px) {
+/* --- 2. TABLET / LAPTOP (768px - 1279px) --- */
+@media (min-width: 768px) and (max-width: 1279px) {
   .zone-landing-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -449,8 +450,8 @@ svg {
   }
 }
 
-/* --- 3. LARGE DESKTOP (>= 1360px) --- */
-@media (min-width: 1360px) {
+/* --- 3. LARGE DESKTOP (>= 1280px) — synced with Tailwind xl: breakpoint --- */
+@media (min-width: 1280px) {
   .zone-landing-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;

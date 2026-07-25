@@ -18,30 +18,30 @@ export default function ZoneQuizWelcomeScreen({
   return (
     <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
       {/* Top action buttons */}
-      <div className="absolute right-3 top-3 z-30 flex items-center gap-2 sm:right-5 sm:top-5">
+      <div className="absolute right-[48px] top-[48px] z-30 flex items-center gap-3">
         {onSkip && (
           <button
             onClick={onSkip}
-            className="cursor-pointer rounded-full border border-[#0a7ad8] bg-white/90 px-4 py-1.5 font-baloo text-[14px] font-bold text-[#0a7ad8] shadow-md transition-all hover:bg-[#e6f6ff] active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
+            className="cursor-pointer rounded-full border border-[#0a7ad8] bg-white/90 px-6 py-2.5 font-baloo text-[18px] font-bold text-[#0a7ad8] shadow-md transition-all hover:bg-[#e6f6ff] active:scale-95"
           >
             Bỏ qua ➔
           </button>
         )}
         <button
           onClick={onSpeak}
-          className={`zone-lesson-speaker rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:p-3 ${
+          className={`zone-lesson-speaker rounded-full bg-[#0a7ad8] p-3.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 ${
             isSpeaking ? 'animate-pulse scale-105' : ''
           }`}
           title="Nghe hướng dẫn"
         >
-          <img src={zoneQuizAssets.speaker} alt="Speak" className="w-6 h-6 select-none" />
+          <img src={zoneQuizAssets.speaker} alt="Speak" className="w-8 h-8 select-none" />
         </button>
       </div>
 
       {/* Welcome Speech Bubble */}
       <div className="relative z-20 mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
         <div className="zone-lesson-bubble relative mx-auto flex w-full max-w-[850px] flex-col items-center gap-3 rounded-[28px] border-[3px] border-[#339E4A] bg-white px-4 py-4 text-center shadow-lg sm:gap-4 sm:rounded-[40px] sm:border-4 sm:px-8 sm:py-6 lg:px-12">
-          <p className="font-baloo text-[clamp(1rem,2.1vw,1.75rem)] font-bold leading-[1.45] text-[#001e2f]">
+          <p className="font-baloo text-[20px] font-bold leading-[1.45] text-[#001e2f]">
             {welcomeText}
           </p>
           <button
@@ -62,15 +62,15 @@ export default function ZoneQuizWelcomeScreen({
       </div>
 
       {/* Toro Character waving */}
-      <div className="zone-lesson-mascot flex min-h-[180px] flex-1 items-end justify-center overflow-hidden px-2">
+      <div className="zone-lesson-mascot flex min-h-[180px] flex-1 items-end justify-center overflow-visible px-2">
         <img
           src={zoneQuizAssets.wavingMascot}
           alt="Toro Waving"
           className="block h-auto w-auto max-w-none object-contain select-none z-10"
           style={{
-            maxHeight: 'min(750px, 100%)',
-            maxWidth: 'min(1100px, 110vw)',
-            transform: 'scale(1.06) translateY(4px)',
+            maxHeight: 'min(700px, 100%)',
+            maxWidth: 'min(1050px, 100vw)',
+            transform: 'scale(1.08) translateY(8px)',
           }}
         />
       </div>
