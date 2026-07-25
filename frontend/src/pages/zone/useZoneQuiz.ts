@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
-import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount } from '../../utils/lessonProgress'
+import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount, getSavedQuestionResultsForAccount } from '../../utils/lessonProgress'
 
 export const DEFAULT_LESSON_EVALUATIONS = [
   {
@@ -575,6 +575,45 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     setPostVideoAudio(current => current || getFullMediaUrl('/uploads/voices/sau_video.mp3'))
     setVideoUrl(current => current || getFullMediaUrl('/uploads/videos/videobai1.mp4'))
   }, [lessonTitle])
+
+  // Resume in-progress lesson: if questions were already answered, jump straight to the unanswered question
+  useEffect(() => {
+    if (loading || !currentLessonId) return
+    let userId: string | undefined
+    try {
+      const stored = localStorage.getItem('user')
+      if (stored) userId = JSON.parse(stored)?.id
+    } catch {}
+
+    const savedResults = getSavedQuestionResultsForAccount(currentLessonId, userId, lessonTitle)
+    const answeredKeys = Object.keys(savedResults).map(Number)
+
+    if (answeredKeys.length > 0) {
+      setQuestionResults(savedResults)
+
+      const totalQ = questions.length || 4
+      let firstUnanswered = 0
+      for (let i = 0; i < totalQ; i++) {
+        if (savedResults[i] === undefined) {
+          firstUnanswered = i
+          break
+        }
+      }
+
+      // If all questions in range are already answered, default to the last question or first
+      if (savedResults[firstUnanswered] !== undefined) {
+        firstUnanswered = Math.min(answeredKeys.length, totalQ - 1)
+      }
+
+      setCurrentQuestionIndex(firstUnanswered)
+      setShowWelcome(false)
+      setShowPreVideo(false)
+      setShowVideo(false)
+      setShowPostVideo(false)
+      setShowIntro(false)
+      setShowGame(false)
+    }
+  }, [currentLessonId, lessonTitle, loading, questions.length])
 
   useEffect(() => {
     if (showWelcome && welcomeText && !loading) {
