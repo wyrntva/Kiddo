@@ -3,7 +3,8 @@ import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
 import { useAuth } from '../../context/AuthContext'
-import { getLessonStatusForAccount, getSavedLessonFeedbackForAccount } from '../../utils/lessonProgress'
+import { getLessonStatusForAccount, getSavedQuestionResultsForAccount } from '../../utils/lessonProgress'
+import { DEFAULT_LESSON_EVALUATIONS } from '../zone/useZoneQuiz'
 import DiaryFeedbackPanel from './_components/DiaryFeedbackPanel'
 import DiaryLessonCarousel from './_components/DiaryLessonCarousel'
 import DiaryProfileCard from './_components/DiaryProfileCard'
@@ -24,9 +25,30 @@ export default function DiaryPage() {
     const statusLabel = status === 'completed' ? 'Hoàn thành' : status === 'learning' ? 'Đang học' : 'Chưa học'
     const isCompleted = status === 'completed'
 
-    const savedFeedback = getSavedLessonFeedbackForAccount(lesson.id, user?.id, lesson.title, index)
-    const hasAnsweredQuestions = Boolean(savedFeedback && (savedFeedback.strengths.length > 0 || savedFeedback.practice.length > 0))
-    const feedback = hasAnsweredQuestions ? savedFeedback : isCompleted ? lesson.feedback : null
+    // Compute feedback dynamically from actual per-question results
+    const savedResults = getSavedQuestionResultsForAccount(lesson.id, user?.id, lesson.title, index)
+    const answeredKeys = Object.keys(savedResults)
+    let feedback = null
+
+    if (answeredKeys.length > 0) {
+      const strengths: string[] = []
+      const practice: string[] = []
+      const tips: string[] = []
+      for (const key of answeredKeys) {
+        const qIndex = parseInt(key)
+        const isCorrect = savedResults[qIndex]
+        const evalItem = DEFAULT_LESSON_EVALUATIONS[qIndex] || DEFAULT_LESSON_EVALUATIONS[0]
+        tips.push(evalItem.parentTip)
+        if (isCorrect) {
+          strengths.push(evalItem.passedText)
+        } else {
+          practice.push(evalItem.failedText)
+        }
+      }
+      feedback = { title: lesson.title, strengths, practice, tips }
+    } else if (isCompleted) {
+      feedback = lesson.feedback
+    }
 
     return {
       ...lesson,
