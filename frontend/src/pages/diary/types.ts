@@ -4,12 +4,12 @@ export interface DiaryLesson {
   status: 'active' | 'learning' | 'locked' | 'completed'
   statusLabel: string
   isCompleted: boolean
-  feedback: {
+  feedback?: {
     title: string
     strengths: string[]
     practice: string[]
     tips: string[]
-  }
+  } | null
   image?: string
 }
 

@@ -25,7 +25,7 @@ export default function DiaryPage() {
     const isCompleted = status === 'completed'
 
     const savedFeedback = getSavedLessonFeedbackForAccount(lesson.id, user?.id, lesson.title)
-    const feedback = savedFeedback || lesson.feedback
+    const feedback = isCompleted || savedFeedback ? (savedFeedback || lesson.feedback) : null
 
     return {
       ...lesson,
