@@ -3,6 +3,7 @@ import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
 import { useAuth } from '../../context/AuthContext'
+import { getLessonStatusForAccount, getSavedLessonFeedbackForAccount } from '../../utils/lessonProgress'
 import DiaryFeedbackPanel from './_components/DiaryFeedbackPanel'
 import DiaryLessonCarousel from './_components/DiaryLessonCarousel'
 import DiaryProfileCard from './_components/DiaryProfileCard'
@@ -15,10 +16,35 @@ const DEFAULT_ISLAND = ISLANDS[0]?.name || ''
 export default function DiaryPage() {
   const { user } = useAuth()
   const [expandedIsland, setExpandedIsland] = useState<string>(DEFAULT_ISLAND)
-  const currentLessons = ISLAND_LESSONS[expandedIsland] || []
+  const rawLessons = ISLAND_LESSONS[expandedIsland] || []
+
+  const currentLessons: Lesson[] = rawLessons.map((lesson, index) => {
+    const accStatus = getLessonStatusForAccount(lesson.id, index, user?.id)
+    const status: Lesson['status'] = accStatus === 'completed' ? 'completed' : accStatus === 'in-progress' ? 'learning' : 'locked'
+    const statusLabel = status === 'completed' ? 'Hoàn thành' : status === 'learning' ? 'Đang học' : 'Chưa học'
+    const isCompleted = status === 'completed'
+
+    const savedFeedback = getSavedLessonFeedbackForAccount(lesson.id, user?.id, lesson.title)
+    const feedback = savedFeedback || lesson.feedback
+
+    return {
+      ...lesson,
+      status,
+      statusLabel,
+      isCompleted,
+      feedback,
+    }
+  })
+
   const [selectedLesson, setSelectedLesson] = useState<Lesson>(currentLessons[0])
   const accordionScrollRef = useRef<HTMLDivElement>(null)
   const islandRefs = useRef<Record<string, HTMLDivElement | null>>({})
+
+  useEffect(() => {
+    if (currentLessons.length > 0) {
+      setSelectedLesson(currentLessons[0])
+    }
+  }, [expandedIsland])
 
   useEffect(() => {
     const cardElement = islandRefs.current[expandedIsland]
@@ -40,29 +66,20 @@ export default function DiaryPage() {
   const babyAvatar = user?.avatar || '/assets/dda751c0cf7a1aed55f732ffba2b65dc1e21acf3.webp'
 
   const handleSelectLesson = (lesson: Lesson) => {
-    if (lesson.status !== 'locked') {
-      setSelectedLesson(lesson)
-    }
+    setSelectedLesson(lesson)
   }
 
   const handleSelectIsland = (islandName: string) => {
-    const firstLesson = ISLAND_LESSONS[islandName]?.[0]
-    if (!firstLesson) return
-
-    // Keep the accordion, carousel and feedback panel on the same island in a
-    // single render. Updating the lesson later in an effect briefly mixed the
-    // newly selected island with feedback from the previous one.
     setExpandedIsland(islandName)
-    setSelectedLesson(firstLesson)
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col">
+    <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col 2xl:h-[100dvh] 2xl:overflow-hidden">
       <SEO title="Nhật ký học tập" noindex={true} />
       <Navbar />
 
-      <main className="flex-1 max-w-[1920px] mx-auto w-full px-4 md:px-6 xl:px-[48px] py-[20px] md:py-[24px] flex flex-col 2xl:flex-row gap-6 xl:gap-[24px]">
-        <div className="w-full 2xl:w-[564px] shrink-0 bg-[#fef9ed] rounded-[24px] p-[16px] sm:p-[20px] xl:p-[24px] pb-[80px] xl:pb-[24px] relative flex flex-col gap-[20px] xl:gap-[24px] overflow-hidden">
+      <main className="mx-auto flex min-h-0 w-full max-w-[1920px] flex-1 flex-col gap-4 px-3 py-4 sm:gap-5 sm:px-4 md:px-6 md:py-6 xl:flex-row xl:gap-6 xl:px-8 2xl:px-12 2xl:py-4">
+        <div className="relative flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-[20px] bg-[#fef9ed] p-3 pb-[72px] sm:gap-5 sm:rounded-[24px] sm:p-5 sm:pb-[80px] xl:w-[380px] xl:gap-6 xl:p-5 xl:pb-6 2xl:h-full 2xl:w-[414px] 2xl:p-5">
           <DiaryProfileCard babyAvatar={babyAvatar} babyName={babyName} babyAge={babyAge} />
           <DiaryProgressSidebar
             islands={ISLANDS}
@@ -82,13 +99,15 @@ export default function DiaryPage() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col gap-[16px] min-w-0">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4">
           <DiaryLessonCarousel lessons={currentLessons} selectedLesson={selectedLesson} onSelectLesson={handleSelectLesson} />
           <DiaryFeedbackPanel lesson={selectedLesson} />
         </div>
       </main>
 
-      <Footer />
+      <div className="2xl:hidden">
+        <Footer />
+      </div>
     </div>
   )
 }

@@ -37,17 +37,17 @@ export default function ZoneLandingPage({
       <SEO title={title} noindex={true} />
       <Navbar />
 
-      <main className="flex-1 min-h-[calc(100vh-64px)] relative">
+      <main className="zone-landing-main relative min-h-[calc(100dvh-56px)] flex-1 md:min-h-[calc(100dvh-64px)]">
         <img
           src={backgroundImage}
           alt=""
           className="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
         />
 
-        <div className="relative z-10 max-w-[1920px] mx-auto px-4 md:px-6 xl:px-[48px] pt-[24px] md:pt-[36px] xl:pt-[48px] pb-[36px] xl:pb-[48px] flex flex-col gap-[32px] xl:gap-[48px]">
-          <div className="flex flex-col xl:flex-row gap-[20px] xl:gap-[16px] items-center justify-between w-full">
-            <div className="w-full xl:w-[350px] flex justify-center xl:justify-start shrink-0">
-              <div className="relative shrink-0 w-[150px] sm:w-[170px] xl:w-[240px] aspect-square -my-[10px] xl:-my-[25px] hover:scale-110 hover:-translate-y-2 transition-all duration-300 ease-out cursor-pointer">
+        <div className="relative z-10 mx-auto flex max-w-[1920px] flex-col gap-5 px-3 pb-8 pt-4 sm:px-5 md:gap-7 md:px-6 md:pb-10 md:pt-6 xl:gap-9 xl:px-12 xl:pb-12 xl:pt-8">
+          <div className="zone-landing-hero grid w-full grid-cols-[auto_1fr] items-center gap-x-3 gap-y-4 sm:gap-x-5 xl:grid-cols-[300px_1fr_300px] xl:gap-4">
+            <div className="flex shrink-0 justify-center xl:justify-start">
+              <div className="relative -my-2 aspect-square w-[88px] shrink-0 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-110 sm:w-[120px] md:w-[150px] xl:-my-5 xl:w-[220px]">
                 <img
                   src={islandImage}
                   alt={islandAlt}
@@ -56,31 +56,31 @@ export default function ZoneLandingPage({
               </div>
             </div>
 
-            <div className="flex-1 flex flex-col gap-[4px] items-center justify-center text-center min-w-0">
+            <div className="flex min-w-0 flex-1 flex-col items-start justify-center gap-1 text-left sm:items-center sm:text-center">
               <p
-                className="font-baloo text-[34px] sm:text-[44px] md:text-[56px] xl:text-[60px] font-bold leading-[42px] sm:leading-[56px] md:leading-[72px] xl:leading-[90px] whitespace-normal"
+                className="font-baloo text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-[1.15]"
                 style={{ color: theme.titleColor }}
               >
                 {title}
               </p>
-              <div className="flex flex-wrap gap-[6px] justify-center items-center shrink-0">
-                <p className="font-vietnam font-bold text-[16px] md:text-[22px] leading-[24px] md:leading-[28px] text-[#37393E]">
+              <div className="flex flex-wrap items-center justify-start gap-1.5 sm:justify-center">
+                <p className="font-vietnam text-[13px] font-bold leading-5 text-[#37393E] sm:text-[16px] sm:leading-6 md:text-[20px] md:leading-7">
                   {subtitle}
                 </p>
-                <div className="w-6 h-6 md:w-7 md:h-7 shrink-0">
+                <div className="h-5 w-5 shrink-0 md:h-7 md:w-7">
                   <ZoneHeartIcon color={theme.heartColor} />
                 </div>
               </div>
             </div>
 
-            <div className="w-full xl:w-[350px] flex justify-center xl:justify-end shrink-0">
+            <div className="col-span-2 flex w-full shrink-0 justify-center xl:col-span-1 xl:justify-end">
               <ZoneProgressCard completed={completed} total={total} theme={theme} />
             </div>
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-[20px] md:grid-cols-2 xl:gap-[24px] 2xl:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:gap-5 2xl:grid-cols-3">
             {lessons.map((lesson) => (
-              <div key={lesson.id} className="h-auto min-w-0 xl:h-[260px] 2xl:h-[221px] min-[1800px]:h-[258px]">
+              <div key={lesson.id} className="h-auto min-w-0 sm:h-[230px] lg:h-[250px] 2xl:h-[221px] min-[1800px]:h-[258px]">
                 <ZoneLessonCard
                   lesson={lesson}
                   theme={theme}
@@ -89,7 +89,7 @@ export default function ZoneLandingPage({
               </div>
             ))}
 
-            <div className="h-[320px] sm:h-[360px] min-w-0 xl:h-[260px] 2xl:h-[221px] min-[1800px]:h-[258px]">
+            <div className="h-[260px] min-w-0 sm:h-[230px] lg:h-[250px] 2xl:h-[221px] min-[1800px]:h-[258px]">
               <ZoneEncouragementCard theme={theme} />
             </div>
           </div>

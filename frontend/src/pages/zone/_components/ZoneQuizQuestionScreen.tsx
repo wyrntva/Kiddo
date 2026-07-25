@@ -26,7 +26,7 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-col items-center justify-start gap-6 px-4 sm:px-6 py-6 md:gap-[40px] md:py-8">
+    <div className="zone-question-screen relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-col items-center justify-start gap-4 px-3 py-4 sm:px-5 sm:py-5 lg:gap-6">
       <div
         className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none"
         style={{ transform: 'translate(-300px, -200px)' }}
@@ -38,19 +38,19 @@ export default function ZoneQuizQuestionScreen({
         />
       </div>
 
-      <div className="w-full justify-start md:flex">
+      <div className="flex w-full justify-start">
         <button
           onClick={onBack}
-          className="flex cursor-pointer items-center gap-2 rounded-[40px] border border-[#e83552] bg-white px-6 py-2.5 font-baloo text-[16px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 md:text-[18px]"
+          className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[40px] border border-[#e83552] bg-white px-5 py-2 font-baloo text-[15px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-6 sm:text-[18px]"
         >
           Quay lại
         </button>
       </div>
 
-      <div className="flex w-full items-start sm:items-center justify-start gap-[16px] sm:gap-[24px] rounded-[32px] sm:rounded-[100px] border-[4px] border-[#339E4A] bg-white py-[20px] sm:py-[24px] px-[16px] sm:pl-[32px] sm:pr-[24px] shadow-sm">
+      <div className="flex w-full items-start justify-start gap-3 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-3 py-4 shadow-sm sm:items-center sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-6 sm:py-5">
         <button
           onClick={onSpeakQuestion}
-          className={`flex shrink-0 items-center justify-center rounded-full bg-[#0a7ad8] p-3 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 ${
+          className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:p-3 ${
             isSpeaking ? 'animate-pulse scale-105' : ''
           }`}
           title="Nghe câu hỏi"
@@ -67,7 +67,7 @@ export default function ZoneQuizQuestionScreen({
         </div>
       </div>
 
-      <div className="grid w-full max-w-[1050px] grid-cols-1 justify-center gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="zone-question-options grid w-full max-w-[1050px] grid-cols-3 justify-center gap-2 sm:gap-4">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
@@ -80,7 +80,7 @@ export default function ZoneQuizQuestionScreen({
         ))}
       </div>
 
-      <div className="h-[32px]" />
+      <div className="h-2 shrink-0 sm:h-4" />
     </div>
   )
 }

@@ -8,6 +8,7 @@ import ZoneQuizQuestionScreen from './_components/ZoneQuizQuestionScreen'
 import ZoneQuizSuccessModal from './_components/ZoneQuizSuccessModal'
 import ZoneQuizWelcomeScreen from './_components/ZoneQuizWelcomeScreen'
 import ZoneQuizPreVideoScreen from './_components/ZoneQuizPreVideoScreen'
+import { emotionIslandLessons } from '../diary/data/emotionIsland'
 import { zoneQuizAssets } from './quizData'
 import useZoneQuiz from './useZoneQuiz'
 
@@ -60,6 +61,7 @@ export default function ZoneQuizPage() {
     loading,
     lessonsList,
     backPath,
+    calculatedFeedback,
   } = useZoneQuiz(initialLessonId)
 
   useEffect(() => {
@@ -68,6 +70,17 @@ export default function ZoneQuizPage() {
       setCurrentLessonId(parsedId)
     }
   }, [id, setCurrentLessonId])
+
+  useEffect(() => {
+    if (!showSuccessModal) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [showSuccessModal])
 
   const handleNextLesson = () => {
     const currentIndex = lessonsList.findIndex((l) => l.id === currentLessonId)
@@ -80,6 +93,11 @@ export default function ZoneQuizPage() {
 
     navigate(backPath)
   }
+
+  const lessonFeedback =
+    calculatedFeedback ??
+    emotionIslandLessons.find((lesson) => lesson.title === quizLesson.lessonTitle)?.feedback ??
+    emotionIslandLessons[0].feedback
 
   if (loading) {
     return (
@@ -96,12 +114,12 @@ export default function ZoneQuizPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen md:h-screen md:overflow-hidden bg-[#F3F9FC]">
+    <div className="zone-lesson-page flex min-h-[100dvh] flex-col bg-[#F3F9FC] xl:h-[100dvh] xl:overflow-hidden">
       <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
-      <main className="flex-1 p-2 sm:p-4 lg:p-5 relative flex flex-col bg-[#F3F9FC] overflow-y-auto md:overflow-hidden">
-        <div className="relative flex-1 w-full min-h-[500px] md:h-full rounded-[20px] md:rounded-[32px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col bg-[#f2f6f9]">
+      <main className="zone-lesson-main relative flex min-h-0 flex-1 flex-col bg-[#F3F9FC] p-2 sm:p-3 md:p-4 lg:px-6 lg:py-5 xl:px-8 xl:py-5 2xl:px-10 2xl:py-6">
+        <div className="zone-lesson-stage relative flex min-h-[calc(100dvh-72px)] w-full flex-1 flex-col overflow-x-hidden overflow-y-auto rounded-[20px] bg-[#f2f6f9] shadow-2xl md:min-h-[calc(100dvh-88px)] md:rounded-[32px] xl:min-h-0 xl:overflow-hidden">
           <img
             src={zoneQuizAssets.heroBg}
             alt=""
@@ -144,7 +162,7 @@ export default function ZoneQuizPage() {
                   setShowVideo(false)
                   setShowPostVideo(true)
                 }}
-                className="absolute top-4 right-4 z-30 bg-black/75 hover:bg-black active:scale-95 transition-all text-white px-6 py-2.5 rounded-full font-baloo text-[16px] sm:text-[18px] font-bold shadow-md cursor-pointer border border-white/20"
+                className="absolute right-3 top-3 z-30 cursor-pointer rounded-full border border-white/20 bg-black/75 px-4 py-2 font-baloo text-[14px] font-bold text-white shadow-md transition-all hover:bg-black active:scale-95 sm:right-4 sm:top-4 sm:px-6 sm:py-2.5 sm:text-[18px]"
               >
                 Bỏ qua
               </button>
@@ -191,6 +209,7 @@ export default function ZoneQuizPage() {
 
       {showSuccessModal && (
         <ZoneQuizSuccessModal
+          feedback={lessonFeedback}
           onResetGame={handleResetGame}
           onNextLesson={handleNextLesson}
           onGoToDiary={() => navigate('/diary')}

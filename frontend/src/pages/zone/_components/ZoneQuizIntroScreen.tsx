@@ -12,10 +12,10 @@ export default function ZoneQuizIntroScreen({
   onSpeak,
 }: ZoneQuizIntroScreenProps) {
   return (
-    <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
+    <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
       <button
         onClick={onSpeak}
-        className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full shadow-md z-30 ${
+        className={`zone-lesson-speaker absolute right-3 top-3 z-30 rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:right-5 sm:top-5 sm:p-3 ${
           isSpeaking ? 'animate-pulse scale-105' : ''
         }`}
         title="Nghe hướng dẫn"
@@ -23,9 +23,9 @@ export default function ZoneQuizIntroScreen({
         <img src={zoneQuizAssets.speaker} alt="Speak" className="w-6 h-6 select-none" />
       </button>
 
-      <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 md:px-8 md:pt-12">
-        <div className="relative mx-auto w-full max-w-[900px] rounded-[100px] border-4 border-[#339E4A] bg-white px-8 py-6 text-center shadow-lg md:px-16 md:py-8">
-          <p className="font-baloo text-[20px] font-bold leading-snug text-[#001e2f] sm:text-[26px] md:text-[34px] md:leading-[52px]">
+      <div className="mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
+        <div className="zone-lesson-bubble relative mx-auto w-full max-w-[900px] rounded-[28px] border-[3px] border-[#339E4A] bg-white px-4 py-5 text-center shadow-lg sm:rounded-[60px] sm:border-4 sm:px-10 sm:py-7">
+          <p className="font-baloo text-[clamp(1.1rem,2.4vw,2.125rem)] font-bold leading-[1.5] text-[#001e2f]">
             {introText}
           </p>
           <div className="pointer-events-none absolute -bottom-[28px] left-1/2 h-[32px] w-[48px] -translate-x-1/2">
@@ -37,7 +37,7 @@ export default function ZoneQuizIntroScreen({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 items-end justify-center overflow-visible px-4">
+      <div className="zone-lesson-mascot flex min-h-[180px] flex-1 items-end justify-center overflow-hidden px-2">
         <img
           src={zoneQuizAssets.wavingMascot}
           alt="Mascot Waving"

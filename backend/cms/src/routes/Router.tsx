@@ -74,6 +74,7 @@ const Contents = lazy(() => import('../views/contents/Contents'));
 const Lessons = lazy(() => import('../views/lessons/Lessons'));
 const LessonEdit = lazy(() => import('../views/lessons/LessonEdit'));
 const LessonQuestions = lazy(() => import('../views/lessons/LessonQuestionsSimple'));
+const LessonEvaluations = lazy(() => import('../views/lessons/LessonEvaluations'));
 const Courses = lazy(() => import('../views/courses/Courses'));
 const TransactionHistory = lazy(() => import('../views/transaction-history/TransactionHistory'));
 const ReportDetail = lazy(() => import('../views/reports/ReportDetail'));
@@ -175,6 +176,7 @@ const Router = () => {
             <Route path="lessons" element={<Lessons />} />
             <Route path="lessons/:id/edit" element={<LessonEdit />} />
             <Route path="lessons/:id/questions" element={<LessonQuestions />} />
+            <Route path="lessons/:id/evaluations" element={<LessonEvaluations />} />
             <Route path="courses" element={<Courses />} />
             <Route path="transaction-history" element={<TransactionHistory />} />
 

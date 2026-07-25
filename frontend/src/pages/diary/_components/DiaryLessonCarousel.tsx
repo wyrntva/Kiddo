@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import type { DiaryLesson } from '../types'
 
 interface DiaryLessonCarouselProps {
@@ -50,6 +51,44 @@ export default function DiaryLessonCarousel({
   selectedLesson,
   onSelectLesson,
 }: DiaryLessonCarouselProps) {
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const [canScrollNext, setCanScrollNext] = useState(false)
+
+  useEffect(() => {
+    const carousel = carouselRef.current
+    if (!carousel) return
+
+    const updateScrollState = () => {
+      setCanScrollNext(
+        carousel.scrollLeft + carousel.clientWidth < carousel.scrollWidth - 2,
+      )
+    }
+
+    updateScrollState()
+    carousel.addEventListener('scroll', updateScrollState, { passive: true })
+    window.addEventListener('resize', updateScrollState)
+
+    const resizeObserver = new ResizeObserver(updateScrollState)
+    resizeObserver.observe(carousel)
+
+    return () => {
+      carousel.removeEventListener('scroll', updateScrollState)
+      window.removeEventListener('resize', updateScrollState)
+      resizeObserver.disconnect()
+    }
+  }, [lessons])
+
+  const handleNextLesson = () => {
+    const carousel = carouselRef.current
+    if (!carousel || !canScrollNext) return
+
+    const firstCard = carousel.firstElementChild as HTMLElement | null
+    const gap = Number.parseFloat(window.getComputedStyle(carousel).columnGap) || 0
+    const step = (firstCard?.getBoundingClientRect().width || 220) + gap
+
+    carousel.scrollBy({ left: step, behavior: 'smooth' })
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-[12px] items-start relative shrink-0 w-full">
@@ -69,19 +108,18 @@ export default function DiaryLessonCarousel({
         </div>
       </div>
 
-      <div className="w-full flex items-center">
-        <div className="w-full flex gap-[12px] xl:gap-[16px] pb-4 overflow-x-auto scrollbar-none snap-x snap-mandatory">
+      <div className="relative flex w-full items-center">
+        <div ref={carouselRef} className="flex w-full snap-x snap-mandatory gap-3 overflow-x-auto pb-2 scrollbar-none scroll-smooth xl:gap-6">
           {lessons.map((lesson) => {
             const isSelected = selectedLesson.id === lesson.id
-            const isLocked = lesson.status === 'locked'
 
             return (
               <div
                 key={lesson.id}
                 onClick={() => onSelectLesson(lesson)}
-                className={`w-[220px] sm:w-[240px] lg:w-[260px] xl:flex-1 xl:w-auto xl:min-w-0 shrink-0 snap-start rounded-[16px] border-2 flex flex-col overflow-hidden h-fit transition-all duration-200 relative ${
-                  isLocked ? 'cursor-not-allowed border-[#e2e2ea] bg-white' : 'cursor-pointer hover:shadow-md'
-                } ${isSelected ? 'bg-[#f4fafd] border-[#0a7ad8]' : 'bg-white border-[#e2e2ea]'}`}
+                className={`relative flex h-fit w-[210px] shrink-0 snap-start flex-col overflow-hidden rounded-[16px] border-2 transition-all duration-200 sm:w-[230px] lg:w-[240px] xl:w-[230px] cursor-pointer hover:shadow-md ${
+                  isSelected ? 'bg-[#f4fafd] border-[#0a7ad8]' : 'bg-white border-[#e2e2ea]'
+                }`}
               >
                 <div className="w-full bg-[#d2d2d2] relative shrink-0 rounded-t-[14px] overflow-hidden" style={{ aspectRatio: '260 / 176' }}>
                   {lesson.image && (
@@ -126,6 +164,22 @@ export default function DiaryLessonCarousel({
             )
           })}
         </div>
+
+        <button
+          type="button"
+          onClick={handleNextLesson}
+          disabled={!canScrollNext}
+          aria-label="Xem thêm bài học"
+          className={`absolute right-1 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center gap-2.5 rounded-[100px] bg-[#0a7ad8] p-2 text-white shadow-[0_6px_18px_rgba(10,122,216,0.28)] transition-all xl:right-2 ${
+            canScrollNext
+              ? 'group cursor-pointer hover:-translate-y-[calc(50%+2px)] hover:scale-105 hover:bg-[#0868ba] hover:shadow-[0_10px_24px_rgba(10,122,216,0.4)] active:scale-95'
+              : 'cursor-default opacity-60'
+          }`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">
+            <path fillRule="evenodd" clipRule="evenodd" d="M9.96967 7.46967C10.2626 7.17678 10.7374 7.17678 11.0303 7.46967L15.0303 11.4697C15.3232 11.7626 15.3232 12.2374 15.0303 12.5303L11.0303 16.5303C10.7374 16.8232 10.2626 16.8232 9.96967 16.5303C9.67678 16.2374 9.67678 15.7626 9.96967 15.4697L13.4393 12L9.96967 8.53033C9.67678 8.23744 9.67678 7.76256 9.96967 7.46967Z" fill="#F4FAFD" />
+          </svg>
+        </button>
       </div>
     </div>
   )

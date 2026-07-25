@@ -18,7 +18,7 @@ export default function DiaryProgressSidebar({
 }: DiaryProgressSidebarProps) {
   return (
     <div
-      className="relative overflow-hidden w-full flex flex-col h-[420px] sm:h-[520px] xl:h-[590px] p-[16px] pr-0 sm:p-[24px] sm:pr-0"
+      className="relative flex h-[360px] w-full flex-col overflow-hidden p-3 pr-0 sm:h-[420px] sm:p-5 sm:pr-0 md:h-[440px] xl:h-[560px] xl:p-5 xl:pr-0 2xl:min-h-0 2xl:flex-1 2xl:p-5 2xl:pr-0"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -104,10 +104,10 @@ export default function DiaryProgressSidebar({
               </div>
 
               {isExpanded && (
-                <div className="flex flex-col gap-[24px] pt-[12px] w-full" onClick={(event) => event.stopPropagation()}>
+                <div className="flex w-full flex-col gap-4 pt-3 sm:gap-5 2xl:gap-6" onClick={(event) => event.stopPropagation()}>
                   {island.skills.map((skill) => (
-                    <div key={skill.label} className="flex items-center gap-[24px] w-full">
-                      <div className="overflow-clip relative shrink-0 size-[48px]">
+                    <div key={skill.label} className="flex w-full items-center gap-3 sm:gap-4 2xl:gap-6">
+                      <div className="relative size-10 shrink-0 overflow-clip sm:size-12">
                         <img width="228" height="1024"
                           src="/assets/71a60f62f566a1e60279961c156dc98659392a01.webp"
                           alt={skill.label}
@@ -123,7 +123,7 @@ export default function DiaryProgressSidebar({
                       </div>
 
                       <div className="flex-1 flex flex-col gap-[4px]">
-                        <span className="font-vietnam text-[16px] font-medium text-[#575e70] leading-[24px]">{skill.label}</span>
+                        <span className="font-vietnam text-[14px] font-medium leading-5 text-[#575e70] sm:text-[16px] sm:leading-6">{skill.label}</span>
                         <div className="flex gap-[12px] items-center w-full">
                           <div className="bg-[#f0f2f4] flex-1 h-[10px] relative rounded-full overflow-hidden">
                             <div className="h-full rounded-full transition-all duration-500" style={{ width: `${skill.progress}%`, backgroundColor: skill.color }} />

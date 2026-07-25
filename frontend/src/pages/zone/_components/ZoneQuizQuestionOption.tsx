@@ -42,7 +42,7 @@ export default function ZoneQuizQuestionOption({
     <button
       onClick={() => onSelect(option.id)}
       disabled={isChecked}
-      className={`flex flex-col items-center justify-center p-3 sm:p-4 lg:p-5 gap-3 rounded-[24px] transition-all duration-300 w-full group relative ${cardClass}`}
+      className={`zone-question-option group relative flex min-w-0 w-full flex-col items-center justify-center gap-1.5 rounded-[16px] p-1.5 transition-all duration-300 sm:gap-3 sm:rounded-[24px] sm:p-4 ${cardClass}`}
     >
       {isChecked && isSelected && (
         <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-30 animate-bounce">
@@ -62,7 +62,7 @@ export default function ZoneQuizQuestionOption({
         </div>
       )}
 
-      <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center bg-gray-50 border border-gray-100">
+      <div className="zone-question-image relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:aspect-square sm:rounded-2xl">
         {hasCustomStyle ? (
           <div className="relative w-full h-full overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
             <img src={imgSrc} alt={option.label || ''} style={option.style} className="absolute max-w-none block select-none pointer-events-none" />
@@ -78,7 +78,7 @@ export default function ZoneQuizQuestionOption({
 
       {hasLabel && (
         <span
-          className={`font-vietnam font-bold text-[16px] md:text-[18px] text-center leading-[24px] transition-colors ${
+          className={`font-vietnam text-center text-[11px] font-bold leading-4 transition-colors sm:text-[16px] sm:leading-6 md:text-[18px] ${
             isChecked
               ? isSelected
                 ? 'text-white'

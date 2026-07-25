@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import { getLessonStatusForAccount, markLessonInProgress } from '../../utils/lessonProgress'
 import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
 
@@ -30,7 +32,19 @@ const theme: ZoneTheme = {
 
 export default function ZoneTinhHuongPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+
+  useEffect(() => {
+    setLessons(fallbackLessons.map((l, index) => {
+      const status = getLessonStatusForAccount(l.id, index, user?.id)
+      return {
+        ...l,
+        status,
+        stars: status === 'completed' ? 5 : 0,
+      }
+    }))
+  }, [user?.id])
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
@@ -45,20 +59,23 @@ export default function ZoneTinhHuongPage() {
       .then(json => {
         const currentZone = json.data?.find((z: any) => z.key === 'situation')
         if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
-          const dbLessons = currentZone.lessons.map((l: any, index: number) => ({
-            id: l.id,
-            fallbackId: (index % 5) + 1,
-            title: l.title,
-            description: l.description || '',
-            status: index === 0 ? 'completed' : index === 1 ? 'in-progress' : 'not-started',
-            stars: index === 0 ? 5 : 0,
-            image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : undefined,
-          }))
+          const dbLessons = currentZone.lessons.map((l: any, index: number) => {
+            const status = getLessonStatusForAccount(l.id, index, user?.id)
+            return {
+              id: l.id,
+              fallbackId: (index % 5) + 1,
+              title: l.title,
+              description: l.description || '',
+              status,
+              stars: status === 'completed' ? 5 : 0,
+              image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : undefined,
+            }
+          })
           setLessons(dbLessons)
         }
       })
       .catch(err => console.error('Lỗi khi tải bài học:', err))
-  }, [])
+  }, [user?.id])
 
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
@@ -73,7 +90,10 @@ export default function ZoneTinhHuongPage() {
       completed={completedCount}
       total={lessons.length}
       theme={theme}
-      onLessonSelect={(lesson) => navigate(`/zone/emotions/lesson/${lesson.id}`)}
+      onLessonSelect={(lesson) => {
+        markLessonInProgress(lesson.id, user?.id)
+        navigate(`/zone/emotions/lesson/${lesson.id}`)
+      }}
     />
   )
 }

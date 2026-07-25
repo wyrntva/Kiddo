@@ -12,11 +12,11 @@ export default function ZoneQuizPreVideoScreen({
   onSpeak,
 }: ZoneQuizPreVideoScreenProps) {
   return (
-    <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
+    <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
       {/* Speaker icon to read aloud the text again */}
       <button
         onClick={onSpeak}
-        className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full shadow-md z-30 ${
+        className={`zone-lesson-speaker absolute right-3 top-3 z-30 rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:right-5 sm:top-5 sm:p-3 ${
           isSpeaking ? 'animate-pulse scale-105' : ''
         }`}
         title="Nghe hướng dẫn"
@@ -25,9 +25,9 @@ export default function ZoneQuizPreVideoScreen({
       </button>
 
       {/* Speech Bubble */}
-      <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 md:px-8 md:pt-12 relative z-20">
-        <div className="relative mx-auto w-full max-w-[850px] rounded-[32px] md:rounded-[48px] border-4 border-[#339E4A] bg-white px-6 py-8 text-center shadow-lg md:px-12 md:py-10 flex flex-col items-center justify-center">
-          <p className="font-baloo text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-normal md:leading-[42px] text-[#001e2f]">
+      <div className="relative z-20 mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
+        <div className="zone-lesson-bubble relative mx-auto flex w-full max-w-[850px] flex-col items-center justify-center rounded-[28px] border-[3px] border-[#339E4A] bg-white px-4 py-5 text-center shadow-lg sm:rounded-[40px] sm:border-4 sm:px-10 sm:py-7">
+          <p className="font-baloo text-[clamp(1rem,2.1vw,1.75rem)] font-bold leading-[1.5] text-[#001e2f]">
             {preVideoText}
           </p>
           
@@ -42,7 +42,7 @@ export default function ZoneQuizPreVideoScreen({
       </div>
 
       {/* Toro Mascot waving */}
-      <div className="flex min-h-0 flex-1 items-end justify-center overflow-visible px-4">
+      <div className="zone-lesson-mascot flex min-h-[180px] flex-1 items-end justify-center overflow-hidden px-2">
         <img
           src={zoneQuizAssets.wavingMascot}
           alt="Toro Waving"

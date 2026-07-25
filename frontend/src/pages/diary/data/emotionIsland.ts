@@ -29,9 +29,19 @@ export const emotionIslandLessons: DiaryLesson[] = [
     image: '/assets/emotions_lesson_1.jpg',
     feedback: {
       title: 'Con đang cảm thấy gì?',
-      strengths: ['Bé nhận ra cảm xúc của mình', 'Bé biết gọi tên cảm xúc vui, buồn'],
-      practice: ['Bé nhận ra cảm xúc của mình', 'Bé biết gọi tên cảm xúc vui, buồn'],
-      tips: ['Bé nhận ra cảm xúc của mình', 'Bé biết gọi tên cảm xúc vui, buồn'],
+      strengths: [
+        'Bé đã nhận ra cảm xúc vui của nhân vật và bước đầu biết quan sát cảm xúc qua nét mặt, hành động.',
+        'Bé đã hiểu điều gì mang lại niềm vui cho nhân vật và bắt đầu liên hệ cảm xúc với những sự việc xảy ra xung quanh.',
+        'Bé đã nhận ra nhiều hoạt động quen thuộc có thể mang lại cảm xúc vui trong cuộc sống hằng ngày.',
+        'Bé đã biết lựa chọn cách chia sẻ niềm vui với người khác một cách tích cực và thân thiện.',
+      ],
+      practice: [],
+      tips: [
+        'Cùng bé quan sát khuôn mặt của các nhân vật trong truyện và hỏi: "Bạn ấy đang cảm thấy thế nào?"',
+        'Hỏi bé: "Hôm nay điều gì làm con vui nhất?" và cùng lắng nghe câu trả lời của bé.',
+        'Cùng bé kể lại một khoảnh khắc vui trong ngày và trò chuyện về điều đã khiến bé vui.',
+        'Khi bé có chuyện vui, hãy khuyến khích bé kể cho người thân hoặc bạn bè nghe.',
+      ],
     },
   },
   {

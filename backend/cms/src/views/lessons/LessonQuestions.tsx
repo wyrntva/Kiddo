@@ -425,7 +425,7 @@ export default function LessonQuestions() {
 
         // Validate that all options have images
         for (let i = 0; i < options.length; i++) {
-            if (!options[i].img && !options[i].sprite) {
+            if (!(options[i] as any).img && !options[i].sprite) {
                 toast.error(`Vui lòng chọn hình ảnh cho Lựa chọn ${i + 1}`);
                 return;
             }

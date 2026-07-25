@@ -39,29 +39,29 @@ export default function ZoneQuizGameScreen({
 }: ZoneQuizGameScreenProps) {
   const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
   return (
-    <div className="relative z-10 w-full h-full flex flex-col xl:flex-row gap-4 xl:gap-6 items-stretch justify-start xl:justify-center p-3 sm:p-5 lg:p-6 overflow-y-auto">
+    <div className="zone-game-screen relative z-10 flex min-h-full w-full flex-col items-stretch justify-start gap-3 overflow-y-auto p-2.5 sm:p-4 xl:grid xl:h-full xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-6 xl:p-5 2xl:grid-cols-[300px_minmax(0,1fr)] 2xl:p-6">
       {/* Sidebar - Side on XL screens, compact top/bottom on smaller screens */}
       <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
 
       {/* Main Board Area */}
-      <div className="flex-1 min-h-0 flex flex-col items-center justify-between relative min-w-0 gap-4 xl:gap-6">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 xl:gap-5">
         {/* Top Header Bar */}
-        <div className="w-full flex items-center justify-between gap-2 sm:gap-4 relative px-1">
+        <div className="relative grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-center gap-1.5 px-0.5 sm:gap-3">
           <button
             onClick={onBack}
-            className="z-30 bg-white hover:bg-red-50 active:scale-95 transition-all border-2 border-[#e83552] text-[#e83552] font-baloo text-[14px] sm:text-[16px] md:text-[18px] font-bold rounded-[40px] px-4 sm:px-6 py-2 flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer"
+            className="z-30 flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
           >
             Quay lại
           </button>
 
-          <div className="flex flex-col items-center gap-1 text-center shrink-0 z-20">
+          <div className="z-20 flex min-w-0 flex-col items-center gap-1 text-center">
             <h1
               style={{ WebkitTextStrokeWidth: '6px', WebkitTextStrokeColor: '#FFF', paintOrder: 'stroke fill' }}
-              className="font-baloo font-bold text-[24px] sm:text-[34px] xl:text-[42px] text-[#fea01f] leading-tight select-none"
+              className="select-none font-baloo text-[clamp(1.1rem,4vw,2.625rem)] font-bold leading-tight text-[#fea01f]"
             >
               Kéo thả cảm xúc
             </h1>
-            <div className="bg-[#f2fbef] border-2 border-[#339e4a] flex items-center justify-center p-[4px] sm:p-[6px] rounded-[1000px] shadow-sm">
+            <div className="hidden items-center justify-center rounded-[1000px] border-2 border-[#339e4a] bg-[#f2fbef] p-1 shadow-sm min-[430px]:flex sm:p-1.5">
               <div className="border border-[#02522b] border-dashed px-[12px] sm:px-[20px] py-[3px] sm:py-[6px] rounded-[100px]">
                 <span className="font-baloo text-[14px] sm:text-[18px] xl:text-[20px] text-[#418457] font-bold text-center">
                   Con đang cảm thấy gì
@@ -70,11 +70,11 @@ export default function ZoneQuizGameScreen({
             </div>
           </div>
 
-          <div className="shrink-0 min-w-[90px] sm:min-w-[120px] flex justify-end">
+          <div className="flex min-w-[42px] shrink-0 justify-end sm:min-w-[110px]">
             {allPlaced ? (
               <button
                 onClick={onCheckAnswers}
-                className="z-30 bg-gradient-to-r from-[#339e4a] to-[#45c25e] hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 transition-all border-2 border-white text-white font-baloo text-[14px] sm:text-[16px] md:text-[18px] font-bold rounded-[40px] px-4 sm:px-6 py-2 shadow-lg animate-[pulseGlow_2s_ease-in-out_infinite]"
+                className="z-30 rounded-[40px] border-2 border-white bg-gradient-to-r from-[#339e4a] to-[#45c25e] px-2.5 py-1.5 font-baloo text-[12px] font-bold text-white shadow-lg transition-all hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
               >
                 ✨ Hoàn thành
               </button>
@@ -85,9 +85,9 @@ export default function ZoneQuizGameScreen({
         </div>
 
         {/* Center Cards & Emotion Picker Area */}
-        <div className="flex-1 w-full flex flex-col items-center justify-center gap-4 xl:gap-5 min-h-0">
+        <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 xl:gap-5 2xl:gap-6">
           <div
-            className="bg-white rounded-[24px] p-3 sm:p-5 w-full max-w-[950px] grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 items-stretch justify-center shrink-0 z-20"
+            className="zone-game-board z-20 grid w-full max-w-[950px] shrink-0 grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 xl:max-w-[1080px] xl:gap-4 xl:p-5 2xl:max-w-[1160px] 2xl:p-6"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (
@@ -111,7 +111,7 @@ export default function ZoneQuizGameScreen({
             ))}
           </div>
 
-          <div className="w-full max-w-[950px] flex justify-center">
+          <div className="flex w-full max-w-[950px] justify-center xl:max-w-[1080px] 2xl:max-w-[1160px]">
             <ZoneQuizEmotionPicker
               emotions={shuffledEmotions}
               placedEmotions={placedEmotions}

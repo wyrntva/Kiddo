@@ -1,13 +1,35 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
+import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount } from '../../utils/lessonProgress'
+
+export const DEFAULT_LESSON_EVALUATIONS = [
+  {
+    passedText: 'Bé đã nhận ra cảm xúc vui của nhân vật và bước đầu biết quan sát cảm xúc qua nét mặt, hành động.',
+    failedText: 'Bé vẫn đang học cách nhận biết cảm xúc vui và cần thêm cơ hội để quan sát, gọi tên cảm xúc.',
+    parentTip: 'Cùng bé quan sát khuôn mặt của các nhân vật trong truyện và hỏi: "Bạn ấy đang cảm thấy thế nào?"',
+  },
+  {
+    passedText: 'Bé đã hiểu điều gì mang lại niềm vui cho nhân vật và bắt đầu liên hệ cảm xúc với những sự việc xảy ra xung quanh.',
+    failedText: 'Bé đã nhận ra cảm xúc vui nhưng vẫn cần luyện tập thêm để hiểu nguyên nhân tạo ra cảm xúc đó.',
+    parentTip: 'Hỏi bé: "Hôm nay điều gì làm con vui nhất?" và cùng lắng nghe câu trả lời của bé.',
+  },
+  {
+    passedText: 'Bé đã nhận ra nhiều hoạt động quen thuộc có thể mang lại cảm xúc vui trong cuộc sống hằng ngày.',
+    failedText: 'Bé cần thêm trải nghiệm để phân biệt rõ hơn những tình huống tạo ra cảm xúc vui và không vui.',
+    parentTip: 'Cùng bé kể lại một khoảnh khắc vui trong ngày và trò chuyện về điều đã khiến bé vui.',
+  },
+  {
+    passedText: 'Bé đã biết lựa chọn cách chia sẻ niềm vui với người khác một cách tích cực và thân thiện.',
+    failedText: 'Bé còn khá dè dặt khi chia sẻ cảm xúc tích cực và cần được khuyến khích nhiều hơn.',
+    parentTip: 'Khi bé có chuyện vui, hãy khuyến khích bé kể cho người thân hoặc bạn bè nghe.',
+  },
+]
 
 const INTRO_TEXT =
   'Chúc mừng bé đã hoàn thành các câu hỏi! Giờ chúng ta hãy cùng nhau chơi game nhé!'
 const GAME_GUIDE_TEXT =
   'Con hãy kéo thả các đám mây cảm xúc ở dưới vào đúng ô tròn của các bạn nhỏ nhé!'
-const GAME_RETRY_TEXT =
-  'Có câu trả lời chưa đúng rồi, bé hãy kiểm tra và thử lại nhé!'
 
 const getFullMediaUrl = (url: string) => {
   if (!url) return ''
@@ -24,6 +46,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const [selectedOptionId, setSelectedOptionId] = useState<string | number | null>(null)
   const [isChecked, setIsChecked] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const [questionResults, setQuestionResults] = useState<Record<number, boolean>>({})
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [showWelcome, setShowWelcome] = useState(true)
   const [showPreVideo, setShowPreVideo] = useState(false)
@@ -37,6 +60,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const [gameChecked, setGameChecked] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const navigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const completionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   // API states
@@ -204,20 +228,63 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
   const speakText = (text: string) => {
     stopAudio()
-    if (!text || typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    if (!text || typeof window === 'undefined') return
 
-    try {
-      window.speechSynthesis.cancel()
-      const utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'vi-VN'
-      utterance.rate = 0.95
-      utterance.onstart = () => setIsSpeaking(true)
-      utterance.onend = () => setIsSpeaking(false)
-      utterance.onerror = () => setIsSpeaking(false)
-      window.speechSynthesis.speak(utterance)
-    } catch {
-      setIsSpeaking(false)
+    setIsSpeaking(true)
+    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=vi&client=tw-ob`
+    const audio = new Audio(ttsUrl)
+    audioRef.current = audio
+
+    const fallbackToSpeechSynthesis = () => {
+      if (!('speechSynthesis' in window)) {
+        setIsSpeaking(false)
+        audioRef.current = null
+        return
+      }
+      try {
+        window.speechSynthesis.cancel()
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.lang = 'vi-VN'
+        utterance.rate = 0.95
+
+        const voices = window.speechSynthesis.getVoices()
+        const viVoice = voices.find(
+          (v) =>
+            v.lang.toLowerCase().includes('vi') ||
+            v.name.toLowerCase().includes('vietnam') ||
+            v.name.toLowerCase().includes('hoaimy') ||
+            v.name.toLowerCase().includes('linh')
+        )
+        if (viVoice) utterance.voice = viVoice
+
+        utterance.onstart = () => setIsSpeaking(true)
+        utterance.onend = () => {
+          setIsSpeaking(false)
+          audioRef.current = null
+        }
+        utterance.onerror = () => {
+          setIsSpeaking(false)
+          audioRef.current = null
+        }
+        window.speechSynthesis.speak(utterance)
+      } catch {
+        setIsSpeaking(false)
+        audioRef.current = null
+      }
     }
+
+    audio.onended = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+
+    audio.onerror = () => {
+      fallbackToSpeechSynthesis()
+    }
+
+    audio.play().catch(() => {
+      fallbackToSpeechSynthesis()
+    })
   }
 
   const playWelcomeAudio = () => {
@@ -433,6 +500,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const resetLessonState = () => {
     setCurrentQuestionIndex(0)
     resetQuestionState()
+    setQuestionResults({})
     setShowWelcome(true)
     setShowPreVideo(false)
     setShowVideo(false)
@@ -457,6 +525,10 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     if (navigateTimeoutRef.current) {
       clearTimeout(navigateTimeoutRef.current)
+    }
+    if (completionTimeoutRef.current) {
+      clearTimeout(completionTimeoutRef.current)
+      completionTimeoutRef.current = null
     }
   }
 
@@ -572,6 +644,9 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       if (navigateTimeoutRef.current) {
         clearTimeout(navigateTimeoutRef.current)
       }
+      if (completionTimeoutRef.current) {
+        clearTimeout(completionTimeoutRef.current)
+      }
     }
   }, [])
 
@@ -582,6 +657,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     const correct = optionId === quiz.correctOptionId
     setIsCorrect(correct)
     setIsChecked(true)
+    setQuestionResults((prev) => ({ ...prev, [currentQuestionIndex]: correct }))
 
     try {
       const audio = new Audio(correct ? '/assets/correct.mp3' : '/assets/incorrect.mp3')
@@ -601,6 +677,37 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       }
     }, delay)
   }
+
+  const calculatedFeedback = useMemo(() => {
+    const strengths: string[] = []
+    const practice: string[] = []
+    const tips: string[] = []
+
+    const qCount = questions.length > 0 ? questions.length : 4
+
+    for (let i = 0; i < qCount; i++) {
+      const evalItem = DEFAULT_LESSON_EVALUATIONS[i] || DEFAULT_LESSON_EVALUATIONS[0]
+      // Always include parent tip for all 4 questions
+      tips.push(evalItem.parentTip)
+
+      const isQCorrect = questionResults[i]
+      if (isQCorrect === true) {
+        strengths.push(evalItem.passedText)
+      } else if (isQCorrect === false) {
+        practice.push(evalItem.failedText)
+      } else {
+        // Default if not explicitly answered yet
+        strengths.push(evalItem.passedText)
+      }
+    }
+
+    return {
+      title: 'Con đang cảm thấy gì?',
+      strengths,
+      practice,
+      tips,
+    }
+  }, [questions, questionResults])
 
   const placeEmotion = (cardId: string, emotionId: string) => {
     setPlacedEmotions((previous) => {
@@ -643,6 +750,34 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     }
   }
 
+  useEffect(() => {
+    if (currentLessonId) {
+      let userId: string | undefined
+      try {
+        const stored = localStorage.getItem('user')
+        if (stored) userId = JSON.parse(stored)?.id
+      } catch {}
+      markLessonInProgress(currentLessonId, userId)
+    }
+  }, [currentLessonId])
+
+  useEffect(() => {
+    if (calculatedFeedback && currentLessonId) {
+      let userId: string | undefined
+      try {
+        const stored = localStorage.getItem('user')
+        if (stored) userId = JSON.parse(stored)?.id
+      } catch {}
+
+      saveLessonFeedbackForAccount(
+        currentLessonId,
+        calculatedFeedback,
+        userId,
+        lessonTitle || quizLesson.lessonTitle
+      )
+    }
+  }, [calculatedFeedback, currentLessonId, lessonTitle, quizLesson.lessonTitle])
+
   const handleCheckAnswers = () => {
     playButtonSound()
     const isAllCorrect = gameCards.every(
@@ -652,14 +787,34 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     if (isAllCorrect) {
       setTimeout(() => playSuccessSound(), 300)
-      setShowSuccessModal(true)
-      return
     }
 
-    speakText(GAME_RETRY_TEXT)
+    if (completionTimeoutRef.current) {
+      clearTimeout(completionTimeoutRef.current)
+    }
+
+    completionTimeoutRef.current = setTimeout(() => {
+      let userId: string | undefined
+      try {
+        const stored = localStorage.getItem('user')
+        if (stored) userId = JSON.parse(stored)?.id
+      } catch {}
+
+      const currentIndex = lessonsList.findIndex((l) => l.id === currentLessonId)
+      const nextLesson = currentIndex !== -1 && currentIndex < lessonsList.length - 1 ? lessonsList[currentIndex + 1] : null
+      markLessonCompleted(currentLessonId, nextLesson?.id, userId)
+      saveLessonFeedbackForAccount(currentLessonId, calculatedFeedback, userId, lessonTitle || quizLesson.lessonTitle)
+
+      setShowSuccessModal(true)
+      completionTimeoutRef.current = null
+    }, 3000)
   }
 
   const handleResetGame = () => {
+    if (completionTimeoutRef.current) {
+      clearTimeout(completionTimeoutRef.current)
+      completionTimeoutRef.current = null
+    }
     setPlacedEmotions(initialPlacedEmotions)
     setGameChecked(false)
     setSelectedEmotionId(null)
@@ -675,6 +830,8 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     selectedOptionId,
     isChecked,
     isCorrect,
+    questionResults,
+    calculatedFeedback,
     isSpeaking,
     showWelcome,
     setShowWelcome,

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 
 interface LessonTabsProps {
     lessonId: string;
-    activeTab: 'information' | 'questions';
+    activeTab: 'information' | 'questions' | 'evaluations';
 }
 
 const LessonTabs = ({ lessonId, activeTab }: LessonTabsProps) => {
@@ -17,6 +17,11 @@ const LessonTabs = ({ lessonId, activeTab }: LessonTabsProps) => {
             key: 'questions' as const,
             label: 'Câu hỏi',
             path: `/lessons/${lessonId}/questions`,
+        },
+        {
+            key: 'evaluations' as const,
+            label: 'Đánh giá',
+            path: `/lessons/${lessonId}/evaluations`,
         },
     ];
 

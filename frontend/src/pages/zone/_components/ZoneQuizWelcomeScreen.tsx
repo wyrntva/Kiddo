@@ -14,11 +14,11 @@ export default function ZoneQuizWelcomeScreen({
   onStart,
 }: ZoneQuizWelcomeScreenProps) {
   return (
-    <div className="relative z-10 flex min-h-full flex-col overflow-y-auto md:overflow-hidden pt-4 pb-0 md:pt-8 md:pb-0">
+    <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
       {/* Speaker icon to read aloud the intro again */}
       <button
         onClick={onSpeak}
-        className={`absolute right-4 top-4 md:right-8 md:top-8 bg-[#0a7ad8] hover:bg-[#0863b0] active:scale-95 transition-all p-3 rounded-full shadow-md z-30 ${
+        className={`zone-lesson-speaker absolute right-3 top-3 z-30 rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:right-5 sm:top-5 sm:p-3 ${
           isSpeaking ? 'animate-pulse scale-105' : ''
         }`}
         title="Nghe hướng dẫn"
@@ -27,14 +27,14 @@ export default function ZoneQuizWelcomeScreen({
       </button>
 
       {/* Welcome Speech Bubble */}
-      <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 md:px-8 md:pt-12 relative z-20">
-        <div className="relative mx-auto w-full max-w-[850px] rounded-[32px] md:rounded-[48px] border-4 border-[#339E4A] bg-white px-6 py-6 text-center shadow-lg md:px-12 md:py-8 flex flex-col items-center gap-5">
-          <p className="font-baloo text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-normal md:leading-[42px] text-[#001e2f]">
+      <div className="relative z-20 mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
+        <div className="zone-lesson-bubble relative mx-auto flex w-full max-w-[850px] flex-col items-center gap-3 rounded-[28px] border-[3px] border-[#339E4A] bg-white px-4 py-4 text-center shadow-lg sm:gap-4 sm:rounded-[40px] sm:border-4 sm:px-8 sm:py-6 lg:px-12">
+          <p className="font-baloo text-[clamp(1rem,2.1vw,1.75rem)] font-bold leading-[1.45] text-[#001e2f]">
             {welcomeText}
           </p>
           <button
             onClick={onStart}
-            className="px-10 py-3 bg-[#339E4A] hover:bg-[#28843e] hover:scale-105 active:scale-95 text-white font-baloo text-[22px] sm:text-[26px] font-bold rounded-full shadow-md border-b-4 border-[#206930] transition-all cursor-pointer animate-bounce duration-1000"
+            className="cursor-pointer rounded-full border-b-4 border-[#206930] bg-[#339E4A] px-7 py-2 font-baloo text-[18px] font-bold text-white shadow-md transition-all hover:scale-105 hover:bg-[#28843e] active:scale-95 sm:px-10 sm:py-3 sm:text-[24px]"
           >
             Bắt đầu
           </button>
@@ -50,7 +50,7 @@ export default function ZoneQuizWelcomeScreen({
       </div>
 
       {/* Toro Character waving */}
-      <div className="flex min-h-0 flex-1 items-end justify-center overflow-visible px-4">
+      <div className="zone-lesson-mascot flex min-h-[180px] flex-1 items-end justify-center overflow-hidden px-2">
         <img
           src={zoneQuizAssets.wavingMascot}
           alt="Toro Waving"

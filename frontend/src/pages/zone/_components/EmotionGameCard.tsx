@@ -77,12 +77,12 @@ export default function EmotionGameCard({
       style={{ borderColor: gameChecked ? undefined : emptyBorder }}
     >
       <div
-        className="border-4 border-white border-solid w-full flex flex-col gap-[10px] items-center py-[18px] px-3 relative rounded-[24px] justify-start"
+        className="zone-game-card-inner relative flex w-full flex-col items-center justify-start gap-1.5 rounded-[22px] border-[3px] border-white border-solid px-1.5 py-2 sm:gap-2 sm:px-2 sm:py-3 lg:border-4"
         style={{ background }}
       >
         <div
           onClick={handleSlotClick}
-          className={`w-[72px] sm:w-[90px] md:w-[108px] h-[64px] sm:h-[80px] md:h-[96px] relative flex items-center justify-center cursor-pointer shrink-0 transition-transform active:scale-95 cloud-slot-container ${
+          className={`cloud-slot-container relative flex aspect-[1.125/1] w-[58px] shrink-0 cursor-pointer items-center justify-center transition-transform active:scale-95 sm:w-[76px] lg:w-[90px] xl:w-[118px] 2xl:w-[130px] ${
             isDragOver && !placedEmotion ? 'animate-pulse scale-110' : ''
           }`}
         >
@@ -101,7 +101,7 @@ export default function EmotionGameCard({
           )}
         </div>
 
-        <div className="relative w-[90px] h-[90px] sm:w-[105px] sm:h-[105px] md:w-[115px] md:h-[115px] xl:w-[130px] xl:h-[130px] shrink-0 overflow-hidden pointer-events-none rounded-[20px] mascot-container">
+        <div className="mascot-container pointer-events-none relative aspect-square w-[68px] shrink-0 overflow-hidden rounded-[16px] sm:w-[88px] lg:w-[105px] xl:w-[140px] 2xl:w-[152px]">
           <img src={image} alt={alt} className={imageClassName} />
         </div>
 

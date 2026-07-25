@@ -139,7 +139,7 @@ const LessonQuestionsSimple = () => {
             toast.error('Vui lòng nhập nội dung câu hỏi');
             return;
         }
-        const missingImgIndex = answers.findIndex(answer => !answer.sprite && !answer.img);
+        const missingImgIndex = answers.findIndex(answer => !answer.sprite && !(answer as any).img);
         if (missingImgIndex >= 0) {
             toast.error(`Vui lòng chọn hình ảnh cho Câu trả lời ${missingImgIndex + 1}`);
             return;
