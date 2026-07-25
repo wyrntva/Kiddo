@@ -53,7 +53,6 @@ export default function ZoneQuizQuestionScreen({
             onClick={onRewatchVideo}
             className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[40px] border border-[#0A7AD8] bg-white px-5 py-2 font-baloo text-[15px] font-bold text-[#0A7AD8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-6 sm:text-[18px]"
           >
-            <span className="text-lg sm:text-xl">🎬</span>
             <span>Xem lại video</span>
           </button>
         )}
