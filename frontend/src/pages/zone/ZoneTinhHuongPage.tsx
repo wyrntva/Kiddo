@@ -91,7 +91,7 @@ export default function ZoneTinhHuongPage() {
       total={lessons.length}
       theme={theme}
       onLessonSelect={(lesson) => {
-        markLessonInProgress(lesson.id, user?.id)
+        markLessonInProgress(lesson.id, user?.id, lesson.title)
         navigate(`/zone/emotions/lesson/${lesson.id}`)
       }}
     />

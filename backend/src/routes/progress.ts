@@ -20,6 +20,14 @@ router.get('/', async (req: AuthRequest, res) => {
       where: { userId },
     })
 
+    const lessons = await prisma.lesson.findMany({
+      select: { id: true, title: true },
+    })
+    const lessonTitleMap: Record<string, string> = {}
+    for (const l of lessons) {
+      lessonTitleMap[l.id] = l.title
+    }
+
     // Group question results by lessonId
     const questionResultsByLesson: Record<string, Record<number, boolean>> = {}
     for (const r of results) {
@@ -33,8 +41,10 @@ router.get('/', async (req: AuthRequest, res) => {
       progress: progress.map(p => ({
         lessonId: p.lessonId,
         status: p.status,
+        lessonTitle: lessonTitleMap[p.lessonId] || null,
       })),
       questionResults: questionResultsByLesson,
+      lessonTitles: lessonTitleMap,
     })
   } catch (error) {
     console.error('Error fetching progress:', error)

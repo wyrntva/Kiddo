@@ -106,6 +106,10 @@ export async function syncProgressFromAPI(userId?: string | null): Promise<boole
         if (match) {
           progressMap[match[1]] = p.status as LessonStatus
         }
+        if (p.lessonTitle) {
+          const titleKey = `title_${p.lessonTitle.toLowerCase().trim()}`
+          progressMap[titleKey] = p.status as LessonStatus
+        }
       }
       const key = getUserProgressKey(userId)
       localStorage.setItem(key, JSON.stringify(progressMap))
@@ -114,6 +118,15 @@ export async function syncProgressFromAPI(userId?: string | null): Promise<boole
     if (data.questionResults) {
       const existingResults = getAccountQuestionResults(userId)
       const mergedResults = { ...existingResults, ...data.questionResults }
+      if (data.lessonTitles) {
+        for (const lId in data.questionResults) {
+          const title = data.lessonTitles[lId]
+          if (title) {
+            const titleKey = `title_${title.toLowerCase().trim()}`
+            mergedResults[titleKey] = data.questionResults[lId]
+          }
+        }
+      }
       const key = getQuestionResultsKey(userId)
       localStorage.setItem(key, JSON.stringify(mergedResults))
     }
