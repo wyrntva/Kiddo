@@ -48,6 +48,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const [isCorrect, setIsCorrect] = useState(false)
   const [questionResults, setQuestionResults] = useState<Record<number, boolean>>({})
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [isRewatchingVideo, setIsRewatchingVideo] = useState(false)
   const [showWelcome, setShowWelcome] = useState(true)
   const [showPreVideo, setShowPreVideo] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
@@ -501,6 +502,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     setCurrentQuestionIndex(0)
     resetQuestionState()
     setQuestionResults({})
+    setIsRewatchingVideo(false)
     setShowWelcome(true)
     setShowPreVideo(false)
     setShowVideo(false)
@@ -829,12 +831,22 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     if (navigateTimeoutRef.current) {
       clearTimeout(navigateTimeoutRef.current)
     }
+    setIsRewatchingVideo(true)
     setShowWelcome(false)
     setShowPreVideo(false)
     setShowPostVideo(false)
     setShowIntro(false)
     setShowGame(false)
     setShowVideo(true)
+  }
+
+  const handleVideoEnded = () => {
+    setShowVideo(false)
+    if (isRewatchingVideo) {
+      setIsRewatchingVideo(false)
+    } else {
+      setShowPostVideo(true)
+    }
   }
 
   return {
@@ -886,6 +898,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     handleCheckAnswers,
     handleResetGame,
     handleRewatchVideo,
+    handleVideoEnded,
     loading,
     lessonsList,
     backPath,

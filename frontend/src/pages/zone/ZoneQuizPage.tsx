@@ -30,9 +30,7 @@ export default function ZoneQuizPage() {
     showPreVideo,
     setShowPreVideo,
     showVideo,
-    setShowVideo,
     showPostVideo,
-    setShowPostVideo,
     showIntro,
     showGame,
     placedEmotions,
@@ -59,6 +57,7 @@ export default function ZoneQuizPage() {
     handleCheckAnswers,
     handleResetGame,
     handleRewatchVideo,
+    handleVideoEnded,
     loading,
     lessonsList,
     backPath,
@@ -153,16 +152,10 @@ export default function ZoneQuizPage() {
                 controls
                 preload="auto"
                 className="w-full h-full object-contain z-10"
-                onEnded={() => {
-                  setShowVideo(false)
-                  setShowPostVideo(true)
-                }}
+                onEnded={handleVideoEnded}
               />
               <button
-                onClick={() => {
-                  setShowVideo(false)
-                  setShowPostVideo(true)
-                }}
+                onClick={handleVideoEnded}
                 className="absolute right-3 top-3 z-30 cursor-pointer rounded-full border border-white/20 bg-black/75 px-4 py-2 font-baloo text-[14px] font-bold text-white shadow-md transition-all hover:bg-black active:scale-95 sm:right-4 sm:top-4 sm:px-6 sm:py-2.5 sm:text-[18px]"
               >
                 Bỏ qua
