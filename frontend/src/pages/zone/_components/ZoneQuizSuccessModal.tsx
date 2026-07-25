@@ -18,7 +18,7 @@ export default function ZoneQuizSuccessModal({
 }: ZoneQuizSuccessModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2 sm:p-4 backdrop-blur-sm">
-      <div className="zone-success-modal relative flex h-auto max-h-[calc(100dvh-16px)] w-full max-w-[1380px] flex-col overflow-y-auto overflow-x-hidden rounded-[20px] border border-[#BAE6FD] bg-white p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.05)] animate-in fade-in zoom-in duration-300 sm:max-h-[calc(100dvh-32px)] sm:rounded-[24px] sm:p-6 lg:h-[700px] lg:overflow-hidden lg:p-8">
+      <div className="zone-success-modal relative flex h-auto max-h-[calc(100dvh-16px)] w-full max-w-[1380px] flex-col overflow-y-auto overflow-x-hidden rounded-[20px] border border-[#BAE6FD] bg-white p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.05)] animate-in fade-in zoom-in duration-300 sm:max-h-[calc(100dvh-32px)] sm:rounded-[24px] sm:p-6 lg:h-auto lg:p-7">
         <div className="absolute inset-0 z-0 pointer-events-none rounded-[24px]">
           <img width="1457" height="720"
             alt="Sky Background"
@@ -27,8 +27,8 @@ export default function ZoneQuizSuccessModal({
           />
         </div>
 
-        <div className="relative z-10 flex h-full w-full flex-col items-center gap-5">
-          <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-5 text-center lg:grid-cols-[minmax(0,1fr)_260px] lg:grid-rows-[170px_minmax(0,1fr)_auto] lg:gap-x-6 lg:text-left">
+        <div className="relative z-10 flex h-auto w-full flex-col items-center gap-5">
+          <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-5 text-center lg:grid-cols-[minmax(0,1fr)_260px] lg:grid-rows-[auto_auto_auto] lg:gap-x-6 lg:text-left">
           <div className="flex w-full flex-col items-center gap-4 lg:col-start-1 lg:row-start-1 lg:flex-row lg:items-start lg:self-center">
             <div className="relative h-[72px] w-[72px] shrink-0 sm:h-[100px] sm:w-[100px] lg:h-[120px] lg:w-[120px]">
               <img

@@ -22,7 +22,10 @@ function FeedbackColumn({
   items: string[]
 }) {
   return (
-    <div className="flex flex-col gap-4 rounded-[20px] p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.1)] transition-all duration-200 hover:shadow-md sm:rounded-[24px] sm:p-5 xl:h-full xl:gap-5 2xl:gap-3 2xl:p-4" style={{ backgroundColor: bgColor, border: `1px solid ${borderColor}` }}>
+    <div
+      className="flex flex-col gap-3 rounded-[20px] p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.08)] transition-all duration-200 hover:shadow-md sm:rounded-[24px] sm:p-5 h-auto"
+      style={{ backgroundColor: bgColor, border: `1px solid ${borderColor}` }}
+    >
       <div className="flex items-center gap-[12px] shrink-0 w-full">
         <div className="p-[4px] rounded-full shrink-0 flex items-center justify-center" style={{ border: `1px solid ${iconBorderColor}` }}>
           <div className="p-[8px] rounded-full shrink-0 flex items-center justify-center text-white" style={{ backgroundColor: iconBgColor }}>
@@ -30,16 +33,16 @@ function FeedbackColumn({
           </div>
         </div>
         <div className="pb-[4px] flex-1 flex flex-col items-start justify-center" style={{ borderBottom: `1px dashed ${titleColor}` }}>
-          <h4 className="font-baloo text-[20px] font-bold leading-7 2xl:text-[22px] 2xl:leading-8" style={{ color: titleColor }}>{title}</h4>
+          <h4 className="font-baloo text-[20px] sm:text-[22px] font-bold leading-7 text-left" style={{ color: titleColor }}>{title}</h4>
         </div>
       </div>
-      <ul className="flex flex-col gap-3 2xl:gap-2">
+      <ul className="flex flex-col gap-3">
         {items.map((item, idx) => (
-          <li key={idx} className="flex gap-2 items-start">
-            <span className="mt-0.5 size-6 shrink-0 2xl:size-[18px]">
-              <img src={bulletIcon} alt="Check" className="w-full h-full" loading="lazy" decoding="async" />
+          <li key={idx} className="flex gap-2.5 items-start text-left">
+            <span className="mt-0.5 size-5 sm:size-6 shrink-0">
+              <img src={bulletIcon} alt="Check" className="w-full h-full object-contain" loading="lazy" decoding="async" />
             </span>
-            <span className="font-vietnam text-[14px] font-medium leading-5 text-[#313235] 2xl:text-[14px] 2xl:leading-5">{item}</span>
+            <span className="font-vietnam text-[16px] sm:text-[17px] 2xl:text-[18px] font-semibold leading-6 sm:leading-7 text-[#313235]">{item}</span>
           </li>
         ))}
       </ul>
