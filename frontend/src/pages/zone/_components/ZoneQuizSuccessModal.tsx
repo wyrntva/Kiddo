@@ -4,6 +4,7 @@ import type { DiaryLesson } from '../../diary/types'
 interface ZoneQuizSuccessModalProps {
   feedback: DiaryLesson['feedback']
   onResetGame: () => void
+  onRestartLesson?: () => void
   onNextLesson: () => void
   onGoToDiary: () => void
 }
@@ -11,6 +12,7 @@ interface ZoneQuizSuccessModalProps {
 export default function ZoneQuizSuccessModal({
   feedback,
   onResetGame,
+  onRestartLesson,
   onNextLesson,
   onGoToDiary,
 }: ZoneQuizSuccessModalProps) {
@@ -67,6 +69,17 @@ export default function ZoneQuizSuccessModal({
               <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68M4 4v4.68h4.68" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               <span>Chơi lại lần nữa</span>
             </button>
+            {onRestartLesson && (
+              <button
+                onClick={onRestartLesson}
+                className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] bg-[#8234E4] px-6 font-vietnam text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#6e28c7] active:scale-95"
+              >
+                <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68M4 4v4.68h4.68" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span>Học lại</span>
+              </button>
+            )}
             <button
               onClick={onNextLesson}
               className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] bg-[#0a7ad8] px-6 font-vietnam text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#0862ae] active:scale-95"

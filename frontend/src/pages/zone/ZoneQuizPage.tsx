@@ -56,6 +56,7 @@ export default function ZoneQuizPage() {
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
+    handleRestartLesson,
     handleRewatchVideo,
     handleVideoEnded,
     loading,
@@ -207,6 +208,7 @@ export default function ZoneQuizPage() {
         <ZoneQuizSuccessModal
           feedback={lessonFeedback}
           onResetGame={handleResetGame}
+          onRestartLesson={handleRestartLesson}
           onNextLesson={handleNextLesson}
           onGoToDiary={() => navigate('/diary')}
         />
