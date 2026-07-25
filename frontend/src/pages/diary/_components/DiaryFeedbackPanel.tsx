@@ -39,10 +39,10 @@ function FeedbackColumn({
       <ul className="flex flex-col gap-3">
         {items.map((item, idx) => (
           <li key={idx} className="flex gap-2.5 items-start text-left">
-            <span className="mt-0.5 size-5 sm:size-6 shrink-0">
+            <span className="mt-0.5 size-[18px] shrink-0">
               <img src={bulletIcon} alt="Check" className="w-full h-full object-contain" loading="lazy" decoding="async" />
             </span>
-            <span className="font-vietnam text-[16px] sm:text-[17px] 2xl:text-[18px] font-semibold leading-6 sm:leading-7 text-[#313235]">{item}</span>
+            <span className="font-vietnam text-[14px] font-medium leading-5 text-[#313235]">{item}</span>
           </li>
         ))}
       </ul>
