@@ -44,7 +44,7 @@ export default function ZoneLandingPage({
           className="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
         />
 
-        <div className="relative z-10 mx-auto flex max-w-[1920px] flex-col gap-5 px-3 pb-8 pt-4 sm:px-5 md:gap-7 md:px-6 md:pb-10 md:pt-6 xl:gap-9 xl:px-12 xl:pb-12 xl:pt-8">
+        <div className="relative z-10 mx-auto flex max-w-[1920px] flex-col gap-5 px-6 pb-8 pt-4 md:gap-7 md:px-6 md:pb-10 md:pt-6 xl:gap-9 xl:px-12 xl:pb-12 xl:pt-8">
           <div className="zone-landing-hero grid w-full grid-cols-[auto_1fr] items-center gap-x-3 gap-y-4 sm:gap-x-5 xl:grid-cols-[300px_1fr_300px] xl:gap-4">
             <div className="flex shrink-0 justify-center xl:justify-start">
               <div className="relative -my-2 aspect-square w-[88px] shrink-0 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-110 sm:w-[120px] md:w-[150px] xl:-my-5 xl:w-[220px]">
@@ -78,9 +78,9 @@ export default function ZoneLandingPage({
             </div>
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 min-[1400px]:grid-cols-3 lg:gap-6">
+          <div className="zone-landing-grid w-full">
             {lessons.map((lesson) => (
-              <div key={lesson.id} className="flex min-w-0 min-h-[180px] sm:min-h-[200px]">
+              <div key={lesson.id} className="zone-card-item-wrapper min-w-0">
                 <ZoneLessonCard
                   lesson={lesson}
                   theme={theme}
@@ -89,7 +89,7 @@ export default function ZoneLandingPage({
               </div>
             ))}
 
-            <div className="flex min-w-0 min-h-[180px] sm:min-h-[200px]">
+            <div className="zone-card-item-wrapper min-w-0">
               <ZoneEncouragementCard theme={theme} />
             </div>
           </div>

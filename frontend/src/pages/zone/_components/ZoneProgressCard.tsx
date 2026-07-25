@@ -15,7 +15,7 @@ export default function ZoneProgressCard({ completed, total, theme }: ZoneProgre
 
   return (
     <div
-      className="flex w-full max-w-[520px] flex-col items-start gap-2.5 rounded-[20px] bg-white p-3.5 transition-all duration-300 ease-out hover:-translate-y-0.5 sm:p-4 xl:w-[300px]"
+      className="flex w-full max-w-full sm:max-w-[420px] xl:w-[300px] flex-col items-start gap-2.5 rounded-[20px] bg-white p-3.5 sm:p-4 transition-all duration-300 ease-out hover:-translate-y-0.5"
       style={{
         border: `1px solid ${theme.progressBorder}`,
         boxShadow: theme.progressShadow,

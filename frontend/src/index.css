@@ -367,3 +367,109 @@ svg {
 .animate-shake {
   animation: shake 0.5s ease-in-out;
 }
+
+/* ==========================================================================
+   ZONE LANDING RESPONSIVE SYSTEM (Decoupled Mobile / iPad / Desktop Media Queries)
+   ========================================================================== */
+
+/* --- 1. MOBILE PHONE (< 767px) --- */
+@media (max-width: 767px) {
+  .zone-landing-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+  }
+  .zone-landing-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  .zone-card-item-wrapper {
+    height: auto !important;
+    width: 100% !important;
+  }
+  .kiddo-zone-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    height: auto !important;
+    padding: 12px !important;
+    gap: 12px !important;
+    border-radius: 16px !important;
+  }
+  .zone-card-img-wrapper {
+    width: 100px !important;
+    height: 100px !important;
+    aspect-ratio: 1 / 1 !important;
+    flex-shrink: 0 !important;
+  }
+  .zone-card-badge-circle {
+    width: 28px !important;
+    height: 28px !important;
+    top: -5px !important;
+    left: -5px !important;
+  }
+  .zone-card-badge-circle span {
+    font-size: 14px !important;
+  }
+  .zone-card-title-text {
+    font-size: 15px !important;
+    line-height: 20px !important;
+  }
+  .zone-card-desc-text {
+    font-size: 12px !important;
+    line-height: 16px !important;
+  }
+}
+
+/* --- 2. TABLET / LAPTOP (768px - 1359px) --- */
+@media (min-width: 768px) and (max-width: 1359px) {
+  .zone-landing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 2.4rem !important;
+  }
+  .zone-card-item-wrapper {
+    aspect-ratio: 2.34 / 1 !important;
+    height: auto !important;
+  }
+  .kiddo-zone-card {
+    height: 100% !important;
+    padding: 2rem !important;
+    gap: 2rem !important;
+  }
+  .zone-card-img-wrapper {
+    width: auto !important;
+    max-width: none !important;
+    height: 100% !important;
+    aspect-ratio: 4 / 3 !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* --- 3. LARGE DESKTOP (>= 1360px) --- */
+@media (min-width: 1360px) {
+  .zone-landing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 2.4rem !important;
+  }
+  .zone-card-item-wrapper {
+    aspect-ratio: 2.34 / 1 !important;
+    height: auto !important;
+  }
+  .kiddo-zone-card {
+    height: 100% !important;
+    padding: 2.4rem !important;
+    gap: 2.4rem !important;
+  }
+  .zone-card-img-wrapper {
+    width: auto !important;
+    max-width: none !important;
+    height: 100% !important;
+    aspect-ratio: 4 / 3 !important;
+    flex-shrink: 0 !important;
+  }
+}
