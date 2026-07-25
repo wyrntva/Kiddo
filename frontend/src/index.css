@@ -293,12 +293,12 @@ svg {
   gap: 12px !important;
   border-radius: 24px !important;
   background-color: #ffffff;
-  padding: 24px !important; /* Spaced exactly 24px from margins */
+  padding: 12px !important; /* Spaced exactly 12px from margins to make inner images larger */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03) !important;
   transition: all 0.3s ease !important;
   cursor: pointer !important;
   aspect-ratio: 1 / 1 !important; /* Square card shape */
-  height: clamp(120px, 30vh, 320px) !important; /* Slightly larger, height-responsive scaling */
+  height: clamp(130px, 33vh, 340px) !important; /* Slightly larger, height-responsive scaling */
   margin-inline: auto !important;
 }
 
@@ -368,11 +368,11 @@ svg {
 /* Reading Book Mascot height-responsive scaling and shift coordinate mapping */
 .zone-reading-mascot {
   position: absolute !important;
-  bottom: 120px !important; /* Shifted up by 50px (70px + 50px) */
+  bottom: 168px !important; /* Shifted down slightly from 180px to 168px for the perfect sweet spot */
   left: -70px !important; /* Shifted left by 100px (30px - 100px) */
   z-index: 10 !important;
-  width: 240px !important;
-  max-height: clamp(100px, 24vh, 260px) !important;
+  width: 265px !important; /* Slightly enlarged width (from 240px to 265px) */
+  max-height: clamp(120px, 27vh, 290px) !important; /* Slightly enlarged height clamp */
   max-width: 25vw !important;
   pointer-events: none !important;
 }
@@ -447,7 +447,7 @@ svg {
 }
 
 .zone-emotion-picker img {
-  max-height: clamp(40px, 8vh, 90px) !important; /* Limits picker cloud image height to fit short screens */
+  max-height: clamp(75px, 11.5vh, 120px) !important; /* Enlarged picker cloud image size for scale 125% visibility */
   width: auto !important;
   object-fit: contain !important;
   margin-inline: auto !important;
@@ -466,7 +466,22 @@ svg {
 
 /* Sidebar steps previews and mascot height-responsive scaling */
 .zone-step-preview {
-  height: clamp(60px, 8vh, 120px) !important; /* Scale down step preview box height on small screens */
+  height: clamp(50px, 6.5vh, 110px) !important; /* Scale down step preview box height on small screens */
+}
+
+/* Compact padding and gaps for the steps wrapper card to save vertical height */
+.zone-game-sidebar .bg-\[\#e5f2ff\] {
+  padding: clamp(8px, 1.2vh, 16px) !important;
+}
+
+.zone-game-sidebar .bg-\[\#e5f2ff\] .flex.flex-col {
+  gap: clamp(6px, 1vh, 12px) !important;
+}
+
+.zone-game-sidebar .bg-\[\#e5f2ff\] .rounded-\[6px\] img,
+.zone-game-sidebar .bg-\[\#e5f2ff\] img[src*="downIcon"] {
+  width: clamp(16px, 2vh, 24px) !important;
+  height: clamp(16px, 2vh, 24px) !important;
 }
 
 .zone-sidebar-bubble {
@@ -720,4 +735,97 @@ svg {
     padding: 16px !important;
     gap: 16px !important;
   }
+}
+
+/* ==========================================================================
+   ZONE QUIZ SUCCESS MODAL COMPACT SIZE AND NO SCROLLBAR
+   ========================================================================== */
+
+.zone-success-modal {
+  overflow: hidden !important; /* Disable scrollbar */
+  max-height: 96vh !important;
+  padding: 12px 24px 20px 24px !important; /* Compact padding to eliminate empty space */
+}
+
+.zone-success-modal .relative.z-10.flex {
+  gap: clamp(10px, 1.5vh, 20px) !important;
+}
+
+/* Modal Title Section */
+.zone-success-modal h2 {
+  font-size: clamp(24px, 4vh, 36px) !important; /* Enlarged header title size */
+  line-height: clamp(30px, 5vh, 44px) !important;
+}
+
+.zone-success-modal span.font-baloo {
+  font-size: clamp(16px, 2.2vh, 18px) !important; /* Enlarged subtitle font size */
+  line-height: clamp(22px, 3vh, 26px) !important;
+}
+
+.zone-success-modal .relative.h-\[72px\] {
+  height: clamp(50px, 7vh, 80px) !important; /* Smaller completion medal */
+  width: clamp(50px, 7vh, 80px) !important;
+}
+
+/* Mascot Otter Holding Trophy */
+.zone-success-mascot {
+  width: clamp(120px, 16vh, 160px) !important; /* Smaller mascot container to shrink top row height */
+  height: clamp(120px, 16vh, 160px) !important;
+}
+
+/* Feedback Columns Card */
+.zone-success-modal .grid-cols-1.lg\:grid-cols-3 {
+  gap: clamp(10px, 1.5vh, 16px) !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] {
+  padding: clamp(10px, 1.5vh, 16px) !important;
+  gap: clamp(8px, 1.2vh, 12px) !important;
+  border-radius: 16px !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] h4 {
+  font-size: clamp(15px, 2.2vh, 18px) !important;
+  line-height: clamp(20px, 2.8vh, 24px) !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] .p-\[8px\] {
+  padding: clamp(4px, 0.8vh, 6px) !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] .p-\[8px\] svg,
+.zone-success-modal .flex-col.rounded-\[20px\] .p-\[8px\] img {
+  width: clamp(16px, 2vh, 20px) !important;
+  height: clamp(16px, 2vh, 20px) !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] ul {
+  gap: clamp(4px, 0.8vh, 8px) !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] li span.font-vietnam {
+  font-size: 14px !important; /* Set bullet text font size to 14px */
+  line-height: 20px !important;
+}
+
+.zone-success-modal .flex-col.rounded-\[20px\] li span.size-\[18px\] {
+  width: clamp(14px, 1.8vh, 18px) !important;
+  height: clamp(14px, 1.8vh, 18px) !important;
+}
+
+/* Action Buttons Row */
+.zone-success-modal .flex.w-full.flex-col.items-stretch {
+  gap: clamp(8px, 1.2vh, 16px) !important;
+}
+
+.zone-success-modal .flex.w-full.flex-col.items-stretch button {
+  height: clamp(38px, 5.5vh, 44px) !important;
+  font-size: clamp(13.5px, 1.9vh, 15px) !important;
+  padding-left: clamp(14px, 2vh, 20px) !important;
+  padding-right: clamp(14px, 2vh, 20px) !important;
+}
+
+.zone-success-modal .flex.w-full.flex-col.items-stretch button svg {
+  width: clamp(18px, 2.5vh, 22px) !important;
+  height: clamp(18px, 2.5vh, 22px) !important;
 }
