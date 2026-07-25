@@ -62,7 +62,7 @@ export default function ZoneQuizQuestionOption({
         </div>
       )}
 
-      <div className="zone-question-image relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:aspect-square sm:rounded-2xl">
+      <div className="zone-question-image relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:rounded-2xl">
         {hasCustomStyle ? (
           <div className="relative w-full h-full overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
             <img src={imgSrc} alt={option.label || ''} style={option.style} className="absolute max-w-none block select-none pointer-events-none" />
