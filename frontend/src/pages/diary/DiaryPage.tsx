@@ -3,7 +3,7 @@ import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
 import { useAuth } from '../../context/AuthContext'
-import { getLessonStatusForAccount, getSavedQuestionResultsForAccount } from '../../utils/lessonProgress'
+import { getLessonStatusForAccount, getSavedQuestionResultsForAccount, syncProgressFromAPI } from '../../utils/lessonProgress'
 import { DEFAULT_LESSON_EVALUATIONS } from '../zone/useZoneQuiz'
 import DiaryFeedbackPanel from './_components/DiaryFeedbackPanel'
 import DiaryLessonCarousel from './_components/DiaryLessonCarousel'
@@ -17,6 +17,14 @@ const DEFAULT_ISLAND = ISLANDS[0]?.name || ''
 export default function DiaryPage() {
   const { user } = useAuth()
   const [expandedIsland, setExpandedIsland] = useState<string>(DEFAULT_ISLAND)
+  const [, setSyncCount] = useState(0)
+
+  useEffect(() => {
+    void syncProgressFromAPI(user?.id).then((ok) => {
+      if (ok) setSyncCount((c) => c + 1)
+    })
+  }, [user?.id])
+
   const rawLessons = ISLAND_LESSONS[expandedIsland] || []
 
   const currentLessons: Lesson[] = rawLessons.map((lesson, index) => {

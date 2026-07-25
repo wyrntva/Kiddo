@@ -15,6 +15,7 @@ import newsRouter from './routes/news'
 import storeSettingsRouter from './routes/storeSettings'
 import analyticsRouter from './routes/analytics'
 import subscriptionPlansRouter from './routes/subscriptionPlans'
+import progressRouter from './routes/progress'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -76,6 +77,7 @@ app.use('/api/news', newsRouter)
 app.use('/api/store-settings', storeSettingsRouter)
 app.use('/api/analytics', analyticsRouter)
 app.use('/api/subscription-plans', subscriptionPlansRouter)
+app.use('/api/progress', progressRouter)
 
 // Mock roles API
 app.get('/api/roles', (_req, res) => {

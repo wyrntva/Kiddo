@@ -60,6 +60,99 @@ export function saveLessonStatusForAccount(
   localStorage.setItem(key, JSON.stringify(progress))
 }
 
+const getApiUrl = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+  if (typeof window !== 'undefined' && window.location && window.location.hostname.includes('ottopia.vn')) {
+    return window.location.origin
+  }
+  return 'http://localhost:5000'
+}
+
+const API_URL = getApiUrl()
+
+function getAuthHeader(): Record<string, string> {
+  if (typeof window === 'undefined') return {}
+  const token = localStorage.getItem('accessToken')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
+export async function syncProgressFromAPI(userId?: string | null): Promise<boolean> {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+  if (!token) return false
+
+  try {
+    const res = await fetch(`${API_URL}/api/progress`, {
+      headers: { ...getAuthHeader() },
+    })
+    if (!res.ok) return false
+    const data = await res.json()
+
+    if (data.progress) {
+      const progressMap: Record<string, LessonStatus> = {}
+      for (const p of data.progress) {
+        progressMap[p.lessonId] = p.status as LessonStatus
+      }
+      const key = getUserProgressKey(userId)
+      localStorage.setItem(key, JSON.stringify(progressMap))
+    }
+
+    if (data.questionResults) {
+      const key = getQuestionResultsKey(userId)
+      localStorage.setItem(key, JSON.stringify(data.questionResults))
+    }
+
+    return true
+  } catch (err) {
+    console.warn('Sync progress failed:', err)
+    return false
+  }
+}
+
+export async function apiStartLesson(lessonId: string | number) {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+  if (!token) return
+
+  try {
+    await fetch(`${API_URL}/api/progress/start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify({ lessonId: String(lessonId) }),
+    })
+  } catch (err) {
+    console.warn('API start lesson failed:', err)
+  }
+}
+
+export async function apiCompleteLesson(lessonId: string | number) {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+  if (!token) return
+
+  try {
+    await fetch(`${API_URL}/api/progress/complete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify({ lessonId: String(lessonId) }),
+    })
+  } catch (err) {
+    console.warn('API complete lesson failed:', err)
+  }
+}
+
+export async function apiSaveAnswer(lessonId: string | number, questionIndex: number, isCorrect: boolean) {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+  if (!token) return
+
+  try {
+    await fetch(`${API_URL}/api/progress/${lessonId}/answer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify({ questionIndex, isCorrect }),
+    })
+  } catch (err) {
+    console.warn('API save answer failed:', err)
+  }
+}
+
 export function markLessonCompleted(
   completedLessonId: string | number,
   nextLessonId?: string | number | null,
@@ -78,6 +171,8 @@ export function markLessonCompleted(
   }
   const key = getUserProgressKey(userId)
   localStorage.setItem(key, JSON.stringify(progress))
+
+  void apiCompleteLesson(completedLessonId)
 }
 
 export function markLessonInProgress(
@@ -99,6 +194,8 @@ export function markLessonInProgress(
   }
   const key = getUserProgressKey(userId)
   localStorage.setItem(key, JSON.stringify(progress))
+
+  void apiStartLesson(lessonId)
 }
 
 export interface SavedLessonFeedback {
@@ -240,4 +337,10 @@ export function saveQuestionResultsForAccount(
   }
   const key = getQuestionResultsKey(userId)
   localStorage.setItem(key, JSON.stringify(allResults))
+
+  if (lessonId) {
+    for (const qIdx in results) {
+      void apiSaveAnswer(lessonId, Number(qIdx), results[qIdx])
+    }
+  }
 }

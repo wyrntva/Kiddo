@@ -41,6 +41,8 @@ model User {
   weeklyProgress   Int       @default(0)
 
   refreshTokens    RefreshToken[]
+  lessonProgress   LessonProgress[]
+  questionResults  QuestionResult[]
 
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
@@ -164,4 +166,29 @@ model SubscriptionPlan {
   isPopular   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model LessonProgress {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  status    String   @default("in-progress")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
+
+model QuestionResult {
+  id            String   @id @default(cuid())
+  userId        String
+  lessonId      String
+  questionIndex Int
+  isCorrect     Boolean
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, lessonId, questionIndex])
 }
