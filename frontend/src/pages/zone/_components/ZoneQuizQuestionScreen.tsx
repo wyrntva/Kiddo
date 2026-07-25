@@ -28,11 +28,8 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-between gap-2 p-3 sm:p-4 lg:gap-3 overflow-hidden">
-      <div
-        className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none"
-        style={{ transform: 'translate(-300px, -200px)' }}
-      >
+    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-between gap-3 p-3 sm:p-5 lg:gap-4 overflow-hidden">
+      <div className="hidden lg:block absolute bottom-3 left-3 z-10 w-[140px] xl:w-[170px] 2xl:w-[200px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -78,7 +75,7 @@ export default function ZoneQuizQuestionScreen({
         </div>
       </div>
 
-      <div className="zone-question-options grid min-h-0 w-full max-w-[65.625rem] flex-1 grid-cols-3 items-stretch justify-center gap-2 sm:gap-4">
+      <div className="zone-question-options grid w-full max-w-[65.625rem] my-auto grid-cols-3 items-center justify-center gap-3 sm:gap-5 py-2">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
