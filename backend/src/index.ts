@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import cookieParser from 'cookie-parser'
 import path from 'path'
+import fs from 'fs'
 import authRouter from './routes/auth'
 import usersRouter from './routes/users'
 import poolArenaRouter from './routes/poolArena'
@@ -88,6 +89,31 @@ app.get('/api/roles', (_req, res) => {
 // Mock tournament rank settings to prevent frontend toasts
 app.get('/api/tournament-settings/ranks', (_req, res) => {
   res.json([])
+})
+
+// Serve CMS React SPA build for cms.ottopia.vn
+const cmsDistPath = path.resolve(__dirname, '../cms/dist')
+const cmsRootDistPath = path.resolve(process.cwd(), 'cms/dist')
+
+if (fs.existsSync(cmsDistPath)) {
+  app.use(express.static(cmsDistPath))
+} else if (fs.existsSync(cmsRootDistPath)) {
+  app.use(express.static(cmsRootDistPath))
+}
+
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path === '/health') {
+    return next()
+  }
+  const cmsIndex = path.join(cmsDistPath, 'index.html')
+  const cmsRootIndex = path.join(cmsRootDistPath, 'index.html')
+  if (fs.existsSync(cmsIndex)) {
+    return res.sendFile(cmsIndex)
+  }
+  if (fs.existsSync(cmsRootIndex)) {
+    return res.sendFile(cmsRootIndex)
+  }
+  next()
 })
 
 app.use((_req, res) => {
