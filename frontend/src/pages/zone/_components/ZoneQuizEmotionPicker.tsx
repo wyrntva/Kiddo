@@ -23,7 +23,7 @@ export default function ZoneQuizEmotionPicker({
   }
 
   return (
-    <div className="zone-emotion-picker z-20 grid w-full max-w-[656px] grid-cols-4 items-start justify-center gap-1.5 rounded-[20px] border border-[#c4c9d4] bg-white px-2 py-2.5 shadow-[0_8px_24px_rgba(0,76,110,0.14)] sm:gap-3 sm:rounded-[24px] sm:px-4 sm:py-4 xl:max-w-[840px] xl:px-6 xl:py-5 2xl:max-w-[920px] 2xl:px-8">
+    <div className="zone-emotion-picker z-20 grid w-full max-w-[41rem] grid-cols-4 items-start justify-center gap-1.5 rounded-[20px] border border-[#c4c9d4] bg-white px-2 py-2.5 shadow-[0_8px_24px_rgba(0,76,110,0.14)] sm:gap-3 sm:rounded-[24px] sm:px-4 sm:py-4 xl:max-w-[52.5rem] xl:px-6 xl:py-5 2xl:max-w-[57.5rem] 2xl:px-8">
       {emotions.map((emotion) => {
         const isPlaced = Object.values(placedEmotions).includes(emotion.id)
         const isActive = activeId === emotion.id
@@ -45,7 +45,7 @@ export default function ZoneQuizEmotionPicker({
                   : 'hover:scale-105 hover:-translate-y-1'
             }`}
           >
-            <div className={`flex aspect-[1.22/1] w-full max-w-[120px] items-center justify-center rounded-[16px] transition-all duration-200 xl:max-w-[140px] 2xl:max-w-[150px] ${
+            <div className={`flex aspect-[1.22/1] w-full max-w-[7.5rem] items-center justify-center rounded-[16px] transition-all duration-200 xl:max-w-[8.75rem] 2xl:max-w-[9.375rem] ${
               isActive ? 'drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)]' : 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]'
             }`}>
               <img src={emotion.cloudImage} alt={emotion.label} className="w-full h-full object-contain" />

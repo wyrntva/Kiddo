@@ -7,8 +7,9 @@
 }
 
 html {
+  font-size: clamp(12px, 0.833vw, 18px);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 html,
@@ -21,7 +22,7 @@ body,
 /* Helper utility for scale-proof responsive page containers */
 .page-container {
   width: 100%;
-  max-width: 1920px;
+  max-width: 120rem;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
