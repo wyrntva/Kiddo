@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { QuizOption } from '../quizData'
 
 interface ZoneQuizQuestionOptionProps {
@@ -15,6 +16,8 @@ export default function ZoneQuizQuestionOption({
   isCorrectOption,
   onSelect,
 }: ZoneQuizQuestionOptionProps) {
+  const [imgError, setImgError] = useState(false)
+
   let cardClass = 'bg-white border-2 border-[#C3FFD0] shadow-[0px_4px_10px_rgba(0,0,0,0.03)] transition-all duration-300'
   
   if (isChecked) {
@@ -34,7 +37,11 @@ export default function ZoneQuizQuestionOption({
     }
   }
 
-  const imgSrc = option.sprite || option.img || ''
+  let imgSrc = option.sprite || option.img || ''
+  if (imgSrc.startsWith('/uploads')) {
+    const backendUrl = import.meta.env.VITE_API_URL || ''
+    imgSrc = `${backendUrl}${imgSrc}`
+  }
   const hasCustomStyle = option.style && Object.keys(option.style).length > 0
   const hasLabel = Boolean(option.label && option.label.trim())
 
@@ -42,7 +49,7 @@ export default function ZoneQuizQuestionOption({
     <button
       onClick={() => onSelect(option.id)}
       disabled={isChecked}
-      className={`zone-question-option group relative flex min-h-0 h-full w-full flex-col items-center justify-center gap-1 rounded-[16px] p-1.5 transition-all duration-300 sm:gap-2 sm:rounded-[24px] sm:p-3 ${cardClass}`}
+      className={`zone-question-option group relative flex min-h-0 h-full w-full flex-col items-center justify-center gap-1 rounded-[16px] p-1.5 transition-all duration-300 sm:gap-2 sm:rounded-[24px] sm:p-2.5 ${cardClass}`}
     >
       {isChecked && isSelected && (
         <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-30 animate-bounce">
@@ -62,15 +69,29 @@ export default function ZoneQuizQuestionOption({
         </div>
       )}
 
-      <div className="zone-question-image relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:rounded-2xl">
-        {hasCustomStyle ? (
+      <div className="zone-question-image relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:rounded-2xl">
+        {imgError || !imgSrc ? (
+          <div className="flex flex-col items-center justify-center gap-1.5 p-3 text-gray-400 bg-gray-100/90 w-full h-full rounded-2xl select-none">
+            <svg className="w-8 h-8 text-gray-300 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-[11px] font-semibold text-gray-400 text-center sm:text-[12px]">Hình ảnh không khả dụng</span>
+          </div>
+        ) : hasCustomStyle ? (
           <div className="relative w-full h-full overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-            <img src={imgSrc} alt={option.label || ''} style={option.style} className="absolute max-w-none block select-none pointer-events-none" />
+            <img 
+              src={imgSrc} 
+              alt={option.label || ''} 
+              style={option.style} 
+              onError={() => setImgError(true)}
+              className="absolute max-w-none block select-none pointer-events-none" 
+            />
           </div>
         ) : (
           <img
             src={imgSrc}
             alt={option.label || ''}
+            onError={() => setImgError(true)}
             className="w-full h-full object-cover rounded-2xl select-none pointer-events-none transform group-hover:scale-105 transition-transform duration-300"
           />
         )}

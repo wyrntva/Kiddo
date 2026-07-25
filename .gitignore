@@ -42,5 +42,8 @@ Thumbs.db
 # TypeScript build info
 *.tsbuildinfo
 
+# Database dumps
+*.sql
+
 # Prisma
 backend/prisma/*.db

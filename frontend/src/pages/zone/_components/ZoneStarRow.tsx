@@ -13,10 +13,10 @@ export default function ZoneStarRow({
 }: ZoneStarRowProps) {
   const dimensions = size === 'large'
     ? 'w-[50px] h-[50px]'
-    : 'w-3.5 h-3.5 min-[1800px]:w-4 min-[1800px]:h-4'
+    : 'w-[17px] h-[17px] sm:w-[18px] sm:h-[18px]'
 
   return (
-    <div className={`flex flex-[1_0_0] items-start min-w-px ${size === 'large' ? 'gap-1' : 'gap-0.5 min-[1800px]:gap-1'}`}>
+    <div className={`flex flex-[1_0_0] items-start min-w-px ${size === 'large' ? 'gap-1' : 'gap-1'}`}>
       {Array.from({ length: 5 }, (_, index) => (
         <div key={index} className={`overflow-clip relative shrink-0 ${dimensions}`}>
           <div className="absolute" style={{ inset: '10.42% 8.34%' }}>

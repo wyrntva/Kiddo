@@ -12,33 +12,33 @@
 }
 
 html {
-  font-size: clamp(14px, 0.9375vw, 18px);
+  font-size: 62.5%; /* 1rem = 10px at base 62.5% */
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* Fluid rem scaling across all viewport widths & OS scale factors (125%, 150%, 200%) */
+/* Fluid rem scaling across OS display scale factors (100%, 125%, 150%) */
 @media (max-width: 1600px), (max-height: 900px) {
   html {
-    font-size: 56.25%; /* 1rem = 9px on Laptop 125% scale / 1440px */
+    font-size: 58.5%; /* ~9.36px - smooth transition for 125% OS display scale */
   }
 }
 
 @media (max-width: 1300px), (max-height: 780px) {
   html {
-    font-size: 50%; /* 1rem = 8px on Laptop 150% scale / 1280px */
+    font-size: 54%; /* ~8.64px - smooth transition for 150% OS display scale */
   }
 }
 
 @media (max-width: 992px), (max-height: 680px) {
   html {
-    font-size: 43.75%; /* 1rem = 7px on Tablet / Laptop 200% scale */
+    font-size: 48%;
   }
 }
 
 @media (max-width: 768px) {
   html {
-    font-size: 37.5%; /* 1rem = 6px on Mobile */
+    font-size: 42%;
   }
 }
 
@@ -231,11 +231,11 @@ svg {
 .zone-question-options {
   display: grid;
   width: 100%;
-  max-width: 105rem; /* 1050px -> 105rem */
+  max-width: min(90vw, 86rem); /* Scale-to-Fit Canvas limit */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: min(2.4vw, 2.4rem); /* 24px max, fluid scale */
   margin-top: 0.8rem;
   margin-bottom: auto;
   padding: 0.4rem 0;
@@ -269,7 +269,7 @@ svg {
 .zone-question-image {
   position: relative;
   display: flex;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1 !important;
   width: 100%;
   align-items: center;
   justify-content: center;

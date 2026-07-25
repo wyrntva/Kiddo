@@ -78,9 +78,9 @@ export default function ZoneLandingPage({
             </div>
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 xl:gap-5">
+          <div className="grid w-full grid-cols-1 gap-[2.4rem] md:grid-cols-2 xl:grid-cols-3">
             {lessons.map((lesson) => (
-              <div key={lesson.id} className="h-auto min-w-0 sm:h-[230px] lg:h-[250px] xl:h-[230px] 2xl:h-[240px] min-[1800px]:h-[258px]">
+              <div key={lesson.id} className="h-[280px] min-w-0">
                 <ZoneLessonCard
                   lesson={lesson}
                   theme={theme}
@@ -89,7 +89,7 @@ export default function ZoneLandingPage({
               </div>
             ))}
 
-            <div className="h-[260px] min-w-0 sm:h-[230px] lg:h-[250px] xl:h-[230px] 2xl:h-[240px] min-[1800px]:h-[258px]">
+            <div className="h-[280px] min-w-0">
               <ZoneEncouragementCard theme={theme} />
             </div>
           </div>

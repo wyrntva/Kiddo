@@ -77,7 +77,7 @@ export default function ZoneCamXucPage() {
 
   useEffect(() => {
     setLessons(fallbackLessons.map((l, index) => {
-      const status = getLessonStatusForAccount(l.id, index, user?.id)
+      const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
       return {
         ...l,
         status,
@@ -109,7 +109,7 @@ export default function ZoneCamXucPage() {
 
           const dbLessons = sortedLessons.map((l: any, index: number) => {
             const fallbackId = (index % 5) + 1
-            const status = getLessonStatusForAccount(l.id, index, user?.id)
+            const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
             return {
               id: l.id,
               fallbackId,
