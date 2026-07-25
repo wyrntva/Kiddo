@@ -42,7 +42,7 @@ export default function ZoneQuizQuestionOption({
     <button
       onClick={() => onSelect(option.id)}
       disabled={isChecked}
-      className={`zone-question-option group relative flex min-w-0 w-full flex-col items-center justify-center gap-1.5 rounded-[16px] p-1.5 transition-all duration-300 sm:gap-3 sm:rounded-[24px] sm:p-4 ${cardClass}`}
+      className={`zone-question-option group relative flex min-h-0 h-full w-full flex-col items-center justify-center gap-1 rounded-[16px] p-1.5 transition-all duration-300 sm:gap-2 sm:rounded-[24px] sm:p-3 ${cardClass}`}
     >
       {isChecked && isSelected && (
         <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md z-30 animate-bounce">
@@ -62,7 +62,7 @@ export default function ZoneQuizQuestionOption({
         </div>
       )}
 
-      <div className="zone-question-image relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:rounded-2xl">
+      <div className="zone-question-image relative flex min-h-0 w-full flex-1 items-center justify-center overflow-hidden rounded-[12px] border border-gray-100 bg-gray-50 sm:rounded-2xl">
         {hasCustomStyle ? (
           <div className="relative w-full h-full overflow-hidden rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
             <img src={imgSrc} alt={option.label || ''} style={option.style} className="absolute max-w-none block select-none pointer-events-none" />
@@ -71,14 +71,14 @@ export default function ZoneQuizQuestionOption({
           <img
             src={imgSrc}
             alt={option.label || ''}
-            className="w-full h-full object-cover rounded-2xl select-none pointer-events-none transform group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain rounded-2xl select-none pointer-events-none transform group-hover:scale-105 transition-transform duration-300"
           />
         )}
       </div>
 
       {hasLabel && (
         <span
-          className={`font-vietnam text-center text-[11px] font-bold leading-4 transition-colors sm:text-[16px] sm:leading-6 md:text-[18px] ${
+          className={`font-vietnam text-center text-[11px] font-bold leading-4 transition-colors shrink-0 sm:text-[15px] sm:leading-5 md:text-[16px] ${
             isChecked
               ? isSelected
                 ? 'text-white'
