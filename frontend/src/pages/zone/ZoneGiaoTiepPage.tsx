@@ -6,8 +6,8 @@ import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
 
 const fallbackLessons: ZoneLesson[] = [
-  { id: 1, title: 'Con biết chào hỏi', description: 'Bé hiểu khi nào cần chào hỏi, biết chọn lời chào phù hợp với từng người và thể hiện thái độ lễ phép, thân thiện khi giao tiếp.', status: 'completed', stars: 5 },
-  { id: 2, title: 'Con nói lời cảm ơn', description: 'Bé hiểu vì sao cần nói cảm ơn, biết nhận ra tình huống cần cảm ơn và chọn cách nói cảm ơn phù hợp, chân thành.', status: 'in-progress', stars: 0 },
+  { id: 1, title: 'Con biết chào hỏi', description: 'Bé hiểu khi nào cần chào hỏi, biết chọn lời chào phù hợp với từng người và thể hiện thái độ lễ phép, thân thiện khi giao tiếp.', status: 'not-started', stars: 0 },
+  { id: 2, title: 'Con nói lời cảm ơn', description: 'Bé hiểu vì sao cần nói cảm ơn, biết nhận ra tình huống cần cảm ơn và chọn cách nói cảm ơn phù hợp, chân thành.', status: 'not-started', stars: 0 },
   { id: 3, title: 'Con nói lời xin lỗi', description: 'Bé hiểu lời xin lỗi giúp sửa chữa tình huống, biết nhận ra khi mình làm sai và chọn cách xin lỗi phù hợp để thể hiện sự quan tâm đến người khác.', status: 'not-started', stars: 0 },
   { id: 4, title: 'Con biết lắng nghe', description: 'Bé hiểu lắng nghe là một phần quan trọng của giao tiếp, biết chú ý khi người khác nói, không ngắt lời và phản hồi phù hợp.', status: 'not-started', stars: 0 },
   { id: 5, title: 'Con biết nhờ giúp đỡ', description: 'Bé hiểu khi nào cần nhờ giúp đỡ, biết nói rõ điều mình cần và chọn cách nhờ giúp đỡ lịch sự, phù hợp với tình huống.', status: 'not-started', stars: 0 },

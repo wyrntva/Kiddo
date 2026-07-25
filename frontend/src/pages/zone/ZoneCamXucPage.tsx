@@ -11,8 +11,8 @@ const fallbackLessons: ZoneLesson[] = [
     title: 'Niềm vui của con',
     description:
       '- Trẻ nhận biết cảm xúc vui của bản thân.\n- Trẻ biết cách chia sẻ niềm vui với người khác.',
-    status: 'completed',
-    stars: 5,
+    status: 'not-started',
+    stars: 0,
     image: '/assets/emotions_lesson_1.jpg',
   },
   {
@@ -20,7 +20,7 @@ const fallbackLessons: ZoneLesson[] = [
     title: 'Nỗi buồn bé nhỏ',
     description:
       '- Biết rằng buồn không phải là điều xấu và có thể nói ra nỗi buồn để được lắng nghe, an ủi.',
-    status: 'in-progress',
+    status: 'not-started',
     stars: 0,
     image: '/assets/emotions_lesson_2.jpg',
   },

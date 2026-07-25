@@ -6,8 +6,8 @@ import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
 
 const fallbackLessons: ZoneLesson[] = [
-  { id: 1, title: 'Tự dọn dẹp đồ chơi', description: '- Trẻ biết tự cất dọn đồ chơi gọn gàng sau khi chơi xong.', status: 'completed', stars: 5 },
-  { id: 2, title: 'Tự mặc quần áo', description: '- Trẻ học cách tự mặc quần áo và mang giày dép đơn giản.', status: 'in-progress', stars: 0 },
+  { id: 1, title: 'Tự dọn dẹp đồ chơi', description: '- Trẻ biết tự cất dọn đồ chơi gọn gàng sau khi chơi xong.', status: 'not-started', stars: 0 },
+  { id: 2, title: 'Tự mặc quần áo', description: '- Trẻ học cách tự mặc quần áo và mang giày dép đơn giản.', status: 'not-started', stars: 0 },
   { id: 3, title: 'Giữ gìn vệ sinh cá nhân', description: '- Trẻ biết tự rửa tay, đánh răng và giữ vệ sinh cá nhân sạch sẽ.', status: 'not-started', stars: 0 },
   { id: 4, title: 'Giúp đỡ việc nhà nhỏ', description: '- Trẻ biết giúp đỡ cha mẹ các việc vặt như quét nhà, lau bàn.', status: 'not-started', stars: 0 },
   { id: 5, title: 'Tự chuẩn bị đồ dùng', description: '- Trẻ biết tự chuẩn bị balo, sách vở trước khi đi học.', status: 'not-started', stars: 0 },

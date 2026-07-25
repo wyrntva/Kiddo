@@ -6,8 +6,8 @@ import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
 
 const fallbackLessons: ZoneLesson[] = [
-  { id: 1, title: 'Biết cách chia sẻ', description: '- Trẻ học cách chia sẻ đồ chơi và đồ ăn với các bạn.', status: 'completed', stars: 5 },
-  { id: 2, title: 'Lắng nghe bạn bè', description: '- Trẻ học cách lắng nghe và tôn trọng ý kiến của bạn.', status: 'in-progress', stars: 0 },
+  { id: 1, title: 'Biết cách chia sẻ', description: '- Trẻ học cách chia sẻ đồ chơi và đồ ăn với các bạn.', status: 'not-started', stars: 0 },
+  { id: 2, title: 'Lắng nghe bạn bè', description: '- Trẻ học cách lắng nghe và tôn trọng ý kiến của bạn.', status: 'not-started', stars: 0 },
   { id: 3, title: 'Hợp tác nhóm', description: '- Trẻ học cách hợp tác và chơi chung vui vẻ với nhóm bạn.', status: 'not-started', stars: 0 },
   { id: 4, title: 'Giải quyết xung đột', description: '- Trẻ học cách giải hòa bằng lời nói khi có tranh chấp với bạn.', status: 'not-started', stars: 0 },
   { id: 5, title: 'Cảm thông và giúp đỡ', description: '- Trẻ biết quan tâm, an ủi khi thấy bạn gặp khó khăn hoặc buồn.', status: 'not-started', stars: 0 },

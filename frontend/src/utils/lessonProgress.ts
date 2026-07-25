@@ -18,7 +18,7 @@ export function getAccountLessonProgress(userId?: string | null): Record<string,
 
 export function getLessonStatusForAccount(
   lessonId: string | number,
-  index: number,
+  _index?: number,
   userId?: string | null
 ): LessonStatus {
   const progress = getAccountLessonProgress(userId)
@@ -28,12 +28,8 @@ export function getLessonStatusForAccount(
     return progress[idStr]
   }
 
-  // Default initial progress logic:
-  // First lesson (index 0): 'completed' (Đã học)
-  // Second lesson (index 1): 'in-progress' (Đang học)
-  // Subsequent lessons (index >= 2): 'not-started' (Chưa học)
-  if (index === 0) return 'completed'
-  if (index === 1) return 'in-progress'
+  // Brand new account or no saved progress yet:
+  // All lessons start as 'not-started'
   return 'not-started'
 }
 
