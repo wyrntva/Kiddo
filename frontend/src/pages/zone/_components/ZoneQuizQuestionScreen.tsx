@@ -28,8 +28,9 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-between gap-3 p-3 sm:p-5 lg:gap-4 overflow-hidden">
-      <div className="hidden lg:block absolute bottom-3 left-3 z-10 w-[140px] xl:w-[170px] 2xl:w-[200px] pointer-events-none">
+    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[75rem] flex-1 flex-col items-center justify-start gap-3 p-3 sm:gap-4 sm:p-5 lg:gap-5 overflow-hidden">
+      {/* Toro mascot standing at the base of the left tree trunk */}
+      <div className="hidden lg:block absolute bottom-[10%] left-[3%] xl:left-[4%] z-10 w-[180px] xl:w-[230px] 2xl:w-[270px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -75,7 +76,7 @@ export default function ZoneQuizQuestionScreen({
         </div>
       </div>
 
-      <div className="zone-question-options grid w-full max-w-[65.625rem] my-auto grid-cols-3 items-center justify-center gap-3 sm:gap-5 py-2">
+      <div className="zone-question-options grid w-full max-w-[65.625rem] grid-cols-3 items-center justify-center gap-3 sm:gap-5 mt-2 lg:mt-3 mb-auto py-1">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
