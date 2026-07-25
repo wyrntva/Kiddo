@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
-import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount } from '../../utils/lessonProgress'
+import { markLessonCompleted, markLessonInProgress, saveLessonFeedbackForAccount, clearLessonFeedbackForAccount, saveQuestionResultsForAccount } from '../../utils/lessonProgress'
 
 export const DEFAULT_LESSON_EVALUATIONS = [
   {
@@ -659,7 +659,18 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     const correct = optionId === quiz.correctOptionId
     setIsCorrect(correct)
     setIsChecked(true)
-    setQuestionResults((prev) => ({ ...prev, [currentQuestionIndex]: correct }))
+    const newResults = { ...questionResults, [currentQuestionIndex]: correct }
+    setQuestionResults(newResults)
+
+    // Persist question results to localStorage immediately
+    if (currentLessonId) {
+      let userId: string | undefined
+      try {
+        const stored = localStorage.getItem('user')
+        if (stored) userId = JSON.parse(stored)?.id
+      } catch {}
+      saveQuestionResultsForAccount(currentLessonId, newResults, userId, lessonTitle || quizLesson.lessonTitle)
+    }
 
     try {
       const audio = new Audio(correct ? '/assets/correct.mp3' : '/assets/incorrect.mp3')
@@ -761,6 +772,8 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         if (stored) userId = JSON.parse(stored)?.id
       } catch {}
       markLessonInProgress(currentLessonId, userId, lessonTitle || quizLesson.lessonTitle)
+      // Clear old feedback when starting/resuming a lesson so stale full-feedback doesn't persist
+      clearLessonFeedbackForAccount(currentLessonId, userId, lessonTitle || quizLesson.lessonTitle)
     }
   }, [currentLessonId, lessonTitle, quizLesson.lessonTitle])
 

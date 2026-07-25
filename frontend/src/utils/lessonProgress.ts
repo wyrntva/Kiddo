@@ -164,3 +164,80 @@ export function saveLessonFeedbackForAccount(
   const key = getUserFeedbackKey(userId)
   localStorage.setItem(key, JSON.stringify(feedbacks))
 }
+
+export function clearLessonFeedbackForAccount(
+  lessonId: string | number,
+  userId?: string | null,
+  lessonTitle?: string
+) {
+  if (typeof window === 'undefined') return
+  const feedbacks = getAccountLessonFeedbacks(userId)
+  if (lessonId && feedbacks[String(lessonId)]) {
+    delete feedbacks[String(lessonId)]
+  }
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    if (feedbacks[titleKey]) {
+      delete feedbacks[titleKey]
+    }
+  }
+  const key = getUserFeedbackKey(userId)
+  localStorage.setItem(key, JSON.stringify(feedbacks))
+}
+
+export function getQuestionResultsKey(userId?: string | null): string {
+  return `user_question_results_${userId || 'guest'}`
+}
+
+export function getAccountQuestionResults(userId?: string | null): Record<string, Record<number, boolean>> {
+  if (typeof window === 'undefined') return {}
+  const key = getQuestionResultsKey(userId)
+  const saved = localStorage.getItem(key)
+  if (!saved) return {}
+  try {
+    return JSON.parse(saved)
+  } catch {
+    return {}
+  }
+}
+
+export function getSavedQuestionResultsForAccount(
+  lessonId: string | number,
+  userId?: string | null,
+  lessonTitle?: string,
+  index?: number
+): Record<number, boolean> {
+  const allResults = getAccountQuestionResults(userId)
+  if (lessonId && allResults[String(lessonId)]) {
+    return allResults[String(lessonId)]
+  }
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    if (allResults[titleKey]) {
+      return allResults[titleKey]
+    }
+  }
+  if (index !== undefined && allResults[String(index + 1)]) {
+    return allResults[String(index + 1)]
+  }
+  return {}
+}
+
+export function saveQuestionResultsForAccount(
+  lessonId: string | number,
+  results: Record<number, boolean>,
+  userId?: string | null,
+  lessonTitle?: string
+) {
+  if (typeof window === 'undefined') return
+  const allResults = getAccountQuestionResults(userId)
+  if (lessonId) {
+    allResults[String(lessonId)] = results
+  }
+  if (lessonTitle) {
+    const titleKey = `title_${lessonTitle.toLowerCase().trim()}`
+    allResults[titleKey] = results
+  }
+  const key = getQuestionResultsKey(userId)
+  localStorage.setItem(key, JSON.stringify(allResults))
+}
