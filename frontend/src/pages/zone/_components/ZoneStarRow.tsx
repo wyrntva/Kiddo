@@ -12,20 +12,18 @@ export default function ZoneStarRow({
   size = 'small',
 }: ZoneStarRowProps) {
   const dimensions = size === 'large'
-    ? 'w-[50px] h-[50px]'
-    : 'w-[17px] h-[17px] sm:w-[18px] sm:h-[18px]'
+    ? 'w-[36px] h-[36px] sm:w-[44px] sm:h-[44px]'
+    : 'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px]'
 
   return (
-    <div className={`flex flex-[1_0_0] items-start min-w-px ${size === 'large' ? 'gap-1' : 'gap-1'}`}>
+    <div className={`flex shrink-0 items-center ${size === 'large' ? 'gap-1' : 'gap-0.5 sm:gap-1'}`}>
       {Array.from({ length: 5 }, (_, index) => (
-        <div key={index} className={`overflow-clip relative shrink-0 ${dimensions}`}>
-          <div className="absolute" style={{ inset: '10.42% 8.34%' }}>
-            <img
-              src={index < filled ? filledIcon : emptyIcon}
-              alt=""
-              className="absolute block inset-0 w-full h-full max-w-none"
-            />
-          </div>
+        <div key={index} className={`relative shrink-0 overflow-hidden ${dimensions}`}>
+          <img
+            src={index < filled ? filledIcon : emptyIcon}
+            alt=""
+            className="block size-full object-contain"
+          />
         </div>
       ))}
     </div>
