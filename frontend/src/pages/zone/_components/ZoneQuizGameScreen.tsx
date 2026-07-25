@@ -49,7 +49,7 @@ export default function ZoneQuizGameScreen({
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 xl:gap-5">
         {/* Top Header Bar */}
         <div className="relative grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-center gap-1.5 px-0.5 sm:gap-3">
-          <div className="z-30 flex items-center gap-2">
+          <div className="z-30 flex items-center gap-2 xl:self-start">
             <button
               onClick={onBack}
               className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"

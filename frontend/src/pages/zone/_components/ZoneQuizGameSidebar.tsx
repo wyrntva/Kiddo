@@ -23,7 +23,7 @@ export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSideba
               </div>
               <span className="font-vietnam font-medium text-[#37393e] text-[16px] leading-[24px]">Chọn cảm xúc</span>
             </div>
-            <div className="border border-[#0a7ad8] h-[120px] relative rounded-[12px] shrink-0 w-full overflow-hidden bg-white">
+            <div className="zone-step-preview border border-[#0a7ad8] h-[120px] relative rounded-[12px] shrink-0 w-full overflow-hidden bg-white">
               <img src={zoneQuizAssets.stepPreview1} alt="" className="absolute max-w-none object-contain rounded-[12px] size-full" />
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSideba
               </div>
               <span className="font-vietnam font-medium text-[#37393e] text-[16px] leading-[24px]">Kéo vào ô đúng</span>
             </div>
-            <div className="border border-[#fea01f] h-[120px] relative rounded-[12px] shrink-0 w-full overflow-hidden bg-white">
+            <div className="zone-step-preview border border-[#fea01f] h-[120px] relative rounded-[12px] shrink-0 w-full overflow-hidden bg-white">
               <img src={zoneQuizAssets.stepPreview2} alt="" className="absolute max-w-none object-contain rounded-[12px] size-full" />
             </div>
           </div>
@@ -45,7 +45,7 @@ export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSideba
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col items-center gap-2 xl:w-full">
-        <div className="drop-shadow-[0px_4px_5px_rgba(0,0,0,0.1)] flex flex-col items-end w-full">
+        <div className="zone-sidebar-bubble drop-shadow-[0px_4px_5px_rgba(0,0,0,0.1)] flex flex-col items-end w-full">
           <div className="flex w-full items-center justify-center rounded-[24px] border-2 border-[#7bc9ff] bg-white px-3 py-2 sm:rounded-[1000px] sm:px-5 sm:py-3">
             <span className="font-vietnam text-[#001e2f] text-[15px] sm:text-[16px] leading-[22px] sm:leading-[24px] text-center w-full">
               Chọn cảm xúc rồi kéo vào ô đúng nhé!
@@ -60,7 +60,7 @@ export default function ZoneQuizGameSidebar({ onSpeakGuide }: ZoneQuizGameSideba
             </div>
           </div>
         </div>
-        <div className="relative mb-[-12px] hidden h-[175px] w-[278px] shrink-0 overflow-hidden pointer-events-none xl:block">
+        <div className="zone-sidebar-mascot relative mb-[-12px] hidden h-[175px] w-[278px] shrink-0 overflow-hidden pointer-events-none xl:block">
           <img src={zoneQuizAssets.wavingMascot} alt="" className="absolute h-[119%] left-[-8%] top-[0%] w-[116%] object-contain max-w-none" />
         </div>
       </div>

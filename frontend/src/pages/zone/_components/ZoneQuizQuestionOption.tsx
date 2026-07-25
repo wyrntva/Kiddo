@@ -18,7 +18,7 @@ export default function ZoneQuizQuestionOption({
 }: ZoneQuizQuestionOptionProps) {
   const [imgError, setImgError] = useState(false)
 
-  let cardClass = 'bg-white border-2 border-[#C3FFD0] shadow-[0px_4px_10px_rgba(0,0,0,0.03)] transition-all duration-300'
+  let cardClass = 'bg-white border-2 border-transparent shadow-[0px_4px_10px_rgba(0,0,0,0.03)] transition-all duration-300'
   
   if (isChecked) {
     if (isSelected) {

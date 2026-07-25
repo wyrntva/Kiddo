@@ -28,9 +28,9 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-1 flex-col items-center justify-start gap-3 p-3 sm:gap-4 sm:p-5 lg:gap-4 overflow-hidden">
+    <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-1 flex-col items-center justify-start gap-3 px-3 pb-3 pt-12 sm:gap-4 sm:px-5 sm:pb-5 sm:pt-12 lg:gap-4 overflow-visible">
       {/* Toro mascot reading book: ENLARGED & positioned nicely on left grass */}
-      <div className="hidden lg:block absolute bottom-[16px] left-[5%] xl:left-[7%] z-10 w-[200px] xl:w-[240px] 2xl:w-[285px] pointer-events-none">
+      <div className="zone-reading-mascot hidden xl:block absolute bottom-[16px] left-[5%] xl:left-[7%] z-10 w-[200px] xl:w-[240px] 2xl:w-[285px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -38,13 +38,13 @@ export default function ZoneQuizQuestionScreen({
         />
       </div>
 
-      {/* Shared Alignment Container for Top Buttons & Question Box: max-w-[min(90vw,860px)] */}
-      <div className="flex w-full max-w-[min(90vw,860px)] shrink-0 flex-col gap-2.5 sm:gap-3">
-        {/* Top Header Buttons: aligned to left & right edges of Question Box */}
-        <div className="flex w-full items-center justify-between">
+      {/* Shared Alignment Container for Top Buttons & Question Box: max-w-[1300px] */}
+      <div className="zone-question-header-container flex w-full max-w-[1300px] shrink-0 flex-col gap-0">
+        {/* Top Header Buttons: aligned to left & right edges of Question Box with 24px bottom margin */}
+        <div className="flex w-full items-center justify-between mb-6">
           <button
             onClick={onBack}
-            className="flex min-h-9 cursor-pointer items-center gap-2 rounded-[40px] border border-[#e83552] bg-white px-5 py-1.5 font-baloo text-[15px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-6 sm:py-2 sm:text-[17px]"
+            className="cursor-pointer rounded-full border border-[#e83552] bg-white/90 px-6 py-2.5 font-baloo text-[18px] font-bold text-[#e83552] shadow-md transition-all hover:bg-[#ffe6e9] active:scale-95"
           >
             Quay lại
           </button>
@@ -52,15 +52,15 @@ export default function ZoneQuizQuestionScreen({
           {onRewatchVideo && (
             <button
               onClick={onRewatchVideo}
-              className="flex min-h-9 cursor-pointer items-center gap-2 rounded-[40px] border border-[#0A7AD8] bg-white px-5 py-1.5 font-baloo text-[15px] font-bold text-[#0A7AD8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-6 sm:py-2 sm:text-[17px]"
+              className="cursor-pointer rounded-full border border-[#0a7ad8] bg-white/90 px-6 py-2.5 font-baloo text-[18px] font-bold text-[#0a7ad8] shadow-md transition-all hover:bg-[#e6f6ff] active:scale-95"
             >
-              <span>Xem lại video</span>
+              Xem lại video
             </button>
           )}
         </div>
 
-        {/* Question Prompt Box: max-w-[min(90vw,860px)] */}
-        <div className="flex w-full items-center justify-start gap-4 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-5 py-3.5 shadow-md sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-7 sm:py-4">
+        {/* Question Prompt Box: max-w-[1300px] */}
+        <div className="zone-question-prompt-box flex w-full items-center justify-start gap-4 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-5 py-3.5 shadow-md sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-7 sm:py-4">
           <button
             onClick={onSpeakQuestion}
             className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-[#0a7ad8] p-3 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 ${
@@ -71,18 +71,18 @@ export default function ZoneQuizQuestionScreen({
             <img src={zoneQuizAssets.speaker} alt="Speak" className="h-6 w-6 select-none sm:h-7 sm:w-7" />
           </button>
           <div className="flex min-w-0 flex-col gap-1 text-left">
-            <span className="font-baloo text-[20px] font-bold leading-tight text-[#0a7ad8] sm:text-[23px] md:text-[25px]">
+            <span className="zone-question-index-text font-baloo text-[20px] font-bold leading-tight text-[#0a7ad8] sm:text-[23px] md:text-[25px]">
               Câu hỏi {currentQuestionIndex + 1}/{quizLesson.questions.length}:
             </span>
-            <span className="font-vietnam text-[15px] font-bold leading-relaxed text-[#37393e] sm:text-[18px] md:text-[20px]">
+            <span className="zone-question-prompt-text font-vietnam text-[15px] font-bold leading-relaxed text-[#37393e] sm:text-[18px] md:text-[20px]">
               {quiz.prompt}
             </span>
           </div>
         </div>
       </div>
 
-      {/* 3 Answer Option Cards Grid: EXACT SAME max-w-[min(90vw,860px)] as question box! */}
-      <div className="zone-question-options grid w-full max-w-[min(90vw,860px)] grid-cols-3 items-stretch justify-between gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
+      {/* 3 Answer Option Cards Grid: EXACT SAME max-w-[1300px] as question box! */}
+      <div className="zone-question-options grid w-full max-w-[1300px] grid-cols-3 items-stretch justify-between gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}

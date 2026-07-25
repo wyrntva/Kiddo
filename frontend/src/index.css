@@ -95,12 +95,12 @@ svg {
   width: 100%;
   overflow: hidden;
   background-color: #F3F9FC;
-  padding: 12px;
+  padding: 16px !important;
 }
 
 @media (min-width: 768px) {
   .zone-lesson-main {
-    padding: 16px 24px;
+    padding: 10px 48px !important; /* Exactly 48px left & right margins, compact 10px top/bottom padding to maximize vertical space */
   }
 }
 
@@ -124,6 +124,29 @@ svg {
   }
 }
 
+/* Narrative screens (Welcome, PreVideo, Intro) mascot container */
+.zone-lesson-mascot {
+  display: flex !important;
+  min-height: 140px !important;
+  flex: 1 1 0% !important;
+  align-items: end !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  pointer-events: none !important;
+}
+
+.zone-lesson-mascot img {
+  display: block !important;
+  width: auto !important;
+  max-height: clamp(140px, 45vh, 480px) !important; /* Constrains mascot height fluidly on small viewport heights */
+  max-width: 90vw !important;
+  object-fit: contain !important;
+  transform: scale(1.06) translateY(12px) !important;
+  z-index: 10 !important;
+}
+
 /* Screen Wrapper inside Stage */
 .zone-question-screen {
   position: relative;
@@ -141,7 +164,7 @@ svg {
   justify-content: flex-start;
   gap: 16px;
   padding: 16px 20px;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 /* Top Navigation Row (Back / Rewatch Video) */
@@ -205,63 +228,124 @@ svg {
   color: #0a7ad8;
 }
 
+/* Stretched header container and question box height & scale responsive styling */
+.zone-question-header-container {
+  width: 100% !important;
+  max-width: 1000px !important; /* Narrower size on 125%/150% scales / standard laptops for optimal footprint */
+  margin-inline: auto !important;
+}
+
+@media (min-width: 1600px) {
+  .zone-question-header-container {
+    max-width: 1300px !important; /* Full width only on 100% scale / huge displays */
+  }
+}
+
+.zone-question-prompt-box {
+  width: 100% !important;
+  border-radius: 32px !important;
+  padding: 12px 24px !important; /* More compact padding to save height on scaled screens */
+}
+
+@media (min-width: 1600px) {
+  .zone-question-prompt-box {
+    border-radius: 60px !important;
+    padding: 16px 28px !important; /* Full size on large monitors */
+  }
+}
+
+.zone-question-index-text {
+  font-size: clamp(18px, 1.4vw, 24px) !important;
+}
+
+.zone-question-prompt-text {
+  font-size: clamp(14px, 1.15vw, 19px) !important;
+}
+
 /* 3-Column Answer Options Grid */
 .zone-question-options {
-  display: grid;
-  width: 100%;
-  max-width: min(90vw, 860px); /* Scale-to-Fit Canvas limit */
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: center;
-  justify-content: center;
-  gap: min(2.4vw, 24px); /* 24px max, fluid scale */
-  margin-top: 8px;
-  margin-bottom: auto;
-  padding: 4px 0;
+  display: grid !important;
+  width: 100% !important;
+  max-width: 1000px !important; /* Matches header container default */
+  grid-template-columns: repeat(3, auto) !important; /* Size columns to fit cards */
+  align-items: center !important;
+  justify-content: center !important; /* Centers the cards container */
+  gap: 24px !important; /* Locked gap of exactly 24px */
+  margin-top: 8px !important;
+  margin-bottom: auto !important;
+  padding: 4px 0 !important;
+}
+
+@media (min-width: 1600px) {
+  .zone-question-options {
+    max-width: 1300px !important; /* Full width on large displays */
+  }
 }
 
 /* Individual Answer Option Card */
 .zone-question-option {
-  position: relative;
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  border-radius: 24px;
+  position: relative !important;
+  display: flex !important;
+  width: auto !important; /* Width follows height to maintain 1:1 ratio */
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  border-radius: 24px !important;
   background-color: #ffffff;
-  border: 2px solid #C3FFD0;
-  padding: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  padding: 24px !important; /* Spaced exactly 24px from margins */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  aspect-ratio: 1 / 1 !important; /* Square card shape */
+  height: clamp(120px, 30vh, 320px) !important; /* Slightly larger, height-responsive scaling */
+  margin-inline: auto !important;
 }
 
 .zone-question-option:hover {
-  background-color: #e5f2ff;
-  border-color: #83dca0;
-  transform: translateY(-2px);
+  background-color: #e5f2ff !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Option Image Container */
 .zone-question-image {
-  position: relative;
-  display: flex;
+  position: relative !important;
+  display: flex !important;
   aspect-ratio: 1 / 1 !important;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid #f3f4f6;
-  background-color: #f9fafb;
+  width: 100% !important; /* Fills the square content area */
+  height: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  border: 1px solid #f3f4f6 !important;
+  background-color: #f9fafb !important;
 }
 
 .zone-question-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 16px;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 16px !important;
+}
+
+/* Drag and Drop game container height scaling */
+.cloud-slot-container {
+  position: relative !important;
+  aspect-ratio: 1.125 / 1 !important;
+  width: auto !important;
+  height: clamp(40px, 8vh, 110px) !important; /* Reduced height clamp to save height on short screens */
+  margin-inline: auto !important;
+}
+
+.mascot-container {
+  position: relative !important;
+  aspect-ratio: 1 / 1 !important;
+  width: auto !important;
+  height: clamp(48px, 9.5vh, 130px) !important; /* Reduced height clamp to save height on short screens */
+  margin-inline: auto !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
 }
 
 /* Mascot Toro Positioned at Tree Base */
@@ -281,58 +365,132 @@ svg {
   object-fit: contain;
 }
 
+/* Reading Book Mascot height-responsive scaling and shift coordinate mapping */
+.zone-reading-mascot {
+  position: absolute !important;
+  bottom: 120px !important; /* Shifted up by 50px (70px + 50px) */
+  left: -70px !important; /* Shifted left by 100px (30px - 100px) */
+  z-index: 10 !important;
+  width: 240px !important;
+  max-height: clamp(100px, 24vh, 260px) !important;
+  max-width: 25vw !important;
+  pointer-events: none !important;
+}
+
+.zone-reading-mascot img {
+  max-height: 100% !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+
 /* ==========================================================================
    DRAG AND DROP EMOTION GAME RESPONSIVE LAYOUT
    ========================================================================== */
 
 .zone-game-screen {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  height: 100%;
-  min-height: 0;
-  width: 100%;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  overflow: hidden;
+  position: relative !important;
+  z-index: 10 !important;
+  display: flex !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  flex-direction: column !important;
+  gap: 12px !important; /* Compact vertical gap to save height */
+  padding: 12px !important; /* Compact vertical padding */
+  overflow: hidden !important;
 }
 
 @media (min-width: 1280px) {
   .zone-game-screen {
-    display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
-    gap: 24px;
+    display: grid !important;
+    grid-template-columns: 280px minmax(0, 1fr) !important;
+    gap: 24px !important; /* Spacious gap between sidebar and board */
+    padding: 48px !important; /* Top, bottom, left, and right margins are exactly 48px */
   }
 }
 
 .zone-game-board {
-  display: grid;
-  width: 100%;
-  max-width: 1080px; /* 1080px */
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: stretch;
-  justify-content: center;
-  gap: 16px;
-  border-radius: 24px;
+  display: grid !important;
+  width: 100% !important;
+  max-width: 880px !important; /* Compact default for standard desktops / 125% scale settings */
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  gap: 12px !important; /* Compact gap */
+  border-radius: 24px !important;
   background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 0 16px rgba(0, 76, 110, 0.4);
+  padding: 12px 16px !important; /* Compact padding to save height */
+  box-shadow: 0 0 16px rgba(0, 76, 110, 0.4) !important;
+}
+
+@media (min-width: 1600px) {
+  .zone-game-board {
+    max-width: 1080px !important; /* Full width only on 100% scale displays */
+    padding: 20px !important;
+    gap: 16px !important;
+  }
 }
 
 .zone-emotion-picker {
-  display: grid;
-  width: 100%;
-  max-width: 840px; /* 840px */
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
-  justify-content: center;
-  gap: 16px;
-  border-radius: 24px;
-  border: 1px solid #c4c9d4;
+  display: grid !important;
+  width: 100% !important;
+  max-width: 680px !important; /* Compact default for standard desktops / 125% scale settings */
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-items: start !important;
+  justify-content: center !important;
+  gap: 12px !important; /* Compact gap */
+  border-radius: 24px !important;
+  border: 1px solid #c4c9d4 !important;
   background-color: #ffffff;
-  padding: 16px;
-  box-shadow: 0 8px 24px rgba(0, 76, 110, 0.14);
+  padding: 10px 16px !important; /* Compact padding to save height */
+  box-shadow: 0 8px 24px rgba(0, 76, 110, 0.14) !important;
+}
+
+.zone-emotion-picker img {
+  max-height: clamp(40px, 8vh, 90px) !important; /* Limits picker cloud image height to fit short screens */
+  width: auto !important;
+  object-fit: contain !important;
+  margin-inline: auto !important;
+}
+
+@media (min-width: 1600px) {
+  .zone-emotion-picker {
+    max-width: 840px !important; /* Full width only on 100% scale displays */
+    padding: 16px !important;
+    gap: 16px !important;
+  }
+  .zone-emotion-picker img {
+    max-height: 100px !important; /* Default size on huge screens */
+  }
+}
+
+/* Sidebar steps previews and mascot height-responsive scaling */
+.zone-step-preview {
+  height: clamp(60px, 8vh, 120px) !important; /* Scale down step preview box height on small screens */
+}
+
+.zone-sidebar-bubble {
+  margin-top: auto !important; /* Pushes the bubble and mascot group to the bottom of the sidebar */
+}
+
+.zone-sidebar-mascot {
+  position: relative !important;
+  margin-bottom: -16px !important; /* Pulls mascot container down past card bottom padding */
+  margin-top: -12px !important; /* Pulls mascot closer to bubble's tail */
+  height: clamp(110px, 18vh, 180px) !important; /* Slightly larger, height-responsive scaling */
+  width: auto !important;
+  aspect-ratio: 278 / 175 !important;
+}
+
+.zone-sidebar-mascot img {
+  position: absolute !important;
+  bottom: 0 !important; /* Force image to sit flush with the bottom boundary */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  height: 108% !important; /* Slightly overflows container to look larger and cover borders */
+  width: auto !important;
+  max-width: none !important;
+  object-fit: contain !important;
 }
 
 /* Keyframes */

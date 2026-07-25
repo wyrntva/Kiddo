@@ -67,11 +67,6 @@ export default function ZoneQuizWelcomeScreen({
           src={zoneQuizAssets.wavingMascot}
           alt="Toro Waving"
           className="block h-auto w-auto max-w-none object-contain select-none z-10"
-          style={{
-            maxHeight: 'min(700px, 100%)',
-            maxWidth: 'min(1050px, 100vw)',
-            transform: 'scale(1.08) translateY(8px)',
-          }}
         />
       </div>
     </div>
