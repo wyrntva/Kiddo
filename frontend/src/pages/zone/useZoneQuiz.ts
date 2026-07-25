@@ -837,6 +837,12 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     }
   }, [calculatedFeedback, currentLessonId, lessonTitle, quizLesson.lessonTitle])
 
+  useEffect(() => {
+    if (showGame && allPlaced && !gameChecked) {
+      handleCheckAnswers()
+    }
+  }, [showGame, allPlaced, gameChecked])
+
   const handleCheckAnswers = () => {
     playButtonSound()
     const isAllCorrect = gameCards.every(

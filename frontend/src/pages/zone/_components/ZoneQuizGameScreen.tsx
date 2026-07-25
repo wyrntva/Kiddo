@@ -15,12 +15,12 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 }
 
 interface ZoneQuizGameScreenProps {
-  allPlaced: boolean
+  allPlaced?: boolean
   placedEmotions: Record<string, string | null>
   gameChecked: boolean
   onBack: () => void
   onRewatchVideo?: () => void
-  onCheckAnswers: () => void
+  onCheckAnswers?: () => void
   onSpeakGuide: () => void
   onSelectEmotion: (emotionId: string) => void
   onDrop: (event: React.DragEvent, cardId: string) => void
@@ -28,12 +28,12 @@ interface ZoneQuizGameScreenProps {
 }
 
 export default function ZoneQuizGameScreen({
-  allPlaced,
+  allPlaced: _allPlaced,
   placedEmotions,
   gameChecked,
   onBack,
-  onRewatchVideo,
-  onCheckAnswers,
+  onRewatchVideo: _onRewatchVideo,
+  onCheckAnswers: _onCheckAnswers,
   onSpeakGuide,
   onSelectEmotion,
   onDrop,
@@ -56,15 +56,6 @@ export default function ZoneQuizGameScreen({
             >
               Quay lại
             </button>
-
-            {onRewatchVideo && (
-              <button
-                onClick={onRewatchVideo}
-                className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#0a7ad8] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#0a7ad8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
-              >
-                Xem lại video
-              </button>
-            )}
           </div>
 
           <div className="z-20 flex min-w-0 flex-col items-center gap-1 text-center">
@@ -83,18 +74,7 @@ export default function ZoneQuizGameScreen({
             </div>
           </div>
 
-          <div className="flex min-w-[42px] shrink-0 justify-end sm:min-w-[110px]">
-            {allPlaced ? (
-              <button
-                onClick={onCheckAnswers}
-                className="z-30 rounded-[40px] border-2 border-white bg-gradient-to-r from-[#339e4a] to-[#45c25e] px-2.5 py-1.5 font-baloo text-[12px] font-bold text-white shadow-lg transition-all hover:from-[#2c883f] hover:to-[#3db452] active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
-              >
-                ✨ Hoàn thành
-              </button>
-            ) : (
-              <div className="w-10 sm:w-16 h-1" />
-            )}
-          </div>
+          <div className="flex min-w-[42px] shrink-0 justify-end sm:min-w-[110px]" />
         </div>
 
         {/* Center Cards & Emotion Picker Area */}
