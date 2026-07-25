@@ -115,7 +115,7 @@ export default function ZoneQuizSuccessModal({
               <span>AI STUDIO</span>
               <svg
                 aria-hidden="true"
-                className="size-5 shrink-0 animate-icon-zoom"
+                className="size-5 shrink-0 animate-icon-zoom-delay"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"

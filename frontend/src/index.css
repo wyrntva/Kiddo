@@ -146,12 +146,17 @@ svg {
 }
 
 @keyframes iconZoom {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.25); }
+  0%, 100% { transform: scale(0.85); }
+  50% { transform: scale(1.35); }
 }
 
 .animate-icon-zoom {
-  animation: iconZoom 1.5s ease-in-out infinite;
+  animation: iconZoom 1.4s ease-in-out infinite;
+}
+
+.animate-icon-zoom-delay {
+  animation: iconZoom 1.4s ease-in-out infinite;
+  animation-delay: -0.7s;
 }
 
 /* Lesson viewport: scales by both width and height, including iPad landscape. */
