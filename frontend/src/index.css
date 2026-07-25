@@ -334,7 +334,7 @@ svg {
   position: relative !important;
   aspect-ratio: 1.125 / 1 !important;
   width: auto !important;
-  height: clamp(40px, 8vh, 110px) !important; /* Reduced height clamp to save height on short screens */
+  height: clamp(45px, 8.5vh, 110px) !important; /* Slightly enlarged slot */
   margin-inline: auto !important;
 }
 
@@ -342,7 +342,7 @@ svg {
   position: relative !important;
   aspect-ratio: 1 / 1 !important;
   width: auto !important;
-  height: clamp(48px, 9.5vh, 130px) !important; /* Reduced height clamp to save height on short screens */
+  height: clamp(90px, 16vh, 200px) !important; /* Large mascot characters for maximum visibility */
   margin-inline: auto !important;
   overflow: hidden !important;
   border-radius: 16px !important;
@@ -407,6 +407,10 @@ svg {
     gap: 24px !important; /* Spacious gap between sidebar and board */
     padding: 48px !important; /* Top, bottom, left, and right margins are exactly 48px */
   }
+  /* Right column vertical items gap reduction to prevent overflow */
+  .zone-game-screen > div.flex-col {
+    gap: clamp(12px, 2.8vh, 24px) !important; /* Dynamic gap that scales up to prevent clutter */
+  }
 }
 
 .zone-game-board {
@@ -419,7 +423,7 @@ svg {
   gap: 12px !important; /* Compact gap */
   border-radius: 24px !important;
   background-color: #ffffff;
-  padding: 12px 16px !important; /* Compact padding to save height */
+  padding: 10px 16px !important; /* Compact padding to save height */
   box-shadow: 0 0 16px rgba(0, 76, 110, 0.4) !important;
 }
 
@@ -433,21 +437,28 @@ svg {
 
 .zone-emotion-picker {
   display: grid !important;
-  width: 100% !important;
-  max-width: 680px !important; /* Compact default for standard desktops / 125% scale settings */
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: auto !important;
+  max-width: 680px !important;
+  grid-template-columns: repeat(4, auto) !important;
   align-items: start !important;
   justify-content: center !important;
-  gap: 12px !important; /* Compact gap */
+  gap: 48px !important;
   border-radius: 24px !important;
   border: 1px solid #c4c9d4 !important;
   background-color: #ffffff;
-  padding: 10px 16px !important; /* Compact padding to save height */
+  padding: 10px 24px 6px 24px !important; /* Even thinner padding to shrink card further */
   box-shadow: 0 8px 24px rgba(0, 76, 110, 0.14) !important;
 }
 
+.zone-emotion-picker > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important; /* Minimal text-to-icon gap for a compact card */
+}
+
 .zone-emotion-picker img {
-  max-height: clamp(75px, 11.5vh, 120px) !important; /* Enlarged picker cloud image size for scale 125% visibility */
+  max-height: clamp(85px, 12.5vh, 120px) !important; /* Enlarged cloud icons kept large */
   width: auto !important;
   object-fit: contain !important;
   margin-inline: auto !important;
@@ -456,8 +467,8 @@ svg {
 @media (min-width: 1600px) {
   .zone-emotion-picker {
     max-width: 840px !important; /* Full width only on 100% scale displays */
-    padding: 16px !important;
-    gap: 16px !important;
+    padding: 10px 24px 6px 24px !important;
+    gap: 48px !important;
   }
   .zone-emotion-picker img {
     max-height: 100px !important; /* Default size on huge screens */
