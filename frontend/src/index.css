@@ -190,20 +190,188 @@ svg {
   animation-delay: -0.7s;
 }
 
-/* Lesson viewport: scales by both width and height, including iPad landscape. */
-@media (min-width: 1280px) and (min-height: 760px) {
+/* ====== ZONE LESSON VIEWPORT OVERRIDES ====== */
+
+/*
+ * STRATEGY: Always allow overflow-y: auto on the stage container so content
+ * can scroll when it exceeds the viewport. On large screens with enough height,
+ * we still fit everything in viewport by shrinking content proportionally.
+ */
+
+/* Always allow scrolling in the stage */
+.zone-lesson-stage {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Question options: let them flex-shrink to fit viewport */
+.zone-question-options {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Question images: use relative sizing so they scale with the container */
+.zone-question-image {
+  aspect-ratio: 4 / 3;
+}
+
+/* Game board cards: allow shrinking */
+.zone-game-board {
+  flex-shrink: 1;
+}
+
+/* Emotion picker: allow shrinking */
+.zone-emotion-picker {
+  flex-shrink: 1;
+}
+
+/* ---- XL screens (≥ 1280px): Try to fit in viewport ---- */
+@media (min-width: 1280px) {
   .zone-lesson-page {
     height: 100dvh;
     overflow: hidden;
   }
 
-  .zone-lesson-main,
-  .zone-lesson-stage {
+  .zone-lesson-main {
     overflow: hidden;
+  }
+
+  /* CRITICAL: allow auto scroll on stage instead of hidden */
+  .zone-lesson-stage {
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 
-@media (max-height: 760px) and (min-width: 700px) {
+/* ---- Tall XL screens: shrink question images to square ---- */
+@media (min-width: 1280px) and (min-height: 800px) {
+  .zone-question-image {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* ---- Short XL screens (e.g. 1920x1080 at 125% scale = ~1536x864 viewport):
+        shrink everything to fit ---- */
+@media (min-width: 1280px) and (max-height: 900px) {
+  .zone-question-image {
+    aspect-ratio: 16 / 11;
+  }
+
+  .zone-question-screen {
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .zone-question-screen > div:nth-of-type(2) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .zone-question-option {
+    padding: 6px;
+  }
+
+  .zone-game-screen {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .zone-game-board {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .zone-game-card-inner {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    gap: 4px;
+  }
+
+  .zone-emotion-picker {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    gap: 4px;
+  }
+
+  .zone-game-sidebar {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+/* ---- Very short XL screens (e.g. 1920x1080 at 150% scale = ~1280x720): 
+        aggressively compact ---- */
+@media (min-width: 1280px) and (max-height: 780px) {
+  .zone-lesson-main {
+    padding: 4px 8px;
+  }
+
+  .zone-lesson-stage {
+    border-radius: 16px;
+  }
+
+  .zone-question-image {
+    aspect-ratio: 16 / 9;
+  }
+
+  .zone-question-screen {
+    gap: 6px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .zone-question-screen > div:nth-of-type(2) {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .zone-question-option {
+    padding: 4px;
+  }
+
+  .zone-game-screen {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .zone-game-board {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .zone-game-card-inner {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    gap: 2px;
+  }
+
+  .zone-emotion-picker {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    gap: 2px;
+  }
+
+  .zone-lesson-narrative > div:nth-of-type(1) {
+    padding-top: 42px;
+  }
+
+  .zone-lesson-bubble {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .zone-lesson-mascot {
+    min-height: 120px;
+  }
+
+  .zone-success-modal {
+    padding: 12px;
+  }
+}
+
+/* ---- Non-XL short screens (tablets in landscape, etc.) ---- */
+@media (max-height: 760px) and (min-width: 700px) and (max-width: 1279px) {
   .zone-lesson-main {
     padding: 8px;
   }
@@ -274,6 +442,7 @@ svg {
   }
 }
 
+/* ---- Small mobile (< 420px wide) ---- */
 @media (max-width: 420px) {
   .zone-lesson-stage {
     min-height: calc(100dvh - 64px);
@@ -296,6 +465,7 @@ svg {
   }
 }
 
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .zone-lesson-page *,
   .zone-success-modal * {

@@ -80,7 +80,7 @@ export default function ZoneQuizGameScreen({
         {/* Center Cards & Emotion Picker Area */}
         <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 xl:gap-5 2xl:gap-6">
           <div
-            className="zone-game-board z-20 grid w-full max-w-[950px] shrink-0 grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 xl:max-w-[1080px] xl:gap-4 xl:p-5 2xl:max-w-[1160px] 2xl:p-6"
+            className="zone-game-board z-20 grid w-full max-w-[950px] grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 xl:max-w-[1080px] xl:gap-4 xl:p-5 2xl:max-w-[1160px] 2xl:p-6"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (

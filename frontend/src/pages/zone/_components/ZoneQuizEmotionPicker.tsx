@@ -23,7 +23,7 @@ export default function ZoneQuizEmotionPicker({
   }
 
   return (
-    <div className="zone-emotion-picker z-20 grid w-full max-w-[656px] shrink-0 grid-cols-4 items-start justify-center gap-1.5 rounded-[20px] border border-[#c4c9d4] bg-white px-2 py-2.5 shadow-[0_8px_24px_rgba(0,76,110,0.14)] sm:gap-3 sm:rounded-[24px] sm:px-4 sm:py-4 xl:max-w-[840px] xl:px-6 xl:py-5 2xl:max-w-[920px] 2xl:px-8">
+    <div className="zone-emotion-picker z-20 grid w-full max-w-[656px] grid-cols-4 items-start justify-center gap-1.5 rounded-[20px] border border-[#c4c9d4] bg-white px-2 py-2.5 shadow-[0_8px_24px_rgba(0,76,110,0.14)] sm:gap-3 sm:rounded-[24px] sm:px-4 sm:py-4 xl:max-w-[840px] xl:px-6 xl:py-5 2xl:max-w-[920px] 2xl:px-8">
       {emotions.map((emotion) => {
         const isPlaced = Object.values(placedEmotions).includes(emotion.id)
         const isActive = activeId === emotion.id

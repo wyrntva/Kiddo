@@ -28,7 +28,7 @@ export default function ZoneQuizQuestionScreen({
   onSelect,
 }: ZoneQuizQuestionScreenProps) {
   return (
-    <div className="zone-question-screen relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-col items-center justify-start gap-4 px-3 py-4 sm:px-5 sm:py-5 lg:gap-6">
+    <div className="zone-question-screen relative z-10 mx-auto flex min-h-full w-full max-w-[1200px] flex-1 flex-col items-center justify-start gap-4 px-3 py-4 sm:px-5 sm:py-5 lg:gap-6">
       <div
         className="hidden lg:block absolute bottom-[20px] left-[20px] xl:left-[40px] z-10 w-[200px] xl:w-[280px] pointer-events-none"
         style={{ transform: 'translate(-300px, -200px)' }}
@@ -40,7 +40,7 @@ export default function ZoneQuizQuestionScreen({
         />
       </div>
 
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full shrink-0 items-center justify-between">
         <button
           onClick={onBack}
           className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[40px] border border-[#e83552] bg-white px-5 py-2 font-baloo text-[15px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-6 sm:text-[18px]"
@@ -58,7 +58,7 @@ export default function ZoneQuizQuestionScreen({
         )}
       </div>
 
-      <div className="flex w-full items-start justify-start gap-3 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-3 py-4 shadow-sm sm:items-center sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-6 sm:py-5">
+      <div className="flex w-full shrink-0 items-start justify-start gap-3 rounded-[24px] border-[3px] border-[#339E4A] bg-white px-3 py-4 shadow-sm sm:items-center sm:gap-5 sm:rounded-[60px] sm:border-4 sm:px-6 sm:py-5">
         <button
           onClick={onSpeakQuestion}
           className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-[#0a7ad8] p-2.5 shadow-md transition-all hover:bg-[#0863b0] active:scale-95 sm:p-3 ${
@@ -78,7 +78,7 @@ export default function ZoneQuizQuestionScreen({
         </div>
       </div>
 
-      <div className="zone-question-options grid w-full max-w-[1050px] grid-cols-3 justify-center gap-2 sm:gap-4">
+      <div className="zone-question-options grid w-full max-w-[1050px] flex-1 grid-cols-3 content-start justify-center gap-2 sm:gap-4">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}

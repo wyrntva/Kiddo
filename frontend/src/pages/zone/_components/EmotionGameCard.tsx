@@ -82,7 +82,7 @@ export default function EmotionGameCard({
       >
         <div
           onClick={handleSlotClick}
-          className={`cloud-slot-container relative flex aspect-[1.125/1] w-[58px] shrink-0 cursor-pointer items-center justify-center transition-transform active:scale-95 sm:w-[76px] lg:w-[90px] xl:w-[118px] 2xl:w-[130px] ${
+          className={`cloud-slot-container relative flex aspect-[1.125/1] w-[50%] max-w-[130px] cursor-pointer items-center justify-center transition-transform active:scale-95 ${
             isDragOver && !placedEmotion ? 'animate-pulse scale-110' : ''
           }`}
         >
@@ -101,7 +101,7 @@ export default function EmotionGameCard({
           )}
         </div>
 
-        <div className="mascot-container pointer-events-none relative aspect-square w-[68px] shrink-0 overflow-hidden rounded-[16px] sm:w-[88px] lg:w-[105px] xl:w-[140px] 2xl:w-[152px]">
+        <div className="mascot-container pointer-events-none relative aspect-square w-[60%] max-w-[152px] overflow-hidden rounded-[16px]">
           <img src={image} alt={alt} className={imageClassName} />
         </div>
 

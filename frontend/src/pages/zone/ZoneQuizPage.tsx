@@ -116,12 +116,12 @@ export default function ZoneQuizPage() {
   }
 
   return (
-    <div className="zone-lesson-page flex min-h-[100dvh] flex-col bg-[#F3F9FC] xl:h-[100dvh] xl:overflow-hidden">
+    <div className="zone-lesson-page flex min-h-[100dvh] flex-col bg-[#F3F9FC]">
       <SEO title={quizLesson?.lessonTitle ? `Bài học: ${quizLesson.lessonTitle}` : 'Bài học'} noindex={true} />
       <Navbar />
 
       <main className="zone-lesson-main relative flex min-h-0 flex-1 flex-col bg-[#F3F9FC] p-2 sm:p-3 md:p-4 lg:px-6 lg:py-5 xl:px-8 xl:py-5 2xl:px-10 2xl:py-6">
-        <div className="zone-lesson-stage relative flex min-h-[calc(100dvh-72px)] w-full flex-1 flex-col overflow-x-hidden overflow-y-auto rounded-[20px] bg-[#f2f6f9] shadow-2xl md:min-h-[calc(100dvh-88px)] md:rounded-[32px] xl:min-h-0 xl:overflow-hidden">
+        <div className="zone-lesson-stage relative flex min-h-[calc(100dvh-72px)] w-full flex-1 flex-col rounded-[20px] bg-[#f2f6f9] shadow-2xl md:min-h-[calc(100dvh-88px)] md:rounded-[32px] xl:min-h-0">
           <img
             src={zoneQuizAssets.heroBg}
             alt=""
