@@ -62,7 +62,7 @@ export default function ZoneQuizGameScreen({
                 onClick={onRewatchVideo}
                 className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#0a7ad8] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#0a7ad8] shadow-sm transition-all hover:bg-blue-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
               >
-                🎬 Xem lại video
+                Xem lại video
               </button>
             )}
           </div>
