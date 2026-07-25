@@ -12,7 +12,7 @@
 }
 
 html {
-  font-size: 62.5%; /* 1rem = 10px on 1920px */
+  font-size: clamp(14px, 0.9375vw, 18px);
   overflow-x: hidden;
   overflow-y: auto;
 }
