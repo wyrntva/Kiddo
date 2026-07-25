@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs')
 const prisma = new PrismaClient()
 
 async function main() {
-  const hash = await bcrypt.hash('super_secret_admin_password_123', 12)
+  const password = process.env.ADMIN_PASSWORD || 'admin123456'
+  const hash = await bcrypt.hash(password, 12)
   const user = await prisma.user.upsert({
     where: { email: 'admin@ottopia.vn' },
     update: { password: hash, role: 'ADMIN' },
@@ -18,7 +19,7 @@ async function main() {
       badges: 50,
     },
   })
-  console.log('SUCCESS_ADMIN_CREATED:', user.email)
+  console.log('SUCCESS_ADMIN_UPDATED:', user.email, 'with password:', password)
 }
 
 main()
