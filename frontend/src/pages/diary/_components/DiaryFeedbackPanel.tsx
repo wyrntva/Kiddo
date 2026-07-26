@@ -58,30 +58,49 @@ export function DiaryFeedbackColumns({
   className?: string
 }) {
   if (!feedback) return null
+
+  const showStrengths = !!(feedback.strengths && feedback.strengths.length > 0)
+  const showPractice = !!(feedback.practice && feedback.practice.length > 0)
+
+  let colsCount = 1
+  if (showStrengths) colsCount++
+  if (showPractice) colsCount++
+
+  const colsClass =
+    colsCount === 3
+      ? 'lg:grid-cols-3'
+      : colsCount === 2
+      ? 'lg:grid-cols-2'
+      : 'lg:grid-cols-1'
+
   return (
-    <div className={`grid min-h-0 grid-cols-1 gap-4 lg:grid-cols-3 xl:gap-4 2xl:gap-5 ${className}`}>
-      <FeedbackColumn
-        title="Điểm mạnh"
-        titleColor="#339e4a"
-        bgColor="#f2fbef"
-        borderColor="#9de4af"
-        iconBorderColor="#9de4af"
-        iconBgColor="#339e4a"
-        icon={<img width="21" height="21" src="/assets/781765e07dba9b19c7235eef3c818a8faf26e891.svg" alt="Star" className="w-6 h-6" loading="lazy" decoding="async" />}
-        bulletIcon="/assets/0b40b5852870bd86ba33ba6078e2bd0b4b0b6bad.svg"
-        items={feedback.strengths}
-      />
-      <FeedbackColumn
-        title="Cần luyện thêm"
-        titleColor="#fea01f"
-        bgColor="#fef9ed"
-        borderColor="#ffdc64"
-        iconBorderColor="#ffdc64"
-        iconBgColor="#fea01f"
-        icon={<img width="20" height="18" src="/assets/a7de906b07dd2bfbe826ef5f3ae618e76bfa3ef3.svg" alt="Practice" className="w-6 h-6" loading="lazy" decoding="async" />}
-        bulletIcon="/assets/5ff06334161ed0621fed80bef95568a1a034d49f.svg"
-        items={feedback.practice}
-      />
+    <div className={`grid min-h-0 grid-cols-1 gap-4 ${colsClass} xl:gap-4 2xl:gap-5 ${className}`}>
+      {showStrengths && (
+        <FeedbackColumn
+          title="Điểm mạnh"
+          titleColor="#339e4a"
+          bgColor="#f2fbef"
+          borderColor="#9de4af"
+          iconBorderColor="#9de4af"
+          iconBgColor="#339e4a"
+          icon={<img width="21" height="21" src="/assets/781765e07dba9b19c7235eef3c818a8faf26e891.svg" alt="Star" className="w-6 h-6" loading="lazy" decoding="async" />}
+          bulletIcon="/assets/0b40b5852870bd86ba33ba6078e2bd0b4b0b6bad.svg"
+          items={feedback.strengths}
+        />
+      )}
+      {showPractice && (
+        <FeedbackColumn
+          title="Cần luyện thêm"
+          titleColor="#fea01f"
+          bgColor="#fef9ed"
+          borderColor="#ffdc64"
+          iconBorderColor="#ffdc64"
+          iconBgColor="#fea01f"
+          icon={<img width="20" height="18" src="/assets/a7de906b07dd2bfbe826ef5f3ae618e76bfa3ef3.svg" alt="Practice" className="w-6 h-6" loading="lazy" decoding="async" />}
+          bulletIcon="/assets/5ff06334161ed0621fed80bef95568a1a034d49f.svg"
+          items={feedback.practice}
+        />
+      )}
       <FeedbackColumn
         title="Gợi ý cho phụ huynh"
         titleColor="#0a7ad8"
