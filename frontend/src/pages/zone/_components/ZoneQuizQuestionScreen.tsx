@@ -30,7 +30,7 @@ export default function ZoneQuizQuestionScreen({
   return (
     <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-1 flex-col items-center justify-start gap-3 px-3 pb-3 pt-12 sm:gap-4 sm:px-5 sm:pb-5 sm:pt-12 lg:gap-4 overflow-visible">
       {/* Toro mascot reading book: ENLARGED & positioned nicely on left grass */}
-      <div className="zone-reading-mascot hidden xl:block absolute bottom-[16px] left-[5%] xl:left-[7%] z-10 w-[200px] xl:w-[240px] 2xl:w-[285px] pointer-events-none">
+      <div className="zone-reading-mascot hidden lg:block absolute bottom-[16px] left-[5%] lg:left-[7%] z-10 w-[200px] lg:w-[240px] 2xl:w-[285px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"

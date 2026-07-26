@@ -400,7 +400,7 @@ svg {
   overflow: hidden !important;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .zone-game-screen {
     display: grid !important;
     grid-template-columns: 280px minmax(0, 1fr) !important;

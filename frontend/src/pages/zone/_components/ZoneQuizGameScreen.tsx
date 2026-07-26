@@ -41,15 +41,15 @@ export default function ZoneQuizGameScreen({
 }: ZoneQuizGameScreenProps) {
   const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
   return (
-    <div className="zone-game-screen relative z-10 flex min-h-full w-full flex-col items-stretch justify-start gap-3 overflow-y-auto p-2.5 sm:p-4 xl:grid xl:h-full xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-6 xl:p-5 2xl:grid-cols-[300px_minmax(0,1fr)] 2xl:p-6">
-      {/* Sidebar - Side on XL screens, compact top/bottom on smaller screens */}
+    <div className="zone-game-screen relative z-10 flex min-h-full w-full flex-col items-stretch justify-start gap-3 overflow-y-auto p-2.5 sm:p-4 lg:grid lg:h-full lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-6 lg:p-5 2xl:grid-cols-[300px_minmax(0,1fr)] 2xl:p-6">
+      {/* Sidebar - Side on LG screens, compact top/bottom on smaller screens */}
       <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
 
       {/* Main Board Area */}
-      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 xl:gap-5">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 lg:gap-5">
         {/* Top Header Bar */}
         <div className="relative grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-center gap-1.5 px-0.5 sm:gap-3">
-          <div className="z-30 flex items-center gap-2 xl:self-start">
+          <div className="z-30 flex items-center gap-2 lg:self-start">
             <button
               onClick={onBack}
               className="flex min-h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition-all hover:bg-red-50 active:scale-95 sm:px-5 sm:py-2 sm:text-[16px]"
@@ -67,7 +67,7 @@ export default function ZoneQuizGameScreen({
             </h1>
             <div className="hidden items-center justify-center rounded-[1000px] border-2 border-[#339e4a] bg-[#f2fbef] p-1 shadow-sm min-[430px]:flex sm:p-1.5">
               <div className="border border-[#02522b] border-dashed px-[12px] sm:px-[20px] py-[3px] sm:py-[6px] rounded-[100px]">
-                <span className="font-baloo text-[14px] sm:text-[18px] xl:text-[20px] text-[#418457] font-bold text-center">
+                <span className="font-baloo text-[14px] sm:text-[18px] lg:text-[20px] text-[#418457] font-bold text-center">
                   Con đang cảm thấy gì
                 </span>
               </div>
@@ -78,9 +78,9 @@ export default function ZoneQuizGameScreen({
         </div>
 
         {/* Center Cards & Emotion Picker Area */}
-        <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 xl:gap-5 2xl:gap-6">
+        <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 lg:gap-5 2xl:gap-6">
           <div
-            className="zone-game-board z-20 grid w-full max-w-[59.375rem] grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 xl:max-w-[67.5rem] xl:gap-4 xl:p-5 2xl:max-w-[72.5rem] 2xl:p-6"
+            className="zone-game-board z-20 grid w-full max-w-[59.375rem] grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 lg:max-w-[67.5rem] lg:gap-4 lg:p-5 2xl:max-w-[72.5rem] 2xl:p-6"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (
@@ -104,7 +104,7 @@ export default function ZoneQuizGameScreen({
             ))}
           </div>
 
-          <div className="flex w-full max-w-[59.375rem] justify-center xl:max-w-[67.5rem] 2xl:max-w-[72.5rem]">
+          <div className="flex w-full max-w-[59.375rem] justify-center lg:max-w-[67.5rem] 2xl:max-w-[72.5rem]">
             <ZoneQuizEmotionPicker
               emotions={shuffledEmotions}
               placedEmotions={placedEmotions}
