@@ -42,8 +42,10 @@ export default function ZoneQuizGameScreen({
   const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
   return (
     <div className="zone-game-screen relative z-10 flex min-h-full w-full flex-col items-stretch justify-start gap-3 overflow-y-auto p-2.5 sm:p-4 lg:grid lg:h-full lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-6 lg:p-5 2xl:grid-cols-[300px_minmax(0,1fr)] 2xl:p-6">
-      {/* Sidebar - Side on LG screens, compact top/bottom on smaller screens */}
-      <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
+      {/* Sidebar - only shown on desktop/landscape (lg:block) */}
+      <div className="hidden lg:block shrink-0">
+        <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
+      </div>
 
       {/* Main Board Area */}
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3 lg:gap-5">
@@ -75,6 +77,11 @@ export default function ZoneQuizGameScreen({
           </div>
 
           <div className="flex min-w-[42px] shrink-0 justify-end sm:min-w-[110px]" />
+        </div>
+
+        {/* Guide box for mobile/tablet portrait (shown below header, horizontal layout) */}
+        <div className="block lg:hidden w-full max-w-[59.375rem] mt-1 shrink-0">
+          <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
         </div>
 
         {/* Center Cards & Emotion Picker Area */}

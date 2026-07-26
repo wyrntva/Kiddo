@@ -30,7 +30,7 @@ export default function ZoneQuizQuestionScreen({
   return (
     <div className="zone-question-screen relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-1 flex-col items-center justify-start gap-3 px-3 pb-3 pt-12 sm:gap-4 sm:px-5 sm:pb-5 sm:pt-12 lg:gap-4 overflow-visible">
       {/* Toro mascot reading book: ENLARGED & positioned nicely on left grass */}
-      <div className="zone-reading-mascot hidden lg:block absolute bottom-[16px] left-[5%] lg:left-[7%] z-10 w-[200px] lg:w-[240px] 2xl:w-[285px] pointer-events-none">
+      <div className="zone-desktop-mascot absolute bottom-[16px] left-[5%] lg:left-[7%] z-10 w-[200px] lg:w-[240px] 2xl:w-[285px] pointer-events-none">
         <img
           src={zoneQuizAssets.mascot}
           alt="Mascot"
@@ -82,7 +82,7 @@ export default function ZoneQuizQuestionScreen({
       </div>
 
       {/* 3 Answer Option Cards Grid: EXACT SAME max-w-[1300px] as question box! */}
-      <div className="zone-question-options grid w-full max-w-[1300px] grid-cols-3 items-stretch justify-between gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
+      <div className="zone-question-options grid w-full max-w-[1300px] grid-cols-3 items-center justify-between gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}
@@ -93,6 +93,15 @@ export default function ZoneQuizQuestionScreen({
             onSelect={onSelect}
           />
         ))}
+      </div>
+
+      {/* Mobile/Tablet Portrait Mascot: shown below answer options, sitting on the bottom grass */}
+      <div className="zone-mobile-reading-mascot w-[220px] sm:w-[300px] md:w-[420px] mt-4 mb-[50px] shrink-0 pointer-events-none">
+        <img
+          src={zoneQuizAssets.mascot}
+          alt="Mascot"
+          className="w-full h-auto object-contain"
+        />
       </div>
     </div>
   )

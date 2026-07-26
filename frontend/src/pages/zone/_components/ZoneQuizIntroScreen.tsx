@@ -16,7 +16,7 @@ export default function ZoneQuizIntroScreen({
   return (
     <div className="zone-lesson-narrative relative z-10 flex min-h-full flex-1 flex-col overflow-hidden">
       {/* Top action buttons */}
-      <div className="absolute right-[48px] top-[48px] z-30 flex items-center gap-3">
+      <div className="absolute right-[16px] top-[16px] sm:right-[32px] sm:top-[32px] lg:right-[48px] lg:top-[48px] z-30 flex items-center gap-2 sm:gap-3">
         {onSkip && (
           <button
             onClick={onSkip}
@@ -36,7 +36,7 @@ export default function ZoneQuizIntroScreen({
         </button>
       </div>
 
-      <div className="mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
+      <div className="zone-bubble-container relative z-20 mx-auto w-full max-w-[1400px] px-3 pt-14 sm:px-6 sm:pt-16">
         <div className="zone-lesson-bubble relative mx-auto flex w-full max-w-[900px] flex-col items-center justify-center gap-3 rounded-[28px] border-[3px] border-[#339E4A] bg-white px-4 py-5 text-center shadow-lg sm:rounded-[60px] sm:border-4 sm:px-10 sm:py-7">
           <p className="font-baloo text-[clamp(1.1rem,2.4vw,2.125rem)] font-bold leading-[1.5] text-[#001e2f]">
             {introText}

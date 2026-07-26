@@ -147,6 +147,100 @@ svg {
   z-index: 10 !important;
 }
 
+/* Narrative screens responsiveness */
+.zone-lesson-narrative {
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.zone-bubble-container {
+  padding-top: clamp(40px, 8vh, 120px) !important;
+}
+
+@media (max-width: 1199px) {
+  .zone-lesson-narrative {
+    justify-content: center !important;
+    gap: 16px !important;
+    padding: 16px !important;
+  }
+  .zone-bubble-container {
+    padding-top: 0 !important; /* Remove top padding when centering */
+    margin-top: auto !important;
+    margin-bottom: auto !important; /* Center speech bubble vertically in vertical space */
+  }
+  .zone-lesson-bubble {
+    max-width: 100% !important;
+    padding: 16px 20px !important;
+    border-radius: 24px !important;
+  }
+  .zone-lesson-bubble p {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+  .zone-lesson-bubble button {
+    font-size: 18px !important;
+    padding: 6px 24px !important;
+  }
+  .zone-lesson-mascot {
+    flex: 0 0 auto !important; /* Prevent stretching */
+    min-height: 120px !important;
+    margin-top: auto !important; /* Push mascot down to the bottom border */
+    margin-bottom: 0 !important;
+  }
+  .zone-lesson-mascot img {
+    max-height: clamp(180px, 28vh, 240px) !important; /* Enlarged mascot size on mobile/tablet portrait */
+    transform: scale(1.02) translateY(12px) !important; /* Shift down to sit flush against the grass border */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .zone-lesson-bubble {
+    padding: 24px 32px !important;
+    border-radius: 36px !important;
+  }
+  .zone-lesson-bubble p {
+    font-size: clamp(18px, 2.5vh, 24px) !important;
+    line-height: 1.45 !important;
+  }
+  .zone-lesson-bubble button {
+    font-size: 22px !important;
+    padding: 8px 32px !important;
+  }
+  .zone-lesson-mascot img {
+    max-height: clamp(240px, 32vh, 320px) !important; /* Larger mascot on iPad portrait */
+    transform: scale(1.04) translateY(12px) !important;
+  }
+}
+
+@media (max-height: 600px) {
+  .zone-lesson-mascot img {
+    max-height: clamp(80px, 30vh, 180px) !important;
+    transform: scale(1) translateY(6px) !important;
+  }
+  .zone-lesson-bubble {
+    padding: 12px 16px !important;
+  }
+  .zone-lesson-bubble p {
+    font-size: clamp(14px, 3.5vh, 18px) !important;
+    line-height: 1.4 !important;
+  }
+}
+
+@media (max-height: 480px) {
+  .zone-lesson-mascot img {
+    max-height: clamp(60px, 25vh, 120px) !important;
+    transform: scale(1) translateY(4px) !important;
+  }
+  .zone-lesson-bubble {
+    padding: 8px 12px !important;
+  }
+  .zone-lesson-bubble p {
+    font-size: clamp(12px, 4vh, 15px) !important;
+  }
+}
+
 /* Screen Wrapper inside Stage */
 .zone-question-screen {
   position: relative;
@@ -293,13 +387,76 @@ svg {
   gap: 12px !important;
   border-radius: 24px !important;
   background-color: #ffffff;
-  padding: 12px !important; /* Spaced exactly 12px from margins to make inner images larger */
+  padding: 8px !important; /* Spaced exactly 8px from margins to make inner images larger */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03) !important;
   transition: all 0.3s ease !important;
   cursor: pointer !important;
   aspect-ratio: 1 / 1 !important; /* Square card shape */
   height: clamp(130px, 33vh, 340px) !important; /* Slightly larger, height-responsive scaling */
   margin-inline: auto !important;
+}
+
+.zone-desktop-mascot {
+  display: block !important;
+}
+.zone-mobile-reading-mascot {
+  display: none !important;
+}
+
+@media (max-width: 1199px) {
+  .zone-desktop-mascot {
+    display: none !important;
+  }
+  .zone-mobile-reading-mascot {
+    display: block !important;
+  }
+  .zone-question-options {
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 4px !important;
+  }
+  .zone-question-option {
+    width: clamp(80px, 28vw, 220px) !important; /* Dynamic width based on viewport width */
+    height: auto !important; /* Let height follow aspect-ratio */
+    aspect-ratio: 1 / 1 !important;
+    padding: 8px !important; /* Thinner padding on mobile/tablet to make image larger */
+    border-radius: 16px !important;
+  }
+  .zone-question-image {
+    width: 100% !important;
+    height: auto !important; /* Scale height by aspect ratio to prevent circular stretching */
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 12px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .zone-question-prompt-box {
+    padding: 16px 28px !important;
+    border-radius: 24px !important;
+  }
+  .zone-question-index-text {
+    font-size: 20px !important;
+  }
+  .zone-question-prompt-text {
+    font-size: 20px !important;
+    line-height: 1.5 !important;
+  }
+  .zone-question-options {
+    gap: clamp(12px, 2vw, 20px) !important;
+    max-width: 1100px !important;
+  }
+  .zone-question-option {
+    width: clamp(140px, 26vw, 260px) !important; /* Scale cards smoothly based on viewport width */
+    padding: 12px !important;
+    border-radius: 24px !important;
+  }
+  .zone-question-image {
+    border-radius: 16px !important;
+  }
+  .zone-mobile-reading-mascot {
+    width: clamp(250px, 35vw, 360px) !important; /* Scale Toro smoothly to fit narrower iPad Air screens */
+  }
 }
 
 .zone-question-option:hover {
@@ -334,7 +491,7 @@ svg {
   position: relative !important;
   aspect-ratio: 1.125 / 1 !important;
   width: auto !important;
-  height: clamp(45px, 8.5vh, 110px) !important; /* Slightly enlarged slot */
+  height: clamp(45px, 8.5vh, 110px) !important; /* Default for desktop/landscape */
   margin-inline: auto !important;
 }
 
@@ -342,10 +499,26 @@ svg {
   position: relative !important;
   aspect-ratio: 1 / 1 !important;
   width: auto !important;
-  height: clamp(90px, 16vh, 200px) !important; /* Large mascot characters for maximum visibility */
+  height: clamp(90px, 16vh, 200px) !important; /* Default for desktop/landscape */
   margin-inline: auto !important;
   overflow: hidden !important;
   border-radius: 16px !important;
+}
+
+@media (max-width: 1199px) {
+  .cloud-slot-container {
+    width: 50% !important;
+    height: auto !important; /* Scale dynamically to keep 1.125:1 aspect ratio */
+  }
+  .mascot-container {
+    width: 65% !important;
+    height: auto !important; /* Scale dynamically to keep 1:1 aspect ratio */
+  }
+  .zone-game-board {
+    padding: 8px !important;
+    gap: 8px !important;
+    align-items: center !important; /* Stop stretching items vertically */
+  }
 }
 
 /* Mascot Toro Positioned at Tree Base */
@@ -418,7 +591,7 @@ svg {
   width: 100% !important;
   max-width: 880px !important; /* Compact default for standard desktops / 125% scale settings */
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  align-items: stretch !important;
+  align-items: center !important;
   justify-content: center !important;
   gap: 12px !important; /* Compact gap */
   border-radius: 24px !important;
@@ -438,15 +611,15 @@ svg {
 .zone-emotion-picker {
   display: grid !important;
   width: auto !important;
-  max-width: 680px !important;
+  max-width: 100% !important;
   grid-template-columns: repeat(4, auto) !important;
   align-items: start !important;
   justify-content: center !important;
-  gap: 48px !important;
-  border-radius: 24px !important;
+  gap: 12px !important; /* Mobile gap */
+  border-radius: 20px !important;
   border: 1px solid #c4c9d4 !important;
   background-color: #ffffff;
-  padding: 10px 24px 6px 24px !important; /* Even thinner padding to shrink card further */
+  padding: 10px 12px 6px 12px !important; /* Mobile padding */
   box-shadow: 0 8px 24px rgba(0, 76, 110, 0.14) !important;
 }
 
@@ -454,24 +627,51 @@ svg {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: 6px !important; /* Minimal text-to-icon gap for a compact card */
+  gap: 6px !important; /* Mobile text-to-icon gap */
 }
 
 .zone-emotion-picker img {
-  max-height: clamp(85px, 12.5vh, 120px) !important; /* Enlarged cloud icons kept large */
+  max-height: clamp(50px, 8vh, 75px) !important; /* Mobile icon size */
   width: auto !important;
   object-fit: contain !important;
   margin-inline: auto !important;
 }
 
+@media (min-width: 768px) {
+  .zone-emotion-picker {
+    gap: 24px !important; /* Tablet portrait gap */
+    padding: 16px 20px 8px 20px !important; /* Tablet portrait padding */
+    border-radius: 24px !important;
+  }
+  .zone-emotion-picker > div {
+    gap: 12px !important; /* Tablet portrait text-to-icon gap */
+  }
+  .zone-emotion-picker img {
+    max-height: clamp(65px, 10vh, 90px) !important; /* Tablet portrait icon size */
+  }
+}
+
+@media (min-width: 1024px) {
+  .zone-emotion-picker {
+    gap: 48px !important; /* Desktop/Landscape gap */
+    padding: 16px 24px 10px 24px !important; /* Desktop/Landscape padding */
+  }
+  .zone-emotion-picker > div {
+    gap: 24px !important; /* Desktop/Landscape text-to-icon gap */
+  }
+  .zone-emotion-picker img {
+    max-height: clamp(85px, 12.5vh, 120px) !important; /* Desktop/Landscape icon size */
+  }
+}
+
 @media (min-width: 1600px) {
   .zone-emotion-picker {
-    max-width: 840px !important; /* Full width only on 100% scale displays */
-    padding: 10px 24px 6px 24px !important;
+    max-width: 840px !important;
+    padding: 16px 24px 10px 24px !important;
     gap: 48px !important;
   }
   .zone-emotion-picker img {
-    max-height: 100px !important; /* Default size on huge screens */
+    max-height: 100px !important;
   }
 }
 
@@ -839,4 +1039,61 @@ svg {
 .zone-success-modal .flex.w-full.flex-col.items-stretch button svg {
   width: clamp(18px, 2.5vh, 22px) !important;
   height: clamp(18px, 2.5vh, 22px) !important;
+}
+
+/* Question Screen height-responsive scaling for landscape viewports */
+@media (max-height: 600px) {
+  .zone-question-screen {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    gap: 8px !important;
+  }
+  .zone-question-header-container {
+    margin-bottom: 0px !important;
+  }
+  .zone-question-header-container > div.flex {
+    margin-bottom: 8px !important;
+  }
+  .zone-question-header-container button {
+    padding: 6px 16px !important;
+    font-size: 14px !important;
+  }
+  .zone-question-prompt-box {
+    padding: 8px 16px !important;
+    border-radius: 16px !important;
+  }
+  .zone-question-prompt-text {
+    font-size: clamp(13px, 4.5vh, 18px) !important;
+    line-height: 1.4 !important;
+  }
+  .zone-question-index-text {
+    font-size: clamp(14px, 5vh, 20px) !important;
+  }
+  .zone-question-options {
+    margin-top: 4px !important;
+    gap: 8px !important;
+  }
+  .zone-question-option {
+    height: clamp(80px, 33vh, 160px) !important;
+    padding: 8px !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* Game screen landscape scaling for short viewport heights */
+@media (max-height: 520px) and (orientation: landscape) {
+  .zone-game-screen {
+    padding: 8px !important;
+    gap: 8px !important;
+  }
+  .zone-game-screen h1 {
+    font-size: clamp(20px, 6vh, 28px) !important;
+  }
+  .zone-game-screen .zone-game-sidebar {
+    padding: 6px 12px !important;
+  }
+  .zone-game-screen .zone-game-sidebar button {
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+  }
 }
