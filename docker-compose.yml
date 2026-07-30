@@ -40,6 +40,8 @@ services:
       GA4_CLIENT_EMAIL: ${GA4_CLIENT_EMAIL:-}
       GA4_PRIVATE_KEY: ${GA4_PRIVATE_KEY:-}
       GA4_MOCK: ${GA4_MOCK:-true}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
     ports:
       - "5000:5000"
     volumes:

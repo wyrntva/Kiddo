@@ -47,6 +47,14 @@ function LegacyEmotionLessonRedirect() {
   return <Navigate to={`/zone/emotions/lesson/${id ?? ''}`} replace />
 }
 
+const CHATBOT_PATHS = new Set(['/', '/explore', '/courses', '/diary', '/parents'])
+
+function ChatbotForAllowedPages() {
+  const { pathname } = useLocation()
+
+  return CHATBOT_PATHS.has(pathname) ? <FloatingChatbot /> : null
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -80,7 +88,7 @@ function App() {
             <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
             <Route path="*"        element={<NotFoundPage />} />
           </Routes>
-          <FloatingChatbot />
+          <ChatbotForAllowedPages />
         </Suspense>
       </BrowserRouter>
     </AuthProvider>
