@@ -12,6 +12,7 @@ html {
   font-size: 16px;
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 html,
@@ -1096,4 +1097,108 @@ svg {
     padding: 4px 10px !important;
     font-size: 11px !important;
   }
+}
+
+/* Diary page height responsive scaling */
+@media (min-width: 1536px) and (min-height: 900px) {
+  .diary-page-container {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  .diary-sidebar-card {
+    height: 100% !important;
+  }
+  .diary-footer-wrapper {
+    display: none !important;
+  }
+}
+
+/* Diary carousel cards scaling */
+.diary-lesson-carousel-container {
+  display: flex !important;
+  width: 100% !important;
+  gap: 16px !important;
+}
+.diary-carousel-card {
+  width: 210px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (min-width: 640px) {
+  .diary-carousel-card {
+    width: 230px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .diary-lesson-carousel-container {
+    gap: 20px !important;
+  }
+  .diary-carousel-card {
+    /* Display exactly 4 cards per row */
+    width: calc((100% - 60px) / 4) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .diary-lesson-carousel-container {
+    gap: 24px !important;
+  }
+  .diary-carousel-card {
+    /* Display exactly 4 cards per row with 24px gap */
+    width: calc((100% - 72px) / 4) !important;
+  }
+}
+
+@media (min-width: 1900px) {
+  .diary-lesson-carousel-container {
+    gap: 24px !important;
+  }
+  .diary-carousel-card {
+    /* Display exactly 5 cards per row on full wide desktop */
+    width: calc((100% - 96px) / 5) !important;
+  }
+}
+
+/* ===== News Article Content - Override inline button colors to orange ===== */
+.news-article-content a[style*="background"],
+.news-article-content a[style*="Background"] {
+  background-color: #fea01f !important;
+  background: #fea01f !important;
+  border-color: #fea01f !important;
+  color: #fff !important;
+  transition: filter 0.2s ease;
+}
+
+.news-article-content a[style*="background"]:hover,
+.news-article-content a[style*="Background"]:hover {
+  filter: brightness(1.08);
+}
+
+.news-article-content button,
+.news-article-content input[type="button"],
+.news-article-content input[type="submit"],
+.news-article-content [role="button"] {
+  background-color: #fea01f !important;
+  background: #fea01f !important;
+  border-color: #fea01f !important;
+  color: #fff !important;
+  transition: filter 0.2s ease;
+}
+
+.news-article-content button:hover,
+.news-article-content input[type="button"]:hover,
+.news-article-content input[type="submit"]:hover,
+.news-article-content [role="button"]:hover {
+  filter: brightness(1.08);
+}
+
+/* Also override any inline span/div styled as buttons */
+.news-article-content span[style*="background-color"],
+.news-article-content div[style*="background-color"],
+.news-article-content p[style*="background-color"],
+.news-article-content td[style*="background-color"] {
+  background-color: #fea01f !important;
+  background: #fea01f !important;
 }

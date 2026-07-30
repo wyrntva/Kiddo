@@ -107,12 +107,12 @@ export default function DiaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col xl:min-h-dvh xl:h-auto 2xl:h-[100dvh] 2xl:overflow-hidden">
+    <div className="min-h-screen bg-[#F3F9FC] font-vietnam flex flex-col xl:min-h-dvh xl:h-auto diary-page-container">
       <SEO title="Nhật ký học tập" noindex={true} />
       <Navbar />
 
       <main className="mx-auto flex min-h-0 w-full max-w-[1920px] flex-1 flex-col gap-4 px-3 py-4 sm:gap-5 sm:px-4 md:px-6 md:py-6 xl:flex-row xl:gap-5 xl:px-6 xl:py-4 2xl:gap-6 2xl:px-12 2xl:py-4">
-        <div className="relative flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-[20px] bg-[#fef9ed] p-3 pb-[72px] sm:gap-5 sm:rounded-[24px] sm:p-5 sm:pb-[80px] xl:w-[340px] xl:gap-5 xl:p-4 xl:pb-6 2xl:h-full 2xl:w-[414px] 2xl:gap-6 2xl:p-5">
+        <div className="relative flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-[20px] bg-[#fef9ed] p-3 pb-[72px] sm:gap-5 sm:rounded-[24px] sm:p-5 sm:pb-[80px] xl:w-[340px] xl:gap-5 xl:p-4 xl:pb-6 2xl:w-[414px] 2xl:gap-6 2xl:p-5 diary-sidebar-card">
           <DiaryProfileCard babyAvatar={babyAvatar} babyName={babyName} babyAge={babyAge} />
           <DiaryProgressSidebar
             islands={ISLANDS}
@@ -138,7 +138,7 @@ export default function DiaryPage() {
         </div>
       </main>
 
-      <div className="block 2xl:hidden">
+      <div className="diary-footer-wrapper">
         <Footer />
       </div>
     </div>

@@ -22,7 +22,9 @@ function isTokenExpired(token: string): boolean {
 export interface AuthUser {
   id: string
   name: string
+  parentName?: string
   email: string
+  phone?: string
   gender?: 'MALE' | 'FEMALE' | 'OTHER'
   childAge?: number
   role: string
@@ -56,6 +58,14 @@ interface AuthContextType {
   register: (data: RegisterData) => Promise<void>
   logout: () => Promise<void>
   upgradeSubscription: () => Promise<void>
+  updateProfile: (data: {
+    name?: string
+    parentName?: string
+    phone?: string
+    gender?: 'MALE' | 'FEMALE' | 'OTHER'
+    childAge?: number
+    avatar?: string
+  }) => Promise<void>
 }
 
 interface GoogleProfileData {
@@ -222,8 +232,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     persistSession(accessToken, data.user)
   }
 
+  async function updateProfile(data: {
+    name?: string
+    parentName?: string
+    phone?: string
+    gender?: 'MALE' | 'FEMALE' | 'OTHER'
+    childAge?: number
+    avatar?: string
+  }) {
+    if (!accessToken) return
+    const response = await fetch(`${API_URL}/api/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    })
+    const resData = await response.json()
+    if (!response.ok) throw new Error(resData.message || 'Không thể cập nhật thông tin cá nhân')
+    persistSession(accessToken, resData.user)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout, upgradeSubscription }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout, upgradeSubscription, updateProfile }}>
       {children}
     </AuthContext.Provider>
   )

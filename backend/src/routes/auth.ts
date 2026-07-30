@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
+import { createImageUpload } from '../lib/imageUpload'
 import crypto from 'crypto'
 import { OAuth2Client } from 'google-auth-library'
 import { z } from 'zod'
@@ -9,6 +10,7 @@ import { authenticate, AuthRequest } from '../middleware/authMiddleware'
 
 const router = Router()
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+const avatarUpload = createImageUpload('avatars')
 const REFRESH_COOKIE = 'kiddo_refresh'
 const REFRESH_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
@@ -455,4 +457,113 @@ router.post('/upgrade', authenticate, async (req: AuthRequest, res: Response): P
   }
 })
 
+// PUT /api/auth/profile - Update user profile details
+router.put('/profile', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  const { name, parentName, phone, gender, childAge, avatar } = req.body
+
+  try {
+    const updateData: any = {}
+    if (name !== undefined) updateData.name = name.trim()
+    if (parentName !== undefined) updateData.parentName = parentName.trim()
+    if (phone !== undefined) updateData.phone = phone.trim()
+    if (gender !== undefined) {
+      if (['MALE', 'FEMALE', 'OTHER'].includes(gender)) {
+        updateData.gender = gender
+      }
+    }
+    if (childAge !== undefined) {
+      const ageNum = Number(childAge)
+      if (!isNaN(ageNum)) {
+        updateData.childAge = ageNum
+      }
+    }
+    if (avatar !== undefined) updateData.avatar = avatar.trim()
+
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user!.userId },
+      data: updateData,
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        role: true,
+        avatar: true,
+        level: true,
+        stars: true,
+        badges: true,
+        lessonsCompleted: true,
+        weeklyProgress: true,
+        isPaid: true,
+      },
+    })
+
+    res.json({
+      message: 'Cập nhật thông tin cá nhân thành công',
+      user: updatedUser,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể cập nhật thông tin cá nhân' })
+  }
+})
+
+// POST /api/auth/profile/avatar - Upload custom avatar image
+router.post('/profile/avatar', authenticate, avatarUpload.single('avatar'), async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ message: 'Vui lòng chọn file ảnh hợp lệ' })
+      return
+    }
+
+    const avatarUrl = `/uploads/avatars/${req.file.filename}`
+    res.json({
+      message: 'Tải ảnh đại diện thành công',
+      avatarUrl,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể tải ảnh đại diện lên server' })
+  }
+})
+
+// PUT /api/auth/profile/password - Change password for logged-in user
+router.put('/profile/password', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  const { oldPassword, newPassword } = req.body
+  if (!oldPassword || !newPassword) {
+    res.status(400).json({ message: 'Vui lòng nhập đầy đủ mật khẩu cũ và mới' })
+    return
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user!.userId },
+    })
+
+    if (!user) {
+      res.status(404).json({ message: 'Người dùng không tồn tại' })
+      return
+    }
+
+    if (user.password) {
+      const isValid = await bcrypt.compare(oldPassword, user.password)
+      if (!isValid) {
+        res.status(400).json({ message: 'Mật khẩu cũ không chính xác' })
+        return
+      }
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12)
+    await prisma.user.update({
+      where: { id: req.user!.userId },
+      data: { password: hashedPassword },
+    })
+
+    res.json({ message: 'Đổi mật khẩu thành công' })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể đổi mật khẩu' })
+  }
+})
+
 export default router
+
+

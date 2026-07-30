@@ -101,6 +101,10 @@ export default function Navbar() {
               onToggleDropdown={() => setDropdownOpen((value) => !value)}
               onLogout={handleLogout}
               onLogin={() => navigate('/login')}
+              onNavigateToProfile={() => {
+                setDropdownOpen(false)
+                navigate('/profile')
+              }}
             />
 
             <button

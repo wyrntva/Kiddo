@@ -138,13 +138,13 @@ export default function PricingSection() {
 
   return (
     <section className="w-full pt-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full justify-center">
         {plans.map((plan) => {
           const styles = getPlanStyles(plan.key)
           return (
             <div 
               key={plan.id} 
-              className={`relative rounded-[24px] ${styles.bgClass} ${styles.borderClass} ${plan.isPopular ? 'border-4 border-[#fea01f]' : ''} p-4 sm:p-5 lg:p-6 flex flex-col gap-5 lg:gap-6 items-center justify-between shadow-sm w-full md:max-w-none mx-auto`}
+              className={`relative rounded-[24px] ${styles.bgClass} ${styles.borderClass} ${plan.isPopular ? 'border-4 border-[#fea01f]' : ''} p-4 sm:p-5 lg:p-6 flex flex-col gap-5 lg:gap-6 items-center justify-between shadow-sm w-full max-w-[400px] lg:max-w-none mx-auto`}
             >
               {/* popular badge */}
               {plan.isPopular && (

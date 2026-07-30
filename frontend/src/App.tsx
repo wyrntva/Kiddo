@@ -15,6 +15,7 @@ const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
 const ParentArticlePage = lazy(() => import('./pages/parents/ParentArticlePage'))
 const TermsPage     = lazy(() => import('./pages/terms/TermsPage'))
+const ProfilePage     = lazy(() => import('./pages/profile/ProfilePage'))
 const ZoneCamXucPage = lazy(() => import('./pages/zone/ZoneCamXucPage'))
 const ZoneGiaoTiepPage = lazy(() => import('./pages/zone/ZoneGiaoTiepPage'))
 const ZoneTuLapPage = lazy(() => import('./pages/zone/ZoneTuLapPage'))
@@ -70,6 +71,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/google-onboarding" element={<GoogleOnboardingPage />} />
             <Route path="/diary"   element={<ProtectedRoute><DiaryPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="/parents" element={<ParentsPage />} />
             <Route path="/parents/articles/:slug" element={<ParentArticlePage />} />
             <Route path="/terms" element={<TermsPage />} />

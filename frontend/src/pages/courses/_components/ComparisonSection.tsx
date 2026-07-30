@@ -61,26 +61,26 @@ function StatusIcon({ active }: { active: boolean }) {
 export default function ComparisonSection() {
   return (
     <section className="w-full">
-      <div className="lg:hidden border-4 border-[#fea01f] rounded-[24px] p-3 bg-white">
-        <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr] gap-1.5">
+      <div className="lg:hidden border-4 border-[#fea01f] rounded-[24px] p-3 sm:p-5 bg-white">
+        <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr] gap-1.5 sm:gap-3">
           {/* Column 1: Quyền lợi */}
           <div className="flex flex-col gap-4 pt-2">
-            <div className="bg-[#fea01f] text-white font-vietnam font-bold text-[9px] min-[360px]:text-[10px] py-3 px-1 rounded-[40px] text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
+            <div className="bg-[#fea01f] text-white font-vietnam font-bold text-[9px] min-[360px]:text-[10px] sm:text-[14px] py-3 px-1 rounded-[40px] text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
               QUYỀN LỢI HỌC TẬP
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
               {features.map((feature) => (
-                <div key={feature.title} className="flex gap-1.5 items-center py-2 h-[68px]">
-                  <div className={`${feature.iconBg} p-1 rounded-[100px] shrink-0`}>
+                <div key={feature.title} className="flex gap-1.5 sm:gap-2.5 items-center py-2 h-[68px]">
+                  <div className={`${feature.iconBg} p-1 sm:p-1.5 rounded-[100px] shrink-0`}>
                     <img
                       alt=""
-                      className="w-4 h-4 object-contain"
+                      className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
                       src={feature.icon}
                       loading="lazy" decoding="async"
                     />
                   </div>
-                  <span className="font-vietnam font-medium text-[11px] text-black leading-snug">
+                  <span className="font-vietnam font-medium text-[11px] sm:text-[15px] text-black leading-snug">
                     {feature.title}
                   </span>
                 </div>
@@ -89,8 +89,8 @@ export default function ComparisonSection() {
           </div>
 
           {/* Column 2: Miễn phí */}
-          <div className="bg-[#fef9ed] rounded-[16px] px-2 pt-2 pb-2 flex flex-col gap-4">
-            <div className="text-[#0a7ad8] font-vietnam font-bold text-[9px] min-[360px]:text-[10px] py-1 text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
+          <div className="bg-[#fef9ed] rounded-[16px] px-2 pt-2 pb-2 sm:px-3 sm:pt-4 sm:pb-3 flex flex-col gap-4">
+            <div className="text-[#0a7ad8] font-vietnam font-bold text-[9px] min-[360px]:text-[10px] sm:text-[14px] py-1 text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
               MIỄN PHÍ
             </div>
 
@@ -104,8 +104,8 @@ export default function ComparisonSection() {
           </div>
 
           {/* Column 3: Trả phí */}
-          <div className="bg-[#fef9ed] border-2 border-[#339e4a] rounded-[16px] px-2 pt-[6px] pb-[6px] flex flex-col gap-4">
-            <div className="text-[#339e4a] font-vietnam font-bold text-[9px] min-[360px]:text-[10px] py-1 text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
+          <div className="bg-[#fef9ed] border-2 border-[#339e4a] rounded-[16px] px-2 pt-[6px] pb-[6px] sm:px-3 sm:pt-[12px] sm:pb-[10px] flex flex-col gap-4">
+            <div className="text-[#339e4a] font-vietnam font-bold text-[9px] min-[360px]:text-[10px] sm:text-[14px] py-1 text-center min-h-[38px] flex items-center justify-center whitespace-nowrap">
               TRẢ PHÍ
             </div>
 

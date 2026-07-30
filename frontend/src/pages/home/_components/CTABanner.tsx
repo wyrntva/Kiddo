@@ -51,7 +51,7 @@ export default function CTABanner() {
         </div>
 
         {/* Center Side: Text and Buttons Content */}
-        <div className="flex-1 w-full text-center lg:px-[260px] lg:py-[12px] z-10">
+        <div className="flex-1 w-full text-center lg:px-[12%] xl:px-[20%] lg:py-[12px] z-10">
           <div className="flex flex-col gap-[12px] items-center w-full">
             <h2 className="font-baloo text-[24px] sm:text-[32px] text-[#004c6e] leading-[36px] sm:leading-[56px] font-bold px-1">
               Bắt đầu hành trình tuyệt vời cùng OTTOPIA!

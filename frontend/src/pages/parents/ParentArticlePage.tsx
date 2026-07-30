@@ -83,7 +83,7 @@ export default function ParentArticlePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#001e2f]/35 via-transparent to-transparent" />
             </div>
 
-            <article className="relative z-10 mx-4 -mt-8 max-w-[1824px] rounded-[20px] border border-[#e2e2ea] bg-white px-5 py-7 shadow-[0_12px_40px_rgba(0,76,110,0.12)] sm:mx-6 sm:px-8 md:-mt-14 md:rounded-[24px] md:px-10 md:py-10 lg:mx-auto lg:-mt-[180px] lg:px-12">
+            <article className="relative z-10 w-[calc(100%-32px)] sm:w-[calc(100%-48px)] xl:w-[calc(100%-96px)] max-w-[1824px] mx-auto -mt-8 rounded-[20px] border border-[#e2e2ea] bg-white px-5 py-7 shadow-[0_12px_40px_rgba(0,76,110,0.12)] sm:px-8 md:-mt-14 md:rounded-[24px] md:px-10 md:py-10 lg:-mt-[80px] xl:-mt-[140px] 2xl:-mt-[180px] lg:px-12">
               <Link to="/parents" className="mb-5 inline-flex items-center gap-2 text-[15px] font-medium text-[#0a7ad8] hover:underline">
                 ← Dành cho phụ huynh
               </Link>
@@ -99,13 +99,13 @@ export default function ParentArticlePage() {
               </div>
               <p className="mt-7 text-[17px] font-medium leading-8 text-[#575e70]">{article.excerpt}</p>
               <div
-                className="mt-7 text-[16px] leading-8 text-[#37393e] [&_h1]:mb-4 [&_h1]:font-baloo [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:mb-3 [&_h2]:mt-7 [&_h2]:font-baloo [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-[#004c6e] [&_img]:my-6 [&_img]:max-w-full [&_img]:rounded-xl [&_li]:ml-6 [&_ol]:list-decimal [&_p]:mb-5 [&_ul]:list-disc"
+                className="news-article-content mt-7 text-[16px] leading-8 text-[#37393e] [&_h1]:mb-4 [&_h1]:font-baloo [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:mb-3 [&_h2]:mt-7 [&_h2]:font-baloo [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-[#004c6e] [&_img]:my-6 [&_img]:max-w-full [&_img]:rounded-xl [&_li]:ml-6 [&_ol]:list-decimal [&_p]:mb-5 [&_ul]:list-disc"
                 dangerouslySetInnerHTML={{ __html: article.content.join('') }}
               />
             </article>
 
             {relatedArticles.length > 0 && (
-              <section className="mx-4 mt-8 max-w-[1824px] sm:mx-6 md:mt-10 lg:mx-auto">
+              <section className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] xl:w-[calc(100%-96px)] max-w-[1824px] mx-auto mt-8 md:mt-10">
                 <h2 className="mb-6 font-baloo text-[26px] font-bold uppercase italic text-[#001e2f] sm:text-[32px]">
                   Bài viết liên quan
                 </h2>

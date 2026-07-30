@@ -79,7 +79,7 @@ export default function LoginPage() {
           <p>cùng OTTOPIA</p>
         </>
       }
-      cardClassName="gap-6 md:gap-10 p-6 md:p-12"
+      cardClassName="gap-6 md:gap-10 p-4 sm:p-6 md:p-12"
     >
       {error && (
         <div className="w-full bg-red-50 border border-red-200 rounded-[12px] px-4 py-3 text-red-600 text-sm font-vietnam -mt-4">

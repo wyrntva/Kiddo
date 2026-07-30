@@ -64,7 +64,7 @@ export default function GoogleOnboardingPage() {
       subtitle="Chỉ còn một bước để bắt đầu hành trình cùng bé"
       cardTitle="Hoàn tất thông tin"
       cardDescription={<p>Vui lòng bổ sung thông tin của bé và phụ huynh</p>}
-      cardClassName="gap-5 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10"
+      cardClassName="gap-5 md:gap-8 p-4 sm:p-6 md:p-8 lg:p-10"
     >
       {error && (
         <div className="w-full bg-red-50 border border-red-200 rounded-[12px] px-4 py-3 text-red-600 text-sm font-vietnam">

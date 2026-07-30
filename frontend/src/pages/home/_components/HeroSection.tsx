@@ -10,7 +10,7 @@ export default function HeroSection() {
 
   return (
     <section className="w-full">
-      <div className="relative isolate w-full overflow-hidden rounded-[16px] bg-[#bfeaff] shadow-[0_6px_18px_rgba(0,76,110,0.12)] aspect-[1824/650] md:rounded-[20px]">
+      <div className="relative isolate w-full overflow-hidden rounded-[16px] bg-[#bfeaff] shadow-[0_6px_18px_rgba(0,76,110,0.12)] aspect-[1824/650] min-h-[160px] sm:min-h-0 md:rounded-[20px]">
         <div className="absolute inset-0 pointer-events-none select-none">
           <img
             src={imgBg}
@@ -24,7 +24,7 @@ export default function HeroSection() {
         </div>
 
         <div
-          className="absolute hidden sm:block select-none pointer-events-none z-10 w-[42%] lg:w-[48%] h-auto right-[1%] bottom-[0%]"
+          className="absolute select-none pointer-events-none z-10 w-[42%] lg:w-[48%] h-auto right-[1%] bottom-[0%]"
           style={{
             top: '12%',
           }}
@@ -42,7 +42,7 @@ export default function HeroSection() {
 
         <button
           onClick={scrollToAdventureMap}
-          className="absolute hidden sm:flex bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white items-center justify-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-[14px] sm:py-[7px] lg:px-[24px] lg:py-[12px] xl:px-[28px] xl:py-[14px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
+          className="absolute flex bg-gradient-to-r from-[#fd6907] to-[#fea01f] hover:from-[#ea580c] hover:to-[#f97316] text-white items-center justify-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-[14px] sm:py-[7px] lg:px-[24px] lg:py-[12px] xl:px-[28px] xl:py-[14px] rounded-[40px] border border-white border-solid shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer z-20"
           style={{
             left: '32.2%',
             top: '78%',
