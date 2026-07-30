@@ -1,7 +1,7 @@
 node_modules
 dist
-cms
+cms/node_modules
+cms/dist
 uploads
 .env
-.git
 npm-debug.log*
