@@ -153,7 +153,7 @@ router.get('/', (req, res) => {
 
   if (mode === 'subscribe' && token === verifyToken) {
     console.log('Facebook Webhook verified successfully!')
-    res.status(200).send(challenge)
+    res.status(200).set('Content-Type', 'text/plain').send(challenge)
   } else {
     console.warn('Facebook Webhook verification failed. Tokens do not match.')
     res.sendStatus(403)
