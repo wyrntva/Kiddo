@@ -65,4 +65,8 @@ services:
 
 volumes:
   postgres_data:
+    external: true
+    name: kiddo_postgres_data
   backend_uploads:
+    external: true
+    name: kiddo_backend_uploads
