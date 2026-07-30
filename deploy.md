@@ -32,29 +32,36 @@ curl -fsSL https://get.docker.com | sh
 ### 2. Clone repo
 
 ```bash
-git clone https://github.com/wyrntva/Kiddo.git /www/wwwroot/kiddo
-cd /www/wwwroot/kiddo
+git clone https://github.com/wyrntva/Kiddo.git /www/wwwroot/cms.ottopia.vn
+cd /www/wwwroot/cms.ottopia.vn
 ```
 
-### 3. Tạo file `.env` cho backend
+### 3. Tạo file `.env` tại thư mục gốc
 
 ```bash
-cat > /www/wwwroot/kiddo/backend/.env << 'EOF'
-DATABASE_URL="postgresql://kiddo:kiddo_password@db:5432/kiddo_db"
+cat > /www/wwwroot/cms.ottopia.vn/.env << 'EOF'
+POSTGRES_PASSWORD="kiddo_password"
 JWT_ACCESS_SECRET="your-secret-here"
 JWT_REFRESH_SECRET="your-refresh-secret-here"
-JWT_ACCESS_EXPIRES_IN="15m"
-JWT_REFRESH_EXPIRES_IN="7d"
-PORT=5000
-NODE_ENV=production
-CLIENT_URL="https://ottopia.vn"
+CLIENT_URL="http://ottopia.vn,https://ottopia.vn,https://cms.ottopia.vn"
+GOOGLE_CLIENT_ID="21158134674-9htgtdc8j7411ca94m8pfcebcco0nq84.apps.googleusercontent.com"
+GA4_PROPERTY_ID="546422418"
+GA4_CLIENT_EMAIL="ottopia-analytics-reader@exalted-crane-499111-d6.iam.gserviceaccount.com"
+GA4_PRIVATE_KEY="your-ga4-private-key"
+GA4_MOCK="false"
+
+# AI Assistant & Facebook Webhook configuration
+OPENAI_API_KEY="your-openai-api-key"
+OPENAI_MODEL="gpt-4o-mini"
+FACEBOOK_VERIFY_TOKEN="ottopia_toro_verify_token_2026"
+FACEBOOK_PAGE_ACCESS_TOKEN=""
 EOF
 ```
 
 ### 4. Build và khởi động containers
 
 ```bash
-cd /www/wwwroot/kiddo
+cd /www/wwwroot/cms.ottopia.vn
 docker compose -f docker-compose.prod.yml up --build -d
 ```
 
@@ -122,7 +129,7 @@ Reload nginx:
 Đây là quy trình cập nhật khi code thay đổi:
 
 ```bash
-cd /www/wwwroot/kiddo
+cd /www/wwwroot/cms.ottopia.vn
 
 # Pull code mới
 git pull origin main
