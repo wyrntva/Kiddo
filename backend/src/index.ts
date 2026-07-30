@@ -16,6 +16,8 @@ import storeSettingsRouter from './routes/storeSettings'
 import analyticsRouter from './routes/analytics'
 import subscriptionPlansRouter from './routes/subscriptionPlans'
 import progressRouter from './routes/progress'
+import chatRouter from './routes/chat'
+import facebookWebhookRouter from './routes/facebookWebhook'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -102,6 +104,14 @@ app.use('/api/store-settings', storeSettingsRouter)
 app.use('/api/analytics', analyticsRouter)
 app.use('/api/subscription-plans', subscriptionPlansRouter)
 app.use('/api/progress', progressRouter)
+app.use('/api/chat', rateLimit({
+  windowMs: 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { message: 'Bạn gửi quá nhanh, vui lòng thử lại sau một phút' },
+}), chatRouter)
+app.use('/api/webhook/facebook', facebookWebhookRouter)
 
 // Mock roles API
 app.get('/api/roles', (_req, res) => {
