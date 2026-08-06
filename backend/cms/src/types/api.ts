@@ -73,6 +73,10 @@ export interface PoolArenaUser {
     points?: number;
     parent_name?: string | null;
     is_paid: boolean;
+    is_pending_paid?: boolean;
+    paid_until?: string | null;
+    subscription_plan_id?: string | null;
+    pending_plan_id?: string | null;
     tiktok_url?: string | null;
     facebook_url?: string | null;
     instagram_url?: string | null;

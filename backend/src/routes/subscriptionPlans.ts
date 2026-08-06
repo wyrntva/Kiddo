@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
 // PUT /api/subscription-plans/:id - Update plan details (price, name, features)
 router.put('/:id', authenticate, requireAdmin, async (req, res) => {
-  const { name, price, features } = req.body
+  const { name, price, features, durationMonths } = req.body
 
   const updateData: any = {}
 
@@ -43,6 +43,13 @@ router.put('/:id', authenticate, requireAdmin, async (req, res) => {
       return res.status(400).json({ message: 'Danh sách quyền lợi không hợp lệ' })
     }
     updateData.features = features
+  }
+
+  if (durationMonths !== undefined) {
+    if (typeof durationMonths !== 'number' || durationMonths < 1) {
+      return res.status(400).json({ message: 'Thời hạn gói học không hợp lệ' })
+    }
+    updateData.durationMonths = durationMonths
   }
 
   try {

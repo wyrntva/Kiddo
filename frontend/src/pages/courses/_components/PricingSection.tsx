@@ -15,7 +15,7 @@ type Plan = {
 export default function PricingSection() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { user, upgradeSubscription } = useAuth()
+  const { user, syncProfile, requestUpgradeSubscription, cancelUpgradeSubscription } = useAuth()
   const [plans, setPlans] = useState<Plan[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
@@ -23,8 +23,52 @@ export default function PricingSection() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [loadError, setLoadError] = useState('')
+  const [copiedAccount, setCopiedAccount] = useState(false)
+  const [copiedContent, setCopiedContent] = useState(false)
+
+  const copyToClipboard = (text: string, type: 'account' | 'content') => {
+    navigator.clipboard.writeText(text)
+    if (type === 'account') {
+      setCopiedAccount(true)
+      setTimeout(() => setCopiedAccount(false), 2000)
+    } else {
+      setCopiedContent(true)
+      setTimeout(() => setCopiedContent(false), 2000)
+    }
+  }
+  const [bankSettings, setBankSettings] = useState({
+    bankName: 'MB Bank (Ngân hàng Quân đội)',
+    bankAccountNumber: '0842486222',
+    bankAccountName: 'KIDDO LEARNING',
+    bankCode: 'MB'
+  })
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
+  useEffect(() => {
+    if (syncProfile) {
+      syncProfile().catch(err => console.error('Lỗi đồng bộ thông tin tài khoản:', err))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/store-settings`)
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setBankSettings({
+            bankName: data.bank_name || 'MB Bank (Ngân hàng Quân đội)',
+            bankAccountNumber: data.bank_account_number || '0842486222',
+            bankAccountName: data.bank_account_name || 'KIDDO LEARNING',
+            bankCode: data.bank_code || 'MB'
+          })
+        }
+      })
+      .catch(err => {
+        console.error('Không thể tải cấu hình ngân hàng:', err)
+      })
+  }, [API_URL])
 
   useEffect(() => {
     fetch(`${API_URL}/api/subscription-plans`)
@@ -63,16 +107,32 @@ export default function PricingSection() {
     setSelectedPlan(plan)
   }
 
+  const getTransferContent = () => {
+    if (!selectedPlan) return ''
+    const planNameClean = selectedPlan.name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .toUpperCase()
+    const contactInfo = user?.phone || user?.email?.split('@')[0] || ''
+    return `DANG KY ${planNameClean} ${contactInfo}`.replace(/\s+/g, ' ')
+  }
+
   const handleConfirmPayment = async () => {
     if (!selectedPlan) return
     setIsSubmitting(true)
     setErrorMessage('')
     try {
-      await upgradeSubscription()
+      // Manual payment flow: Do not auto-activate immediately.
+      // Call requestUpgradeSubscription to set pending status in database.
+      if (requestUpgradeSubscription) {
+        await requestUpgradeSubscription(selectedPlan.id)
+      }
       setShowSuccessAlert(true)
       setSelectedPlan(null)
     } catch (err: any) {
-      setErrorMessage(err.message || 'Có lỗi xảy ra khi nâng cấp tài khoản.')
+      setErrorMessage(err.message || 'Có lỗi xảy ra khi xử lý yêu cầu.')
     } finally {
       setIsSubmitting(false)
     }
@@ -209,10 +269,29 @@ export default function PricingSection() {
 
               {/* CTA Button */}
               <button 
-                onClick={() => handleSelectPlan(plan)}
-                className={`${styles.buttonBg} text-white font-baloo text-[18px] lg:text-[20px] py-2 w-full rounded-[40px] transition-colors duration-150`}
+                onClick={() => {
+                  if (!user) {
+                    navigate('/login', { state: { from: location } })
+                    return
+                  }
+                  if (user.isPaid) {
+                    return
+                  }
+                  if (user.isPendingPaid) {
+                    setShowSuccessAlert(true)
+                    return
+                  }
+                  handleSelectPlan(plan)
+                }}
+                className={`${
+                  user?.isPaid 
+                    ? styles.buttonBg + ' opacity-75 cursor-default' 
+                    : user?.isPendingPaid 
+                      ? 'bg-[#fea01f] hover:bg-[#e58f1a] cursor-pointer' 
+                      : styles.buttonBg + ' cursor-pointer'
+                } text-white font-baloo text-[18px] lg:text-[20px] py-2 w-full rounded-[40px] transition-colors duration-150`}
               >
-                {user?.isPaid ? 'Đã kích hoạt' : 'Chọn gói'}
+                {user?.isPaid ? 'Đã kích hoạt' : user?.isPendingPaid ? 'Chờ xác nhận' : 'Chọn gói'}
               </button>
             </div>
           )
@@ -236,51 +315,67 @@ export default function PricingSection() {
             </div>
 
             {/* Info */}
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between text-[15px]">
+            <div className="flex flex-col gap-2 bg-[#f4fafd] rounded-xl p-3 border border-[#d0ecff] text-[15px]">
+              <div className="flex justify-between">
                 <span className="text-gray-500">Khóa học đăng ký:</span>
-                <span className="font-bold text-[#313235]">{selectedPlan.name}</span>
+                <span className="font-bold text-[#004c6e]">{selectedPlan.name}</span>
               </div>
-              <div className="flex justify-between text-[15px]">
+              <div className="flex justify-between items-center">
                 <span className="text-gray-500">Số tiền thanh toán:</span>
-                <span className="font-bold text-[#e83552] text-[18px]">
+                <span className="font-bold text-[#e83552] text-[20px]">
                   {formatPrice(getPaymentAmount(selectedPlan))}
                 </span>
               </div>
             </div>
 
             {/* VietQR Bank Info */}
-            <div className="bg-[#f5fbfd] border border-[#d0ecff] rounded-xl p-4 flex flex-col gap-2.5">
-              <div className="flex flex-col items-center gap-3">
-                {/* VietQR Image */}
+            <div className="flex flex-col items-center gap-4">
+              {/* VietQR Image - Larger */}
+              <div className="relative p-2 bg-white border border-[#d0ecff] rounded-2xl shadow-sm flex items-center justify-center">
                 <img 
-                  src={`https://img.vietqr.io/image/MB-0842486222-compact2.png?amount=${
+                  src={`https://img.vietqr.io/image/${bankSettings.bankCode}-${bankSettings.bankAccountNumber}-compact2.png?amount=${
                     getPaymentAmount(selectedPlan)
-                  }&addInfo=KIDDO_${user?.email?.split('@')[0]}_${selectedPlan.name.replace(/\s+/g, '')}&accountName=KIDDO%20LEARNING`}
+                  }&addInfo=${encodeURIComponent(getTransferContent())}&accountName=${encodeURIComponent(bankSettings.bankAccountName)}`}
                   alt="VietQR Payment Code"
-                  className="w-[200px] h-[200px] object-contain rounded-lg border border-gray-100 bg-white p-1"
+                  className="w-[280px] h-[280px] object-contain rounded-xl"
                 />
-                <span className="text-[12px] text-gray-400 text-center">Quét mã QR để chuyển khoản nhanh</span>
+              </div>
+              <span className="text-[13px] text-gray-400 font-medium text-center">Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản nhanh</span>
+            </div>
+
+            {/* Copyable Details */}
+            <div className="space-y-3.5">
+              {/* Số tài khoản */}
+              <div className="flex flex-col gap-1.5">
+                <div className="flex justify-between items-center text-[13px] text-gray-500">
+                  <span>Số tài khoản ({bankSettings.bankName}):</span>
+                </div>
+                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 justify-between">
+                  <span className="font-semibold text-[#0a7ad8] font-mono text-[16px]">{bankSettings.bankAccountNumber}</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(bankSettings.bankAccountNumber, 'account')}
+                    className="text-[12px] text-white bg-[#0a7ad8] hover:bg-[#0860ab] px-3.5 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
+                  >
+                    {copiedAccount ? 'Đã sao chép' : 'Sao chép số TK'}
+                  </button>
+                </div>
               </div>
 
-              <div className="border-t border-[#d0ecff] pt-2.5 flex flex-col gap-1.5 text-[14px]">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Ngân hàng:</span>
-                  <span className="font-semibold text-gray-700">MB Bank (Ngân hàng Quân đội)</span>
+              {/* Nội dung */}
+              <div className="flex flex-col gap-1.5">
+                <div className="flex justify-between items-center text-[13px] text-gray-500">
+                  <span>Nội dung chuyển khoản (bắt buộc):</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Số tài khoản:</span>
-                  <span className="font-semibold text-[#0a7ad8] font-mono">0842486222</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Chủ tài khoản:</span>
-                  <span className="font-semibold text-gray-700">KIDDO LEARNING</span>
-                </div>
-                <div className="flex flex-col gap-1 mt-1 bg-[#fff8e8] border border-[#ffe09e] rounded p-2">
-                  <span className="text-gray-500 text-[13px]">Nội dung chuyển khoản (bắt buộc):</span>
-                  <span className="font-bold text-[#fea01f] font-mono text-[14px] break-all select-all">
-                    {`KIDDO_${user?.email?.split('@')[0]}_${selectedPlan.name.replace(/\s+/g, '')}`}
-                  </span>
+                <div className="flex items-center bg-[#fff8e8] border border-[#ffe09e] rounded-xl px-3.5 py-2.5 justify-between">
+                  <span className="font-bold text-[#fea01f] font-mono text-[15px] break-all pr-2">{getTransferContent()}</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(getTransferContent(), 'content')}
+                    className="text-[12px] text-white bg-[#fea01f] hover:bg-[#e58f1a] px-3.5 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
+                  >
+                    {copiedContent ? 'Đã sao chép' : 'Sao chép nội dung'}
+                  </button>
                 </div>
               </div>
             </div>
@@ -313,22 +408,45 @@ export default function PricingSection() {
       {/* Success Alert Modal */}
       {showSuccessAlert && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-[450px] rounded-[24px] border border-[#c3ffd0] bg-white p-6 shadow-xl flex flex-col items-center gap-4 text-center animate-in fade-in zoom-in duration-200">
-            <div className="w-[72px] h-[72px] rounded-full bg-[#e6ffeb] border-2 border-[#339e4a] flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="#339e4a" className="w-10 h-10">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          <div className="relative w-full max-w-[450px] rounded-[24px] border border-[#ffebc3] bg-white p-6 shadow-xl flex flex-col items-center gap-4 text-center animate-in fade-in zoom-in duration-200">
+            <div className="w-[72px] h-[72px] rounded-full bg-[#fffcf5] border-2 border-[#fea01f] flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="#fea01f" className="w-10 h-10">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
             </div>
-            <h3 className="font-baloo text-[22px] font-bold text-[#339e4a]">Kích hoạt thành công!</h3>
+            <h3 className="font-baloo text-[22px] font-bold text-[#fea01f]">Đang chờ xác nhận chuyển khoản</h3>
             <p className="font-vietnam text-[15px] text-[#575e70] leading-relaxed">
-              Cảm ơn bố mẹ đã tin tưởng! Gói học của bé đã được kích hoạt thành công trên hệ thống. Bé có thể bắt đầu tham gia mọi bài học thú vị của OTTOPIA ngay bây giờ.
+              Yêu cầu kích hoạt gói học của bé đã được gửi lên hệ thống. Bố mẹ vui lòng chờ từ 5-10 phút để ban quản trị đối soát giao dịch chuyển khoản và kích hoạt tài khoản cho bé nhé!
             </p>
-            <button
-              onClick={() => setShowSuccessAlert(false)}
-              className="w-full py-2.5 rounded-[40px] bg-[#339e4a] hover:bg-[#2a823d] text-white font-baloo text-[16px] font-bold shadow-md transition-colors"
-            >
-              Bắt đầu học ngay
-            </button>
+            <div className="flex flex-col gap-2.5 w-full mt-2">
+              <button
+                type="button"
+                onClick={() => setShowSuccessAlert(false)}
+                className="w-full py-2.5 rounded-[40px] bg-[#fea01f] hover:bg-[#e58f1a] text-white font-baloo text-[16px] font-bold shadow-md transition-colors cursor-pointer"
+              >
+                Đồng ý
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  setIsSubmitting(true)
+                  try {
+                    if (cancelUpgradeSubscription) {
+                      await cancelUpgradeSubscription()
+                    }
+                    setShowSuccessAlert(false)
+                  } catch (err: any) {
+                    alert(err.message || 'Không thể hủy yêu cầu.')
+                  } finally {
+                    setIsSubmitting(false)
+                  }
+                }}
+                disabled={isSubmitting}
+                className="w-full py-2.5 rounded-[40px] border border-red-200 hover:bg-red-50 text-red-500 font-baloo text-[16px] font-bold transition-colors cursor-pointer"
+              >
+                {isSubmitting ? 'Đang hủy...' : 'Chưa thanh toán (Hủy yêu cầu)'}
+              </button>
+            </div>
           </div>
         </div>
       )}

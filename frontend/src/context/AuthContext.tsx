@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode, useCallback } from 'react'
 
 const getApiUrl = () => {
   if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
@@ -35,6 +35,10 @@ export interface AuthUser {
   lessonsCompleted: number
   weeklyProgress: number
   isPaid: boolean
+  isPendingPaid: boolean
+  paidUntil?: string
+  subscriptionPlanId?: string
+  pendingPlanId?: string
 }
 
 interface RegisterData {
@@ -66,6 +70,9 @@ interface AuthContextType {
     childAge?: number
     avatar?: string
   }) => Promise<void>
+  syncProfile: () => Promise<void>
+  requestUpgradeSubscription: (planId: string) => Promise<void>
+  cancelUpgradeSubscription: () => Promise<void>
 }
 
 interface GoogleProfileData {
@@ -83,12 +90,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  function persistSession(nextAccessToken: string, nextUser: AuthUser) {
+  const persistSession = useCallback((nextAccessToken: string, nextUser: AuthUser) => {
     setAccessToken(nextAccessToken)
     setUser(nextUser)
     localStorage.setItem('accessToken', nextAccessToken)
     localStorage.setItem('user', JSON.stringify(nextUser))
-  }
+  }, [])
 
   function clearSession() {
     setUser(null)
@@ -254,8 +261,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     persistSession(accessToken, resData.user)
   }
 
+  const syncProfile = useCallback(async () => {
+    if (!accessToken) return
+    try {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      const data = await response.json()
+      if (response.ok && data?.user) {
+        persistSession(accessToken, data.user)
+      }
+    } catch (error) {
+      console.error('Lỗi đồng bộ thông tin tài khoản:', error)
+    }
+  }, [accessToken, persistSession])
+
+  const requestUpgradeSubscription = useCallback(async (planId: string) => {
+    if (!accessToken) return
+    const response = await fetch(`${API_URL}/api/auth/request-upgrade`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ planId }),
+    })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Không thể đăng ký kích hoạt tài khoản')
+    persistSession(accessToken, data.user)
+  }, [accessToken, persistSession])
+
+  const cancelUpgradeSubscription = useCallback(async () => {
+    if (!accessToken) return
+    const response = await fetch(`${API_URL}/api/auth/cancel-upgrade`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Không thể hủy yêu cầu kích hoạt')
+    persistSession(accessToken, data.user)
+  }, [accessToken, persistSession])
+
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout, upgradeSubscription, updateProfile }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, login, loginWithGoogle, completeGoogleRegistration, register, logout, upgradeSubscription, updateProfile, syncProfile, requestUpgradeSubscription, cancelUpgradeSubscription }}>
       {children}
     </AuthContext.Provider>
   )

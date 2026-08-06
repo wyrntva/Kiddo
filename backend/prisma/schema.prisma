@@ -38,7 +38,11 @@ model User {
   childAge         Int?
   gender           Gender?
   isPaid           Boolean   @default(false)
+  isPendingPaid    Boolean   @default(false)
   isActive         Boolean   @default(true)
+  paidUntil        DateTime?
+  subscriptionPlanId String?
+  pendingPlanId      String?
 
   level            Int       @default(1)
   stars            Int       @default(0)
@@ -160,6 +164,10 @@ model StoreSettings {
   banner_tournament String?  @default("[]")
   banner_ranking    String?
   banner_member     String?
+  bank_name          String?  @default("MB Bank (Ngân hàng Quân đội)")
+  bank_account_number String? @default("0842486222")
+  bank_account_name   String?  @default("KIDDO LEARNING")
+  bank_code          String?  @default("MB")
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
@@ -172,6 +180,7 @@ model SubscriptionPlan {
   period      String
   features    Json
   isPopular   Boolean  @default(false)
+  durationMonths Int    @default(1)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

@@ -10,6 +10,7 @@ async function main() {
       price: 99000,
       period: '/ tháng',
       isPopular: false,
+      durationMonths: 1,
       features: [
         'Đầy đủ bài học',
         'Cập nhật nội dung mới',
@@ -23,6 +24,7 @@ async function main() {
       price: 79000,
       period: '/ tháng',
       isPopular: true,
+      durationMonths: 3,
       features: [
         'Học lại không giới hạn',
         'Cập nhật nội dung mới',
@@ -36,6 +38,7 @@ async function main() {
       price: 49000,
       period: '/ tháng',
       isPopular: false,
+      durationMonths: 12,
       features: [
         'Học không giới hạn cả năm',
         'Cập nhật nội dung mới',
@@ -48,14 +51,22 @@ async function main() {
   for (const plan of plansData) {
     await prisma.subscriptionPlan.upsert({
       where: { key: plan.key },
-      update: {},
+      update: {
+        name: plan.name,
+        price: plan.price,
+        period: plan.period,
+        isPopular: plan.isPopular,
+        features: plan.features,
+        durationMonths: plan.durationMonths
+      },
       create: {
         key: plan.key,
         name: plan.name,
         price: plan.price,
         period: plan.period,
         isPopular: plan.isPopular,
-        features: plan.features
+        features: plan.features,
+        durationMonths: plan.durationMonths
       }
     });
   }

@@ -19,15 +19,18 @@ import {
     type StoreInfo,
     type SocialMediaInfo,
     type FooterSettings,
+    type PaymentAccountInfo,
     SETTING_SECTIONS,
     DEFAULT_STORE_INFO,
     DEFAULT_SOCIAL_MEDIA,
     DEFAULT_FOOTER_SETTINGS,
+    DEFAULT_PAYMENT_ACCOUNT,
 } from './constants';
 import StoreInfoModal from './modals/StoreInfoModal';
 import SocialMediaModal from './modals/SocialMediaModal';
 import BannerSettingsModal from './modals/BannerSettingsModal';
 import FooterSettingsModal from './modals/FooterSettingsModal';
+import PaymentAccountModal from './modals/PaymentAccountModal';
 
 // ============================================
 // MAIN COMPONENT
@@ -38,12 +41,14 @@ const Settings = () => {
     const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
     const [bannerModalOpen, setBannerModalOpen] = useState(false);
     const [footerModalOpen, setFooterModalOpen] = useState(false);
+    const [paymentAccountModalOpen, setPaymentAccountModalOpen] = useState(false);
     const [selectedBannerType, setSelectedBannerType] = useState<'home' | 'news'>('home');
     const [_loading, setLoading] = useState(false);
     const [storeSettings, setStoreSettings] = useState<StoreSettings | null>(null);
     const [storeInfo, setStoreInfo] = useState<StoreInfo>(DEFAULT_STORE_INFO);
     const [socialMediaInfo, setSocialMediaInfo] = useState<SocialMediaInfo>(DEFAULT_SOCIAL_MEDIA);
     const [footerSettings, setFooterSettings] = useState<FooterSettings>(DEFAULT_FOOTER_SETTINGS);
+    const [paymentAccountInfo, setPaymentAccountInfo] = useState<PaymentAccountInfo>(DEFAULT_PAYMENT_ACCOUNT);
 
     useEffect(() => {
         loadStoreSettings();
@@ -89,6 +94,13 @@ const Settings = () => {
                 youtubeUrl: settings.youtube_url || '',
                 email: settings.gmail || '',
                 phone: settings.phone_number || '',
+            });
+
+            setPaymentAccountInfo({
+                bankName: settings.bank_name || DEFAULT_PAYMENT_ACCOUNT.bankName,
+                bankAccountNumber: settings.bank_account_number || DEFAULT_PAYMENT_ACCOUNT.bankAccountNumber,
+                bankAccountName: settings.bank_account_name || DEFAULT_PAYMENT_ACCOUNT.bankAccountName,
+                bankCode: settings.bank_code || DEFAULT_PAYMENT_ACCOUNT.bankCode,
             });
         } catch (_error) {
             toast.error('Không thể tải thông tin cửa hàng');
@@ -167,12 +179,32 @@ const Settings = () => {
         }
     };
 
+    const handleSavePaymentAccountInfo = async () => {
+        try {
+            setLoading(true);
+            await storeSettingsAPI.update({
+                bank_name: paymentAccountInfo.bankName || null,
+                bank_account_number: paymentAccountInfo.bankAccountNumber || null,
+                bank_account_name: paymentAccountInfo.bankAccountName || null,
+                bank_code: paymentAccountInfo.bankCode || null,
+            });
+            toast.success('Đã lưu thông tin tài khoản thanh toán');
+            setPaymentAccountModalOpen(false);
+            await loadStoreSettings();
+        } catch (_error) {
+            toast.error('Không thể lưu thông tin tài khoản thanh toán');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // --- Action Routing ---
 
     const handleItemClick = (item: SettingItem) => {
         if (item.action === 'store-info') setStoreInfoModalOpen(true);
         else if (item.action === 'social-media') setSocialMediaModalOpen(true);
         else if (item.action === 'footer-settings') setFooterModalOpen(true);
+        else if (item.action === 'payment-account') setPaymentAccountModalOpen(true);
         else if (item.action === 'banner-home') {
             setSelectedBannerType('home');
             setBannerModalOpen(true);
@@ -239,6 +271,14 @@ const Settings = () => {
                 footerSettings={footerSettings}
                 onChange={setFooterSettings}
                 onSave={handleSaveFooterSettings}
+            />
+
+            <PaymentAccountModal
+                open={paymentAccountModalOpen}
+                onClose={() => setPaymentAccountModalOpen(false)}
+                paymentAccountInfo={paymentAccountInfo}
+                onChange={setPaymentAccountInfo}
+                onSave={handleSavePaymentAccountInfo}
             />
         </div>
     );

@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jwt'
 import { authenticate, AuthRequest } from '../middleware/authMiddleware'
+import nodemailer from 'nodemailer'
 
 const router = Router()
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -98,6 +99,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
       phone: true, gender: true, childAge: true, role: true, avatar: true,
       level: true, stars: true, badges: true,
       lessonsCompleted: true, weeklyProgress: true,
+      isPaid: true, isPendingPaid: true,
     },
   })
 
@@ -178,6 +180,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       lessonsCompleted: user.lessonsCompleted,
       weeklyProgress: user.weeklyProgress,
       isPaid: user.isPaid,
+      isPendingPaid: user.isPendingPaid,
     },
     accessToken,
   })
@@ -252,6 +255,7 @@ router.post('/google', async (req: Request, res: Response): Promise<void> => {
         lessonsCompleted: user.lessonsCompleted,
         weeklyProgress: user.weeklyProgress,
         isPaid: user.isPaid,
+        isPendingPaid: user.isPendingPaid,
       },
       accessToken,
     })
@@ -348,6 +352,7 @@ router.post('/google/complete', async (req: Request, res: Response): Promise<voi
         lessonsCompleted: user.lessonsCompleted,
         weeklyProgress: user.weeklyProgress,
         isPaid: user.isPaid,
+        isPendingPaid: user.isPendingPaid,
       },
       accessToken,
     })
@@ -410,21 +415,45 @@ router.post('/logout', async (req: Request, res: Response): Promise<void> => {
 
 // GET /api/auth/me
 router.get('/me', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
-  const user = await prisma.user.findUnique({
-    where: { id: req.user!.userId },
-    select: {
-      id: true, name: true, parentName: true, email: true, phone: true,
-      role: true, avatar: true, level: true, stars: true,
-      badges: true, lessonsCompleted: true, weeklyProgress: true,
-      isPaid: true,
-      createdAt: true,
-    },
-  })
-  if (!user) {
-    res.status(404).json({ message: 'Người dùng không tồn tại' })
-    return
+  try {
+    const currentUser = await prisma.user.findUnique({
+      where: { id: req.user!.userId }
+    })
+    
+    if (currentUser && currentUser.isPaid && currentUser.paidUntil && currentUser.paidUntil < new Date()) {
+      // Expiration check: Demote expired subscription to free
+      await prisma.user.update({
+        where: { id: req.user!.userId },
+        data: {
+          isPaid: false,
+          subscriptionPlanId: null,
+          paidUntil: null
+        }
+      })
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.user!.userId },
+      select: {
+        id: true, name: true, parentName: true, email: true, phone: true,
+        role: true, avatar: true, level: true, stars: true,
+        badges: true, lessonsCompleted: true, weeklyProgress: true,
+        isPaid: true,
+        isPendingPaid: true,
+        paidUntil: true,
+        subscriptionPlanId: true,
+        pendingPlanId: true,
+        createdAt: true,
+      },
+    })
+    if (!user) {
+      res.status(404).json({ message: 'Người dùng không tồn tại' })
+      return
+    }
+    res.json({ user })
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi đồng bộ thông tin tài khoản' })
   }
-  res.json({ user })
 })
 
 // POST /api/auth/upgrade - Upgrade user to paid
@@ -432,7 +461,7 @@ router.post('/upgrade', authenticate, async (req: AuthRequest, res: Response): P
   try {
     const user = await prisma.user.update({
       where: { id: req.user!.userId },
-      data: { isPaid: true },
+      data: { isPaid: true, isPendingPaid: false },
     })
     res.json({
       message: 'Nâng cấp tài khoản thành công',
@@ -450,10 +479,184 @@ router.post('/upgrade', authenticate, async (req: AuthRequest, res: Response): P
         lessonsCompleted: user.lessonsCompleted,
         weeklyProgress: user.weeklyProgress,
         isPaid: user.isPaid,
+        isPendingPaid: user.isPendingPaid,
+        paidUntil: user.paidUntil,
+        subscriptionPlanId: user.subscriptionPlanId,
+        pendingPlanId: user.pendingPlanId,
       }
     })
   } catch (error) {
     res.status(500).json({ message: 'Không thể nâng cấp tài khoản' })
+  }
+})
+
+// POST /api/auth/request-upgrade - Request subscription upgrade (set isPendingPaid to true)
+router.post('/request-upgrade', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  const { planId } = req.body
+  try {
+    const user = await prisma.user.update({
+      where: { id: req.user!.userId },
+      data: { isPendingPaid: true, pendingPlanId: planId },
+    })
+
+    // Fetch plan details to construct notification email
+    const plan = planId ? await prisma.subscriptionPlan.findUnique({
+      where: { id: planId },
+    }) : null
+
+    if (plan && user) {
+      const smtpUser = process.env.SMTP_USER || 'ottopiaforkids@gmail.com'
+      const smtpPass = process.env.SMTP_PASS
+
+      if (smtpPass) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '587'),
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: {
+              user: smtpUser,
+              pass: smtpPass
+            }
+          })
+
+          const planNameClean = plan.name
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D')
+            .toUpperCase()
+          const contactInfo = user.phone || user.email.split('@')[0] || ''
+          const transferContent = `DANG KY ${planNameClean} ${contactInfo}`.replace(/\s+/g, ' ')
+
+          const mailOptions = {
+            from: `"OTTOPIA Subscription" <${smtpUser}>`,
+            to: 'ottopiaforkids@gmail.com',
+            subject: `[OTTOPIA] Yêu cầu nâng cấp gói học mới từ phụ huynh ${user.name}`,
+            text: `Yêu cầu kích hoạt gói học mới đang chờ phê duyệt:\n\n` +
+                  `- Phụ huynh: ${user.name}\n` +
+                  `- Email: ${user.email}\n` +
+                  `- Số điện thoại: ${user.phone || 'Chưa cung cấp'}\n` +
+                  `- Gói đăng ký: ${plan.name}\n` +
+                  `- Học phí: ${plan.price.toLocaleString('vi-VN')} VND\n` +
+                  `- Thời hạn: ${plan.durationMonths || 1} tháng\n` +
+                  `- Cú pháp chuyển khoản đối soát: ${transferContent}\n\n` +
+                  `Vui lòng truy cập trang quản trị để kiểm tra và xác nhận chuyển khoản cho phụ huynh.`,
+            html: `
+              <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ffebc3; border-radius: 12px; background-color: #fffcf5;">
+                <h2 style="color: #fea01f; border-bottom: 2px solid #fea01f; padding-bottom: 8px; margin-top: 0;">Yêu cầu nâng cấp gói học mới đang chờ phê duyệt</h2>
+                <p>Chào ban quản trị OTTOPIA, hệ thống vừa ghi nhận một yêu cầu đăng ký mua gói học phí của phụ huynh cần đối soát chuyển khoản:</p>
+                
+                <h3 style="color: #004c6e; margin-bottom: 8px;">Thông tin tài khoản:</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; width: 35%; border-bottom: 1px solid #ffebc3;">Tên phụ huynh:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3;">${user.name}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #ffebc3;">Email tài khoản:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3;"><a href="mailto:${user.email}">${user.email}</a></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #ffebc3;">Số điện thoại:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3;">${user.phone || 'Chưa cung cấp'}</td>
+                  </tr>
+                </table>
+
+                <h3 style="color: #004c6e; margin-bottom: 8px;">Thông tin gói đăng ký:</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; width: 35%; border-bottom: 1px solid #ffebc3;">Gói đăng ký:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3; font-weight: bold; color: #0a7ad8;">${plan.name}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #ffebc3;">Học phí:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3; font-weight: bold; color: #e83552;">${plan.price.toLocaleString('vi-VN')} VND</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #ffebc3;">Thời hạn kích hoạt:</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ffebc3;">${plan.durationMonths || 1} tháng</td>
+                  </tr>
+                </table>
+
+                <div style="background-color: #fff8e8; padding: 15px; border-radius: 8px; border-left: 4px solid #fea01f; margin-top: 15px; margin-bottom: 20px;">
+                  <strong style="color: #3e484f;">Cú pháp chuyển khoản đối soát (bắt buộc):</strong>
+                  <p style="margin: 8px 0 0 0; font-family: monospace; font-size: 16px; font-weight: bold; color: #fea01f;">${transferContent}</p>
+                </div>
+                
+                <p style="margin-top: 25px;">Vui lòng truy cập cổng quản lý CMS quản trị viên, xác nhận chuyển khoản và phê duyệt mở khóa cho tài khoản phụ huynh này.</p>
+                <p style="font-size: 11px; color: #999; margin-top: 30px; text-align: center; border-top: 1px solid #ffebc3; padding-top: 15px;">
+                  Hệ thống thông báo tự động từ trang web học tập OTTOPIA.
+                </p>
+              </div>
+            `
+          }
+
+          await transporter.sendMail(mailOptions)
+        } catch (mailErr) {
+          console.error('Lỗi khi gửi email thông báo nâng cấp cho admin:', mailErr)
+        }
+      }
+    }
+
+    res.json({
+      message: 'Yêu cầu nâng cấp tài khoản đang chờ xử lý',
+      user: {
+        id: user.id,
+        name: user.name,
+        parentName: user.parentName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        avatar: user.avatar,
+        level: user.level,
+        stars: user.stars,
+        badges: user.badges,
+        lessonsCompleted: user.lessonsCompleted,
+        weeklyProgress: user.weeklyProgress,
+        isPaid: user.isPaid,
+        isPendingPaid: user.isPendingPaid,
+        paidUntil: user.paidUntil,
+        subscriptionPlanId: user.subscriptionPlanId,
+        pendingPlanId: user.pendingPlanId,
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể gửi yêu cầu nâng cấp' })
+  }
+})
+
+// POST /api/auth/cancel-upgrade - Cancel subscription upgrade request (set isPendingPaid to false)
+router.post('/cancel-upgrade', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const user = await prisma.user.update({
+      where: { id: req.user!.userId },
+      data: { isPendingPaid: false },
+    })
+    res.json({
+      message: 'Đã hủy yêu cầu nâng cấp tài khoản',
+      user: {
+        id: user.id,
+        name: user.name,
+        parentName: user.parentName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        avatar: user.avatar,
+        level: user.level,
+        stars: user.stars,
+        badges: user.badges,
+        lessonsCompleted: user.lessonsCompleted,
+        weeklyProgress: user.weeklyProgress,
+        isPaid: user.isPaid,
+        isPendingPaid: user.isPendingPaid,
+        paidUntil: user.paidUntil,
+        subscriptionPlanId: user.subscriptionPlanId,
+        pendingPlanId: user.pendingPlanId,
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Không thể hủy yêu cầu nâng cấp' })
   }
 })
 
@@ -496,6 +699,7 @@ router.put('/profile', authenticate, async (req: AuthRequest, res: Response): Pr
         lessonsCompleted: true,
         weeklyProgress: true,
         isPaid: true,
+        isPendingPaid: true,
       },
     })
 

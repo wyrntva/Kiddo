@@ -26,6 +26,11 @@ export interface StoreSettings {
     banner_tournament: string | null;
     banner_ranking: string | null;
     banner_member: string | null;
+    // Bank account fields
+    bank_name: string | null;
+    bank_account_number: string | null;
+    bank_account_name: string | null;
+    bank_code: string | null;
     created_at: string;
     updated_at: string;
 }
@@ -54,6 +59,11 @@ export interface StoreSettingsUpdate {
     banner_tournament?: string | null;
     banner_ranking?: string | null;
     banner_member?: string | null;
+    // Bank account fields
+    bank_name?: string | null;
+    bank_account_number?: string | null;
+    bank_account_name?: string | null;
+    bank_code?: string | null;
 }
 
 export const storeSettingsAPI = {

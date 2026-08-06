@@ -9,6 +9,7 @@ export interface SubscriptionPlan {
     period: string;
     features: string[];
     isPopular: boolean;
+    durationMonths: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -18,7 +19,7 @@ export const subscriptionPlansAPI = {
         return axiosClient.get('/api/subscription-plans');
     },
 
-    update: (id: string, data: { name: string; price: number; features: string[] }): Promise<AxiosResponse<SubscriptionPlan>> => {
+    update: (id: string, data: { name: string; price: number; features: string[]; durationMonths: number }): Promise<AxiosResponse<SubscriptionPlan>> => {
         return axiosClient.put(`/api/subscription-plans/${id}`, data);
     },
 };

@@ -91,7 +91,7 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/auth', rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 100,
+  limit: process.env.NODE_ENV === 'production' ? 100 : 2000,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   message: { message: 'Quá nhiều yêu cầu, vui lòng thử lại sau' },

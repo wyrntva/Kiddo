@@ -200,7 +200,15 @@ function CustomerRow({ customer, onEdit, onDelete }: {
             <Table.Cell>{customer.phone_number || '-'}</Table.Cell>
             <Table.Cell>{customer.email || '-'}</Table.Cell>
             <Table.Cell>{GENDER_LABELS[customer.gender || ''] || '-'}</Table.Cell>
-            <Table.Cell>{customer.is_paid ? 'Trả phí' : 'Miễn phí'}</Table.Cell>
+            <Table.Cell>
+                {customer.is_paid ? (
+                    <span className="text-[#339e4a] font-semibold bg-[#e6ffeb] border border-[#c3ffd0] px-2.5 py-0.5 rounded-full text-[13px]">Trả phí</span>
+                ) : customer.is_pending_paid ? (
+                    <span className="text-[#fea01f] font-semibold bg-[#fff8e8] border border-[#ffe09e] px-2.5 py-0.5 rounded-full text-[13px] animate-pulse">Chờ xác nhận</span>
+                ) : (
+                    <span className="text-gray-500 font-medium bg-gray-50 border border-gray-200 px-2.5 py-0.5 rounded-full text-[13px]">Miễn phí</span>
+                )}
+            </Table.Cell>
             <Table.Cell>
                 <div className="flex gap-4">
                     <button onClick={onEdit} className="text-[#0A7AD8] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">Sửa</button>

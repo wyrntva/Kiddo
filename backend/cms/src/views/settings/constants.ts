@@ -54,6 +54,13 @@ export interface FooterSettings {
     phone: string;
 }
 
+export interface PaymentAccountInfo {
+    bankName: string;
+    bankAccountNumber: string;
+    bankAccountName: string;
+    bankCode: string;
+}
+
 // ============================================
 // LOCATION DATA
 // ============================================
@@ -119,6 +126,12 @@ export const SETTING_SECTIONS: SettingSection[] = [
                 description: 'Xem và điều chỉnh thông tin chân trang (footer) của website',
                 action: 'footer-settings',
             },
+            {
+                icon: 'solar:card-transfer-outline',
+                title: 'Thiết lập tài khoản thanh toán',
+                description: 'Xem và điều chỉnh thông tin tài khoản thanh toán ngân hàng',
+                action: 'payment-account',
+            },
         ],
     },
     {
@@ -169,4 +182,11 @@ export const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
     youtubeUrl: '',
     email: '',
     phone: '',
+};
+
+export const DEFAULT_PAYMENT_ACCOUNT: PaymentAccountInfo = {
+    bankName: 'MB Bank (Ngân hàng Quân đội)',
+    bankAccountNumber: '0842486222',
+    bankAccountName: 'KIDDO LEARNING',
+    bankCode: 'MB',
 };

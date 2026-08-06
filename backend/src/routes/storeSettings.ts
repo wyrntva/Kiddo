@@ -22,6 +22,10 @@ const getOrCreateSettings = async () => {
         banner_tournament: '[]',
         footer_description: 'Ottopia đồng hành cùng bé phát triển kỹ năng sống qua những trải nghiệm vui vẻ và ý nghĩa mỗi ngày.',
         footer_copyright: '© 2026 OTTOPIA Learning. All rights reserved.',
+        bank_name: 'MB Bank (Ngân hàng Quân đội)',
+        bank_account_number: '0842486222',
+        bank_account_name: 'KIDDO LEARNING',
+        bank_code: 'MB',
       }
     })
   }
@@ -43,7 +47,8 @@ router.put('/', authenticate, requireAdmin, async (req, res) => {
   const {
     name, phone, currency, address, province, district, ward, business_type,
     tiktok_url, facebook_url, youtube_url, instagram_url, phone_number, gmail, social_address,
-    footer_description, footer_copyright
+    footer_description, footer_copyright,
+    bank_name, bank_account_number, bank_account_name, bank_code
   } = req.body
 
   try {
@@ -66,6 +71,10 @@ router.put('/', authenticate, requireAdmin, async (req, res) => {
     if (social_address !== undefined) updateData.social_address = social_address
     if (footer_description !== undefined) updateData.footer_description = footer_description
     if (footer_copyright !== undefined) updateData.footer_copyright = footer_copyright
+    if (bank_name !== undefined) updateData.bank_name = bank_name
+    if (bank_account_number !== undefined) updateData.bank_account_number = bank_account_number
+    if (bank_account_name !== undefined) updateData.bank_account_name = bank_account_name
+    if (bank_code !== undefined) updateData.bank_code = bank_code
 
     const updated = await prisma.storeSettings.update({
       where: { id: current.id },

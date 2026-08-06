@@ -2,9 +2,10 @@
  * Customer Edit Modal — edit customer profile, avatar, and social links.
  * Extracted from Customers.tsx for maintainability.
  */
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState, useEffect } from 'react';
 import { Button, Label, Select, TextInput } from 'flowbite-react';
 import { Icon } from '@iconify/react';
+import { subscriptionPlansAPI, type SubscriptionPlan } from '../../api/subscriptionPlans.api';
 import toast from 'react-hot-toast';
 import BaseDialog from '../../components/shared/BaseDialog';
 import ImageCropModal from '../../components/ImageCropModal';
@@ -32,6 +33,9 @@ interface CustomerFormData {
     instagram_url: string;
     parent_name: string;
     is_paid: boolean;
+    is_pending_paid: boolean;
+    paid_until: string;
+    subscription_plan_id: string;
 }
 
 const DEFAULT_FORM_DATA: CustomerFormData = {
@@ -49,6 +53,9 @@ const DEFAULT_FORM_DATA: CustomerFormData = {
     instagram_url: '',
     parent_name: '',
     is_paid: false,
+    is_pending_paid: false,
+    paid_until: '',
+    subscription_plan_id: '',
 };
 
 const SOCIAL_FIELDS: { id: keyof CustomerFormData; label: string; placeholder: string }[] = [
@@ -75,6 +82,13 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
     const [cropModalOpen, setCropModalOpen] = useState(false);
     const [selectedImageSrc, setSelectedImageSrc] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
+
+    useEffect(() => {
+        subscriptionPlansAPI.getAll()
+            .then(res => setPlans(res.data))
+            .catch(() => toast.error('Không thể tải danh sách gói học'));
+    }, []);
 
     // populate form when customer changes
     const prevCustomerId = useRef<number | null>(null);
@@ -96,6 +110,9 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
             instagram_url: customer.instagram_url || '',
             parent_name: customer.parent_name || '',
             is_paid: customer.is_paid || false,
+            is_pending_paid: customer.is_pending_paid || false,
+            paid_until: customer.paid_until ? customer.paid_until.split('T')[0] : '',
+            subscription_plan_id: customer.subscription_plan_id || customer.pending_plan_id || '',
         });
     }
 
@@ -162,6 +179,9 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
                 points: formData.points,
                 parent_name: formData.parent_name || null,
                 is_paid: formData.is_paid,
+                is_pending_paid: formData.is_pending_paid,
+                paid_until: formData.paid_until ? new Date(formData.paid_until).toISOString() : null,
+                subscription_plan_id: formData.subscription_plan_id || null,
                 avatar_url: formData.avatar_url || null,
                 tiktok_url: formData.tiktok_url || null,
                 facebook_url: formData.facebook_url || null,
@@ -228,29 +248,7 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
                                 <option value="other">Khác</option>
                             </Select>
                         </div>
-                        <div>
-                            <Label htmlFor="rank" value="Level" />
-                            <Select id="rank" value={formData.rank}
-                                onChange={(e) => {
-                                    const selectedName = e.target.value;
-                                    const selectedRank = ranks.find(r => r.name === selectedName);
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        rank: selectedName,
-                                        ...(selectedRank ? { points: selectedRank.default_score } : {}),
-                                    }));
-                                }}>
-                                <option value="">Chọn level</option>
-                                {ranks.map((rank) => (
-                                    <option key={rank.id} value={rank.name}>{formatFullLevel(rank.name)}</option>
-                                ))}
-                            </Select>
-                        </div>
-                        <div>
-                            <Label htmlFor="points" value="Điểm" />
-                            <TextInput id="points" type="number" value={formData.points}
-                                onChange={(e) => update('points', Number(e.target.value))} />
-                        </div>
+
                         <div>
                             <Label htmlFor="is_active" value="Trạng thái" />
                             <Select id="is_active" value={formData.is_active.toString()}
@@ -262,10 +260,86 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
                         <div>
                             <Label htmlFor="is_paid" value="Tài khoản" />
                             <Select id="is_paid" value={formData.is_paid.toString()}
-                                onChange={(e) => update('is_paid', e.target.value === 'true')}>
+                                onChange={(e) => {
+                                    const isPaidVal = e.target.value === 'true';
+                                    setFormData(prev => {
+                                        const next = {
+                                            ...prev,
+                                            is_paid: isPaidVal,
+                                            is_pending_paid: isPaidVal ? false : prev.is_pending_paid
+                                        };
+                                        if (isPaidVal) {
+                                            // Tự động chọn gói đầu tiên nếu chưa chọn gói nào
+                                            const firstPlan = plans[0];
+                                            const planId = prev.subscription_plan_id || (firstPlan ? firstPlan.id : '');
+                                            const plan = plans.find(p => p.id === planId);
+                                            const now = new Date();
+                                            const months = plan ? plan.durationMonths : 1;
+                                            now.setMonth(now.getMonth() + months);
+                                            next.subscription_plan_id = planId;
+                                            next.paid_until = now.toISOString().split('T')[0];
+                                        } else {
+                                            next.paid_until = '';
+                                            next.subscription_plan_id = '';
+                                        }
+                                        return next;
+                                    });
+                                }}>
                                 <option value="true">Trả phí</option>
                                 <option value="false">Miễn phí</option>
                             </Select>
+                        </div>
+                        <div>
+                            <Label htmlFor="is_pending_paid" value="Chờ kích hoạt" />
+                            <Select id="is_pending_paid" value={formData.is_pending_paid.toString()}
+                                onChange={(e) => {
+                                    const isPendingVal = e.target.value === 'true';
+                                    setFormData(prev => ({
+                                        ...prev,
+                                        is_pending_paid: isPendingVal,
+                                        is_paid: isPendingVal ? false : prev.is_paid
+                                    }));
+                                }}>
+                                <option value="true">Đang chờ xác nhận</option>
+                                <option value="false">Bình thường</option>
+                            </Select>
+                        </div>
+                        <div>
+                            <Label htmlFor="subscription_plan_id" value="Gói học đăng ký" />
+                            <Select 
+                                id="subscription_plan_id" 
+                                value={formData.subscription_plan_id}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    setFormData(prev => {
+                                        const next = { ...prev, subscription_plan_id: val };
+                                        if (val && prev.is_paid) {
+                                            const plan = plans.find(p => p.id === val);
+                                            if (plan) {
+                                                const now = new Date();
+                                                now.setMonth(now.getMonth() + plan.durationMonths);
+                                                next.paid_until = now.toISOString().split('T')[0];
+                                            }
+                                        }
+                                        return next;
+                                    });
+                                }}
+                            >
+                                <option value="">Không đăng ký (Miễn phí)</option>
+                                {plans.map(p => (
+                                    <option key={p.id} value={p.id}>{p.name} ({p.durationMonths} tháng)</option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div>
+                            <Label htmlFor="paid_until" value="Thời hạn gói học" />
+                            <TextInput
+                                id="paid_until"
+                                type="date"
+                                value={formData.paid_until}
+                                onChange={(e) => update('paid_until', e.target.value)}
+                                disabled={!formData.is_paid}
+                            />
                         </div>
                         <div className="md:col-span-2">
                             <Label htmlFor="address" value="Địa chỉ" />
@@ -274,25 +348,7 @@ const CustomerEditModal = ({ open, onClose, customer, ranks, onSaved }: Customer
                         </div>
                     </div>
 
-                    {/* Social Media Links */}
-                    <div className="border-t pt-4 mt-2">
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                            Liên kết mạng xã hội
-                        </h3>
-                        <div className="grid grid-cols-1 gap-4">
-                            {SOCIAL_FIELDS.map((field) => (
-                                <div key={field.id}>
-                                    <Label htmlFor={field.id} value={field.label} />
-                                    <TextInput
-                                        id={field.id}
-                                        value={formData[field.id] as string}
-                                        onChange={(e) => update(field.id, e.target.value)}
-                                        placeholder={field.placeholder}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+
 
                     <div className="flex justify-end gap-2 mt-4 pt-4 border-t">
                         <Button type="submit" color="blue">Cập nhật</Button>

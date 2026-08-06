@@ -12,6 +12,7 @@ const Courses = () => {
     const [editName, setEditName] = useState<string>('');
     const [editPrice, setEditPrice] = useState<string>('');
     const [editFeatures, setEditFeatures] = useState<string[]>([]);
+    const [editDurationMonths, setEditDurationMonths] = useState<string>('1');
     const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const Courses = () => {
         setEditName(plan.name);
         setEditPrice(plan.price.toString());
         setEditFeatures([...(plan.features || [])]);
+        setEditDurationMonths((plan.durationMonths || 1).toString());
         setModalOpen(true);
     };
 
@@ -66,6 +68,12 @@ const Courses = () => {
             return;
         }
 
+        const parsedDuration = parseInt(editDurationMonths, 10);
+        if (isNaN(parsedDuration) || parsedDuration < 1) {
+            toast.error('Vui lòng nhập thời hạn khóa học hợp lệ (>= 1 tháng)');
+            return;
+        }
+
         // Filter out empty features
         const cleanedFeatures = editFeatures.map(f => f.trim()).filter(f => f !== '');
 
@@ -74,7 +82,8 @@ const Courses = () => {
             await subscriptionPlansAPI.update(selectedPlan.id, {
                 name: editName.trim(),
                 price: parsedPrice,
-                features: cleanedFeatures
+                features: cleanedFeatures,
+                durationMonths: parsedDuration
             });
             toast.success(`Đã cập nhật gói ${editName}`);
             setModalOpen(false);
@@ -131,11 +140,16 @@ const Courses = () => {
                                     </div>
                                 </div>
 
-                                <div className="my-2 border-y border-dashed border-gray-200 py-3 text-center">
-                                    <span className="text-[28px] font-bold text-gray-800 leading-none">
-                                        {formatCurrency(plan.price)}
-                                    </span>
-                                    <span className="text-[13px] text-gray-500 ml-1">{plan.period}</span>
+                                <div className="my-2 border-y border-dashed border-gray-200 py-3 text-center flex flex-col gap-1">
+                                    <div>
+                                        <span className="text-[28px] font-bold text-gray-800 leading-none">
+                                            {formatCurrency(plan.price)}
+                                        </span>
+                                        <span className="text-[13px] text-gray-500 ml-1">{plan.period}</span>
+                                    </div>
+                                    <div className="text-[11px] text-gray-500 font-medium">
+                                        Thời hạn: <span className="text-blue-600 font-bold">{plan.durationMonths} tháng</span>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -206,6 +220,24 @@ const Courses = () => {
                         />
                         <span className="text-[11px] text-gray-400 mt-1 block">
                             Nhập mệnh giá VNĐ (Ví dụ: 99000). Giá trị này sẽ được dùng để tạo mã VietQR động khi bé đăng ký học.
+                        </span>
+                    </div>
+
+                    <div>
+                        <Label htmlFor="plan_duration" className="text-gray-700 dark:text-gray-300 block mb-1 font-medium text-sm">
+                            Thời hạn khóa học (Tháng) <span className="text-red-500">(*)</span>
+                        </Label>
+                        <TextInput
+                            id="plan_duration"
+                            type="number"
+                            placeholder="Nhập thời hạn (ví dụ: 1)..."
+                            value={editDurationMonths}
+                            onChange={(e) => setEditDurationMonths(e.target.value)}
+                            min={1}
+                            required
+                        />
+                        <span className="text-[11px] text-gray-400 mt-1 block">
+                            Thời gian kích hoạt của gói (đơn vị: Tháng). Hết thời gian này tài khoản của bé sẽ tự động chuyển về gói Miễn phí.
                         </span>
                     </div>
 
