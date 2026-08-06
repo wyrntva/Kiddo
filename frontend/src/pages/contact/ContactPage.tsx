@@ -177,19 +177,6 @@ export default function ContactPage() {
                       <p className="font-vietnam text-[16px] text-[#575e70]">ottopia@gmail.com</p>
                     </div>
                   </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="p-2.5 bg-white rounded-xl shadow-sm border border-[#fef3d3]">
-                      <svg className="w-5 h-5 text-[#fea01f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-vietnam font-bold text-[15px] text-[#3e484f]">Địa chỉ</p>
-                      <p className="font-vietnam text-[16px] text-[#575e70]">Tầng 3, Tòa nhà OTTOPIA, Cầu Giấy, Hà Nội</p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
