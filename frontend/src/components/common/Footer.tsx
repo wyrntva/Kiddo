@@ -191,7 +191,7 @@ export default function Footer() {
           <ColHeading>HỖ TRỢ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Câu hỏi thường gặp</FooterLink>
-            <FooterLink>Liên hệ</FooterLink>
+            <FooterLink href="/contact">Liên hệ</FooterLink>
           </div>
         </div>
 
@@ -237,7 +237,10 @@ export default function Footer() {
           </div>
 
           {/* Right — Liên hệ button */}
-          <div className="bg-[#fef9ed] flex gap-[8px] items-center justify-center px-[16px] py-[8px] rounded-[40px] cursor-pointer hover:bg-[#fef3d3] transition-colors shrink-0">
+          <div 
+            onClick={() => navigate('/contact')}
+            className="bg-[#fef9ed] flex gap-[8px] items-center justify-center px-[16px] py-[8px] rounded-[40px] cursor-pointer hover:bg-[#fef3d3] transition-colors shrink-0"
+          >
             <div className="relative rounded-[66.667px] size-[24px] shrink-0">
               <div className="absolute inset-0 pointer-events-none rounded-[66.667px] overflow-hidden">
                 <img loading="lazy" decoding="async" alt="" className="absolute size-full object-cover rounded-[66.667px]" src={imgAvatar} />

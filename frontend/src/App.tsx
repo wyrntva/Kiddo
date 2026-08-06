@@ -22,6 +22,7 @@ const ZoneTuLapPage = lazy(() => import('./pages/zone/ZoneTuLapPage'))
 const ZoneBanBePage = lazy(() => import('./pages/zone/ZoneBanBePage'))
 const ZoneTinhHuongPage = lazy(() => import('./pages/zone/ZoneTinhHuongPage'))
 const ZoneQuizPage = lazy(() => import('./pages/zone/ZoneQuizPage'))
+const ContactPage = lazy(() => import('./pages/contact/ContactPage'))
 const NotFoundPage = lazy(() => import('./pages/not-found/NotFoundPage'))
 
 function PageLoader() {
@@ -88,6 +89,7 @@ function App() {
             <Route path="/zone/independence" element={<ProtectedRoute><ZoneTuLapPage /></ProtectedRoute>} />
             <Route path="/zone/friends" element={<ProtectedRoute><ZoneBanBePage /></ProtectedRoute>} />
             <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*"        element={<NotFoundPage />} />
           </Routes>
           <ChatbotForAllowedPages />
