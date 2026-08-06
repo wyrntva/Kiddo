@@ -128,13 +128,12 @@ export default function LoginPage() {
               />
             </AuthInput>
 
-            <button
-              type="button"
-              onClick={() => alert('Tính năng đặt lại mật khẩu sẽ sớm ra mắt!')}
+            <Link
+              to="/forgot-password"
               className="font-vietnam font-medium text-[16px] text-[#fea01f] hover:text-[#e58f1a] transition-colors cursor-pointer"
             >
               Quên mật khẩu
-            </button>
+            </Link>
           </div>
         </div>
 

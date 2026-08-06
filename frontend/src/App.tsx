@@ -10,6 +10,7 @@ const HomePage      = lazy(() => import('./pages/home/HomePage'))
 const CoursesPage   = lazy(() => import('./pages/courses/CoursesPage'))
 const LoginPage     = lazy(() => import('./pages/login/LoginPage'))
 const RegisterPage  = lazy(() => import('./pages/register/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/login/ForgotPasswordPage'))
 const GoogleOnboardingPage = lazy(() => import('./pages/auth/GoogleOnboardingPage'))
 const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
@@ -70,6 +71,7 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/login"   element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/google-onboarding" element={<GoogleOnboardingPage />} />
             <Route path="/diary"   element={<ProtectedRoute><DiaryPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />

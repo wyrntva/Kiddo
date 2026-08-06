@@ -768,6 +768,200 @@ router.put('/profile/password', authenticate, async (req: AuthRequest, res: Resp
   }
 })
 
+const forgotPasswordSchema = z.object({
+  email: z.string().trim().toLowerCase().email('Email không hợp lệ'),
+})
+
+const resetPasswordSchema = z.object({
+  email: z.string().trim().toLowerCase().email('Email không hợp lệ'),
+  code: z.string().trim().min(6, 'Mã xác nhận phải có 6 ký tự').max(6, 'Mã xác nhận phải có 6 ký tự'),
+  newPassword: z.string().min(6, 'Mật khẩu mới phải có ít nhất 6 ký tự').max(128),
+})
+
+function generateResetCode(): string {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let code = ''
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return code
+}
+
+// POST /api/auth/forgot-password
+router.post('/forgot-password', async (req: Request, res: Response): Promise<void> => {
+  const result = forgotPasswordSchema.safeParse(req.body)
+  if (!result.success) {
+    res.status(400).json({ message: result.error.errors[0].message })
+    return
+  }
+
+  const { email } = result.data
+
+  try {
+    const user = await prisma.user.findUnique({ where: { email } })
+    if (!user) {
+      res.status(404).json({ message: 'Gmail không tồn tại.' })
+      return
+    }
+
+    const resetCode = generateResetCode()
+    const resetCodeExpires = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
+
+    await prisma.user.update({
+      where: { email },
+      data: { resetCode, resetCodeExpires }
+    })
+
+    const smtpUser = process.env.SMTP_USER || 'ottopiaforkids@gmail.com'
+    const smtpPass = process.env.SMTP_PASS
+
+    console.log(`[FORGOT PASSWORD] Mã khôi phục mật khẩu của email ${email} là: ${resetCode}`)
+
+    if (!smtpPass) {
+      console.warn('Gmail SMTP_PASS chưa được cấu hình trong file .env. Không thể gửi email thực tế.')
+      res.json({
+        message: 'Yêu cầu thành công! (Chế độ phát triển: Mã xác nhận đã được in ra log của backend).'
+      })
+      return
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: smtpUser,
+        pass: smtpPass
+      }
+    })
+
+    const mailOptions = {
+      from: `"OTTOPIA Support" <${smtpUser}>`,
+      to: email,
+      subject: `[OTTOPIA] Mã xác nhận khôi phục mật khẩu`,
+      text: `Mã xác nhận khôi phục mật khẩu của bạn là: ${resetCode}\nHiệu lực trong 10 phút.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ffebc3; border-radius: 12px; background-color: #fffcf5;">
+          <h2 style="color: #fea01f; border-bottom: 2px solid #fea01f; padding-bottom: 8px; margin-top: 0;">Khôi phục mật khẩu OTTOPIA</h2>
+          <p>Chào phụ huynh,</p>
+          <p>Chúng tôi nhận được yêu cầu khôi phục mật khẩu cho tài khoản liên kết với email này. Vui lòng sử dụng mã xác nhận bên dưới để đặt lại mật khẩu mới:</p>
+          
+          <div style="background-color: #fff8e8; padding: 15px; border-radius: 8px; border-left: 4px solid #fea01f; margin: 20px 0; text-align: center;">
+            <strong style="color: #3e484f; display: block; margin-bottom: 8px;">Mã xác minh của bạn (hiệu lực trong 10 phút):</strong>
+            <p style="margin: 0; font-family: monospace; font-size: 28px; font-weight: bold; letter-spacing: 4px; color: #fea01f;">${resetCode}</p>
+          </div>
+
+          <p>Nếu bạn không gửi yêu cầu này, vui lòng bỏ qua email này. Mật khẩu của bạn sẽ được giữ nguyên an toàn.</p>
+          <p style="margin-top: 25px;">Trân trọng,<br/>Đội ngũ hỗ trợ OTTOPIA</p>
+          <p style="font-size: 11px; color: #999; margin-top: 30px; text-align: center; border-top: 1px solid #ffebc3; padding-top: 15px;">
+            Hệ thống thông báo tự động từ trang web học tập OTTOPIA.
+          </p>
+        </div>
+      `
+    }
+
+    await transporter.sendMail(mailOptions)
+
+    res.json({ message: 'Mã xác nhận khôi phục mật khẩu đã được gửi vào email của bạn.' })
+  } catch (error) {
+    console.error('Lỗi khi xử lý quên mật khẩu:', error)
+    res.status(500).json({ message: 'Không thể xử lý yêu cầu. Lỗi hệ thống.' })
+  }
+})
+
+const verifyResetCodeSchema = z.object({
+  email: z.string().trim().toLowerCase().email('Email không hợp lệ'),
+  code: z.string().trim().min(6, 'Mã xác nhận phải có 6 ký tự').max(6, 'Mã xác nhận phải có 6 ký tự'),
+})
+
+// POST /api/auth/verify-reset-code
+router.post('/verify-reset-code', async (req: Request, res: Response): Promise<void> => {
+  const result = verifyResetCodeSchema.safeParse(req.body)
+  if (!result.success) {
+    res.status(400).json({ message: result.error.errors[0].message })
+    return
+  }
+
+  const { email, code } = result.data
+
+  try {
+    const user = await prisma.user.findUnique({ where: { email } })
+    if (!user) {
+      res.status(404).json({ message: 'Người dùng không tồn tại.' })
+      return
+    }
+
+    if (!user.resetCode || !user.resetCodeExpires) {
+      res.status(400).json({ message: 'Yêu cầu khôi phục mật khẩu không tồn tại hoặc đã hết hạn.' })
+      return
+    }
+
+    if (user.resetCode.toUpperCase() !== code.toUpperCase()) {
+      res.status(400).json({ message: 'Mã xác nhận không đúng.' })
+      return
+    }
+
+    if (user.resetCodeExpires < new Date()) {
+      res.status(400).json({ message: 'Mã xác nhận đã hết hiệu lực.' })
+      return
+    }
+
+    res.json({ message: 'Xác minh mã thành công.' })
+  } catch (error) {
+    console.error('Lỗi khi xác minh mã:', error)
+    res.status(500).json({ message: 'Không thể xác minh mã. Lỗi hệ thống.' })
+  }
+})
+
+// POST /api/auth/reset-password
+router.post('/reset-password', async (req: Request, res: Response): Promise<void> => {
+  const result = resetPasswordSchema.safeParse(req.body)
+  if (!result.success) {
+    res.status(400).json({ message: result.error.errors[0].message })
+    return
+  }
+
+  const { email, code, newPassword } = result.data
+
+  try {
+    const user = await prisma.user.findUnique({ where: { email } })
+    if (!user) {
+      res.status(404).json({ message: 'Người dùng không tồn tại.' })
+      return
+    }
+
+    if (!user.resetCode || !user.resetCodeExpires) {
+      res.status(400).json({ message: 'Yêu cầu khôi phục mật khẩu không tồn tại hoặc đã hết hạn.' })
+      return
+    }
+
+    if (user.resetCode.toUpperCase() !== code.toUpperCase()) {
+      res.status(400).json({ message: 'Mã xác nhận không đúng.' })
+      return
+    }
+
+    if (user.resetCodeExpires < new Date()) {
+      res.status(400).json({ message: 'Mã xác nhận đã hết hiệu lực.' })
+      return
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12)
+    await prisma.user.update({
+      where: { email },
+      data: {
+        password: hashedPassword,
+        resetCode: null,
+        resetCodeExpires: null
+      }
+    })
+
+    res.json({ message: 'Đặt lại mật khẩu thành công. Bạn có thể đăng nhập bằng mật khẩu mới.' })
+  } catch (error) {
+    console.error('Lỗi khi xử lý đặt lại mật khẩu:', error)
+    res.status(500).json({ message: 'Không thể đặt lại mật khẩu. Lỗi hệ thống.' })
+  }
+})
+
 export default router
 
 

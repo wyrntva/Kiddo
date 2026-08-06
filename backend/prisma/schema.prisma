@@ -43,6 +43,8 @@ model User {
   paidUntil        DateTime?
   subscriptionPlanId String?
   pendingPlanId      String?
+  resetCode        String?
+  resetCodeExpires DateTime?
 
   level            Int       @default(1)
   stars            Int       @default(0)
