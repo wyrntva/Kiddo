@@ -70,7 +70,7 @@ export default function ContactPage() {
         <div className="mx-auto w-full max-w-[1200px] overflow-hidden rounded-[24px] border border-[#d8edfa] bg-white shadow-[0_8px_28px_rgba(0,76,110,0.07)]">
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Left Side: Contact Form */}
-            <div className="p-6 sm:p-10 lg:p-14 border-r border-[#eef5fa]">
+            <div className="p-6 sm:p-10 lg:p-14 border-b md:border-b-0 md:border-r border-[#eef5fa]">
               <h1 className="font-baloo text-[28px] font-bold text-[#004c6e] mb-2">Liên hệ với chúng tôi</h1>
               <p className="font-vietnam text-[16px] text-[#575e70] mb-8">
                 Hãy để lại lời nhắn, OTTOPIA sẽ phản hồi bạn trong vòng 24 giờ làm việc.
@@ -163,7 +163,7 @@ export default function ContactPage() {
             </div>
 
             {/* Right Side: Information */}
-            <div className="bg-[#fef9ed]/50 p-6 sm:p-10 lg:p-14 flex flex-col justify-between">
+            <div className="bg-[#fef9ed]/50 p-6 sm:p-10 lg:p-14 flex flex-col gap-10 md:justify-between">
               <div>
                 <h2 className="font-baloo text-[24px] font-bold text-[#004c6e] mb-6">Thông tin liên hệ</h2>
                 <div className="space-y-6">
