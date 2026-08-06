@@ -9,7 +9,9 @@ const Courses = () => {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
     const [loading, setLoading] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null);
+    const [editName, setEditName] = useState<string>('');
     const [editPrice, setEditPrice] = useState<string>('');
+    const [editFeatures, setEditFeatures] = useState<string[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
@@ -30,11 +32,28 @@ const Courses = () => {
 
     const handleEditClick = (plan: SubscriptionPlan) => {
         setSelectedPlan(plan);
+        setEditName(plan.name);
         setEditPrice(plan.price.toString());
+        setEditFeatures([...(plan.features || [])]);
         setModalOpen(true);
     };
 
-    const handleSavePrice = async () => {
+    const handleFeatureChange = (index: number, value: string) => {
+        const updated = [...editFeatures];
+        updated[index] = value;
+        setEditFeatures(updated);
+    };
+
+    const handleAddFeature = () => {
+        setEditFeatures([...editFeatures, '']);
+    };
+
+    const handleRemoveFeature = (index: number) => {
+        const updated = editFeatures.filter((_, idx) => idx !== index);
+        setEditFeatures(updated);
+    };
+
+    const handleSavePlan = async () => {
         if (!selectedPlan) return;
         const parsedPrice = parseInt(editPrice, 10);
         if (isNaN(parsedPrice) || parsedPrice < 0) {
@@ -42,15 +61,27 @@ const Courses = () => {
             return;
         }
 
+        if (!editName.trim()) {
+            toast.error('Vui lòng nhập tên gói');
+            return;
+        }
+
+        // Filter out empty features
+        const cleanedFeatures = editFeatures.map(f => f.trim()).filter(f => f !== '');
+
         try {
             setLoading(true);
-            await subscriptionPlansAPI.updatePrice(selectedPlan.id, parsedPrice);
-            toast.success(`Đã cập nhật giá gói ${selectedPlan.name}`);
+            await subscriptionPlansAPI.update(selectedPlan.id, {
+                name: editName.trim(),
+                price: parsedPrice,
+                features: cleanedFeatures
+            });
+            toast.success(`Đã cập nhật gói ${editName}`);
             setModalOpen(false);
             setSelectedPlan(null);
             await loadPlans();
         } catch (_err) {
-            toast.error('Lưu giá cước thất bại');
+            toast.error('Lưu gói cước thất bại');
         } finally {
             setLoading(false);
         }
@@ -125,14 +156,14 @@ const Courses = () => {
                                 className={`w-full py-2.5 mt-4 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm ${btnClass}`}
                             >
                                 <Icon icon="solar:pen-bold" className="w-4 h-4" />
-                                Tùy chỉnh giá gói
+                                Tùy chỉnh gói
                             </button>
                         </Card>
                     );
                 })}
             </div>
 
-            {/* Edit Price Modal */}
+            {/* Edit Plan Modal */}
             {selectedPlan && (
                 <BaseDialog
                     open={modalOpen}
@@ -140,14 +171,28 @@ const Courses = () => {
                         setModalOpen(false);
                         setSelectedPlan(null);
                     }}
-                    title={`Cấu hình giá: ${selectedPlan.name}`}
+                    title={`Cấu hình gói: ${selectedPlan.name}`}
                     size="md"
-                    onConfirm={handleSavePrice}
-                    confirmText="Lưu giá cước"
+                    onConfirm={handleSavePlan}
+                    confirmText="Lưu thông tin"
                     bodyClassName="space-y-4"
                 >
                     <div>
-                        <Label htmlFor="plan_price" className="text-gray-700 dark:text-gray-300 block mb-1">
+                        <Label htmlFor="plan_name" className="text-gray-700 dark:text-gray-300 block mb-1 font-medium text-sm">
+                            Tên gói học phí <span className="text-red-500">(*)</span>
+                        </Label>
+                        <TextInput
+                            id="plan_name"
+                            type="text"
+                            placeholder="Nhập tên gói..."
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label htmlFor="plan_price" className="text-gray-700 dark:text-gray-300 block mb-1 font-medium text-sm">
                             Giá tiền khóa học (VND) <span className="text-red-500">(*)</span>
                         </Label>
                         <TextInput
@@ -159,9 +204,52 @@ const Courses = () => {
                             min={0}
                             required
                         />
-                        <span className="text-xs text-gray-400 mt-1 block">
+                        <span className="text-[11px] text-gray-400 mt-1 block">
                             Nhập mệnh giá VNĐ (Ví dụ: 99000). Giá trị này sẽ được dùng để tạo mã VietQR động khi bé đăng ký học.
                         </span>
+                    </div>
+
+                    <div>
+                        <div className="flex justify-between items-center mb-1">
+                            <Label className="text-gray-700 dark:text-gray-300 font-medium text-sm">
+                                Quyền lợi gói học phí
+                            </Label>
+                            <button
+                                type="button"
+                                onClick={handleAddFeature}
+                                className="text-xs text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+                            >
+                                <Icon icon="solar:add-circle-bold" className="w-4 h-4" />
+                                Thêm dòng mới
+                            </button>
+                        </div>
+                        
+                        <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+                            {editFeatures.map((feat, idx) => (
+                                <div key={idx} className="flex items-center gap-2">
+                                    <TextInput
+                                        className="flex-grow"
+                                        type="text"
+                                        placeholder={`Quyền lợi ${idx + 1}...`}
+                                        value={feat}
+                                        onChange={(e) => handleFeatureChange(idx, e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveFeature(idx)}
+                                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors border border-gray-200"
+                                        title="Xóa quyền lợi"
+                                    >
+                                        <Icon icon="solar:trash-bin-trash-bold" className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ))}
+                            {editFeatures.length === 0 && (
+                                <p className="text-xs text-gray-400 text-center py-2">
+                                    Chưa có quyền lợi nào. Hãy bấm "Thêm dòng mới".
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </BaseDialog>
             )}

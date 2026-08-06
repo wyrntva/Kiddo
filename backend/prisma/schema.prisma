@@ -19,6 +19,12 @@ enum Gender {
   OTHER
 }
 
+enum LockStatus {
+  UNLOCKED
+  PAID
+  DEV
+}
+
 model User {
   id               String    @id @default(cuid())
   email            String    @unique
@@ -58,15 +64,16 @@ model RefreshToken {
 }
 
 model Zone {
-  id        String   @id @default(cuid())
-  name      String
-  desc      String
-  color     String
-  img       String
-  key       String   @unique // e.g. "emotion", "friendship", "communication", "independence", "situation"
-  lessons   Lesson[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String     @id @default(cuid())
+  name       String
+  desc       String
+  color      String
+  img        String
+  key        String     @unique // e.g. "emotion", "friendship", "communication", "independence", "situation"
+  lockStatus LockStatus @default(UNLOCKED)
+  lessons    Lesson[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Lesson {
@@ -79,6 +86,7 @@ model Lesson {
   duration      String         @default("20 phút")
   stars         Int            @default(10)
   stepsCount    Int            @default(5) // number of steps in this lesson
+  lockStatus    LockStatus     @default(UNLOCKED)
   zoneId        String
   zone          Zone           @relation(fields: [zoneId], references: [id], onDelete: Cascade)
   quizQuestions QuizQuestion[]

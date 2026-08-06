@@ -18,14 +18,116 @@ export default function DiaryPage() {
   const { user } = useAuth()
   const [expandedIsland, setExpandedIsland] = useState<string>(DEFAULT_ISLAND)
   const [, setSyncCount] = useState(0)
+  const [dbZones, setDbZones] = useState<any[]>([])
+
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
+    const token = localStorage.getItem('accessToken')
+
+    fetch(`${API_URL}/api/zones`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json && Array.isArray(json.data)) {
+          setDbZones(json.data)
+        }
+      })
+      .catch(err => console.error('Lỗi khi tải nhật ký vùng đất:', err))
+  }, [user?.id])
+
+  const keyMap: Record<string, string> = {
+    'Vùng đất cảm xúc': 'emotion',
+    'Thành phố giao tiếp': 'communication',
+    'Ngôi làng tự lập': 'independence',
+    'Khu vườn bạn bè': 'friendship',
+    'Hành tinh tình huống': 'situation',
+  }
+
+  const zoneKey = keyMap[expandedIsland]
+  const dbZone = dbZones.find(z => z.key === zoneKey)
+
+  const rawLessons = dbZone && Array.isArray(dbZone.lessons) && dbZone.lessons.length > 0
+    ? (() => {
+        let sorted = [...dbZone.lessons]
+        if (zoneKey === 'emotion') {
+          const desiredTitles = ['niềm vui', 'nỗi buồn', 'cơn giận', 'sợ', 'nói ra']
+          sorted.sort((a: any, b: any) => {
+            const idxA = desiredTitles.findIndex(t => a.title.toLowerCase().includes(t))
+            const idxB = desiredTitles.findIndex(t => b.title.toLowerCase().includes(t))
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB
+            return 0
+          })
+        }
+        const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
+        return sorted.map((l: any) => {
+          const staticLessons = ISLAND_LESSONS[expandedIsland] || []
+          const staticL = staticLessons.find((sl: any) => sl.id === l.id || sl.title.toLowerCase() === l.title.toLowerCase())
+          return {
+            id: l.id,
+            title: l.title,
+            image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : staticL?.image,
+            feedback: staticL?.feedback || {
+              title: 'Con đang cảm thấy gì?',
+              strengths: ['Con đã hoàn thành bài học xuất sắc!'],
+              practice: [],
+              tips: ['Động viên bé thực hành các kỹ năng đã học trong cuộc sống hàng ngày.'],
+            }
+          }
+        })
+      })()
+    : ISLAND_LESSONS[expandedIsland] || []
+
+  const dynamicIslands = ISLANDS.map((island) => {
+    const islandZoneKey = keyMap[island.name]
+    const matchingDbZone = dbZones.find(z => z.key === islandZoneKey)
+
+    if (matchingDbZone && Array.isArray(matchingDbZone.lessons) && matchingDbZone.lessons.length > 0) {
+      let sortedLessons = [...matchingDbZone.lessons]
+      if (islandZoneKey === 'emotion') {
+        const desiredTitles = ['niềm vui', 'nỗi buồn', 'cơn giận', 'sợ', 'nói ra']
+        sortedLessons.sort((a: any, b: any) => {
+          const idxA = desiredTitles.findIndex(t => a.title.toLowerCase().includes(t))
+          const idxB = desiredTitles.findIndex(t => b.title.toLowerCase().includes(t))
+          if (idxA !== -1 && idxB !== -1) return idxA - idxB
+          return 0
+        })
+      }
+
+
+      const skills = sortedLessons.map((l: any, index: number) => {
+        const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
+        const progress = status === 'completed' ? 100 : status === 'in-progress' ? 80 : 0
+        const colorPalette = ['#339E4A', '#FEA01F', '#0A7AD8', '#8234E4', '#ff4d4d']
+        const color = colorPalette[index % colorPalette.length]
+
+        const hasCustomIconPath = l.title.toLowerCase().includes('buồn') ? '/assets/sad_sad.png' : undefined
+
+        return {
+          label: l.title,
+          progress,
+          color,
+          customIcon: hasCustomIconPath,
+          spriteOffset: island.skills[index]?.spriteOffset || '-3.85%',
+        }
+      })
+
+      return {
+        ...island,
+        skills,
+      }
+    }
+
+    return island
+  })
 
   useEffect(() => {
     void syncProgressFromAPI(user?.id).then((ok) => {
       if (ok) setSyncCount((c) => c + 1)
     })
   }, [user?.id])
-
-  const rawLessons = ISLAND_LESSONS[expandedIsland] || []
 
   const currentLessons: Lesson[] = rawLessons.map((lesson, index) => {
     const accStatus = getLessonStatusForAccount(lesson.id, index, user?.id, lesson.title)
@@ -115,7 +217,7 @@ export default function DiaryPage() {
         <div className="relative flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-[20px] bg-[#fef9ed] p-3 pb-[72px] sm:gap-5 sm:rounded-[24px] sm:p-5 sm:pb-[80px] xl:w-[340px] xl:gap-5 xl:p-4 xl:pb-6 2xl:w-[414px] 2xl:gap-6 2xl:p-5 diary-sidebar-card">
           <DiaryProfileCard babyAvatar={babyAvatar} babyName={babyName} babyAge={babyAge} />
           <DiaryProgressSidebar
-            islands={ISLANDS}
+            islands={dynamicIslands}
             expandedIsland={expandedIsland}
             onSelectIsland={handleSelectIsland}
             accordionScrollRef={accordionScrollRef}

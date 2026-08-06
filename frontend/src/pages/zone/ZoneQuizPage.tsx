@@ -74,6 +74,21 @@ export default function ZoneQuizPage() {
   }, [id, setCurrentLessonId])
 
   useEffect(() => {
+    // Lock scroll on html and body when entering the lesson page
+    const originalHtmlOverflow = document.documentElement.style.overflow
+    const originalBodyOverflow = document.body.style.overflow
+
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      // Restore scroll when leaving the page
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overflow = originalBodyOverflow
+    }
+  }, [])
+
+  useEffect(() => {
     if (!showSuccessModal) return
 
     const previousOverflow = document.body.style.overflow

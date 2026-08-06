@@ -29,6 +29,7 @@ const LessonEdit = () => {
         videoUrl: '',
         postQuestionText: '',
         postQuestionAudio: '',
+        lockStatus: 'UNLOCKED' as 'UNLOCKED' | 'PAID' | 'DEV',
     });
 
     useEffect(() => {
@@ -84,6 +85,7 @@ const LessonEdit = () => {
                     videoUrl: videoUrlFallback,
                     postQuestionText: postQuestionTextFallback,
                     postQuestionAudio: postQuestionAudioFallback,
+                    lockStatus: lesson.lockStatus || 'UNLOCKED',
                 });
             } catch {
                 toast.error('Không thể tải thông tin bài học');
@@ -265,6 +267,19 @@ const LessonEdit = () => {
                                 onChange={event => setFormData({ ...formData, stars: Number(event.target.value) })}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                             />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Trạng thái khóa</label>
+                            <select
+                                value={formData.lockStatus}
+                                onChange={event => setFormData({ ...formData, lockStatus: event.target.value as 'UNLOCKED' | 'PAID' | 'DEV' })}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm"
+                            >
+                                <option value="UNLOCKED">Không khóa (Miễn phí)</option>
+                                <option value="PAID">Khóa trả phí (Chỉ tài khoản Paid)</option>
+                                <option value="DEV">Đang phát triển (Khóa hoàn toàn)</option>
+                            </select>
                         </div>
 
                         <hr className="border-gray-200 dark:border-gray-700 md:col-span-2 my-2" />

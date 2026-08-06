@@ -43,10 +43,17 @@ router.post('/upload', upload.single('file'), (req, res) => {
 
 // POST /api/zones - Create a zone
 router.post('/', async (req, res) => {
-  const { name, desc, color, img, key } = req.body
+  const { name, desc, color, img, key, lockStatus } = req.body
   try {
     const zone = await prisma.zone.create({
-      data: { name, desc, color, img, key },
+      data: { 
+        name, 
+        desc, 
+        color, 
+        img, 
+        key,
+        lockStatus: lockStatus || 'UNLOCKED'
+      },
     })
     res.status(201).json(zone)
   } catch (error) {
@@ -56,11 +63,19 @@ router.post('/', async (req, res) => {
 
 // PATCH /api/zones/:id - Update a zone
 router.patch('/:id', async (req, res) => {
-  const { name, desc, color, img, key } = req.body
+  const { name, desc, color, img, key, lockStatus } = req.body
   try {
+    const updateData: any = {}
+    if (name !== undefined) updateData.name = name
+    if (desc !== undefined) updateData.desc = desc
+    if (color !== undefined) updateData.color = color
+    if (img !== undefined) updateData.img = img
+    if (key !== undefined) updateData.key = key
+    if (lockStatus !== undefined) updateData.lockStatus = lockStatus
+
     const zone = await prisma.zone.update({
       where: { id: req.params.id },
-      data: { name, desc, color, img, key },
+      data: updateData,
     })
     res.json(zone)
   } catch (error) {

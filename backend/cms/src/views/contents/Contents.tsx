@@ -17,6 +17,7 @@ const Contents = () => {
         desc: '',
         color: '#FEA01F',
         img: '',
+        lockStatus: 'UNLOCKED' as 'UNLOCKED' | 'PAID' | 'DEV',
     });
     
     const fetchZones = async () => {
@@ -54,6 +55,7 @@ const Contents = () => {
             desc: '',
             color: '#FEA01F',
             img: '',
+            lockStatus: 'UNLOCKED',
         });
         setIsModalOpen(true);
     };
@@ -66,6 +68,7 @@ const Contents = () => {
             desc: zone.desc,
             color: zone.color,
             img: zone.img,
+            lockStatus: zone.lockStatus || 'UNLOCKED',
         });
         setIsModalOpen(true);
     };
@@ -140,6 +143,7 @@ const Contents = () => {
                             <Table.HeadCell>Mô tả</Table.HeadCell>
                             <Table.HeadCell>Mã màu</Table.HeadCell>
                             <Table.HeadCell>Số bài học</Table.HeadCell>
+                            <Table.HeadCell>Trạng thái khóa</Table.HeadCell>
                             <Table.HeadCell><span className="sr-only">Actions</span></Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
@@ -179,6 +183,21 @@ const Contents = () => {
                                             </div>
                                         </Table.Cell>
                                         <Table.Cell className="font-semibold text-blue-600">{item.lessons?.length || 0} bài</Table.Cell>
+                                        <Table.Cell>
+                                            {item.lockStatus === 'DEV' ? (
+                                                <span className="bg-gray-150 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded border border-gray-200 dark:bg-gray-700 dark:text-gray-300">
+                                                    Đang phát triển
+                                                </span>
+                                            ) : item.lockStatus === 'PAID' ? (
+                                                <span className="bg-red-50 text-red-700 text-xs font-semibold px-2.5 py-0.5 rounded border border-red-100 dark:bg-red-900/20 dark:text-red-300">
+                                                    Trả phí
+                                                </span>
+                                            ) : (
+                                                <span className="bg-green-50 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-100 dark:bg-green-900/20 dark:text-green-300">
+                                                    Không khóa
+                                                </span>
+                                            )}
+                                        </Table.Cell>
                                         <Table.Cell>
                                             <div className="flex gap-4">
                                                 <button onClick={() => handleEditClick(item)} className="text-[#0A7AD8] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">Sửa</button>
@@ -273,6 +292,18 @@ const Contents = () => {
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Trạng thái khóa</label>
+                                <select
+                                    value={formData.lockStatus}
+                                    onChange={e => setFormData({ ...formData, lockStatus: e.target.value as 'UNLOCKED' | 'PAID' | 'DEV' })}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                                >
+                                    <option value="UNLOCKED">Không khóa (Miễn phí)</option>
+                                    <option value="PAID">Khóa trả phí (Chỉ tài khoản Paid)</option>
+                                    <option value="DEV">Đang phát triển (Khóa hoàn toàn)</option>
+                                </select>
                             </div>
                             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                                 <button 

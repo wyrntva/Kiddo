@@ -18,22 +18,42 @@ router.get('/', async (req, res) => {
   }
 })
 
-// PUT /api/subscription-plans/:id - Update plan price
+// PUT /api/subscription-plans/:id - Update plan details (price, name, features)
 router.put('/:id', authenticate, requireAdmin, async (req, res) => {
-  const { price } = req.body
+  const { name, price, features } = req.body
 
-  if (price === undefined || typeof price !== 'number' || price < 0) {
-    return res.status(400).json({ message: 'Giá trị tiền không hợp lệ' })
+  const updateData: any = {}
+
+  if (price !== undefined) {
+    if (typeof price !== 'number' || price < 0) {
+      return res.status(400).json({ message: 'Giá trị tiền không hợp lệ' })
+    }
+    updateData.price = price
+  }
+
+  if (name !== undefined) {
+    if (typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ message: 'Tên gói không hợp lệ' })
+    }
+    updateData.name = name
+  }
+
+  if (features !== undefined) {
+    if (!Array.isArray(features) || !features.every(f => typeof f === 'string')) {
+      return res.status(400).json({ message: 'Danh sách quyền lợi không hợp lệ' })
+    }
+    updateData.features = features
   }
 
   try {
     const updated = await prisma.subscriptionPlan.update({
       where: { id: req.params.id },
-      data: { price }
+      data: updateData
     })
     res.json(updated)
   } catch (error) {
-    res.status(500).json({ message: 'Không thể cập nhật giá gói học phí' })
+    console.error('Failed to update subscription plan:', error)
+    res.status(500).json({ message: 'Không thể cập nhật gói học phí' })
   }
 })
 

@@ -13,6 +13,7 @@ export interface Lesson {
     stars: number;
     stepsCount: number;
     zoneId: string;
+    lockStatus?: 'UNLOCKED' | 'PAID' | 'DEV';
     zone?: Zone;
     welcomeText?: string;
     preVideoText?: string;

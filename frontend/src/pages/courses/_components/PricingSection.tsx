@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
 
 type Plan = {
@@ -12,6 +13,8 @@ type Plan = {
 }
 
 export default function PricingSection() {
+  const navigate = useNavigate()
+  const location = useLocation()
   const { user, upgradeSubscription } = useAuth()
   const [plans, setPlans] = useState<Plan[]>([])
   const [loading, setLoading] = useState(true)
@@ -50,7 +53,7 @@ export default function PricingSection() {
 
   const handleSelectPlan = (plan: Plan) => {
     if (!user) {
-      alert('Vui lòng đăng nhập để đăng ký khóa học!')
+      navigate('/login', { state: { from: location } })
       return
     }
     if (user.isPaid) {

@@ -17,20 +17,7 @@ export default function DiaryProgressSidebar({
   islandRefs,
 }: DiaryProgressSidebarProps) {
   return (
-    <div
-      className="relative flex h-[360px] w-full flex-col overflow-hidden p-3 pr-0 sm:h-[420px] sm:p-5 sm:pr-0 md:h-[440px] xl:h-[560px] xl:p-5 xl:pr-0 2xl:min-h-0 2xl:flex-1 2xl:p-5 2xl:pr-0"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: '12px',
-        alignSelf: 'stretch',
-        borderRadius: '24px',
-        border: '1px solid #EDEEF2',
-        background: '#FFF',
-        boxShadow: '0px 4px 20px 0px rgba(0, 0, 0, 0.05)',
-      }}
-    >
+    <div className="diary-progress-sidebar relative p-3 pr-0 sm:p-5 sm:pr-0 xl:p-5 xl:pr-0">
       <div className="flex items-center gap-[12px] w-full pr-[16px] sm:pr-[24px]">
         <div className="bg-[#f2f0fe] p-[8px] rounded-full shrink-0 size-[40px] flex items-center justify-center">
           <img width="24" height="24" src="/assets/3bab622495f2214e9c9d7da863feb777684907f2.svg" alt="Status Up" className="block size-[24px] object-contain" loading="lazy" decoding="async" />
@@ -40,8 +27,7 @@ export default function DiaryProgressSidebar({
 
       <div
         ref={accordionScrollRef}
-        className="relative flex flex-col gap-[12px] w-full overflow-y-auto pr-[16px] sm:pr-[24px] scrollbar-thin-custom"
-        style={{ flex: 1 }}
+        className="diary-progress-sidebar-scroll-area pr-[16px] sm:pr-[24px] scrollbar-thin-custom"
       >
         {islands.map((island) => {
           const isExpanded = expandedIsland === island.name
@@ -107,19 +93,29 @@ export default function DiaryProgressSidebar({
                 <div className="flex w-full flex-col gap-4 pt-3 sm:gap-5 2xl:gap-6" onClick={(event) => event.stopPropagation()}>
                   {island.skills.map((skill) => (
                     <div key={skill.label} className="flex w-full items-center gap-3 sm:gap-4 2xl:gap-6">
-                      <div className="relative size-10 shrink-0 overflow-clip sm:size-12">
-                        <img width="228" height="1024"
-                          src="/assets/71a60f62f566a1e60279961c156dc98659392a01.webp"
-                          alt={skill.label}
-                          className="absolute max-w-none"
-                          style={{
-                            width: '112.5%',
-                            height: '505.26%',
-                            left: '-8.31%',
-                            top: skill.spriteOffset,
-                          }}
-                          loading="lazy" decoding="async"
-                        />
+                      <div className="relative size-10 shrink-0 overflow-clip sm:size-12 flex items-center justify-center">
+                        {skill.customIcon ? (
+                          <img
+                            src={skill.customIcon}
+                            alt={skill.label}
+                            className="block size-full object-contain"
+                            style={{ padding: '4.5px' }}
+                            loading="lazy" decoding="async"
+                          />
+                        ) : (
+                          <img width="228" height="1024"
+                            src="/assets/71a60f62f566a1e60279961c156dc98659392a01.webp"
+                            alt={skill.label}
+                            className="absolute max-w-none"
+                            style={{
+                              width: '112.5%',
+                              height: '505.26%',
+                              left: '-8.31%',
+                              top: skill.spriteOffset,
+                            }}
+                            loading="lazy" decoding="async"
+                          />
+                        )}
                       </div>
 
                       <div className="flex-1 flex flex-col gap-[4px]">

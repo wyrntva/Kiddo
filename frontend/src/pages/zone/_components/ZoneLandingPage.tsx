@@ -41,7 +41,6 @@ export default function ZoneLandingPage({
         className="zone-landing-main emotion-page relative flex-1"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',

@@ -87,7 +87,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
           welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
-          postQuestionText, postQuestionAudio } = req.body
+          postQuestionText, postQuestionAudio, lockStatus } = req.body
   try {
     const lesson = await prisma.lesson.create({
       data: {
@@ -99,6 +99,7 @@ router.post('/', async (req, res) => {
         duration,
         stars: parseInt(stars, 10) || 10,
         stepsCount: parseInt(stepsCount, 10) || 5,
+        lockStatus: lockStatus || 'UNLOCKED',
         zoneId,
         welcomeText: welcomeText || '',
         preVideoText: preVideoText || '',
@@ -124,7 +125,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
           welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
-          postQuestionText, postQuestionAudio } = req.body
+          postQuestionText, postQuestionAudio, lockStatus } = req.body
   try {
     const updateData: any = {}
     if (title !== undefined) updateData.title = title
@@ -135,6 +136,7 @@ router.patch('/:id', async (req, res) => {
     if (duration !== undefined) updateData.duration = duration
     if (stars !== undefined) updateData.stars = parseInt(stars, 10) || 0
     if (stepsCount !== undefined) updateData.stepsCount = parseInt(stepsCount, 10) || 0
+    if (lockStatus !== undefined) updateData.lockStatus = lockStatus
     if (zoneId !== undefined) updateData.zoneId = zoneId
     if (welcomeText !== undefined) updateData.welcomeText = welcomeText
     if (preVideoText !== undefined) updateData.preVideoText = preVideoText

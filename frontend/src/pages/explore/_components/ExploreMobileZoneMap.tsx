@@ -9,6 +9,7 @@ const imgBg = '/assets/khampha-display.webp'
 interface ExploreMobileZoneMapProps {
   activeZoneIdx: number
   hoveredZoneIdx: number | null
+  dbZones: any[]
   cardContainerRef: React.RefObject<HTMLDivElement>
   scrollContainerRef: React.RefObject<HTMLDivElement>
   designWidth: number
@@ -21,6 +22,7 @@ interface ExploreMobileZoneMapProps {
 export default function ExploreMobileZoneMap({
   activeZoneIdx,
   hoveredZoneIdx,
+  dbZones,
   cardContainerRef,
   scrollContainerRef,
   designWidth,
@@ -50,6 +52,7 @@ export default function ExploreMobileZoneMap({
               <ExploreCloudLayer />
               <ExploreZoneIslandsLayer
                 mobile
+                dbZones={dbZones}
                 activeZoneIdx={activeZoneIdx}
                 hoveredZoneIdx={hoveredZoneIdx}
                 onActivate={onSetActiveZone}

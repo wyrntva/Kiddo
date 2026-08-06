@@ -8,6 +8,7 @@ const imgBg = '/assets/khampha-display.webp'
 interface ExploreDesktopZoneMapProps {
   wrapperRef: React.RefObject<HTMLDivElement>
   hoveredZoneIdx: number | null
+  dbZones: any[]
   scale: number
   height: number
   designWidth: number
@@ -20,6 +21,7 @@ interface ExploreDesktopZoneMapProps {
 export default function ExploreDesktopZoneMap({
   wrapperRef,
   hoveredZoneIdx,
+  dbZones,
   scale,
   height,
   designWidth,
@@ -41,6 +43,7 @@ export default function ExploreDesktopZoneMap({
           <img src={imgBg} alt="" className="absolute inset-0 pointer-events-none select-none w-full h-full" loading="lazy" decoding="async" />
           <ExploreCloudLayer />
           <ExploreZoneIslandsLayer
+            dbZones={dbZones}
             hoveredZoneIdx={hoveredZoneIdx}
             onActivate={() => {}}
             onNavigate={onNavigate}

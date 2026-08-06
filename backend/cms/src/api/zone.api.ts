@@ -8,6 +8,7 @@ export interface Zone {
     color: string;
     img: string;
     key: string;
+    lockStatus?: 'UNLOCKED' | 'PAID' | 'DEV';
     lessons?: any[];
 }
 

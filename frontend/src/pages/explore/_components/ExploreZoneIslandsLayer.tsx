@@ -1,8 +1,10 @@
 import { EXPLORE_ISLANDS, EXPLORE_ZONES } from './exploreZoneMapData'
+import { useAuth } from '../../../context/AuthContext'
 
 interface ExploreZoneIslandsLayerProps {
   activeZoneIdx?: number
   hoveredZoneIdx: number | null
+  dbZones?: any[]
   mobile?: boolean
   onActivate: (zoneIdx: number) => void
   onNavigate: (zoneIdx: number) => void
@@ -12,11 +14,14 @@ interface ExploreZoneIslandsLayerProps {
 export default function ExploreZoneIslandsLayer({
   activeZoneIdx,
   hoveredZoneIdx,
+  dbZones = [],
   mobile = false,
   onActivate,
   onNavigate,
   onHoverChange,
 }: ExploreZoneIslandsLayerProps) {
+  const { user } = useAuth()
+
   return (
     <>
       {EXPLORE_ISLANDS.map((island, index) => {
@@ -24,6 +29,15 @@ export default function ExploreZoneIslandsLayer({
         const isHovered = hoveredZoneIdx === island.zoneIdx
         const zone = EXPLORE_ZONES[island.zoneIdx]
         const tooltipBelow = island.zoneIdx === 2
+
+        const keysMap = ['emotion', 'friendship', 'communication', 'independence', 'situation']
+        const key = keysMap[island.zoneIdx]
+        const dbZone = dbZones.find(z => z.key === key)
+        const lockStatus = dbZone?.lockStatus || 'UNLOCKED'
+
+        const isDev = lockStatus === 'DEV'
+        const isPaidLocked = lockStatus === 'PAID' && (!user || !user.isPaid)
+        const isLocked = isDev || isPaidLocked
 
         return (
           <div
@@ -38,10 +52,10 @@ export default function ExploreZoneIslandsLayer({
               animationDelay: island.delay,
               filter: mobile
                 ? isActive || isHovered
-                  ? `drop-shadow(0 0 35px ${island.color})`
+                  ? `drop-shadow(0 0 35px ${isLocked ? '#e11d48' : island.color})`
                   : 'drop-shadow(0 10px 15px rgba(0, 40, 70, 0.25))'
                 : isHovered
-                  ? `drop-shadow(0 0 30px ${island.color}) drop-shadow(0 0 60px ${island.color}80)`
+                  ? `drop-shadow(0 0 30px ${isLocked ? '#e11d48' : island.color}) drop-shadow(0 0 60px ${isLocked ? '#e11d48' : island.color}80)`
                   : 'drop-shadow(0 10px 15px rgba(0, 40, 70, 0.25))',
               transform: mobile
                 ? isActive || isHovered
@@ -69,20 +83,43 @@ export default function ExploreZoneIslandsLayer({
           >
             {!mobile && (
               <div
-                className="absolute left-1/2 font-baloo font-bold text-white text-[18px] px-5 py-2 rounded-full whitespace-nowrap pointer-events-none"
+                className="absolute left-1/2 font-baloo font-bold text-white text-[16px] px-5 py-1.5 rounded-full whitespace-nowrap pointer-events-none flex flex-col items-center gap-0.5"
                 style={{
                   transform: 'translateX(-50%)',
-                  ...(tooltipBelow ? { bottom: -48 } : { top: -48 }),
-                  backgroundColor: island.color,
-                  boxShadow: `0 4px 16px ${island.color}66`,
+                  ...(tooltipBelow ? { bottom: -60 } : { top: -60 }),
+                  backgroundColor: isLocked ? '#e11d48' : island.color,
+                  boxShadow: isLocked ? '0 4px 16px rgba(225, 29, 72, 0.4)' : `0 4px 16px ${island.color}66`,
                   opacity: isHovered ? 1 : 0,
                   transition: 'opacity 0.25s ease',
+                  zIndex: 20,
                 }}
               >
-                {zone.name.replace('\n', ' ')}
+                <span>{zone.name.replace('\n', ' ')}</span>
+                {isLocked && (
+                  <span className="text-[11px] font-medium opacity-90 leading-none">
+                    ({isDev ? 'Đang phát triển' : 'Gói trả phí'})
+                  </span>
+                )}
               </div>
             )}
             <img src={island.img} alt="" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', position: 'relative', zIndex: 2 }} />
+            
+            {isLocked && (
+              <img 
+                src="/assets/lock_hand_drawn.png" 
+                alt="Locked" 
+                className="absolute pointer-events-none select-none"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 10,
+                  width: '80px',
+                  height: '80px',
+                  filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.5))',
+                }}
+              />
+            )}
           </div>
         )
       })}

@@ -13,6 +13,7 @@ export const emotionIsland: DiaryIsland = {
   image: '/assets/vung_dat_cam_xuc_island.webp',
   skills: [
     { label: 'Nhận biết cảm xúc', color: '#339E4A', progress: 80, spriteOffset: '-3.85%' },
+    { label: 'Nỗi buồn bé nhỏ', color: '#339E4A', progress: 80, customIcon: '/assets/sad_sad.png' },
     { label: 'Bình tĩnh khi tức giận', color: '#FEA01F', progress: 80, spriteOffset: '-131.84%' },
     { label: 'Nói ra cảm xúc', color: '#0A7AD8', progress: 80, spriteOffset: '-252.32%' },
     { label: 'Giao tiếp tích cực', color: '#8234E4', progress: 80, spriteOffset: '-381.62%' },

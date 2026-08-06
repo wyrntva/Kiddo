@@ -17,7 +17,8 @@ export interface DiarySkill {
   label: string
   progress: number
   color: string
-  spriteOffset: string
+  spriteOffset?: string
+  customIcon?: string
 }
 
 export interface DiaryIsland {

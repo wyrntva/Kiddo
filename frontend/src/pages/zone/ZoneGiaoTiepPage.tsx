@@ -58,24 +58,43 @@ export default function ZoneGiaoTiepPage() {
       .then(res => res.json())
       .then(json => {
         const currentZone = json.data?.find((z: any) => z.key === 'communication')
-        if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
-          const dbLessons = currentZone.lessons.map((l: any, index: number) => {
-            const status = getLessonStatusForAccount(l.id, index, user?.id)
-            return {
-              id: l.id,
-              fallbackId: (index % 5) + 1,
-              title: l.title,
-              description: l.description || '',
-              status,
-              stars: status === 'completed' ? 5 : 0,
-              image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : undefined,
-            }
-          })
-          setLessons(dbLessons)
+        if (currentZone) {
+          const zLock = currentZone.lockStatus || 'UNLOCKED'
+          if (zLock === 'DEV') {
+            alert('Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!')
+            navigate('/explore')
+            return
+          }
+          if (zLock === 'PAID' && (!user || !user.isPaid)) {
+            alert('Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
+            navigate('/courses')
+            return
+          }
+
+          if (Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
+            const dbLessons = currentZone.lessons.map((l: any, index: number) => {
+              const isDev = l.lockStatus === 'DEV'
+              const isPaidLocked = l.lockStatus === 'PAID' && (!user || !user.isPaid)
+              const isLocked = isDev || isPaidLocked
+
+              const status = isLocked ? 'not-started' : getLessonStatusForAccount(l.id, index, user?.id)
+              return {
+                id: l.id,
+                fallbackId: (index % 5) + 1,
+                title: l.title,
+                description: l.description || '',
+                status,
+                stars: status === 'completed' ? 5 : 0,
+                image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : undefined,
+                lockStatus: l.lockStatus || 'UNLOCKED',
+              }
+            })
+            setLessons(dbLessons)
+          }
         }
       })
       .catch(err => console.error('Lỗi khi tải bài học:', err))
-  }, [user?.id])
+  }, [user?.id, user?.isPaid, navigate])
 
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
@@ -91,6 +110,14 @@ export default function ZoneGiaoTiepPage() {
       total={lessons.length}
       theme={theme}
       onLessonSelect={(lesson) => {
+        if (lesson.lockStatus === 'DEV') {
+          return
+        }
+        if (lesson.lockStatus === 'PAID') {
+          if (!user || !user.isPaid) {
+            return
+          }
+        }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
         navigate(`/zone/emotions/lesson/${lesson.id}`)
       }}

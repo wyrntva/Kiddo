@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../../../context/AuthContext'
 import ExploreDesktopZoneMap from './ExploreDesktopZoneMap'
 import ExploreMobileZoneMap from './ExploreMobileZoneMap'
 import { ZONE_ROUTES } from './exploreZoneMapData'
@@ -6,6 +8,8 @@ import useExploreZoneMap from './useExploreZoneMap'
 
 export default function ExploreZoneMap() {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const [dbZones, setDbZones] = useState<any[]>([])
   const {
     wrapperRef,
     scrollContainerRef,
@@ -22,7 +26,40 @@ export default function ExploreZoneMap() {
     mobileScale,
   } = useExploreZoneMap()
 
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname.includes('ottopia.vn') ? window.location.origin : 'http://localhost:5000')
+    const token = localStorage.getItem('accessToken')
+
+    fetch(`${API_URL}/api/zones`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (Array.isArray(json.data)) {
+          setDbZones(json.data)
+        }
+      })
+      .catch(err => console.error('Lỗi khi tải trạng thái khóa hòn đảo:', err))
+  }, [])
+
   const handleNavigate = (zoneIdx = 0) => {
+    const keysMap = ['emotion', 'friendship', 'communication', 'independence', 'situation']
+    const key = keysMap[zoneIdx]
+    const dbZone = dbZones.find(z => z.key === key)
+    const lockStatus = dbZone?.lockStatus || 'UNLOCKED'
+
+    if (lockStatus === 'DEV') {
+      return
+    }
+
+    if (lockStatus === 'PAID') {
+      if (!user || !user.isPaid) {
+        return
+      }
+    }
+
     navigate(ZONE_ROUTES[zoneIdx] ?? '/courses')
   }
 
@@ -54,6 +91,7 @@ export default function ExploreZoneMap() {
       <ExploreMobileZoneMap
         activeZoneIdx={activeZoneIdx}
         hoveredZoneIdx={hoveredZoneIdx}
+        dbZones={dbZones}
         cardContainerRef={cardContainerRef}
         scrollContainerRef={scrollContainerRef}
         designWidth={designWidth}
@@ -66,6 +104,7 @@ export default function ExploreZoneMap() {
       <ExploreDesktopZoneMap
         wrapperRef={wrapperRef}
         hoveredZoneIdx={hoveredZoneIdx}
+        dbZones={dbZones}
         scale={scale}
         height={height}
         designWidth={designWidth}

@@ -8,6 +8,7 @@ export interface ZoneLesson {
   status: ZoneLessonStatus
   stars: number
   image?: string
+  lockStatus?: 'UNLOCKED' | 'PAID' | 'DEV'
 }
 
 export interface ZoneTheme {

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 // Assets — all already in public/assets/
 const imgLogo       = "/assets/logo_ottopia.webp"
@@ -32,9 +34,32 @@ function ColHeading({ children }: { children: string }) {
   )
 }
 
-function FooterLink({ children, href = '#' }: { children: string; href?: string }) {
+function FooterLink({ 
+  children, 
+  href, 
+  onClick 
+}: { 
+  children: string 
+  href?: string 
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void 
+}) {
+  const navigate = useNavigate()
+  
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) {
+      onClick(event)
+    } else if (href) {
+      event.preventDefault()
+      navigate(href)
+    }
+  }
+
   return (
-    <a href={href} className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors">
+    <a 
+      href={href || '#'} 
+      onClick={handleClick} 
+      className="font-vietnam text-[16px] leading-[24px] text-[#575e70] hover:text-[#004c6e] transition-colors cursor-pointer"
+    >
       {children}
     </a>
   )
@@ -53,7 +78,10 @@ function SocialBtn({ icon, inset }: { icon: string; inset: string }) {
 }
 
 export default function Footer() {
+  const navigate = useNavigate()
+  const { user } = useAuth()
   const [settings, setSettings] = useState<StoreSettings | null>(null)
+  const [dbZones, setDbZones] = useState<any[]>([])
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
   useEffect(() => {
@@ -67,6 +95,38 @@ export default function Footer() {
         console.warn('Cấu hình footer sử dụng thông tin mặc định:', err)
       })
   }, [API_URL])
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    fetch(`${API_URL}/api/zones`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json && Array.isArray(json.data)) {
+          setDbZones(json.data)
+        }
+      })
+      .catch(() => {
+        // Fallback silently
+      })
+  }, [API_URL, user?.id])
+
+  const handleZoneClick = (event: React.MouseEvent<HTMLAnchorElement>, zoneKey: string, href: string) => {
+    event.preventDefault()
+    const dbZone = dbZones.find(z => z.key === zoneKey)
+    if (dbZone) {
+      const isDev = dbZone.lockStatus === 'DEV'
+      const isPaidLocked = dbZone.lockStatus === 'PAID' && (!user || !user.isPaid)
+      if (isDev || isPaidLocked) {
+        navigate('/explore')
+        return
+      }
+    }
+    navigate(href)
+  }
 
   const facebookUrl = settings?.facebook_url || "https://www.facebook.com/ottopia.kynangsongchotre";
   const youtubeUrl = settings?.youtube_url || "";
@@ -118,11 +178,11 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>KHÁM PHÁ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Vùng Đất Cảm Xúc</FooterLink>
-            <FooterLink>Thành Phố Giao Tiếp</FooterLink>
-            <FooterLink>Ngôi Làng Tự Lập</FooterLink>
-            <FooterLink>Khu Vườn Bạn Bè</FooterLink>
-            <FooterLink>Hành Tinh Tình Huống</FooterLink>
+            <FooterLink href="/zone/emotions" onClick={(e) => handleZoneClick(e, 'emotion', '/zone/emotions')}>Vùng Đất Cảm Xúc</FooterLink>
+            <FooterLink href="/zone/communication" onClick={(e) => handleZoneClick(e, 'communication', '/zone/communication')}>Thành Phố Giao Tiếp</FooterLink>
+            <FooterLink href="/zone/independence" onClick={(e) => handleZoneClick(e, 'independence', '/zone/independence')}>Ngôi Làng Tự Lập</FooterLink>
+            <FooterLink href="/zone/friends" onClick={(e) => handleZoneClick(e, 'friendship', '/zone/friends')}>Khu Vườn Bạn Bè</FooterLink>
+            <FooterLink href="/zone/situations" onClick={(e) => handleZoneClick(e, 'situation', '/zone/situations')}>Hành Tinh Tình Huống</FooterLink>
           </div>
         </div>
 

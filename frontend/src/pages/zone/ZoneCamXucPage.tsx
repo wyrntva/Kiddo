@@ -98,33 +98,52 @@ export default function ZoneCamXucPage() {
       .then(res => res.json())
       .then(json => {
         const currentZone = json.data?.find((z: any) => z.key === 'emotion')
-        if (currentZone && Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
-          const desiredTitles = ['niềm vui', 'nỗi buồn', 'cơn giận', 'sợ', 'nói ra']
-          const sortedLessons = [...currentZone.lessons].sort((a: any, b: any) => {
-            const idxA = desiredTitles.findIndex(t => a.title.toLowerCase().includes(t))
-            const idxB = desiredTitles.findIndex(t => b.title.toLowerCase().includes(t))
-            if (idxA !== -1 && idxB !== -1) return idxA - idxB
-            return 0
-          })
+        if (currentZone) {
+          const zLock = currentZone.lockStatus || 'UNLOCKED'
+          if (zLock === 'DEV') {
+            alert('Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!')
+            navigate('/explore')
+            return
+          }
+          if (zLock === 'PAID' && (!user || !user.isPaid)) {
+            alert('Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
+            navigate('/courses')
+            return
+          }
 
-          const dbLessons = sortedLessons.map((l: any, index: number) => {
-            const fallbackId = (index % 5) + 1
-            const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
-            return {
-              id: l.id,
-              fallbackId,
-              title: l.title,
-              description: l.description || '',
-              status,
-              stars: status === 'completed' ? 5 : 0,
-              image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : `/assets/emotions_lesson_${fallbackId}.jpg`,
-            }
-          })
-          setLessons(dbLessons)
+          if (Array.isArray(currentZone.lessons) && currentZone.lessons.length > 0) {
+            const desiredTitles = ['niềm vui', 'nỗi buồn', 'cơn giận', 'sợ', 'nói ra']
+            const sortedLessons = [...currentZone.lessons].sort((a: any, b: any) => {
+              const idxA = desiredTitles.findIndex(t => a.title.toLowerCase().includes(t))
+              const idxB = desiredTitles.findIndex(t => b.title.toLowerCase().includes(t))
+              if (idxA !== -1 && idxB !== -1) return idxA - idxB
+              return 0
+            })
+
+            const dbLessons = sortedLessons.map((l: any, index: number) => {
+              const fallbackId = (index % 5) + 1
+              const isDev = l.lockStatus === 'DEV'
+              const isPaidLocked = l.lockStatus === 'PAID' && (!user || !user.isPaid)
+              const isLocked = isDev || isPaidLocked
+
+              const status = isLocked ? 'not-started' : getLessonStatusForAccount(l.id, index, user?.id, l.title)
+              return {
+                id: l.id,
+                fallbackId,
+                title: l.title,
+                description: l.description || '',
+                status,
+                stars: status === 'completed' ? 5 : 0,
+                image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : `/assets/emotions_lesson_${fallbackId}.jpg`,
+                lockStatus: l.lockStatus || 'UNLOCKED',
+              }
+            })
+            setLessons(dbLessons)
+          }
         }
       })
       .catch(err => console.error('Lỗi khi tải bài học:', err))
-  }, [user?.id])
+  }, [user?.id, user?.isPaid, navigate])
 
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
@@ -140,6 +159,14 @@ export default function ZoneCamXucPage() {
       total={lessons.length}
       theme={theme}
       onLessonSelect={(lesson) => {
+        if (lesson.lockStatus === 'DEV') {
+          return
+        }
+        if (lesson.lockStatus === 'PAID') {
+          if (!user || !user.isPaid) {
+            return
+          }
+        }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
         navigate(`/zone/emotions/lesson/${lesson.id}`)
       }}

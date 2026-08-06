@@ -18,7 +18,7 @@ export const subscriptionPlansAPI = {
         return axiosClient.get('/api/subscription-plans');
     },
 
-    updatePrice: (id: string, price: number): Promise<AxiosResponse<SubscriptionPlan>> => {
-        return axiosClient.put(`/api/subscription-plans/${id}`, { price });
+    update: (id: string, data: { name: string; price: number; features: string[] }): Promise<AxiosResponse<SubscriptionPlan>> => {
+        return axiosClient.put(`/api/subscription-plans/${id}`, data);
     },
 };

@@ -1,3 +1,4 @@
+import { useAuth } from '../../../context/AuthContext'
 import ZoneLessonActionButton from './ZoneLessonActionButton'
 import ZoneLessonStatusTag from './ZoneLessonStatusTag'
 import ZoneStarRow from './ZoneStarRow'
@@ -14,6 +15,10 @@ interface ZoneLessonCardProps {
 
 export default function ZoneLessonCard({ lesson, theme, onSelect }: ZoneLessonCardProps) {
   const clickable = Boolean(onSelect)
+  const { user } = useAuth()
+  const isDev = lesson.lockStatus === 'DEV'
+  const isPaidLocked = lesson.lockStatus === 'PAID' && (!user || !user.isPaid)
+  const isLocked = isDev || isPaidLocked
 
   return (
     <div
@@ -46,6 +51,24 @@ export default function ZoneLessonCard({ lesson, theme, onSelect }: ZoneLessonCa
             <div className="relative w-full h-full rounded-[16px] bg-[#d2d2d2]" />
           )}
         </div>
+        {isLocked && (
+          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white gap-1 z-10 rounded-[16px]">
+            <div 
+              style={{
+                width: '32px',
+                height: '32px',
+                backgroundImage: 'url(/assets/lock_hand_drawn.png)',
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.35))'
+              }}
+            />
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-black/60 px-2 py-0.5 rounded border border-white/20">
+              {isDev ? 'Đang phát triển' : 'Gói Trả Phí'}
+            </span>
+          </div>
+        )}
         <div
           className="zone-card-badge-circle"
           style={{ backgroundColor: theme.badgeBg }}
