@@ -71,7 +71,9 @@ export default function ContactPage() {
 
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div>
-                  <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">Họ và tên</label>
+                  <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">
+                    Họ và tên <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={name}
@@ -87,7 +89,9 @@ export default function ContactPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">Email</label>
+                    <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">
+                      Email <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="email"
                       value={email}
@@ -101,7 +105,9 @@ export default function ContactPage() {
                     {errors.email && <p className="text-[13px] text-red-500 font-vietnam mt-1">{errors.email}</p>}
                   </div>
                   <div>
-                    <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">Số điện thoại</label>
+                    <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">
+                      Số điện thoại <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="tel"
                       value={phone}
@@ -117,7 +123,9 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">Lời nhắn</label>
+                  <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">
+                    Lời nhắn <span className="text-red-500">*</span>
+                  </label>
                   <textarea
                     rows={4}
                     value={message}
