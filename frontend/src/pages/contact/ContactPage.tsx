@@ -48,15 +48,30 @@ export default function ContactPage() {
     }
 
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setSubmitted(true)
-      setName('')
-      setEmail('')
-      setPhone('')
-      setMessage('')
-      setErrors({})
-    }, 1000)
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    fetch(`${API_URL}/api/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, phone, message }),
+    })
+      .then(async (res) => {
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.message || 'Gửi liên hệ thất bại')
+        setSubmitted(true)
+        setName('')
+        setEmail('')
+        setPhone('')
+        setMessage('')
+        setErrors({})
+      })
+      .catch((err) => {
+        setErrors({ submit: err.message || 'Đã xảy ra lỗi kết nối. Vui lòng thử lại sau.' })
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -82,6 +97,12 @@ export default function ContactPage() {
                 </div>
               )}
 
+              {errors.submit && (
+                <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-[12px] font-vietnam text-[15px]">
+                  {errors.submit}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div>
                   <label className="block font-vietnam font-medium text-[15px] text-[#3e484f] mb-1.5">
@@ -92,7 +113,8 @@ export default function ContactPage() {
                     value={name}
                     onChange={(e) => {
                       setName(e.target.value)
-                      if (errors.name) setErrors(prev => ({ ...prev, name: '' }))
+                      setSubmitted(false)
+                      setErrors(prev => ({ ...prev, name: '', submit: '' }))
                     }}
                     placeholder="Họ và tên của phụ huynh"
                     className={`w-full px-4 py-2.5 rounded-[12px] border ${errors.name ? 'border-red-400 focus:border-red-500' : 'border-[#d8edfa] focus:border-[#fea01f]'} focus:outline-none font-vietnam text-[15px]`}
@@ -110,7 +132,8 @@ export default function ContactPage() {
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value)
-                        if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
+                        setSubmitted(false)
+                        setErrors(prev => ({ ...prev, email: '', submit: '' }))
                       }}
                       placeholder="parent@example.com"
                       className={`w-full px-4 py-2.5 rounded-[12px] border ${errors.email ? 'border-red-400 focus:border-red-500' : 'border-[#d8edfa] focus:border-[#fea01f]'} focus:outline-none font-vietnam text-[15px]`}
@@ -126,7 +149,8 @@ export default function ContactPage() {
                       value={phone}
                       onChange={(e) => {
                         setPhone(e.target.value)
-                        if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }))
+                        setSubmitted(false)
+                        setErrors(prev => ({ ...prev, phone: '', submit: '' }))
                       }}
                       placeholder="0987654321"
                       className={`w-full px-4 py-2.5 rounded-[12px] border ${errors.phone ? 'border-red-400 focus:border-red-500' : 'border-[#d8edfa] focus:border-[#fea01f]'} focus:outline-none font-vietnam text-[15px]`}
@@ -144,7 +168,8 @@ export default function ContactPage() {
                     value={message}
                     onChange={(e) => {
                       setMessage(e.target.value)
-                      if (errors.message) setErrors(prev => ({ ...prev, message: '' }))
+                      setSubmitted(false)
+                      setErrors(prev => ({ ...prev, message: '', submit: '' }))
                     }}
                     placeholder="Nội dung cần hỗ trợ..."
                     className={`w-full px-4 py-2.5 rounded-[12px] border ${errors.message ? 'border-red-400 focus:border-red-500' : 'border-[#d8edfa] focus:border-[#fea01f]'} focus:outline-none font-vietnam text-[15px] resize-none`}

@@ -18,6 +18,7 @@ import subscriptionPlansRouter from './routes/subscriptionPlans'
 import progressRouter from './routes/progress'
 import chatRouter from './routes/chat'
 import facebookWebhookRouter from './routes/facebookWebhook'
+import contactRouter from './routes/contact'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -104,6 +105,7 @@ app.use('/api/store-settings', storeSettingsRouter)
 app.use('/api/analytics', analyticsRouter)
 app.use('/api/subscription-plans', subscriptionPlansRouter)
 app.use('/api/progress', progressRouter)
+app.use('/api/contact', contactRouter)
 app.use('/api/chat', rateLimit({
   windowMs: 60 * 1000,
   limit: 10,
