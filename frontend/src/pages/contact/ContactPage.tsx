@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Footer from '../../components/common/Footer'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
@@ -11,6 +11,19 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [settings, setSettings] = useState<any>(null)
+
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    fetch(`${API_URL}/api/store-settings`)
+      .then(res => res.json())
+      .then(data => setSettings(data))
+      .catch(err => console.warn('Lỗi khi tải thông tin liên hệ:', err))
+  }, [])
+
+  const contactPhone = settings?.phone_number || "0987654321"
+  const contactEmail = settings?.gmail || "ottopia@gmail.com"
+  const contactFacebook = settings?.facebook_url || "https://www.facebook.com/ottopia.kynangsongchotre"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -162,7 +175,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-vietnam font-bold text-[15px] text-[#3e484f]">Hotline</p>
-                      <p className="font-vietnam text-[16px] text-[#575e70]">0987654321</p>
+                      <p className="font-vietnam text-[16px] text-[#575e70]">{contactPhone}</p>
                     </div>
                   </div>
 
@@ -174,7 +187,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-vietnam font-bold text-[15px] text-[#3e484f]">Email</p>
-                      <p className="font-vietnam text-[16px] text-[#575e70]">ottopia@gmail.com</p>
+                      <p className="font-vietnam text-[16px] text-[#575e70]">{contactEmail}</p>
                     </div>
                   </div>
                 </div>
@@ -183,7 +196,7 @@ export default function ContactPage() {
               <div className="mt-8 pt-8 border-t border-[#fef3d3]">
                 <p className="font-vietnam font-medium text-[15px] text-[#575e70] mb-3">Kết nối xã hội</p>
                 <a
-                  href="https://www.facebook.com/ottopia.kynangsongchotre"
+                  href={contactFacebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-[#0a7ad8] hover:text-[#085fb0] font-vietnam font-medium text-[15px] transition-colors"
