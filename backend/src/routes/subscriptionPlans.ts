@@ -50,6 +50,7 @@ router.put('/:id', authenticate, requireAdmin, async (req, res) => {
       return res.status(400).json({ message: 'Thời hạn gói học không hợp lệ' })
     }
     updateData.durationMonths = durationMonths
+    updateData.period = durationMonths === 1 ? '/ tháng' : `/ ${durationMonths} tháng`
   }
 
   try {

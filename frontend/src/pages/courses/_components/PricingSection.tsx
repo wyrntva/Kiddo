@@ -10,6 +10,7 @@ type Plan = {
   period: string
   features: string[]
   isPopular: boolean
+  durationMonths: number
 }
 
 export default function PricingSection() {
@@ -141,33 +142,30 @@ export default function PricingSection() {
   const getPlanStyles = (key: string) => {
     if (key === 'month_1') {
       return {
-        bgClass: 'bg-[#f4fafd]',
-        borderClass: 'border border-[#7bc9ff]',
-        icon: '/assets/3c3f39995745105cf6008eb2eb4c0fb2a25ba1bb.svg',
-        iconBg: 'bg-[#c9e6ff]',
-        checkIcon: '/assets/dfc0fd4a7226ab8dabdc2a5e582c88014bad289a.svg',
-        buttonBg: 'bg-[#0a7ad8] hover:bg-[#085fb0]',
-        textColor: 'text-[#0a7ad8]'
+        bgClass: 'bg-white',
+        borderClass: 'border-[#a7e3b9]',
+        banner: '/assets/cham_dieu_hay.jpg',
+        checkIcon: '/assets/0b40b5852870bd86ba33ba6078e2bd0b4b0b6bad.svg',
+        buttonBg: 'bg-[#339e4a] hover:bg-[#2a853e]',
+        textColor: 'text-[#339e4a]'
       }
     } else if (key === 'month_3') {
       return {
-        bgClass: 'bg-[#fef9ed]',
-        borderClass: 'border border-[#ffdc64]',
-        icon: '/assets/6b00c04b54d964442be7b81612e99371c9b695d0.svg',
-        iconBg: 'bg-[#ffdc64]',
+        bgClass: 'bg-white',
+        borderClass: 'border-[#ffdc64]',
+        banner: '/assets/hanh_trinh_lon_khon.jpg',
         checkIcon: '/assets/5ff06334161ed0621fed80bef95568a1a034d49f.svg',
         buttonBg: 'bg-[#fea01f] hover:bg-[#e58f1a]',
         textColor: 'text-[#fea01f]'
       }
     } else {
       return {
-        bgClass: 'bg-[#f2fbef]',
-        borderClass: 'border border-[#9de4af]',
-        icon: '/assets/d5df2987e88f6150a8448d212afd90bae454497f.svg',
-        iconBg: 'bg-[#c3ffd0]',
-        checkIcon: '/assets/0b40b5852870bd86ba33ba6078e2bd0b4b0b6bad.svg',
-        buttonBg: 'bg-[#339e4a] hover:bg-[#2a853e]',
-        textColor: 'text-[#339e4a]'
+        bgClass: 'bg-white',
+        borderClass: 'border-[#7bc9ff]',
+        banner: '/assets/vuon_canh_truong_thanh.jpg',
+        checkIcon: '/assets/dfc0fd4a7226ab8dabdc2a5e582c88014bad289a.svg',
+        buttonBg: 'bg-[#0a7ad8] hover:bg-[#085fb0]',
+        textColor: 'text-[#0a7ad8]'
       }
     }
   }
@@ -177,8 +175,6 @@ export default function PricingSection() {
   }
 
   const getPaymentAmount = (plan: Plan) => {
-    if (plan.key === 'month_3') return plan.price * 3
-    if (plan.key === 'month_12') return plan.price * 12
     return plan.price
   }
 
@@ -207,92 +203,102 @@ export default function PricingSection() {
           return (
             <div 
               key={plan.id} 
-              className={`relative rounded-[24px] ${styles.bgClass} ${styles.borderClass} ${plan.isPopular ? 'border-4 border-[#fea01f]' : ''} p-4 sm:p-5 lg:p-6 flex flex-col gap-5 lg:gap-6 items-center justify-between shadow-sm w-full max-w-[400px] lg:max-w-none mx-auto`}
+              className={`relative rounded-[32px] ${styles.bgClass} border-2 ${styles.borderClass} flex flex-col justify-between shadow-md hover:shadow-lg transition-all duration-200 w-full max-w-[400px] lg:max-w-none mx-auto pb-6`}
             >
               {/* popular badge */}
               {plan.isPopular && (
-                <div className="absolute -top-[16px] md:-top-[18px] left-1/2 -translate-x-1/2 bg-[#fea01f] flex gap-1 items-center px-4 py-1 rounded-[40px] text-white font-vietnam font-medium text-[12px] md:text-[14px] whitespace-nowrap animate-bounce">
-                  <img width="14" height="19"
-                    alt="Popular"
-                    className="w-4 h-4 md:w-5 md:h-5 object-contain"
-                    src="/assets/ac919f35d87a1eccc24123b31500eba2cfa34cee.svg"
-                    loading="lazy" decoding="async"
-                  />
-                  <span>Phổ biến nhất</span>
+                <div 
+                  className="absolute -top-3.5 z-10"
+                  style={{ left: '50%', transform: 'translateX(-50%)' }}
+                >
+                  <div className="bg-[#fea01f] flex gap-1 items-center px-4 py-1.5 rounded-[40px] text-white font-vietnam font-bold text-[12px] md:text-[13px] whitespace-nowrap shadow-md animate-bounce">
+                    <span className="text-[14px]">★</span>
+                    <span>Phổ biến nhất</span>
+                  </div>
                 </div>
               )}
 
-              {/* Header info */}
-              <div className="flex flex-col gap-2.5 lg:gap-3 items-center">
-                {/* icon */}
-                <div className={`p-1.5 lg:p-2 rounded-[100px] shrink-0 ${styles.iconBg}`}>
-                  <img
-                    alt=""
-                    className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
-                    src={styles.icon}
-                    loading="lazy" decoding="async"
-                  />
-                </div>
+              {/* Banner image with wave mask at bottom */}
+              <div className="relative w-full aspect-[4/3] rounded-t-[30px] overflow-hidden">
+                <img 
+                  src={styles.banner} 
+                  alt={plan.name} 
+                  className="w-full h-full object-cover" 
+                  loading="lazy" 
+                  decoding="async"
+                />
+                <svg 
+                  className="absolute bottom-0 left-0 w-full h-[32px] text-white fill-current" 
+                  viewBox="0 0 1440 100" 
+                  preserveAspectRatio="none"
+                >
+                  <path d="M0,50 Q360,95 720,50 T1440,50 L1440,100 L0,100 Z"></path>
+                </svg>
+              </div>
 
+              {/* Content */}
+              <div className="flex flex-col flex-grow px-5 sm:px-6 pt-3 items-center justify-between gap-5 w-full">
                 {/* name and price */}
-                <div className="flex flex-col items-center">
-                  <span className="font-vietnam font-bold text-[16px] lg:text-[18px] text-black">
+                <div className="flex flex-col items-center gap-1 text-center">
+                  <span className="font-vietnam font-extrabold text-[18px] lg:text-[20px] text-[#313235]">
                     {plan.name}
                   </span>
-                  <div className="flex gap-1 md:gap-1.5 items-end">
+                  <div className="flex gap-1 md:gap-1.5 items-end justify-center">
                     <span className={`font-baloo text-[36px] md:text-[32px] lg:text-[40px] xl:text-[48px] ${styles.textColor} leading-none font-bold`}>
                       {formatPrice(plan.price)}
                     </span>
                     <span className={`font-baloo text-[13px] md:text-[12px] lg:text-[14px] xl:text-[16px] ${styles.textColor} mb-1 lg:mb-2`}>
-                      {plan.period}
+                      {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
                     </span>
                   </div>
                 </div>
-              </div>
 
-              {/* Features list */}
-              <div className="flex flex-col gap-2.5 lg:gap-3 w-full max-w-[240px] align-start">
-                {((plan.features as string[]) || []).map((feat, fIdx) => (
-                  <div key={fIdx} className="flex gap-2 items-center w-full">
-                    <img
-                      alt="check"
-                      className="w-6 h-6 lg:w-7 lg:h-7 object-contain shrink-0"
-                      src={styles.checkIcon}
-                      loading="lazy" decoding="async"
-                    />
-                    <span className="font-vietnam font-medium text-[14px] lg:text-[16px] text-[#313235] leading-snug">
-                      {feat}
-                    </span>
+                {/* Features list */}
+                <div className="w-full flex justify-center flex-grow py-2">
+                  <div className="flex flex-col gap-2.5 lg:gap-3 items-start justify-center">
+                    {((plan.features as string[]) || []).map((feat, fIdx) => (
+                      <div key={fIdx} className="flex gap-2.5 items-center w-full">
+                        <img
+                          alt="check"
+                          className="w-5 h-5 lg:w-6 lg:h-6 object-contain shrink-0"
+                          src={styles.checkIcon}
+                          loading="lazy" decoding="async"
+                        />
+                        <span className="font-vietnam font-medium text-[14px] lg:text-[15px] text-[#313235] leading-snug">
+                          {feat}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
 
-              {/* CTA Button */}
-              <button 
-                onClick={() => {
-                  if (!user) {
-                    navigate('/login', { state: { from: location } })
-                    return
-                  }
-                  if (user.isPaid) {
-                    return
-                  }
-                  if (user.isPendingPaid) {
-                    setShowSuccessAlert(true)
-                    return
-                  }
-                  handleSelectPlan(plan)
-                }}
-                className={`${
-                  user?.isPaid 
-                    ? styles.buttonBg + ' opacity-75 cursor-default' 
-                    : user?.isPendingPaid 
-                      ? 'bg-[#fea01f] hover:bg-[#e58f1a] cursor-pointer' 
-                      : styles.buttonBg + ' cursor-pointer'
-                } text-white font-baloo text-[18px] lg:text-[20px] py-2 w-full rounded-[40px] transition-colors duration-150`}
-              >
-                {user?.isPaid ? 'Đã kích hoạt' : user?.isPendingPaid ? 'Chờ xác nhận' : 'Chọn gói'}
-              </button>
+                {/* CTA Button */}
+                <button 
+                  onClick={() => {
+                    if (!user) {
+                      navigate('/login', { state: { from: location } })
+                      return
+                    }
+                    if (user.isPaid) {
+                      return
+                    }
+                    if (user.isPendingPaid) {
+                      setShowSuccessAlert(true)
+                      return
+                    }
+                    handleSelectPlan(plan)
+                  }}
+                  className={`${
+                    user?.isPaid 
+                      ? styles.buttonBg + ' opacity-75 cursor-default' 
+                      : user?.isPendingPaid 
+                        ? 'bg-[#fea01f] hover:bg-[#e58f1a] cursor-pointer' 
+                        : styles.buttonBg + ' cursor-pointer'
+                  } text-white font-baloo text-[18px] lg:text-[20px] py-2.5 w-full rounded-[40px] transition-colors duration-150 shadow-sm`}
+                >
+                  {user?.isPaid ? 'Đã kích hoạt' : user?.isPendingPaid ? 'Chờ xác nhận' : 'Chọn gói'}
+                </button>
+              </div>
             </div>
           )
         })}
@@ -300,8 +306,8 @@ export default function PricingSection() {
 
       {/* Payment Modal */}
       {selectedPlan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-[500px] rounded-[24px] border border-[#BAE6FD] bg-white p-6 shadow-xl flex flex-col gap-5 animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm overflow-y-auto">
+          <div className="relative w-full max-w-[500px] max-h-[calc(100vh-32px)] overflow-y-auto rounded-[24px] border border-[#BAE6FD] bg-white p-5 sm:p-6 shadow-xl flex flex-col gap-4 sm:gap-5 animate-in fade-in zoom-in duration-200">
             
             {/* Header */}
             <div className="flex justify-between items-center pb-3 border-b border-gray-100">
@@ -329,52 +335,52 @@ export default function PricingSection() {
             </div>
 
             {/* VietQR Bank Info */}
-            <div className="flex flex-col items-center gap-4">
-              {/* VietQR Image - Larger */}
-              <div className="relative p-2 bg-white border border-[#d0ecff] rounded-2xl shadow-sm flex items-center justify-center">
+            <div className="flex flex-col items-center gap-3">
+              {/* VietQR Image - Larger & Fully Responsive */}
+              <div className="relative p-2 bg-white border border-[#d0ecff] rounded-2xl shadow-sm flex items-center justify-center w-full max-w-[260px] mx-auto aspect-square">
                 <img 
                   src={`https://img.vietqr.io/image/${bankSettings.bankCode}-${bankSettings.bankAccountNumber}-compact2.png?amount=${
                     getPaymentAmount(selectedPlan)
                   }&addInfo=${encodeURIComponent(getTransferContent())}&accountName=${encodeURIComponent(bankSettings.bankAccountName)}`}
                   alt="VietQR Payment Code"
-                  className="w-[280px] h-[280px] object-contain rounded-xl"
+                  className="w-full h-full object-contain rounded-xl"
                 />
               </div>
-              <span className="text-[13px] text-gray-400 font-medium text-center">Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản nhanh</span>
+              <span className="text-[12px] sm:text-[13px] text-gray-400 font-medium text-center px-2">Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản nhanh</span>
             </div>
 
             {/* Copyable Details */}
-            <div className="space-y-3.5">
+            <div className="space-y-3">
               {/* Số tài khoản */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex justify-between items-center text-[13px] text-gray-500">
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between items-center text-[12px] sm:text-[13px] text-gray-500">
                   <span>Số tài khoản ({bankSettings.bankName}):</span>
                 </div>
-                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 justify-between">
-                  <span className="font-semibold text-[#0a7ad8] font-mono text-[16px]">{bankSettings.bankAccountNumber}</span>
+                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 justify-between gap-2">
+                  <span className="font-semibold text-[#0a7ad8] font-mono text-[14px] sm:text-[16px] break-all">{bankSettings.bankAccountNumber}</span>
                   <button
                     type="button"
                     onClick={() => copyToClipboard(bankSettings.bankAccountNumber, 'account')}
-                    className="text-[12px] text-white bg-[#0a7ad8] hover:bg-[#0860ab] px-3.5 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
+                    className="text-[11px] sm:text-[12px] text-white bg-[#0a7ad8] hover:bg-[#0860ab] px-3 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
                   >
-                    {copiedAccount ? 'Đã sao chép' : 'Sao chép số TK'}
+                    {copiedAccount ? 'Đã sao chép' : 'Sao chép'}
                   </button>
                 </div>
               </div>
 
               {/* Nội dung */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex justify-between items-center text-[13px] text-gray-500">
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between items-center text-[12px] sm:text-[13px] text-gray-500">
                   <span>Nội dung chuyển khoản (bắt buộc):</span>
                 </div>
-                <div className="flex items-center bg-[#fff8e8] border border-[#ffe09e] rounded-xl px-3.5 py-2.5 justify-between">
-                  <span className="font-bold text-[#fea01f] font-mono text-[15px] break-all pr-2">{getTransferContent()}</span>
+                <div className="flex items-center bg-[#fff8e8] border border-[#ffe09e] rounded-xl px-3 py-2 justify-between gap-2">
+                  <span className="font-bold text-[#fea01f] font-mono text-[13px] sm:text-[15px] break-all">{getTransferContent()}</span>
                   <button
                     type="button"
                     onClick={() => copyToClipboard(getTransferContent(), 'content')}
-                    className="text-[12px] text-white bg-[#fea01f] hover:bg-[#e58f1a] px-3.5 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
+                    className="text-[11px] sm:text-[12px] text-white bg-[#fea01f] hover:bg-[#e58f1a] px-3 py-1.5 rounded-lg font-medium transition-colors cursor-pointer shrink-0"
                   >
-                    {copiedContent ? 'Đã sao chép' : 'Sao chép nội dung'}
+                    {copiedContent ? 'Đã sao chép' : 'Sao chép'}
                   </button>
                 </div>
               </div>
@@ -407,8 +413,8 @@ export default function PricingSection() {
 
       {/* Success Alert Modal */}
       {showSuccessAlert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-[450px] rounded-[24px] border border-[#ffebc3] bg-white p-6 shadow-xl flex flex-col items-center gap-4 text-center animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm overflow-y-auto">
+          <div className="relative w-full max-w-[450px] max-h-[calc(100vh-32px)] overflow-y-auto rounded-[24px] border border-[#ffebc3] bg-white p-5 sm:p-6 shadow-xl flex flex-col items-center gap-4 text-center animate-in fade-in zoom-in duration-200">
             <div className="w-[72px] h-[72px] rounded-full bg-[#fffcf5] border-2 border-[#fea01f] flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="#fea01f" className="w-10 h-10">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

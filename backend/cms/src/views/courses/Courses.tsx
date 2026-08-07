@@ -145,7 +145,9 @@ const Courses = () => {
                                         <span className="text-[28px] font-bold text-gray-800 leading-none">
                                             {formatCurrency(plan.price)}
                                         </span>
-                                        <span className="text-[13px] text-gray-500 ml-1">{plan.period}</span>
+                                        <span className="text-[13px] text-gray-500 ml-1">
+                                            {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
+                                        </span>
                                     </div>
                                     <div className="text-[11px] text-gray-500 font-medium">
                                         Thời hạn: <span className="text-blue-600 font-bold">{plan.durationMonths} tháng</span>

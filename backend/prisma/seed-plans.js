@@ -22,7 +22,7 @@ async function main() {
       key: 'month_3',
       name: 'Gói 3 tháng',
       price: 79000,
-      period: '/ tháng',
+      period: '/ 3 tháng',
       isPopular: true,
       durationMonths: 3,
       features: [
@@ -36,7 +36,7 @@ async function main() {
       key: 'month_12',
       name: 'Gói 12 tháng',
       price: 49000,
-      period: '/ tháng',
+      period: '/ 12 tháng',
       isPopular: false,
       durationMonths: 12,
       features: [

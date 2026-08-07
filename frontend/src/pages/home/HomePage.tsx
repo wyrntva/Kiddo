@@ -7,6 +7,7 @@ import CTABanner from './_components/CTABanner'
 import HeroSection from './_components/HeroSection'
 import JourneySection from './_components/JourneySection'
 import SkillZonesSection from './_components/SkillZonesSection'
+import ParentsTestimonialsSection from './_components/ParentsTestimonialsSection'
 
 export default function HomePage() {
   return (
@@ -23,6 +24,7 @@ export default function HomePage() {
         <BenefitsSection />
         <JourneySection />
         <SkillZonesSection />
+        <ParentsTestimonialsSection />
         <CTABanner />
       </main>
       <Footer />
