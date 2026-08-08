@@ -16,6 +16,7 @@ const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
 const ParentArticlePage = lazy(() => import('./pages/parents/ParentArticlePage'))
 const TermsPage     = lazy(() => import('./pages/terms/TermsPage'))
+const PrivacyPage   = lazy(() => import('./pages/privacy/PrivacyPage'))
 const ProfilePage     = lazy(() => import('./pages/profile/ProfilePage'))
 const ZoneCamXucPage = lazy(() => import('./pages/zone/ZoneCamXucPage'))
 const ZoneGiaoTiepPage = lazy(() => import('./pages/zone/ZoneGiaoTiepPage'))
@@ -24,6 +25,7 @@ const ZoneBanBePage = lazy(() => import('./pages/zone/ZoneBanBePage'))
 const ZoneTinhHuongPage = lazy(() => import('./pages/zone/ZoneTinhHuongPage'))
 const ZoneQuizPage = lazy(() => import('./pages/zone/ZoneQuizPage'))
 const ContactPage = lazy(() => import('./pages/contact/ContactPage'))
+const FAQPage = lazy(() => import('./pages/faq/FAQPage'))
 const NotFoundPage = lazy(() => import('./pages/not-found/NotFoundPage'))
 
 function PageLoader() {
@@ -78,6 +80,7 @@ function App() {
             <Route path="/parents" element={<ParentsPage />} />
             <Route path="/parents/articles/:slug" element={<ParentArticlePage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/zone/cam-xuc" element={<Navigate to="/zone/emotions" replace />} />
             <Route path="/zone/cam-xuc/lesson/:id" element={<LegacyEmotionLessonRedirect />} />
             <Route path="/zone/giao-tiep" element={<Navigate to="/zone/communication" replace />} />
@@ -92,6 +95,7 @@ function App() {
             <Route path="/zone/friends" element={<ProtectedRoute><ZoneBanBePage /></ProtectedRoute>} />
             <Route path="/zone/situations" element={<ProtectedRoute><ZoneTinhHuongPage /></ProtectedRoute>} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq"     element={<FAQPage />} />
             <Route path="*"        element={<NotFoundPage />} />
           </Routes>
           <ChatbotForAllowedPages />

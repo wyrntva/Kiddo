@@ -32,8 +32,12 @@ const theme: ZoneTheme = {
 
 export default function ZoneBanBePage() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, syncProfile } = useAuth()
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+
+  useEffect(() => {
+    syncProfile?.()
+  }, [syncProfile])
 
   useEffect(() => {
     setLessons(fallbackLessons.map((l, index) => {
@@ -115,6 +119,7 @@ export default function ZoneBanBePage() {
         }
         if (lesson.lockStatus === 'PAID') {
           if (!user || !user.isPaid) {
+            navigate('/courses')
             return
           }
         }

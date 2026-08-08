@@ -508,17 +508,87 @@ svg {
 
 @media (max-width: 1199px) {
   .cloud-slot-container {
-    width: 50% !important;
-    height: auto !important; /* Scale dynamically to keep 1.125:1 aspect ratio */
+    width: auto !important;
+    height: clamp(30px, 4.8vh, 50px) !important;
+    margin-inline: auto !important;
   }
   .mascot-container {
-    width: 65% !important;
-    height: auto !important; /* Scale dynamically to keep 1:1 aspect ratio */
+    width: auto !important;
+    height: clamp(55px, 8.5vh, 85px) !important;
+    margin-inline: auto !important;
+    border-radius: 12px !important;
   }
   .zone-game-board {
-    padding: 8px !important;
+    padding: 6px 12px !important;
     gap: 8px !important;
     align-items: center !important; /* Stop stretching items vertically */
+  }
+}
+
+@media (max-height: 720px) and (max-width: 1199px) {
+  .zone-game-screen h1 {
+    font-size: clamp(16px, 4.5vh, 22px) !important;
+    paint-order: normal !important;
+    -webkit-text-stroke-width: 0px !important;
+  }
+  .zone-game-screen button {
+    min-height: 28px !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+  }
+  .zone-game-sidebar {
+    padding: 6px 10px !important;
+    gap: 8px !important;
+    border-radius: 12px !important;
+  }
+  .zone-game-sidebar button {
+    min-height: 30px !important;
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+  }
+  .zone-game-sidebar button img {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .zone-game-sidebar .bg-\[\#e5f2ff\] {
+    padding: 4px 6px !important;
+    border-radius: 8px !important;
+  }
+  .zone-game-sidebar .bg-\[\#e5f2ff\] .flex.flex-col {
+    gap: 4px !important;
+  }
+  .zone-game-sidebar .font-vietnam {
+    font-size: 11px !important;
+  }
+  .zone-step-preview {
+    height: 38px !important;
+    border-radius: 6px !important;
+  }
+  .zone-game-sidebar .bg-\[\#e5f2ff\] img[src*="downIcon"] {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .cloud-slot-container {
+    height: clamp(20px, 3.5vh, 32px) !important;
+  }
+  .mascot-container {
+    height: clamp(40px, 6.5vh, 58px) !important;
+  }
+  .zone-game-board {
+    padding: 4px 8px !important;
+    gap: 6px !important;
+    border-radius: 16px !important;
+  }
+  .zone-emotion-picker {
+    padding: 4px 8px 2px 8px !important;
+    gap: 6px !important;
+    border-radius: 12px !important;
+  }
+  .zone-emotion-picker img {
+    max-height: clamp(28px, 4.5vh, 38px) !important;
+  }
+  .zone-emotion-picker span {
+    font-size: 11px !important;
   }
 }
 
@@ -591,7 +661,7 @@ svg {
   display: grid !important;
   width: 100% !important;
   max-width: 880px !important; /* Compact default for standard desktops / 125% scale settings */
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 12px !important; /* Compact gap */
@@ -599,6 +669,12 @@ svg {
   background-color: #ffffff;
   padding: 10px 16px !important; /* Compact padding to save height */
   box-shadow: 0 0 16px rgba(0, 76, 110, 0.4) !important;
+}
+
+@media (min-width: 1200px) {
+  .zone-game-board {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (min-width: 1600px) {
@@ -611,9 +687,9 @@ svg {
 
 .zone-emotion-picker {
   display: grid !important;
-  width: auto !important;
-  max-width: 100% !important;
-  grid-template-columns: repeat(4, auto) !important;
+  width: 100% !important;
+  max-width: 880px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   align-items: start !important;
   justify-content: center !important;
   gap: 12px !important; /* Mobile gap */
@@ -622,6 +698,12 @@ svg {
   background-color: #ffffff;
   padding: 10px 12px 6px 12px !important; /* Mobile padding */
   box-shadow: 0 8px 24px rgba(0, 76, 110, 0.14) !important;
+}
+
+@media (min-width: 1600px) {
+  .zone-emotion-picker {
+    max-width: 1080px !important;
+  }
 }
 
 .zone-emotion-picker > div {
@@ -1245,4 +1327,42 @@ svg {
 .news-article-content td[style*="background-color"] {
   background-color: #fea01f !important;
   background: #fea01f !important;
+}
+
+/* Custom iPad Pro portrait layout adjustments for drag & drop game */
+@media (min-width: 834px) and (max-width: 1024px) and (min-height: 1100px) {
+  .zone-game-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    padding: 24px !important;
+  }
+  .cloud-slot-container {
+    width: 45% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .mascot-container {
+    width: 60% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .zone-emotion-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+    padding: 32px 24px !important;
+    max-width: 880px !important;
+    width: 100% !important;
+    margin-inline: auto !important;
+  }
+  .zone-emotion-picker img {
+    max-height: clamp(90px, 12vh, 130px) !important;
+    width: auto !important;
+  }
+  .zone-emotion-picker span {
+    font-size: 22px !important;
+    margin-top: 4px !important;
+  }
+  .zone-emotion-picker > div {
+    gap: 12px !important;
+  }
 }

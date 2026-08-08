@@ -9,10 +9,7 @@ const router = Router()
 // Configure multer storage for zones
 const upload = createImageUpload()
 
-// All routes require authentication
-router.use(authenticate)
-
-// GET /api/zones - Get all zones with lessons
+// GET /api/zones - Get all zones with lessons (Public Route)
 router.get('/', async (req, res) => {
   try {
     const zones = await prisma.zone.findMany({
@@ -28,6 +25,9 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Không thể tải danh sách vùng đất' })
   }
 })
+
+// All other routes below require authentication
+router.use(authenticate)
 
 // Modifying routes require admin
 router.use(requireAdmin)

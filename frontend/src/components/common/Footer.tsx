@@ -120,8 +120,12 @@ export default function Footer() {
     if (dbZone) {
       const isDev = dbZone.lockStatus === 'DEV'
       const isPaidLocked = dbZone.lockStatus === 'PAID' && (!user || !user.isPaid)
-      if (isDev || isPaidLocked) {
+      if (isDev) {
         navigate('/explore')
+        return
+      }
+      if (isPaidLocked) {
+        navigate('/courses')
         return
       }
     }
@@ -190,7 +194,7 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>HỖ TRỢ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Câu hỏi thường gặp</FooterLink>
+            <FooterLink href="/faq">Câu hỏi thường gặp</FooterLink>
             <FooterLink href="/contact">Liên hệ</FooterLink>
           </div>
         </div>
@@ -200,7 +204,7 @@ export default function Footer() {
           <ColHeading>VỀ OTTOPIA</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
             <FooterLink>Về chúng tôi</FooterLink>
-            <FooterLink>Chính sách bảo mật</FooterLink>
+            <FooterLink href="/privacy">Chính sách bảo mật</FooterLink>
             <FooterLink href="/terms">Điều khoản sử dụng</FooterLink>
           </div>
         </div>

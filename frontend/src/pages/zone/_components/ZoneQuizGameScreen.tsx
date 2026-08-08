@@ -4,6 +4,8 @@ import ZoneQuizEmotionPicker from './ZoneQuizEmotionPicker'
 import ZoneQuizGameSidebar from './ZoneQuizGameSidebar'
 import ZoneQuizSlotOutline from './ZoneQuizSlotOutline'
 import { emotionsList, gameCards } from '../quizData'
+import type { EmotionOption } from '../quizData'
+import { playPickupSound } from './soundEffects'
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   const arr = [...array]
@@ -25,6 +27,7 @@ interface ZoneQuizGameScreenProps {
   onSelectEmotion: (emotionId: string) => void
   onDrop: (event: React.DragEvent, cardId: string) => void
   onSlotClick: (cardId: string) => void
+  placeEmotion?: (cardId: string, emotionId: string) => void
 }
 
 export default function ZoneQuizGameScreen({
@@ -38,8 +41,55 @@ export default function ZoneQuizGameScreen({
   onSelectEmotion,
   onDrop,
   onSlotClick,
+  placeEmotion,
 }: ZoneQuizGameScreenProps) {
   const [shuffledEmotions] = useState(() => shuffleArray(emotionsList))
+  const [draggedEmotion, setDraggedEmotion] = useState<EmotionOption | null>(null)
+  const [touchPos, setTouchPos] = useState({ x: 0, y: 0 })
+
+  const handleTouchStart = (_event: React.TouchEvent, emotion: EmotionOption) => {
+    playPickupSound()
+    setDraggedEmotion(emotion)
+    if (_event.touches && _event.touches[0]) {
+      setTouchPos({ x: _event.touches[0].clientX, y: _event.touches[0].clientY })
+    }
+  }
+
+  const handleTouchMove = (event: React.TouchEvent) => {
+    if (!draggedEmotion) return
+    if (event.cancelable) {
+      event.preventDefault()
+    }
+    if (event.touches && event.touches[0]) {
+      setTouchPos({ x: event.touches[0].clientX, y: event.touches[0].clientY })
+    }
+  }
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    if (!draggedEmotion) return
+
+    if (event.changedTouches && event.changedTouches[0]) {
+      const touch = event.changedTouches[0]
+      const element = document.elementFromPoint(touch.clientX, touch.clientY)
+
+      let currentElement: Element | null = element
+      let cardId: string | null = null
+      while (currentElement) {
+        const id = currentElement.getAttribute('data-card-id')
+        if (id) {
+          cardId = id
+          break
+        }
+        currentElement = currentElement.parentElement
+      }
+
+      if (cardId) {
+        placeEmotion?.(cardId, draggedEmotion.id)
+      }
+    }
+
+    setDraggedEmotion(null)
+  }
   return (
     <div className="zone-game-screen relative z-10 flex min-h-full w-full flex-col items-stretch justify-start gap-3 overflow-y-auto p-2.5 sm:p-4 lg:grid lg:h-full lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-6 lg:p-5 2xl:grid-cols-[300px_minmax(0,1fr)] 2xl:p-6">
       {/* Sidebar - only shown on desktop/landscape (lg:block) */}
@@ -63,7 +113,7 @@ export default function ZoneQuizGameScreen({
           <div className="z-20 flex min-w-0 flex-col items-center gap-1 text-center">
             <h1
               style={{ WebkitTextStrokeWidth: '6px', WebkitTextStrokeColor: '#FFF', paintOrder: 'stroke fill' }}
-              className="select-none font-baloo text-[clamp(1.1rem,4vw,2.625rem)] font-bold leading-tight text-[#fea01f]"
+              className="select-none font-baloo text-[clamp(1.1rem,4vw,2.625rem)] font-bold leading-tight text-[#fea01f] whitespace-nowrap"
             >
               Kéo thả cảm xúc
             </h1>
@@ -80,14 +130,14 @@ export default function ZoneQuizGameScreen({
         </div>
 
         {/* Guide box for mobile/tablet portrait (shown below header, horizontal layout) */}
-        <div className="block lg:hidden w-full max-w-[59.375rem] mt-1 shrink-0">
+        <div className="block lg:hidden w-full max-w-[880px] mt-1 shrink-0">
           <ZoneQuizGameSidebar onSpeakGuide={onSpeakGuide} />
         </div>
 
         {/* Center Cards & Emotion Picker Area */}
         <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 lg:gap-5 2xl:gap-6">
           <div
-            className="zone-game-board z-20 grid w-full max-w-[59.375rem] grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 lg:max-w-[67.5rem] lg:gap-4 lg:p-5 2xl:max-w-[72.5rem] 2xl:p-6"
+            className="zone-game-board z-20 grid w-full max-w-[880px] grid-cols-2 items-stretch justify-center gap-2 rounded-[20px] bg-white p-2.5 sm:gap-3 sm:rounded-[24px] sm:p-4 md:grid-cols-4 lg:max-w-[67.5rem] lg:gap-4 lg:p-5 2xl:max-w-[72.5rem] 2xl:p-6"
             style={{ boxShadow: '0 0 10px 0 rgba(0, 76, 110, 0.60)' }}
           >
             {gameCards.map((card) => (
@@ -111,15 +161,40 @@ export default function ZoneQuizGameScreen({
             ))}
           </div>
 
-          <div className="flex w-full max-w-[59.375rem] justify-center lg:max-w-[67.5rem] 2xl:max-w-[72.5rem]">
+          <div className="flex w-full max-w-[880px] justify-center lg:max-w-[67.5rem] 2xl:max-w-[72.5rem]">
             <ZoneQuizEmotionPicker
               emotions={shuffledEmotions}
               placedEmotions={placedEmotions}
               onSelectEmotion={onSelectEmotion}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             />
           </div>
         </div>
       </div>
+
+      {draggedEmotion && (
+        <div
+          style={{
+            position: 'fixed',
+            left: touchPos.x,
+            top: touchPos.y,
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+            zIndex: 9999,
+            width: '80px',
+            height: '80px',
+            opacity: 0.9,
+          }}
+        >
+          <img
+            src={draggedEmotion.cloudImage}
+            alt=""
+            className="w-full h-full object-contain pointer-events-none"
+          />
+        </div>
+      )}
     </div>
   )
 }

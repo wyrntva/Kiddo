@@ -6,12 +6,18 @@ interface ZoneQuizEmotionPickerProps {
   emotions: EmotionOption[]
   placedEmotions: Record<string, string | null>
   onSelectEmotion: (emotionId: string) => void
+  onTouchStart?: (event: React.TouchEvent, emotion: EmotionOption) => void
+  onTouchMove?: (event: React.TouchEvent) => void
+  onTouchEnd?: (event: React.TouchEvent) => void
 }
 
 export default function ZoneQuizEmotionPicker({
   emotions,
   placedEmotions,
   onSelectEmotion,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
 }: ZoneQuizEmotionPickerProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
 
@@ -36,6 +42,9 @@ export default function ZoneQuizEmotionPicker({
               event.dataTransfer.setData('text/plain', emotion.id)
               playPickupSound()
             }}
+            onTouchStart={(event) => !isPlaced && onTouchStart?.(event, emotion)}
+            onTouchMove={(event) => !isPlaced && onTouchMove?.(event)}
+            onTouchEnd={(event) => !isPlaced && onTouchEnd?.(event)}
             onClick={() => !isPlaced && handleSelect(emotion.id)}
             className={`relative flex min-w-0 cursor-pointer flex-col items-center gap-1 transition-all duration-300 sm:gap-2 ${
               isPlaced

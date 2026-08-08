@@ -53,6 +53,7 @@ export default function ZoneQuizPage() {
     stopAudio,
     handleSelect,
     handleDrop,
+    placeEmotion,
     handleSlotClick,
     handleCheckAnswers,
     handleResetGame,
@@ -198,6 +199,7 @@ export default function ZoneQuizPage() {
               onSpeakGuide={() => speakText(gameGuideText)}
               onSelectEmotion={setSelectedEmotionId}
               onDrop={handleDrop}
+              placeEmotion={placeEmotion}
               onSlotClick={handleSlotClick}
             />
           ) : showIntro ? (

@@ -122,6 +122,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setAccessToken(token)
         setUser(parsedUser)
         setLoading(false)
+        // Background sync to update stale user data
+        fetch(`${API_URL}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.user) {
+              persistSession(token, data.user)
+            }
+          })
+          .catch(() => {})
         return
       }
 

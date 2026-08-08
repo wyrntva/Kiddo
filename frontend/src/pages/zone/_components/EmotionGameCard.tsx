@@ -66,6 +66,7 @@ export default function EmotionGameCard({
 
   return (
     <div
+      data-card-id={cardId}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}

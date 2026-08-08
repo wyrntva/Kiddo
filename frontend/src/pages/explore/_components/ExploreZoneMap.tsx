@@ -56,6 +56,7 @@ export default function ExploreZoneMap() {
 
     if (lockStatus === 'PAID') {
       if (!user || !user.isPaid) {
+        navigate('/courses')
         return
       }
     }
