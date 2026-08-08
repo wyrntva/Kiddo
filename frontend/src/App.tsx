@@ -16,6 +16,7 @@ const DiaryPage     = lazy(() => import('./pages/diary/DiaryPage'))
 const ParentsPage   = lazy(() => import('./pages/parents/ParentsPage'))
 const ParentArticlePage = lazy(() => import('./pages/parents/ParentArticlePage'))
 const TermsPage     = lazy(() => import('./pages/terms/TermsPage'))
+const AboutPage     = lazy(() => import('./pages/about/AboutPage'))
 const PrivacyPage   = lazy(() => import('./pages/privacy/PrivacyPage'))
 const ProfilePage     = lazy(() => import('./pages/profile/ProfilePage'))
 const ZoneCamXucPage = lazy(() => import('./pages/zone/ZoneCamXucPage'))
@@ -80,6 +81,7 @@ function App() {
             <Route path="/parents" element={<ParentsPage />} />
             <Route path="/parents/articles/:slug" element={<ParentArticlePage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/zone/cam-xuc" element={<Navigate to="/zone/emotions" replace />} />
             <Route path="/zone/cam-xuc/lesson/:id" element={<LegacyEmotionLessonRedirect />} />

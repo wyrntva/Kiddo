@@ -203,7 +203,7 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>VỀ OTTOPIA</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
-            <FooterLink>Về chúng tôi</FooterLink>
+            <FooterLink href="/about">Về chúng tôi</FooterLink>
             <FooterLink href="/privacy">Chính sách bảo mật</FooterLink>
             <FooterLink href="/terms">Điều khoản sử dụng</FooterLink>
           </div>
