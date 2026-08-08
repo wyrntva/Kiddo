@@ -149,16 +149,43 @@ const Courses = () => {
                                     </div>
                                 </div>
 
-                                <div className="my-2 border-y border-dashed border-gray-200 py-3 text-center flex flex-col gap-1">
-                                    <div>
-                                        <span className="text-[28px] font-bold text-gray-800 leading-none">
-                                            {formatCurrency(plan.price)}
-                                        </span>
-                                        <span className="text-[13px] text-gray-500 ml-1">
-                                            {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
-                                        </span>
-                                    </div>
-                                    <div className="text-[11px] text-gray-500 font-medium">
+                                <div className="my-2 border-y border-dashed border-gray-200 py-3 text-center flex flex-col gap-1.5">
+                                    {plan.basePrice && plan.basePrice > plan.price ? (
+                                        <div className="flex flex-col gap-1 items-center">
+                                            {/* Original Price & Discount percent */}
+                                            <div className="flex items-center gap-2 justify-center">
+                                                <span className="text-[14px] line-through text-gray-400">
+                                                    {formatCurrency(plan.basePrice)}
+                                                </span>
+                                                <span className="bg-red-50 text-red-500 text-[11px] font-bold px-1.5 py-0.5 rounded">
+                                                    -{Math.round(((plan.basePrice - plan.price) / plan.basePrice) * 100)}%
+                                                </span>
+                                            </div>
+                                            {/* Promotional Price */}
+                                            <div>
+                                                <span className="text-[28px] font-bold text-gray-800 leading-none">
+                                                    {formatCurrency(plan.price)}
+                                                </span>
+                                                <span className="text-[13px] text-gray-500 ml-1">
+                                                    {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
+                                                </span>
+                                            </div>
+                                            {/* Saved amount */}
+                                            <div className="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full mt-0.5">
+                                                Tiết kiệm: {formatCurrency(plan.basePrice - plan.price)}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <span className="text-[28px] font-bold text-gray-800 leading-none">
+                                                {formatCurrency(plan.price)}
+                                            </span>
+                                            <span className="text-[13px] text-gray-500 ml-1">
+                                                {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className="text-[11px] text-gray-500 font-medium mt-1">
                                         Thời hạn: <span className="text-blue-600 font-bold">{plan.durationMonths} tháng</span>
                                     </div>
                                 </div>
