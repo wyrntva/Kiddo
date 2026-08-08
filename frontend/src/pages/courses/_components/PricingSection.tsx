@@ -362,7 +362,9 @@ export default function PricingSection() {
             <div className="flex flex-col gap-2 bg-[#f4fafd] rounded-xl p-3 border border-[#d0ecff] text-[15px]">
               <div className="flex justify-between">
                 <span className="text-gray-500">Khóa học đăng ký:</span>
-                <span className="font-bold text-[#004c6e]">{selectedPlan.name}</span>
+                <span className="font-bold text-[#004c6e]">
+                  {selectedPlan.baseName || BASE_PLANS[selectedPlan.key]?.name || selectedPlan.name}
+                </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-500">Số tiền thanh toán:</span>
