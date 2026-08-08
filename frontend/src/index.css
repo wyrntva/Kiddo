@@ -1048,6 +1048,14 @@ svg {
   padding: 12px 24px 20px 24px !important; /* Compact padding to eliminate empty space */
 }
 
+@media (max-width: 639px) {
+  .zone-success-modal {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    padding: 12px 16px 20px 16px !important;
+  }
+}
+
 .zone-success-modal .relative.z-10.flex {
   gap: clamp(10px, 1.5vh, 20px) !important;
 }
