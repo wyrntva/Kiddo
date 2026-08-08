@@ -63,7 +63,7 @@ export default function AboutPage() {
                 {/* Mission */}
                 <div className="space-y-3">
                   <h4 className="flex items-center gap-2 font-baloo text-[18px] font-bold text-[#0a7ad8] sm:text-[20px]">
-                    <span className="text-[22px]">🎯</span> Sứ mệnh
+                    Sứ mệnh
                   </h4>
                   <p className="break-words font-vietnam text-[15px] leading-[26px] text-[#3e484f] sm:text-[16px] sm:leading-[28px]">
                     OTTOPIA mong muốn giúp trẻ tiếp cận kỹ năng sống theo cách tự nhiên, trực quan và phù hợp với lứa tuổi.
@@ -76,7 +76,7 @@ export default function AboutPage() {
                 {/* Vision */}
                 <div className="space-y-3">
                   <h4 className="flex items-center gap-2 font-baloo text-[18px] font-bold text-[#0a7ad8] sm:text-[20px]">
-                    <span className="text-[22px]">👁️</span> Tầm nhìn
+                    Tầm nhìn
                   </h4>
                   <p className="break-words font-vietnam text-[15px] leading-[26px] text-[#3e484f] sm:text-[16px] sm:leading-[28px]">
                     Đến năm 2030, OTTOPIA hướng tới trở thành một thương hiệu nổi bật tại Việt Nam trong lĩnh vực trải nghiệm tương tác hỗ trợ phát triển kỹ năng sống cho trẻ mầm non.
@@ -99,17 +99,17 @@ export default function AboutPage() {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 {[
-                  { icon: '🌈', title: 'Vùng đất cảm xúc', desc: 'Giúp trẻ nhận biết, gọi tên và thể hiện cảm xúc phù hợp.' },
-                  { icon: '💬', title: 'Thành phố giao tiếp', desc: 'Giúp trẻ biết chào hỏi, cảm ơn, xin lỗi, lắng nghe và nhờ giúp đỡ.' },
-                  { icon: '🏡', title: 'Ngôi làng tự lập', desc: 'Khuyến khích trẻ chủ động thực hiện những công việc phù hợp với độ tuổi.' },
-                  { icon: '🤝', title: 'Khu vườn bạn bè', desc: 'Giúp trẻ học cách chia sẻ, hợp tác, cảm thông và giải quyết mâu thuẫn.' },
-                  { icon: '🚀', title: 'Hành tinh tình huống', desc: 'Hướng dẫn trẻ phản ứng phù hợp trước những tình huống thường gặp.' }
+                  { img: '/assets/vung_dat_cam_xuc_island.webp', title: 'Vùng đất cảm xúc', desc: 'Giúp trẻ nhận biết, gọi tên và thể hiện cảm xúc phù hợp.' },
+                  { img: '/assets/thanh_pho_giao_tiep_island.webp', title: 'Thành phố giao tiếp', desc: 'Giúp trẻ biết chào hỏi, cảm ơn, xin lỗi, lắng nghe và nhờ giúp đỡ.' },
+                  { img: '/assets/ngoi_lang_tu_lap_island.webp', title: 'Ngôi làng tự lập', desc: 'Khuyến khích trẻ chủ động thực hiện những công việc phù hợp với độ tuổi.' },
+                  { img: '/assets/khu_vuon_ban_be_island.webp', title: 'Khu vườn bạn bè', desc: 'Giúp trẻ học cách chia sẻ, hợp tác, cảm thông và giải quyết mâu thuẫn.' },
+                  { img: '/assets/hanh_tinh_tinh_huong_island.webp', title: 'Hành tinh tình huống', desc: 'Hướng dẫn trẻ phản ứng phù hợp trước những tình huống thường gặp.' }
                 ].map((island, idx) => (
                   <div
                     key={idx}
                     className="flex flex-col items-center rounded-[16px] border border-[#d8edfa] bg-[#fcfdfe] p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#b4dcf7] hover:bg-white hover:shadow-[0_8px_20px_rgba(10,122,216,0.06)]"
                   >
-                    <span className="mb-3 text-[32px]">{island.icon}</span>
+                    <img src={island.img} alt="" className="mb-3 h-[80px] w-auto object-contain select-none" />
                     <h5 className="mb-2 font-baloo text-[16px] font-bold text-[#004c6e]">
                       {island.title}
                     </h5>
@@ -167,7 +167,7 @@ export default function AboutPage() {
 
               <div className="mx-auto mt-10 max-w-[800px] rounded-[20px] bg-gradient-to-r from-[#e5f2ff] to-[#f0f7ff] p-6 shadow-sm border border-[#d8edfa] sm:p-8">
                 <h4 className="mb-3 font-baloo text-[18px] font-bold text-[#0a7ad8] sm:text-[20px]">
-                  🐻 Cùng Toro bắt đầu hành trình trưởng thành
+                  Cùng Toro bắt đầu hành trình trưởng thành
                 </h4>
                 <p className="mb-6 font-vietnam text-[14px] leading-relaxed text-[#3e484f] sm:text-[15px]">
                   Toro cũng có lúc bối rối, mắc lỗi và chưa biết phải làm gì. Nhưng qua mỗi chuyến phiêu lưu cùng Bunny, Foxy, Berry và Tiki, Toro lại học thêm một điều mới. Hãy cùng Toro bước vào thế giới OTTOPIA, nơi mỗi trải nghiệm nhỏ đều có thể trở thành một bài học đầu đời ý nghĩa.
