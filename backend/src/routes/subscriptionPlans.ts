@@ -2,12 +2,14 @@ import { Router } from 'express'
 import { prisma } from '../lib/prisma'
 import { authenticate } from '../middleware/authMiddleware'
 import { requireAdmin } from '../middleware/security'
+import { checkAndUpdateCampaigns } from './promotionCampaigns'
 
 const router = Router()
 
 // GET /api/subscription-plans - Get all plans
 router.get('/', async (req, res) => {
   try {
+    await checkAndUpdateCampaigns()
     const plans = await prisma.subscriptionPlan.findMany({
       orderBy: { price: 'asc' }
     })

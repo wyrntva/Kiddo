@@ -5,6 +5,14 @@ import toast from 'react-hot-toast';
 import { subscriptionPlansAPI, type SubscriptionPlan } from '../../api/subscriptionPlans.api';
 import BaseDialog from '../../components/shared/BaseDialog';
 
+const cleanPlanNameForDisplay = (name: string) => {
+    if (!name) return '';
+    let clean = name.replace(/\s+từ\s+\d{2}:\d{2}\s+\d{2}\/\d{2}\/\d{4}\s+đến\s+\d{2}:\d{2}\s+\d{2}\/\d{2}\/\d{4}/g, '');
+    clean = clean.replace(/\s+từ\s+\d{2}\/\d{2}\/\d{4}\s+đến\s+\d{2}\/\d{2}\/\d{4}/g, '');
+    clean = clean.replace(/gi[aả]\u0309?m\s+(\d+)%\s*(?:-\s*)?gi[aả]\u0309?m\s+(\d+)%/gi, 'GIẢM $1%');
+    return clean;
+};
+
 const Courses = () => {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
     const [loading, setLoading] = useState(false);
@@ -135,7 +143,7 @@ const Courses = () => {
                                         <Icon icon="solar:calendar-outline" className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-gray-800 text-[16px]">{plan.name}</h3>
+                                        <h3 className="font-bold text-gray-800 text-[16px]">{cleanPlanNameForDisplay(plan.name)}</h3>
                                         <p className="text-[12px] text-gray-500">Mã gói: <span className="font-mono">{plan.key}</span></p>
                                     </div>
                                 </div>

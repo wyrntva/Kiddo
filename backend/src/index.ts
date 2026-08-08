@@ -19,6 +19,7 @@ import progressRouter from './routes/progress'
 import chatRouter from './routes/chat'
 import facebookWebhookRouter from './routes/facebookWebhook'
 import contactRouter from './routes/contact'
+import promotionCampaignsRouter, { checkAndUpdateCampaigns } from './routes/promotionCampaigns'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -106,6 +107,7 @@ app.use('/api/analytics', analyticsRouter)
 app.use('/api/subscription-plans', subscriptionPlansRouter)
 app.use('/api/progress', progressRouter)
 app.use('/api/contact', contactRouter)
+app.use('/api/promotion-campaigns', promotionCampaignsRouter)
 app.use('/api/chat', rateLimit({
   windowMs: 60 * 1000,
   limit: 10,
@@ -176,6 +178,10 @@ app.listen(PORT, () => {
   console.log(`\n🦦 OTTOPIA Backend đang chạy tại http://localhost:${PORT}`)
   console.log(`   Health check: http://localhost:${PORT}/health`)
   console.log(`   Auth API:     http://localhost:${PORT}/api/auth\n`)
+
+  // Run promotion campaign auto-activate checker on startup and every 30 seconds
+  checkAndUpdateCampaigns()
+  setInterval(checkAndUpdateCampaigns, 30000)
 })
 
 export default app

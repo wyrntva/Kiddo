@@ -105,6 +105,12 @@ const SidebarContent: MenuItem[] = [
         id: uniqueId(),
         url: "/transaction-history",
       },
+      {
+        name: "Khuyến mãi",
+        icon: "solar:ticket-sale-outline",
+        id: uniqueId(),
+        url: "/promotions",
+      },
     ],
   },
   {

@@ -31,4 +31,4 @@ RUN mkdir -p uploads
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+CMD ["sh", "-c", "node prisma/wait-for-db.js && npx prisma migrate deploy && node dist/index.js"]

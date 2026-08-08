@@ -13,6 +13,20 @@ type Plan = {
   durationMonths: number
 }
 
+const BASE_PLANS: Record<string, { name: string; price: number }> = {
+  month_1: { name: 'Gói 1 tháng', price: 139000 },
+  month_3: { name: 'Gói 6 tháng', price: 499000 },
+  month_12: { name: 'Gói 12 tháng', price: 799000 }
+}
+
+const cleanPlanNameForDisplay = (name: string) => {
+  if (!name) return ''
+  let clean = name.replace(/\s+từ\s+\d{2}:\d{2}\s+\d{2}\/\d{2}\/\d{4}\s+đến\s+\d{2}:\d{2}\s+\d{2}\/\d{2}\/\d{4}/g, '')
+  clean = clean.replace(/\s+từ\s+\d{2}\/\d{2}\/\d{4}\s+đến\s+\d{2}\/\d{2}\/\d{4}/g, '')
+  clean = clean.replace(/gi[aả]\u0309?m\s+(\d+)%\s*(?:-\s*)?gi[aả]\u0309?m\s+(\d+)%/gi, 'GIẢM $1%')
+  return clean
+}
+
 export default function PricingSection() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -239,17 +253,37 @@ export default function PricingSection() {
               {/* Content */}
               <div className="flex flex-col flex-grow px-5 sm:px-6 pt-3 items-center justify-between gap-5 w-full">
                 {/* name and price */}
-                <div className="flex flex-col items-center gap-1 text-center">
+                <div className="flex flex-col items-center gap-2 text-center w-full">
                   <span className="font-vietnam font-extrabold text-[18px] lg:text-[20px] text-[#313235]">
-                    {plan.name}
+                    {cleanPlanNameForDisplay(plan.name)}
                   </span>
-                  <div className="flex gap-1 md:gap-1.5 items-end justify-center">
-                    <span className={`font-baloo text-[36px] md:text-[32px] lg:text-[40px] xl:text-[48px] ${styles.textColor} leading-none font-bold`}>
-                      {formatPrice(plan.price)}
-                    </span>
-                    <span className={`font-baloo text-[13px] md:text-[12px] lg:text-[14px] xl:text-[16px] ${styles.textColor} mb-1 lg:mb-2`}>
-                      {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
-                    </span>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="flex gap-1 md:gap-1.5 items-end justify-center">
+                      <span className={`font-baloo text-[36px] md:text-[32px] lg:text-[40px] xl:text-[48px] ${styles.textColor} leading-none font-bold`}>
+                        {formatPrice(plan.price)}
+                      </span>
+                      <span className={`font-baloo text-[13px] md:text-[12px] lg:text-[14px] xl:text-[16px] ${styles.textColor} mb-1 lg:mb-2`}>
+                        {plan.durationMonths === 1 ? '/ tháng' : `/ ${plan.durationMonths} tháng`}
+                      </span>
+                    </div>
+                    {(() => {
+                      const basePlan = BASE_PLANS[plan.key]
+                      if (basePlan && plan.price < basePlan.price) {
+                        const discountAmount = basePlan.price - plan.price
+                        const discountPercent = Math.round((discountAmount / basePlan.price) * 100)
+                        return (
+                          <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 mt-0.5 text-center">
+                            <span className="text-gray-400 line-through text-[13px] font-semibold">
+                              Gốc: {formatPrice(basePlan.price)}
+                            </span>
+                            <span className="bg-red-50 text-[#e83552] text-[11px] font-bold px-2 py-0.5 rounded-full border border-red-100 whitespace-nowrap">
+                              Giảm {discountPercent}% (Tiết kiệm {formatPrice(discountAmount)})
+                            </span>
+                          </div>
+                        )
+                      }
+                      return null
+                    })()}
                   </div>
                 </div>
 

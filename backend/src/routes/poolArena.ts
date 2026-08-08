@@ -241,4 +241,210 @@ router.delete('/users/:id/avatar', async (req: Request, res: Response): Promise<
   }
 })
 
+// GET /api/pool-arena/transactions
+router.get('/transactions', async (req: Request, res: Response) => {
+  try {
+    // 1. Backfill step: Find users with isPendingPaid === true who don't have any pending transactions
+    const pendingUsers = await prisma.user.findMany({
+      where: {
+        isPendingPaid: true,
+        transactions: {
+          none: {
+            status: 'pending'
+          }
+        }
+      }
+    })
+
+    for (const user of pendingUsers) {
+      const plan = user.pendingPlanId ? await prisma.subscriptionPlan.findUnique({
+        where: { id: user.pendingPlanId }
+      }) : null
+
+      await prisma.transaction.create({
+        data: {
+          userId: user.id,
+          planId: user.pendingPlanId || null,
+          planName: plan?.name || 'Gói nâng cấp',
+          price: plan?.price || 0,
+          status: 'pending'
+        }
+      })
+    }
+
+    // 2. Backfill step 2: Find users with isPaid === true who don't have any transactions
+    const paidUsers = await prisma.user.findMany({
+      where: {
+        isPaid: true,
+        transactions: {
+          none: {}
+        }
+      }
+    })
+
+    for (const user of paidUsers) {
+      const planId = user.subscriptionPlanId || user.pendingPlanId
+      const plan = planId ? await prisma.subscriptionPlan.findUnique({
+        where: { id: planId }
+      }) : null
+
+      await prisma.transaction.create({
+        data: {
+          userId: user.id,
+          planId: planId || null,
+          planName: plan?.name || 'Gói nâng cấp',
+          price: plan?.price || 0,
+          status: 'approved',
+          createdAt: user.updatedAt
+        }
+      })
+    }
+
+    // 3. Fetch all transactions with user information
+
+    const transactions = await prisma.transaction.findMany({
+      include: {
+        user: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+
+    // 3. Map to format expected by frontend
+    const mappedTransactions = transactions.map(tx => ({
+      id: tx.id,
+      plan_id: tx.planId,
+      plan_name: tx.planName,
+      price: tx.price,
+      status: tx.status,
+      created_at: tx.createdAt.toISOString(),
+      updated_at: tx.updatedAt.toISOString(),
+      user: {
+        id: tx.user.id,
+        full_name: tx.user.name,
+        phone_number: tx.user.phone || '',
+        email: tx.user.email,
+        avatar_url: tx.user.avatar,
+        role: tx.user.role,
+        parent_name: tx.user.parentName || '',
+        is_paid: tx.user.isPaid,
+        is_pending_paid: tx.user.isPendingPaid,
+        paid_until: tx.user.paidUntil ? tx.user.paidUntil.toISOString() : null,
+      }
+    }))
+
+    res.json(mappedTransactions)
+  } catch (error) {
+    console.error('Error fetching transactions:', error)
+    res.status(500).json({ message: 'Không thể tải danh sách giao dịch' })
+  }
+})
+
+// POST /api/pool-arena/transactions/:id/approve
+router.post('/transactions/:id/approve', async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id }
+    })
+
+    if (!transaction) {
+      res.status(404).json({ message: 'Không tìm thấy giao dịch' })
+      return
+    }
+
+    if (transaction.status !== 'pending') {
+      res.status(400).json({ message: 'Giao dịch đã được xử lý hoặc không hợp lệ' })
+      return
+    }
+
+    // Update transaction status
+    const updatedTransaction = await prisma.transaction.update({
+      where: { id },
+      data: { status: 'approved' }
+    })
+
+    // Calculate expiration date based on plan
+    let paidUntil: Date | null = null
+    const planId = transaction.planId
+    if (planId) {
+      const plan = await prisma.subscriptionPlan.findUnique({
+        where: { id: planId }
+      })
+      if (plan) {
+        const now = new Date()
+        const expiry = new Date()
+        expiry.setMonth(now.getMonth() + plan.durationMonths)
+        paidUntil = expiry
+      }
+    }
+
+    if (!paidUntil) {
+      const now = new Date()
+      const expiry = new Date()
+      expiry.setMonth(now.getMonth() + 1) // default 1 month
+      paidUntil = expiry
+    }
+
+    // Update user
+    await prisma.user.update({
+      where: { id: transaction.userId },
+      data: {
+        isPaid: true,
+        isPendingPaid: false,
+        paidUntil,
+        subscriptionPlanId: planId,
+        pendingPlanId: null
+      }
+    })
+
+    res.json({ message: 'Duyệt kích hoạt tài khoản thành công', transaction: updatedTransaction })
+  } catch (error) {
+    console.error('Error approving transaction:', error)
+    res.status(500).json({ message: 'Duyệt kích hoạt tài khoản thất bại' })
+  }
+})
+
+// POST /api/pool-arena/transactions/:id/reject
+router.post('/transactions/:id/reject', async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id }
+    })
+
+    if (!transaction) {
+      res.status(404).json({ message: 'Không tìm thấy giao dịch' })
+      return
+    }
+
+    if (transaction.status !== 'pending') {
+      res.status(400).json({ message: 'Giao dịch đã được xử lý hoặc không hợp lệ' })
+      return
+    }
+
+    // Update transaction status
+    const updatedTransaction = await prisma.transaction.update({
+      where: { id },
+      data: { status: 'rejected' }
+    })
+
+    // Update user: remove pending paid request
+    await prisma.user.update({
+      where: { id: transaction.userId },
+      data: {
+        isPendingPaid: false,
+        pendingPlanId: null
+      }
+    })
+
+    res.json({ message: 'Đã từ chối yêu cầu kích hoạt tài khoản', transaction: updatedTransaction })
+  } catch (error) {
+    console.error('Error rejecting transaction:', error)
+    res.status(500).json({ message: 'Từ chối yêu cầu kích hoạt thất bại' })
+  }
+})
+
 export default router
+

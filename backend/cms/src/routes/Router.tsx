@@ -81,6 +81,7 @@ const ReportDetail = lazy(() => import('../views/reports/ReportDetail'));
 const ReportRevenue = lazy(() => import('../views/reports/ReportRevenue'));
 const ReportContent = lazy(() => import('../views/reports/ReportContent'));
 const ReportLessons = lazy(() => import('../views/reports/ReportLessons'));
+const Promotions = lazy(() => import('../views/promotions/Promotions'));
 
 const Error = lazy(() => import('../views/auth/error/Error'));
 const AnalyticsDashboard = lazy(() => import('../views/analytics/AnalyticsDashboard'));
@@ -199,7 +200,7 @@ const Router = () => {
             {/* Placeholders for unimplemented features */}
             <Route path="invoices" element={<SamplePage />} />
             <Route path="bookings" element={<SamplePage />} />
-            <Route path="promotions" element={<SamplePage />} />
+            <Route path="promotions" element={<Promotions />} />
           </Route>
         </Route>
 

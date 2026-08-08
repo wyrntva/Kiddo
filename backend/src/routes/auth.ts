@@ -499,10 +499,21 @@ router.post('/request-upgrade', authenticate, async (req: AuthRequest, res: Resp
       data: { isPendingPaid: true, pendingPlanId: planId },
     })
 
-    // Fetch plan details to construct notification email
+    // Fetch plan details to construct notification email and save transaction
     const plan = planId ? await prisma.subscriptionPlan.findUnique({
       where: { id: planId },
     }) : null
+
+    // Create a pending transaction record
+    await prisma.transaction.create({
+      data: {
+        userId: user.id,
+        planId: planId || null,
+        planName: plan?.name || 'Gói nâng cấp',
+        price: plan?.price || 0,
+        status: 'pending'
+      }
+    })
 
     if (plan && user) {
       const smtpUser = process.env.SMTP_USER || 'ottopiaforkids@gmail.com'
@@ -633,6 +644,25 @@ router.post('/cancel-upgrade', authenticate, async (req: AuthRequest, res: Respo
       where: { id: req.user!.userId },
       data: { isPendingPaid: false },
     })
+
+    // Find the latest pending transaction for this user and mark it as cancelled
+    const pendingTx = await prisma.transaction.findFirst({
+      where: {
+        userId: user.id,
+        status: 'pending'
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+
+    if (pendingTx) {
+      await prisma.transaction.update({
+        where: { id: pendingTx.id },
+        data: { status: 'cancelled' }
+      })
+    }
+
     res.json({
       message: 'Đã hủy yêu cầu nâng cấp tài khoản',
       user: {

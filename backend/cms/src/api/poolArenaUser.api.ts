@@ -39,12 +39,23 @@ interface PoolArenaUserUpdateData {
     instagram_url?: string | null;
 }
 
+export interface PoolArenaTransaction {
+    id: string;
+    plan_id: string | null;
+    plan_name: string | null;
+    price: number | null;
+    status: 'pending' | 'approved' | 'rejected' | 'cancelled';
+    created_at: string;
+    updated_at: string;
+    user: PoolArenaUser;
+}
+
 export const poolArenaUserAPI = {
     getUsers: (params?: PoolArenaUserQueryParams): Promise<AxiosResponse<PoolArenaUserListResponse>> => {
         return axiosClient.get('/api/pool-arena/users', { params });
     },
 
-    updateUser: (id: number, data: PoolArenaUserUpdateData): Promise<AxiosResponse<PoolArenaUser>> => {
+    updateUser: (id: string | number, data: PoolArenaUserUpdateData): Promise<AxiosResponse<PoolArenaUser>> => {
         return axiosClient.patch(`/api/pool-arena/users/${id}`, data);
     },
 
@@ -65,4 +76,17 @@ export const poolArenaUserAPI = {
     deleteAvatar: (id: number): Promise<AxiosResponse<void>> => {
         return axiosClient.delete(`/api/pool-arena/users/${id}/avatar`);
     },
+
+    getTransactions: (): Promise<AxiosResponse<PoolArenaTransaction[]>> => {
+        return axiosClient.get('/api/pool-arena/transactions');
+    },
+
+    approveTransaction: (id: string): Promise<AxiosResponse<{ message: string; transaction: PoolArenaTransaction }>> => {
+        return axiosClient.post(`/api/pool-arena/transactions/${id}/approve`);
+    },
+
+    rejectTransaction: (id: string): Promise<AxiosResponse<{ message: string; transaction: PoolArenaTransaction }>> => {
+        return axiosClient.post(`/api/pool-arena/transactions/${id}/reject`);
+    },
 };
+
