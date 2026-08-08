@@ -321,7 +321,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     audio.play().catch((err) => {
       setIsSpeaking(false)
       audioRef.current = null
-      if (err?.name !== 'NotAllowedError') {
+      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
         console.error('Audio play failed:', err)
       }
     })
@@ -363,7 +363,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     audio.onerror = () => handleFallback()
     audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError') {
+      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
         console.error('Audio play failed:', err)
       }
       handleFallback(err)
@@ -411,7 +411,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     audio.onerror = () => handleFallback()
     audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError') {
+      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
         console.error('Audio play failed:', err)
       }
       handleFallback(err)
@@ -456,7 +456,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     audio.onerror = handleFallback
     audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError') {
+      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
         console.error('Audio play failed:', err)
       }
       handleFallback()
@@ -490,7 +490,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       audio.play().catch((err) => {
         setIsSpeaking(false)
         audioRef.current = null
-        if (err?.name !== 'NotAllowedError') {
+        if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
           console.error('Question audio play failed:', err)
         }
         if (currentQ.prompt) {
@@ -745,7 +745,11 @@ export default function useZoneQuiz(initialLessonId: string | number) {
 
     try {
       const audio = new Audio(correct ? '/assets/correct.mp3' : '/assets/incorrect.mp3')
-      audio.play().catch((err) => console.warn('Audio play failed:', err))
+      audio.play().catch((err) => {
+        if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
+          console.warn('Audio play failed:', err)
+        }
+      })
     } catch (err) {
       console.warn('Audio creation failed:', err)
     }
