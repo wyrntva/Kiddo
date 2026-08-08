@@ -1043,7 +1043,7 @@ svg {
    ========================================================================== */
 
 .zone-success-modal {
-  overflow: hidden !important; /* Disable scrollbar */
+  overflow-y: auto !important;
   max-height: 96vh !important;
   padding: 12px 24px 20px 24px !important; /* Compact padding to eliminate empty space */
 }
