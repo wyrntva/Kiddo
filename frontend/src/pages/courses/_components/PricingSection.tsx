@@ -11,6 +11,8 @@ type Plan = {
   features: string[]
   isPopular: boolean
   durationMonths: number
+  baseName?: string
+  basePrice?: number
 }
 
 const BASE_PLANS: Record<string, { name: string; price: number }> = {
@@ -124,14 +126,16 @@ export default function PricingSection() {
 
   const getTransferContent = () => {
     if (!selectedPlan) return ''
-    const planNameClean = selectedPlan.name
+    const baseName = selectedPlan.baseName || BASE_PLANS[selectedPlan.key]?.name || selectedPlan.name
+    const cleanName = baseName.replace(/\s*\(.*\)/g, '')
+    const planNameClean = cleanName
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/đ/g, 'd')
       .replace(/Đ/g, 'D')
       .toUpperCase()
     const contactInfo = user?.phone || user?.email?.split('@')[0] || ''
-    return `DANG KY ${planNameClean} ${contactInfo}`.replace(/\s+/g, ' ')
+    return `${contactInfo} ${planNameClean}`.trim().replace(/\s+/g, ' ')
   }
 
   const handleConfirmPayment = async () => {
