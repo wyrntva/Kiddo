@@ -98,11 +98,11 @@ export default function Footer() {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
-    fetch(`${API_URL}/api/zones`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const headers: Record<string, string> = {}
+    if (token && token !== 'null' && token !== 'undefined') {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+    fetch(`${API_URL}/api/zones`, { headers })
       .then(res => res.json())
       .then(json => {
         if (json && Array.isArray(json.data)) {
