@@ -31,6 +31,7 @@ router.put('/:id', authenticate, requireAdmin, async (req, res) => {
       return res.status(400).json({ message: 'Giá trị tiền không hợp lệ' })
     }
     updateData.price = price
+    updateData.basePrice = price
   }
 
   if (name !== undefined) {
@@ -38,6 +39,7 @@ router.put('/:id', authenticate, requireAdmin, async (req, res) => {
       return res.status(400).json({ message: 'Tên gói không hợp lệ' })
     }
     updateData.name = name
+    updateData.baseName = name
   }
 
   if (features !== undefined) {

@@ -184,6 +184,8 @@ model SubscriptionPlan {
   features    Json
   isPopular   Boolean  @default(false)
   durationMonths Int    @default(1)
+  baseName    String?  @default("")
+  basePrice   Int?     @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

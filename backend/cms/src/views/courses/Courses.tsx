@@ -41,8 +41,9 @@ const Courses = () => {
 
     const handleEditClick = (plan: SubscriptionPlan) => {
         setSelectedPlan(plan);
-        setEditName(plan.name);
-        setEditPrice(plan.price.toString());
+        setEditName(plan.baseName || plan.name);
+        const basePrice = plan.basePrice !== undefined && plan.basePrice !== null ? plan.basePrice : plan.price;
+        setEditPrice(basePrice.toString());
         setEditFeatures([...(plan.features || [])]);
         setEditDurationMonths((plan.durationMonths || 1).toString());
         setModalOpen(true);
@@ -195,7 +196,7 @@ const Courses = () => {
                         setModalOpen(false);
                         setSelectedPlan(null);
                     }}
-                    title={`Cấu hình gói: ${selectedPlan.name}`}
+                    title={`Cấu hình gói: ${selectedPlan.baseName || selectedPlan.name}`}
                     size="md"
                     onConfirm={handleSavePlan}
                     confirmText="Lưu thông tin"

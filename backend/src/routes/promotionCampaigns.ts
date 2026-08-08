@@ -58,8 +58,9 @@ export async function checkAndUpdateCampaigns() {
       const activeCampaign = planToCampaignMap[plan.key]
 
       if (activeCampaign) {
-        const baseInfo = BASE_PLANS[plan.key] || { name: plan.name, price: plan.price }
-        const discountedPrice = Math.round((baseInfo.price * (100 - activeCampaign.discountPercent)) / 100)
+        const baseName = plan.baseName || BASE_PLANS[plan.key]?.name || plan.name
+        const basePrice = plan.basePrice || BASE_PLANS[plan.key]?.price || plan.price
+        const discountedPrice = Math.round((basePrice * (100 - activeCampaign.discountPercent)) / 100)
 
         let cleanCampaignName = activeCampaign.name.trim()
         const duplicateRegex = new RegExp(`^giả?m\\s+${activeCampaign.discountPercent}%(?:\\s*-\\s*)?`, 'i')
@@ -72,26 +73,31 @@ export async function checkAndUpdateCampaigns() {
         const endDisp = convertInputToDisplayDateTime(activeCampaign.endDate)
 
         const newName = cleanCampaignName
-          ? `${baseInfo.name} (GIẢM ${activeCampaign.discountPercent}% ${cleanCampaignName} từ ${startDisp} đến ${endDisp})`
-          : `${baseInfo.name} (GIẢM ${activeCampaign.discountPercent}% từ ${startDisp} đến ${endDisp})`
+          ? `${baseName} (GIẢM ${activeCampaign.discountPercent}% ${cleanCampaignName} từ ${startDisp} đến ${endDisp})`
+          : `${baseName} (GIẢM ${activeCampaign.discountPercent}% từ ${startDisp} đến ${endDisp})`
 
-        if (plan.name !== newName || plan.price !== discountedPrice) {
+        if (plan.name !== newName || plan.price !== discountedPrice || !plan.baseName || !plan.basePrice) {
           await prisma.subscriptionPlan.update({
             where: { id: plan.id },
             data: {
               name: newName,
-              price: discountedPrice
+              price: discountedPrice,
+              baseName: plan.baseName || baseName,
+              basePrice: plan.basePrice || basePrice
             }
           })
         }
       } else {
-        const baseInfo = BASE_PLANS[plan.key]
-        if (baseInfo && (plan.name !== baseInfo.name || plan.price !== baseInfo.price)) {
+        const baseName = plan.baseName || BASE_PLANS[plan.key]?.name || plan.name
+        const basePrice = plan.basePrice || BASE_PLANS[plan.key]?.price || plan.price
+        if (plan.name !== baseName || plan.price !== basePrice || !plan.baseName || !plan.basePrice) {
           await prisma.subscriptionPlan.update({
             where: { id: plan.id },
             data: {
-              name: baseInfo.name,
-              price: baseInfo.price
+              name: baseName,
+              price: basePrice,
+              baseName: plan.baseName || baseName,
+              basePrice: plan.basePrice || basePrice
             }
           })
         }

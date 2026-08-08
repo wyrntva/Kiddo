@@ -10,6 +10,8 @@ export interface SubscriptionPlan {
     features: string[];
     isPopular: boolean;
     durationMonths: number;
+    baseName?: string;
+    basePrice?: number;
     createdAt: string;
     updatedAt: string;
 }
