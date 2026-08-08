@@ -61,20 +61,20 @@ export default function ZoneQuizSuccessModal({
             className="relative z-20 w-full max-h-[320px] sm:max-h-[450px] lg:max-h-none overflow-y-auto pr-1.5 lg:pr-0 lg:col-span-2 lg:row-start-2"
           />
 
-          <div className="relative z-20 flex w-full flex-col items-stretch gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:col-span-2 lg:row-start-3 lg:flex-nowrap lg:justify-center lg:gap-6">
+          <div className="relative z-20 grid w-full grid-cols-2 gap-2 sm:flex sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:col-span-2 lg:row-start-3 lg:flex-nowrap lg:justify-center lg:gap-6">
             <button
               onClick={onResetGame}
-              className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] border border-solid border-[#e83552] bg-white px-6 font-vietnam text-[16px] font-medium text-[#e83552] shadow-sm transition-all duration-200 hover:bg-red-50 active:scale-95"
+              className="flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[40px] border border-solid border-[#e83552] bg-white px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-medium text-[#e83552] shadow-sm transition-all duration-200 hover:bg-red-50 active:scale-95"
             >
-              <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68M4 4v4.68h4.68" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <svg aria-hidden="true" className="size-5 sm:size-6 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68M4 4v4.68h4.68" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               <span>Chơi lại lần nữa</span>
             </button>
             {onRestartLesson && (
               <button
                 onClick={onRestartLesson}
-                className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] bg-[#8234E4] px-6 font-vietnam text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#6e28c7] active:scale-95"
+                className="flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[40px] bg-[#8234E4] px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#6e28c7] active:scale-95"
               >
-                <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="none">
+                <svg aria-hidden="true" className="size-5 sm:size-6 shrink-0" viewBox="0 0 24 24" fill="none">
                   <path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68M4 4v4.68h4.68" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span>Học lại</span>
@@ -82,25 +82,27 @@ export default function ZoneQuizSuccessModal({
             )}
             <button
               onClick={onNextLesson}
-              className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] bg-[#0a7ad8] px-6 font-vietnam text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#0862ae] active:scale-95"
+              className="flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[40px] bg-[#0a7ad8] px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#0862ae] active:scale-95"
             >
-              <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 7.6a1 1 0 0 1 1.52-.85l6.25 4.4a1 1 0 0 1 0 1.7l-6.25 4.4A1 1 0 0 1 6.5 16.4V7.6ZM16.5 7a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Z"/></svg>
+              <svg aria-hidden="true" className="size-5 sm:size-6 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 7.6a1 1 0 0 1 1.52-.85l6.25 4.4a1 1 0 0 1 0 1.7l-6.25 4.4A1 1 0 0 1 6.5 16.4V7.6ZM16.5 7a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Z"/></svg>
               <span>Mở bài mới nào</span>
             </button>
             <button
               onClick={onGoToDiary}
-              className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[40px] bg-[#339e4a] px-6 font-vietnam text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#2c883f] active:scale-95"
+              className="flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[40px] bg-[#339e4a] px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-medium text-white shadow-md transition-all duration-200 hover:bg-[#2c883f] active:scale-95"
             >
-              <svg aria-hidden="true" className="size-6 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h11a1 1 0 0 1 1 1V20l-6.5-3.3L5 20V5.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/><path d="M9 8h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+              <svg aria-hidden="true" className="size-5 sm:size-6 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h11a1 1 0 0 1 1 1V20l-6.5-3.3L5 20V5.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/><path d="M9 8h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
               <span>Về nhật ký của bé</span>
             </button>
             <button
               type="button"
-              className="flex h-[48px] min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-[40px] bg-[#FEA01F] px-6 font-vietnam text-[16px] font-bold text-white shadow-md transition-all duration-200 hover:bg-[#e68e16] active:scale-95"
+              className={`flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 sm:gap-2.5 whitespace-nowrap rounded-[40px] bg-[#FEA01F] px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-bold text-white shadow-md transition-all duration-200 hover:bg-[#e68e16] active:scale-95 ${
+                onRestartLesson ? 'col-span-2 sm:col-span-1' : 'col-span-1'
+              }`}
             >
               <svg
                 aria-hidden="true"
-                className="size-5 shrink-0 animate-icon-zoom"
+                className="size-4 sm:size-5 shrink-0 animate-icon-zoom"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -115,7 +117,7 @@ export default function ZoneQuizSuccessModal({
               <span>AI STUDIO</span>
               <svg
                 aria-hidden="true"
-                className="size-5 shrink-0 animate-icon-zoom-delay"
+                className="size-4 sm:size-5 shrink-0 animate-icon-zoom-delay"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
