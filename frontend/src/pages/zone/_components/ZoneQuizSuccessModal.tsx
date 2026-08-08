@@ -58,7 +58,7 @@ export default function ZoneQuizSuccessModal({
 
           <DiaryFeedbackColumns
             feedback={feedback}
-            className="relative z-20 lg:col-span-2 lg:row-start-2"
+            className="relative z-20 w-full max-h-[320px] sm:max-h-[450px] lg:max-h-none overflow-y-auto pr-1.5 lg:pr-0 lg:col-span-2 lg:row-start-2"
           />
 
           <div className="relative z-20 flex w-full flex-col items-stretch gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:col-span-2 lg:row-start-3 lg:flex-nowrap lg:justify-center lg:gap-6">
