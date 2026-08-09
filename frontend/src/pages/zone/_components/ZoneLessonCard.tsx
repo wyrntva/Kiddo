@@ -15,7 +15,13 @@ interface ZoneLessonCardProps {
   hideStars?: boolean
 }
 
-export default function ZoneLessonCard({ lesson, theme, onSelect, hideDescription, hideStars }: ZoneLessonCardProps) {
+export default function ZoneLessonCard({
+  lesson,
+  theme,
+  onSelect,
+  hideDescription = true,
+  hideStars = true,
+}: ZoneLessonCardProps) {
   const clickable = Boolean(onSelect)
   const { user } = useAuth()
   const isDev = lesson.lockStatus === 'DEV'

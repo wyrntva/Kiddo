@@ -33,8 +33,8 @@ export default function ZoneLandingPage({
   total,
   theme,
   onLessonSelect,
-  hideDescription,
-  hideStars,
+  hideDescription = true,
+  hideStars = true,
 }: ZoneLandingPageProps) {
   return (
     <div className="flex flex-col min-h-screen">
