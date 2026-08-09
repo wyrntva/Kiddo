@@ -18,6 +18,8 @@ interface ZoneLandingPageProps {
   total: number
   theme: ZoneTheme
   onLessonSelect?: (lesson: ZoneLesson) => void
+  hideDescription?: boolean
+  hideStars?: boolean
 }
 
 export default function ZoneLandingPage({
@@ -31,6 +33,8 @@ export default function ZoneLandingPage({
   total,
   theme,
   onLessonSelect,
+  hideDescription,
+  hideStars,
 }: ZoneLandingPageProps) {
   return (
     <div className="flex flex-col min-h-screen">
@@ -85,6 +89,8 @@ export default function ZoneLandingPage({
                   lesson={lesson}
                   theme={theme}
                   onSelect={onLessonSelect}
+                  hideDescription={hideDescription}
+                  hideStars={hideStars}
                 />
               </div>
             ))}

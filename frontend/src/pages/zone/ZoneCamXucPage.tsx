@@ -162,6 +162,8 @@ export default function ZoneCamXucPage() {
       completed={completedCount}
       total={lessons.length}
       theme={theme}
+      hideDescription={true}
+      hideStars={true}
       onLessonSelect={(lesson) => {
         if (lesson.lockStatus === 'DEV') {
           return

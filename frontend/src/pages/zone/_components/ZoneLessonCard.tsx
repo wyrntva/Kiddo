@@ -11,9 +11,11 @@ interface ZoneLessonCardProps {
   lesson: ZoneLesson
   theme: ZoneTheme
   onSelect?: (lesson: ZoneLesson) => void
+  hideDescription?: boolean
+  hideStars?: boolean
 }
 
-export default function ZoneLessonCard({ lesson, theme, onSelect }: ZoneLessonCardProps) {
+export default function ZoneLessonCard({ lesson, theme, onSelect, hideDescription, hideStars }: ZoneLessonCardProps) {
   const clickable = Boolean(onSelect)
   const { user } = useAuth()
   const isDev = lesson.lockStatus === 'DEV'
@@ -84,16 +86,20 @@ export default function ZoneLessonCard({ lesson, theme, onSelect }: ZoneLessonCa
           <p className="zone-card-title-text lesson-card__title lesson-title text-[#37393E]">
             {lesson.title}
           </p>
-          <p className="zone-card-desc-text lesson-card__desc line-clamp-2 overflow-hidden">
-            {lesson.description}
-          </p>
+          {!hideDescription && (
+            <p className="zone-card-desc-text lesson-card__desc line-clamp-2 overflow-hidden">
+              {lesson.description}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2 w-full mt-3">
           <div className="flex w-full items-center justify-between gap-2">
-            <div className="shrink-0">
-              <ZoneStarRow filled={lesson.stars} filledIcon={imgStarFilledSm} emptyIcon={imgStarEmptySm} />
-            </div>
+            {!hideStars && (
+              <div className="shrink-0">
+                <ZoneStarRow filled={lesson.stars} filledIcon={imgStarFilledSm} emptyIcon={imgStarEmptySm} />
+              </div>
+            )}
             <ZoneLessonStatusTag status={lesson.status} />
           </div>
           <ZoneLessonActionButton status={lesson.status} />
