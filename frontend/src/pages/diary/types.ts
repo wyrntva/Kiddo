@@ -4,6 +4,7 @@ export interface DiaryLesson {
   status: 'active' | 'learning' | 'locked' | 'completed'
   statusLabel: string
   isCompleted: boolean
+  lockStatus?: string
   feedback?: {
     title: string
     strengths: string[]

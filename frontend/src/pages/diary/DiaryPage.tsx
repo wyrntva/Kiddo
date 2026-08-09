@@ -69,6 +69,7 @@ export default function DiaryPage() {
             id: l.id,
             title: l.title,
             image: l.img ? (l.img.startsWith('http') ? l.img : `${API_URL}${l.img}`) : staticL?.image,
+            lockStatus: l.lockStatus || 'UNLOCKED',
             feedback: staticL?.feedback || {
               title: 'Con đang cảm thấy gì?',
               strengths: ['Con đã hoàn thành bài học xuất sắc!'],
@@ -98,7 +99,11 @@ export default function DiaryPage() {
 
 
        const skills = sortedLessons.map((l: any, index: number) => {
-        const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
+        const isDev = l.lockStatus === 'DEV'
+        const isPaidLocked = l.lockStatus === 'PAID' && (!user || !user.isPaid)
+        const isLocked = isDev || isPaidLocked
+
+        const status = isLocked ? 'not-started' : getLessonStatusForAccount(l.id, index, user?.id, l.title)
         
         // Calculate progress dynamically based on actual question correctness
         const qResults = getSavedQuestionResultsForAccount(l.id, user?.id, l.title, index)
@@ -149,7 +154,11 @@ export default function DiaryPage() {
   }, [user?.id])
 
   const currentLessons: Lesson[] = rawLessons.map((lesson, index) => {
-    const accStatus = getLessonStatusForAccount(lesson.id, index, user?.id, lesson.title)
+    const isDev = lesson.lockStatus === 'DEV'
+    const isPaidLocked = lesson.lockStatus === 'PAID' && (!user || !user.isPaid)
+    const isLocked = isDev || isPaidLocked
+
+    const accStatus = isLocked ? 'not-started' : getLessonStatusForAccount(lesson.id, index, user?.id, lesson.title)
     const status: Lesson['status'] = accStatus === 'completed' ? 'completed' : accStatus === 'in-progress' ? 'learning' : 'locked'
     const statusLabel = status === 'completed' ? 'Hoàn thành' : status === 'learning' ? 'Đang học' : 'Chưa học'
     const isCompleted = status === 'completed'
