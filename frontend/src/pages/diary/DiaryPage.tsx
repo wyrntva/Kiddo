@@ -97,9 +97,28 @@ export default function DiaryPage() {
       }
 
 
-      const skills = sortedLessons.map((l: any, index: number) => {
+       const skills = sortedLessons.map((l: any, index: number) => {
         const status = getLessonStatusForAccount(l.id, index, user?.id, l.title)
-        const progress = status === 'completed' ? 100 : status === 'in-progress' ? 80 : 0
+        
+        // Calculate progress dynamically based on actual question correctness
+        const qResults = getSavedQuestionResultsForAccount(l.id, user?.id, l.title, index)
+        const answeredKeys = Object.keys(qResults)
+        const totalQuestions = answeredKeys.length > 0 ? answeredKeys.length : 5
+        const correctCount = Object.values(qResults).filter(val => val === true).length
+        
+        let progress = 0
+        if (status === 'completed') {
+          progress = answeredKeys.length > 0 
+            ? Math.round((correctCount / totalQuestions) * 100) 
+            : 100
+        } else if (status === 'in-progress') {
+          progress = answeredKeys.length > 0 
+            ? Math.round((correctCount / totalQuestions) * 100) 
+            : 80
+        } else {
+          progress = 0
+        }
+
         const colorPalette = ['#339E4A', '#FEA01F', '#0A7AD8', '#8234E4', '#ff4d4d']
         const color = colorPalette[index % colorPalette.length]
 
