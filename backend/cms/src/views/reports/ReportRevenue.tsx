@@ -268,6 +268,11 @@ const ReportRevenue = () => {
         return dayjs(dateStr).format('DD/MM/YYYY HH:mm');
     };
 
+    const cleanPlanName = (name: string | null) => {
+        if (!name) return '-';
+        return name.replace(/\s*\(giả?m\s+.*$/i, '').trim();
+    };
+
     // ApexCharts Configurations
     const legendSeriesName = `Tổng doanh thu gồm thuế: ${financialMetrics.net.toLocaleString('vi-VN')} đ`;
 
@@ -745,7 +750,7 @@ const ReportRevenue = () => {
                                         <Table.Row key={tx.id}>
                                             <Table.Cell className="text-gray-500">{formatDate(tx.created_at)}</Table.Cell>
                                             <Table.Cell className="font-medium text-gray-900">{tx.user?.full_name || '-'}</Table.Cell>
-                                            <Table.Cell className="text-blue-600 font-medium">{tx.plan_name || '-'}</Table.Cell>
+                                            <Table.Cell className="text-blue-600 font-medium">{cleanPlanName(tx.plan_name)}</Table.Cell>
                                             <Table.Cell className="font-semibold text-gray-500">{formatPrice(grossVal)}</Table.Cell>
                                             <Table.Cell className="font-semibold text-emerald-600">
                                                 {discountVal > 0 ? `-${formatPrice(discountVal)}` : '0đ'}
