@@ -4,7 +4,6 @@ import SEO from '../../../components/common/SEO'
 import ZoneEncouragementCard from './ZoneEncouragementCard'
 import ZoneHeartIcon from './ZoneHeartIcon'
 import ZoneLessonCard from './ZoneLessonCard'
-import ZoneProgressCard from './ZoneProgressCard'
 import type { ZoneLesson, ZoneTheme } from './zoneTypes'
 
 interface ZoneLandingPageProps {
@@ -29,8 +28,8 @@ export default function ZoneLandingPage({
   title,
   subtitle,
   lessons,
-  completed,
-  total,
+  completed: _completed,
+  total: _total,
   theme,
   onLessonSelect,
   hideDescription = true,
@@ -75,10 +74,6 @@ export default function ZoneLandingPage({
                   <ZoneHeartIcon color={theme.heartColor} />
                 </div>
               </div>
-            </div>
-
-            <div className="hero__progress flex w-full justify-center xl:justify-end">
-              <ZoneProgressCard completed={completed} total={total} theme={theme} />
             </div>
           </div>
 
