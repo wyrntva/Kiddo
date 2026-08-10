@@ -15,35 +15,11 @@ export default function UserStatsCard({ user }: UserStatsCardProps) {
         </div>
         <div>
           <div className="font-black text-gray-800 text-base">{user.name}</div>
-          <div className="text-sm text-gray-400 flex items-center gap-1">
-            Cấp độ {user.level}
-            <span className="text-gray-300">▾</span>
-          </div>
+
         </div>
       </div>
 
-      {/* Stars & Badges */}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="flex items-center gap-2 flex-1">
-          <div className="w-9 h-9 bg-yellow-50 rounded-xl flex items-center justify-center text-xl">
-            ⭐
-          </div>
-          <div>
-            <div className="font-black text-gray-800 text-lg leading-none">{user.stars}</div>
-            <div className="text-xs text-gray-400">Sao</div>
-          </div>
-        </div>
-        <div className="w-px h-10 bg-gray-100" />
-        <div className="flex items-center gap-2 flex-1">
-          <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-xl">
-            🛡️
-          </div>
-          <div>
-            <div className="font-black text-gray-800 text-lg leading-none">{user.badges}</div>
-            <div className="text-xs text-gray-400">Huy hiệu</div>
-          </div>
-        </div>
-      </div>
+
 
       {/* Lessons completed */}
       <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-3 mb-4">

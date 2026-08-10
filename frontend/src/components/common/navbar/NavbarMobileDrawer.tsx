@@ -68,18 +68,7 @@ export default function NavbarMobileDrawer({
         <div className="border-t border-[#f0f2f7] pb-safe">
           {user ? (
             <>
-              <div className="grid grid-cols-3 divide-x divide-[#f0f2f7] border-b border-[#f0f2f7]">
-                {[
-                  { label: 'Cấp độ', value: user.level },
-                  { label: 'Sao', value: user.stars },
-                  { label: 'Huy hiệu', value: user.badges },
-                ].map((stat) => (
-                  <div key={stat.label} className="flex flex-col items-center py-3">
-                    <span className="font-baloo text-[16px] font-bold text-[#0a7ad8]">{stat.value}</span>
-                    <span className="font-vietnam text-[11px] text-[#8690a7]">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
+
               <button onClick={onLogout} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-red-50 transition-colors text-left">
                 <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

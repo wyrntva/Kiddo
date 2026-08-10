@@ -220,18 +220,7 @@ export default function ProfilePage() {
               <h2 className="font-baloo text-[22px] font-bold text-[#001e2f] leading-none mb-1">{user.name}</h2>
               <p className="text-[14px] text-[#575e70] mb-4">{user.email}</p>
 
-              <div className="w-full grid grid-cols-3 gap-px bg-[#f0f2f7] rounded-[16px] overflow-hidden border border-[#f0f2f7] shadow-sm mb-2">
-                {[
-                  { label: 'Cấp độ', value: user.level, color: 'text-[#0a7ad8]' },
-                  { label: 'Sao', value: user.stars, color: 'text-[#fea01f]' },
-                  { label: 'Huy hiệu', value: user.badges, color: 'text-[#339e4a]' },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-[#fefefe] flex flex-col items-center py-3">
-                    <span className={`font-baloo text-[22px] font-extrabold ${stat.color} leading-none mb-1`}>{stat.value}</span>
-                    <span className="text-[12px] text-[#8690a7] font-medium uppercase tracking-wide">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
+
             </div>
           </div>
 

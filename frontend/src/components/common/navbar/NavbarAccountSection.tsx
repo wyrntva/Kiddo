@@ -50,7 +50,6 @@ export default function NavbarAccountSection({
             </div>
             <div className="flex flex-col gap-[4px] items-start shrink-0">
               <span className="font-baloo text-[16px] leading-[28px] text-[#0a7ad8]">{user.name}</span>
-              <span className="font-vietnam text-[14px] leading-[20px] text-[#575e70] tracking-[0.28px]">Cấp độ {user.level}</span>
             </div>
             <div className="overflow-clip relative shrink-0 size-[24px]">
               <div className="absolute inset-[41.67%_32.13%_37.49%_32.13%]">
@@ -75,18 +74,7 @@ export default function NavbarAccountSection({
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-px bg-[#f0f2f7] border-b border-[#f0f2f7]">
-                {[
-                  { label: 'Cấp độ', value: user.level },
-                  { label: 'Sao', value: user.stars },
-                  { label: 'Huy hiệu', value: user.badges },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-white flex flex-col items-center py-3">
-                    <span className="font-baloo text-[18px] font-bold text-[#0a7ad8]">{stat.value}</span>
-                    <span className="font-vietnam text-[12px] text-[#8690a7]">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
+
 
               <div className="py-2">
                 <button onClick={onNavigateToProfile} className="w-full flex gap-3 items-center px-4 py-2.5 hover:bg-[#f8faff] transition-colors text-left">
