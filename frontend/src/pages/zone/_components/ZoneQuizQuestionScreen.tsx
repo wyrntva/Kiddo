@@ -82,7 +82,7 @@ export default function ZoneQuizQuestionScreen({
       </div>
 
       {/* 3 Answer Option Cards Grid: EXACT SAME max-w-[1300px] as question box! */}
-      <div className="zone-question-options grid w-full max-w-[1300px] grid-cols-3 items-center justify-between gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
+      <div className="zone-question-options grid w-full max-w-[1300px] grid-cols-1 sm:grid-cols-3 items-center justify-between gap-3 sm:gap-[min(2.4vw,24px)] mt-2 lg:mt-3 mb-auto py-1">
         {quiz.options.map((option) => (
           <ZoneQuizQuestionOption
             key={option.id}

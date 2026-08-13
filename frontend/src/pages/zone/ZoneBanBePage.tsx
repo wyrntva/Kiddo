@@ -124,7 +124,7 @@ export default function ZoneBanBePage() {
           }
         }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/emotions/lesson/${lesson.id}`)
+        navigate(`/zone/friends/lesson/${lesson.id}`)
       }}
     />
   )

@@ -124,7 +124,7 @@ export default function ZoneGiaoTiepPage() {
           }
         }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/emotions/lesson/${lesson.id}`)
+        navigate(`/zone/communication/lesson/${lesson.id}`)
       }}
     />
   )

@@ -91,7 +91,7 @@ function App() {
             <Route path="/zone/ban-be" element={<Navigate to="/zone/friends" replace />} />
             <Route path="/zone/tinh-huong" element={<Navigate to="/zone/situations" replace />} />
             <Route path="/zone/emotions" element={<ProtectedRoute><ZoneCamXucPage /></ProtectedRoute>} />
-            <Route path="/zone/emotions/lesson/:id" element={<ProtectedRoute><ZoneQuizPage /></ProtectedRoute>} />
+            <Route path="/zone/:zoneName/lesson/:id" element={<ProtectedRoute><ZoneQuizPage /></ProtectedRoute>} />
             <Route path="/zone/communication" element={<ProtectedRoute><ZoneGiaoTiepPage /></ProtectedRoute>} />
             <Route path="/zone/independence" element={<ProtectedRoute><ZoneTuLapPage /></ProtectedRoute>} />
             <Route path="/zone/friends" element={<ProtectedRoute><ZoneBanBePage /></ProtectedRoute>} />

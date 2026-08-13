@@ -3,6 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../components/common/Navbar'
 import SEO from '../../components/common/SEO'
 import ZoneQuizGameScreen from './_components/ZoneQuizGameScreen'
+import ZoneQuizMatchingGameScreen from './_components/ZoneQuizMatchingGameScreen'
+import ZoneQuizBackpackGameScreen from './_components/ZoneQuizBackpackGameScreen'
+import ZoneQuizMemoryGameScreen from './_components/ZoneQuizMemoryGameScreen'
+import ZoneQuizCleanGameScreen from './_components/ZoneQuizCleanGameScreen'
+import ZoneQuizRoomSearchGameScreen from './_components/ZoneQuizRoomSearchGameScreen'
 import ZoneQuizIntroScreen from './_components/ZoneQuizIntroScreen'
 import ZoneQuizQuestionScreen from './_components/ZoneQuizQuestionScreen'
 import ZoneQuizSuccessModal from './_components/ZoneQuizSuccessModal'
@@ -12,8 +17,19 @@ import { emotionIslandLessons } from '../diary/data/emotionIsland'
 import { zoneQuizAssets } from './quizData'
 import useZoneQuiz from './useZoneQuiz'
 
+const ZONE_BACKGROUNDS: Record<string, string> = {
+  emotions: '/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp',
+  communication: '/assets/91f866117dd6591a067bf62bae3766ed02c65b97.webp',
+  friends: '/assets/2404296262476703df2b4a673defe4ce7ede08d1.webp',
+  situations: '/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.webp',
+  independence: '/assets/414120eafd7f43fce93ce3ecb953fc4142aa8c32.webp',
+  emotion: '/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp',
+  friendship: '/assets/2404296262476703df2b4a673defe4ce7ede08d1.webp',
+  situation: '/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.webp',
+}
+
 export default function ZoneQuizPage() {
-  const { id } = useParams<{ id: string }>()
+  const { zoneName, id } = useParams<{ zoneName: string; id: string }>()
   const navigate = useNavigate()
   const initialLessonId = id ? (isNaN(Number(id)) ? id : parseInt(id, 10)) : 1
   const {
@@ -65,7 +81,13 @@ export default function ZoneQuizPage() {
     lessonsList,
     backPath,
     calculatedFeedback,
+    zoneKey,
   } = useZoneQuiz(initialLessonId)
+
+  const bgImage =
+    (zoneName && ZONE_BACKGROUNDS[zoneName]) ||
+    (zoneKey && ZONE_BACKGROUNDS[zoneKey]) ||
+    zoneQuizAssets.heroBg
 
   useEffect(() => {
     if (id) {
@@ -105,7 +127,7 @@ export default function ZoneQuizPage() {
     if (currentIndex !== -1 && currentIndex < lessonsList.length - 1) {
       const nextLesson = lessonsList[currentIndex + 1]
       setCurrentLessonId(nextLesson.id)
-      navigate(`/zone/emotions/lesson/${nextLesson.id}`)
+      navigate(`/zone/${zoneName || 'emotions'}/lesson/${nextLesson.id}`)
       return
     }
 
@@ -119,7 +141,7 @@ export default function ZoneQuizPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col justify-between bg-cover bg-center" style={{ backgroundImage: `url(${zoneQuizAssets.heroBg})` }}>
+      <div className="min-h-screen flex flex-col justify-between bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4 bg-white/80 p-8 rounded-[32px] border-4 border-[#339E4A] shadow-xl backdrop-blur-sm">
@@ -139,7 +161,7 @@ export default function ZoneQuizPage() {
       <main className="zone-lesson-main relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#F3F9FC] p-[24px] lg:px-6 lg:py-[24px] xl:px-8 xl:py-[24px] 2xl:px-10 2xl:py-[24px]">
         <div className="zone-lesson-stage relative flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-[20px] bg-[#f2f6f9] shadow-2xl md:rounded-[32px]">
           <img
-            src={zoneQuizAssets.heroBg}
+            src={bgImage}
             alt=""
             className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none z-0"
           />
@@ -187,6 +209,41 @@ export default function ZoneQuizPage() {
               isSpeaking={isSpeaking}
               onSpeak={speakPostVideo}
               onSkip={handleSkip}
+            />
+          ) : showGame && currentLessonId === 'cmry12h43001icq9x1ink3z35' ? (
+            <ZoneQuizRoomSearchGameScreen
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onComplete={handleCheckAnswers}
+              onSpeakGuide={() => speakText('Con hãy chọn đồ vật ở thanh bên dưới rồi tìm đồ vật giống như vậy trong căn phòng nhé!')}
+            />
+          ) : showGame && currentLessonId === 'cmry12h42001gcq9x3kds6vsn' ? (
+            <ZoneQuizCleanGameScreen
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onComplete={handleCheckAnswers}
+              onSpeakGuide={() => speakText('Con hãy chọn vật dụng phù hợp và kéo vào từng tình huống để giúp Toro sạch sẽ hơn nhé!')}
+            />
+          ) : showGame && currentLessonId === 'cmry12h3x0018cq9xst6y6ixc' ? (
+            <ZoneQuizMemoryGameScreen
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onComplete={handleCheckAnswers}
+              onSpeakGuide={() => speakText('Con hãy lật từng thẻ và tìm đủ bốn cặp có hình giống nhau nhé!')}
+            />
+          ) : showGame && currentLessonId === 'cmry12h3v0016cq9xqdlysrwx' ? (
+            <ZoneQuizBackpackGameScreen
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onComplete={handleCheckAnswers}
+              onSpeakGuide={() => speakText('Con hãy chọn sáu món đồ cần thiết để đi học và xếp vào balo cho Toro nhé!')}
+            />
+          ) : showGame && currentLessonId === 'cmry12h2y000ccq9x0d6i6i8x' ? (
+            <ZoneQuizMatchingGameScreen
+              gameChecked={gameChecked}
+              onBack={() => navigate(backPath)}
+              onComplete={handleCheckAnswers}
+              onSpeakGuide={() => speakText('Con hãy tìm đủ bốn cặp hình giống nhau nhé!')}
             />
           ) : showGame ? (
             <ZoneQuizGameScreen

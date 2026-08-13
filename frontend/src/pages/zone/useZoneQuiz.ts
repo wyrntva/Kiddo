@@ -1059,5 +1059,6 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     loading,
     lessonsList,
     backPath,
+    zoneKey,
   }
 }

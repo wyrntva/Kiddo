@@ -124,7 +124,7 @@ export default function ZoneTuLapPage() {
           }
         }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/emotions/lesson/${lesson.id}`)
+        navigate(`/zone/independence/lesson/${lesson.id}`)
       }}
     />
   )

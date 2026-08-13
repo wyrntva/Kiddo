@@ -124,7 +124,7 @@ export default function ZoneTinhHuongPage() {
           }
         }
         markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/emotions/lesson/${lesson.id}`)
+        navigate(`/zone/situations/lesson/${lesson.id}`)
       }}
     />
   )
