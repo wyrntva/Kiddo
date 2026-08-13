@@ -137,6 +137,9 @@ git pull origin main
 # Rebuild và restart containers
 docker compose -f docker-compose.prod.yml up --build -d
 
+# Cập nhật schema database (khi có thay đổi prisma schema)
+docker exec kiddo_backend npx prisma db push
+
 # Kiểm tra trạng thái
 docker ps
 ```
