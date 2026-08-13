@@ -32,6 +32,7 @@ export const zoneAPI = {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            timeout: 120000,
         });
     },
 };

@@ -65,6 +65,7 @@ export const lessonAPI = {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            timeout: 120000,
         });
     },
     uploadVoice: (file: File): Promise<AxiosResponse<{ url: string }>> => {
@@ -72,6 +73,7 @@ export const lessonAPI = {
         formData.append('file', file);
         return axiosClient.post('/api/lessons/upload-audio', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 300000,
         });
     },
     uploadVideo: (file: File): Promise<AxiosResponse<{ url: string }>> => {
@@ -79,6 +81,7 @@ export const lessonAPI = {
         formData.append('file', file);
         return axiosClient.post('/api/lessons/upload-video', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 600000,
         });
     },
     getQuestions: (lessonId: string): Promise<AxiosResponse<{ data: QuizQuestion[] }>> => {
