@@ -83,6 +83,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
   const [preVideoAudio, setPreVideoAudio] = useState('')
   const [postVideoAudio, setPostVideoAudio] = useState('')
   const [postQuestionAudio, setPostQuestionAudio] = useState('')
+  const [guideAudio, setGuideAudio] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
 
   const ZONE_PATHS: Record<string, string> = {
@@ -151,6 +152,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         if (lessonData?.preVideoAudio) setPreVideoAudio(getFullMediaUrl(lessonData.preVideoAudio))
         if (lessonData?.postVideoAudio) setPostVideoAudio(getFullMediaUrl(lessonData.postVideoAudio))
         if (lessonData?.postQuestionAudio) setPostQuestionAudio(getFullMediaUrl(lessonData.postQuestionAudio))
+        if (lessonData?.guideAudio) setGuideAudio(getFullMediaUrl(lessonData.guideAudio))
         if (lessonData?.videoUrl) setVideoUrl(getFullMediaUrl(lessonData.videoUrl))
 
         // 2. Fetch all lessons in this zone to determine next lesson
@@ -242,65 +244,10 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     setIsSpeaking(false)
   }
 
-  const speakText = (text: string) => {
+  const speakText = (_text: string) => {
     stopAudio()
-    if (!text || typeof window === 'undefined') return
-
-    setIsSpeaking(true)
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=vi&client=tw-ob`
-    const audio = new Audio(ttsUrl)
-    audioRef.current = audio
-
-    const fallbackToSpeechSynthesis = () => {
-      if (!('speechSynthesis' in window)) {
-        setIsSpeaking(false)
-        audioRef.current = null
-        return
-      }
-      try {
-        window.speechSynthesis.cancel()
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.lang = 'vi-VN'
-        utterance.rate = 0.95
-
-        const voices = window.speechSynthesis.getVoices()
-        const viVoice = voices.find(
-          (v) =>
-            v.lang.toLowerCase().includes('vi') ||
-            v.name.toLowerCase().includes('vietnam') ||
-            v.name.toLowerCase().includes('hoaimy') ||
-            v.name.toLowerCase().includes('linh')
-        )
-        if (viVoice) utterance.voice = viVoice
-
-        utterance.onstart = () => setIsSpeaking(true)
-        utterance.onend = () => {
-          setIsSpeaking(false)
-          audioRef.current = null
-        }
-        utterance.onerror = () => {
-          setIsSpeaking(false)
-          audioRef.current = null
-        }
-        window.speechSynthesis.speak(utterance)
-      } catch {
-        setIsSpeaking(false)
-        audioRef.current = null
-      }
-    }
-
-    audio.onended = () => {
-      setIsSpeaking(false)
-      audioRef.current = null
-    }
-
-    audio.onerror = () => {
-      fallbackToSpeechSynthesis()
-    }
-
-    audio.play().catch(() => {
-      fallbackToSpeechSynthesis()
-    })
+    // KHÔNG tự động tạo giọng đọc TTS nữa, phải tải file âm thanh lên mới phát
+    return
   }
 
   const playWelcomeAudio = () => {
@@ -318,12 +265,9 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       setIsSpeaking(false)
       audioRef.current = null
     }
-    audio.play().catch((err) => {
+    audio.play().catch(() => {
       setIsSpeaking(false)
       audioRef.current = null
-      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
-        console.error('Audio play failed:', err)
-      }
     })
   }
 
@@ -341,8 +285,6 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     audio.onended = () => {
       setIsSpeaking(false)
       audioRef.current = null
-      
-      // Wait 2 seconds and then automatically transition
       navigateTimeoutRef.current = setTimeout(() => {
         setShowPreVideo(false)
         const isNiEmVui = lessonTitle.toLowerCase().includes('niềm vui')
@@ -351,22 +293,13 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         }
       }, 2000)
     }
-
-    const handleFallback = (err?: any) => {
+    audio.onerror = () => {
       setIsSpeaking(false)
       audioRef.current = null
-      if (err?.name === 'NotAllowedError') return
-      navigateTimeoutRef.current = setTimeout(() => {
-        setShowPreVideo(false)
-      }, 5000)
     }
-
-    audio.onerror = () => handleFallback()
-    audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
-        console.error('Audio play failed:', err)
-      }
-      handleFallback(err)
+    audio.play().catch(() => {
+      setIsSpeaking(false)
+      audioRef.current = null
     })
   }
 
@@ -393,28 +326,17 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     audio.onended = () => {
       setIsSpeaking(false)
       audioRef.current = null
-      
-      // Wait 2 seconds and automatically transition to questions
       navigateTimeoutRef.current = setTimeout(() => {
         setShowPostVideo(false)
       }, 2000)
     }
-
-    const handleFallback = (err?: any) => {
+    audio.onerror = () => {
       setIsSpeaking(false)
       audioRef.current = null
-      if (err?.name === 'NotAllowedError') return
-      navigateTimeoutRef.current = setTimeout(() => {
-        setShowPostVideo(false)
-      }, 5000)
     }
-
-    audio.onerror = () => handleFallback()
-    audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
-        console.error('Audio play failed:', err)
-      }
-      handleFallback(err)
+    audio.play().catch(() => {
+      setIsSpeaking(false)
+      audioRef.current = null
     })
   }
 
@@ -428,7 +350,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
       navigateTimeoutRef.current = setTimeout(() => {
         setShowIntro(false)
         setShowGame(true)
-      }, 5000)
+      }, 3000)
       return
     }
 
@@ -444,22 +366,21 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         setShowGame(true)
       }, 1500)
     }
-
-    const handleFallback = () => {
+    audio.onerror = () => {
       setIsSpeaking(false)
       audioRef.current = null
       navigateTimeoutRef.current = setTimeout(() => {
         setShowIntro(false)
         setShowGame(true)
-      }, 5000)
+      }, 3000)
     }
-
-    audio.onerror = handleFallback
-    audio.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
-        console.error('Audio play failed:', err)
-      }
-      handleFallback()
+    audio.play().catch(() => {
+      setIsSpeaking(false)
+      audioRef.current = null
+      navigateTimeoutRef.current = setTimeout(() => {
+        setShowIntro(false)
+        setShowGame(true)
+      }, 3000)
     })
   }
 
@@ -467,40 +388,54 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     playPostQuestionAudio()
   }
 
+  const playGuideAudio = (_fallbackText?: string) => {
+    stopAudio()
+    const audioSrc = guideAudio || postQuestionAudio
+    if (!audioSrc) {
+      // Nếu không có file âm thanh được tải lên thì KHÔNG phát gì
+      return
+    }
+
+    setIsSpeaking(true)
+    const audio = new Audio(audioSrc)
+    audioRef.current = audio
+    audio.onended = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+    audio.onerror = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+    audio.play().catch(() => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    })
+  }
+
   const playQuestionAudio = () => {
     stopAudio()
     const currentQ = questions[currentQuestionIndex]
-    if (!currentQ) return
-
-    if (currentQ.voiceUrl) {
-      setIsSpeaking(true)
-      const audio = new Audio(getFullMediaUrl(currentQ.voiceUrl))
-      audioRef.current = audio
-      audio.onended = () => {
-        setIsSpeaking(false)
-        audioRef.current = null
-      }
-      audio.onerror = () => {
-        setIsSpeaking(false)
-        audioRef.current = null
-        if (currentQ.prompt) {
-          speakText(currentQ.prompt)
-        }
-      }
-      audio.play().catch((err) => {
-        setIsSpeaking(false)
-        audioRef.current = null
-        if (err?.name !== 'NotAllowedError' && err?.name !== 'AbortError') {
-          console.error('Question audio play failed:', err)
-        }
-        if (currentQ.prompt) {
-          speakText(currentQ.prompt)
-        }
-      })
-    } else if (currentQ.prompt) {
-      // Fallback: If no pre-recorded audio file exists, automatically read using Web Speech API (vi-VN)
-      speakText(currentQ.prompt)
+    if (!currentQ || !currentQ.voiceUrl) {
+      // Nếu không có file âm thanh được tải lên cho câu hỏi thì KHÔNG phát gì cả (Không tự tạo giọng đọc TTS)
+      return
     }
+
+    setIsSpeaking(true)
+    const audio = new Audio(getFullMediaUrl(currentQ.voiceUrl))
+    audioRef.current = audio
+    audio.onended = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+    audio.onerror = () => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    }
+    audio.play().catch(() => {
+      setIsSpeaking(false)
+      audioRef.current = null
+    })
   }
 
   const speakQuestion = () => {
@@ -1038,6 +973,8 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     postQuestionText,
     videoUrl,
     gameGuideText: GAME_GUIDE_TEXT,
+    guideAudio,
+    playGuideAudio,
     speakText,
     speakWelcome,
     speakPreVideo,

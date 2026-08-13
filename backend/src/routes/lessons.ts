@@ -87,7 +87,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
           welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
-          postQuestionText, postQuestionAudio, lockStatus } = req.body
+          postQuestionText, postQuestionAudio, guideAudio, lockStatus } = req.body
   try {
     const lesson = await prisma.lesson.create({
       data: {
@@ -110,6 +110,7 @@ router.post('/', async (req, res) => {
         videoUrl: videoUrl || '',
         postQuestionText: postQuestionText || '',
         postQuestionAudio: postQuestionAudio || '',
+        guideAudio: guideAudio || '',
       },
       include: {
         zone: true,
@@ -125,7 +126,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const { title, description, emoji, img, level, duration, stars, stepsCount, zoneId,
           welcomeText, preVideoText, postVideoText, welcomeAudio, preVideoAudio, postVideoAudio, videoUrl,
-          postQuestionText, postQuestionAudio, lockStatus } = req.body
+          postQuestionText, postQuestionAudio, guideAudio, lockStatus } = req.body
   try {
     const updateData: any = {}
     if (title !== undefined) updateData.title = title
@@ -147,6 +148,7 @@ router.patch('/:id', async (req, res) => {
     if (videoUrl !== undefined) updateData.videoUrl = videoUrl
     if (postQuestionText !== undefined) updateData.postQuestionText = postQuestionText
     if (postQuestionAudio !== undefined) updateData.postQuestionAudio = postQuestionAudio
+    if (guideAudio !== undefined) updateData.guideAudio = guideAudio
 
     const lesson = await prisma.lesson.update({
       where: { id: req.params.id },

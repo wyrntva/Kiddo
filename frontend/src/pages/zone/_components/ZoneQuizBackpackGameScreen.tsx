@@ -112,28 +112,28 @@ export default function ZoneQuizBackpackGameScreen({ gameChecked, onBack, onComp
       `}</style>
 
       {/* Left Instruction Sidebar */}
-      <aside className="hidden overflow-hidden rounded-[24px] border border-[#c4c9d4] bg-white p-4 shadow-[0_8px_24px_rgba(0,76,110,.12)] lg:flex lg:min-h-0 lg:flex-col">
-        <button onClick={onSpeakGuide} className="flex min-h-11 items-center justify-center gap-2 rounded-[40px] bg-[#fea01f] px-4 py-2 font-vietnam text-sm font-bold text-white shadow-sm transition hover:bg-[#e89018] active:scale-95">
-          <img src={zoneQuizAssets.speaker} alt="" className="size-6 brightness-0 invert select-none pointer-events-none" /> HƯỚNG DẪN CHƠI
+      <aside className="hidden overflow-hidden rounded-[24px] border border-[#c4c9d4] bg-white p-3 sm:p-3.5 shadow-[0_8px_24px_rgba(0,76,110,.12)] lg:flex lg:min-h-0 lg:flex-col lg:justify-between">
+        <button onClick={onSpeakGuide} className="flex min-h-9 items-center justify-center gap-2 rounded-[40px] bg-[#fea01f] px-3 py-1.5 font-vietnam text-xs sm:text-sm font-bold text-white shadow-sm transition hover:bg-[#e89018] active:scale-95">
+          <img src={zoneQuizAssets.speaker} alt="" className="size-5 brightness-0 invert select-none pointer-events-none" /> HƯỚNG DẪN CHƠI
         </button>
-        <div className="mt-3 flex flex-1 flex-col gap-3 rounded-xl bg-[#e5f2ff] p-3">
-          <p className="font-vietnam text-sm text-[#37393e] flex items-center gap-2"><b className="flex size-6 items-center justify-center rounded-full bg-[#0a7ad8] text-xs text-white shrink-0">1</b>Chọn 1 đồ vật</p>
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-[#0a7ad8] bg-white flex items-center justify-center p-2"><img src="/assets/school-notebook.png" alt="" className="h-full w-full object-contain select-none pointer-events-none" /></div>
-          <p className="font-vietnam text-sm text-[#37393e] flex items-center gap-2"><b className="flex size-6 items-center justify-center rounded-full bg-[#fea01f] text-xs text-white shrink-0">2</b>Di chuyển vào balo</p>
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-[#fea01f] bg-white flex items-center justify-center p-2"><img src="/assets/backpack.png" alt="" className="h-full w-full object-contain select-none pointer-events-none" /></div>
+        <div className="mt-2 flex min-h-0 flex-1 flex-col gap-2 rounded-xl bg-[#e5f2ff] p-2.5">
+          <p className="font-vietnam text-xs text-[#37393e] flex items-center gap-1.5"><b className="flex size-5 items-center justify-center rounded-full bg-[#0a7ad8] text-[11px] text-white shrink-0">1</b>Chọn 1 đồ vật</p>
+          <div className="relative min-h-0 max-h-[75px] sm:max-h-[90px] flex-1 overflow-hidden rounded-lg border border-[#0a7ad8] bg-white flex items-center justify-center p-1.5"><img src="/assets/school-notebook.png" alt="" className="h-full w-full object-contain select-none pointer-events-none" /></div>
+          <p className="font-vietnam text-xs text-[#37393e] flex items-center gap-1.5"><b className="flex size-5 items-center justify-center rounded-full bg-[#fea01f] text-[11px] text-white shrink-0">2</b>Di chuyển vào balo</p>
+          <div className="relative min-h-0 max-h-[75px] sm:max-h-[90px] flex-1 overflow-hidden rounded-lg border border-[#fea01f] bg-white flex items-center justify-center p-1.5"><img src="/assets/backpack.png" alt="" className="h-full w-full object-contain select-none pointer-events-none" /></div>
         </div>
-        <p className="mt-3 rounded-full border-2 border-[#7bc9ff] px-4 py-2 text-center font-vietnam text-[13px] font-medium text-[#001e2f]">Hãy kéo đồ dùng cần thiết vào balo nhé!</p>
-        <img src={zoneQuizAssets.wavingMascot} alt="" className="mx-auto -mb-5 h-[115px] w-auto object-contain select-none pointer-events-none" />
+        <p className="mt-2 rounded-full border-2 border-[#7bc9ff] px-3 py-1 text-center font-vietnam text-[11px] sm:text-[12px] font-medium text-[#001e2f]">Hãy kéo đồ dùng cần thiết vào balo nhé!</p>
+        <img src={zoneQuizAssets.wavingMascot} alt="" className="mx-auto -mb-3 h-[75px] sm:h-[85px] w-auto object-contain select-none pointer-events-none" />
       </aside>
 
       {/* Main Game Section */}
-      <section className="relative flex min-h-0 min-w-0 flex-1 flex-col items-center gap-3">
-        <header className="relative z-30 grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-start gap-2">
+      <section className="relative flex h-full max-h-full min-h-0 flex-1 flex-col items-center justify-between gap-2 overflow-hidden">
+        <header className="relative z-30 grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-start gap-2 mb-0.5">
           <button onClick={onBack} className="min-h-10 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition hover:bg-[#fff0f2] active:scale-95 sm:px-5 sm:text-base">← Quay lại</button>
           <div className="flex min-w-0 flex-col items-center gap-1 text-center">
-            <h1 style={{ WebkitTextStroke: '4px white', paintOrder: 'stroke fill' }} className="whitespace-nowrap font-baloo text-[clamp(1.15rem,3.5vw,2.5rem)] font-bold leading-tight text-[#004c6e]">XẾP BALO CHO TORO</h1>
-            <div className="flex items-center justify-center rounded-[1000px] border-4 border-[#fdd444] bg-[#fef9ed] px-3 py-1.5 sm:px-5 sm:py-2">
-              <p className="whitespace-nowrap rounded-[100px] border-2 border-dashed border-[#895026] px-3 py-1 font-baloo text-[clamp(.75rem,1.4vw,1.35rem)] font-bold text-[#fea01f]">Chuẩn bị 6 món đồ đi học cho Toro</p>
+            <h1 style={{ WebkitTextStroke: '4px white', paintOrder: 'stroke fill' }} className="inline-block whitespace-nowrap font-baloo text-[clamp(1.15rem,3.2vw,2.3rem)] font-bold leading-normal text-[#004c6e] py-1 px-2">XẾP BALO CHO TORO</h1>
+            <div className="flex items-center justify-center rounded-[1000px] border-3 sm:border-4 border-[#fdd444] bg-[#fef9ed] px-3 py-1 sm:px-4 sm:py-1.5 shadow-sm">
+              <p className="whitespace-nowrap rounded-[100px] border-2 border-dashed border-[#895026] px-3 py-0.5 font-baloo text-[clamp(.75rem,1.3vw,1.15rem)] font-bold text-[#fea01f]">Chuẩn bị 6 món đồ đi học cho Toro</p>
             </div>
           </div>
           <div className="invisible min-h-10 px-3 py-1.5 sm:px-5 sm:text-base" aria-hidden="true">← Quay lại</div>
@@ -143,15 +143,20 @@ export default function ZoneQuizBackpackGameScreen({ gameChecked, onBack, onComp
         <div
           onDragOver={(event) => event.preventDefault()}
           onDrop={dropIntoBag}
-          className="relative aspect-[16/9] w-full max-w-[900px] max-h-[50vh] shrink-0 overflow-hidden rounded-[20px] border-4 sm:border-[8px] border-white bg-white shadow-xl lg:max-w-[930px]"
+          className="relative aspect-[16/9] w-full max-w-[820px] max-h-[40vh] sm:max-h-[42vh] shrink-0 overflow-hidden rounded-[20px] border-4 sm:border-[8px] border-white bg-white shadow-xl lg:max-w-[840px]"
         >
           <img src="/assets/backpack-scene-overlay.png" alt="" className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none" />
-          <img src="/assets/backpack.png" alt="Balo của Toro" className="absolute bottom-[-2%] left-[48%] h-[92%] w-auto max-w-[58%] -translate-x-[20%] object-contain drop-shadow-xl pointer-events-none select-none" />
+          <img 
+            src="/assets/backpack.png" 
+            alt="Balo của Toro" 
+            className="absolute drop-shadow-2xl pointer-events-none select-none object-contain transition-all" 
+            style={{ left: '46.5%', top: '3.0%', width: '36.0%', height: '94.0%' }}
+          />
 
-          {/* Locked Grid for Items inside Backpack */}
+          {/* Locked Grid for Items inside Enlarged Backpack */}
           <div 
-            className="absolute grid grid-cols-3 grid-rows-2 items-center justify-items-center gap-1 p-0.5 z-20"
-            style={{ left: '60.0%', top: '50.5%', width: '10.5%', height: '31%' }}
+            className="absolute grid grid-cols-3 grid-rows-2 items-center justify-items-center gap-1.5 p-0.5 z-20"
+            style={{ left: '56.4%', top: '31.0%', width: '15.6%', height: '35.0%' }}
           >
             {packed.map((id) => {
               const item = items.find((entry) => entry.id === id)!
@@ -162,18 +167,18 @@ export default function ZoneQuizBackpackGameScreen({ gameChecked, onBack, onComp
                   key={id}
                   onClick={() => toggleItem(id)}
                   title={`Bỏ ${item.label} ra`}
-                  className={`relative flex aspect-square w-full h-full items-center justify-center bg-transparent transition hover:scale-110 hover:z-30 ${
+                  className={`relative flex aspect-square w-full h-full items-center justify-center bg-transparent transition hover:scale-125 hover:z-30 ${
                     showResults && !isCorrect ? 'animate-shake' : ''
                   }`}
                 >
-                  <img src={item.image} alt={item.label} className="size-full object-contain pointer-events-none select-none drop-shadow-md" />
+                  <img src={item.image} alt={item.label} className="size-full object-contain pointer-events-none select-none drop-shadow-xl scale-[1.85] p-0.5" />
                   {showResults && (
                     isCorrect ? (
-                      <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-[#339e4a] text-[11px] font-bold text-white shadow-md animate-bounce z-40">
+                      <span className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-[#339e4a] text-xs font-bold text-white shadow-md animate-bounce z-40">
                         ✓
                       </span>
                     ) : (
-                      <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-[#e83552] text-[11px] font-bold text-white shadow-md z-40">
+                      <span className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-[#e83552] text-xs font-bold text-white shadow-md z-40">
                         ✗
                       </span>
                     )
@@ -189,7 +194,7 @@ export default function ZoneQuizBackpackGameScreen({ gameChecked, onBack, onComp
         </div>
 
         {/* Bottom Item Selector Bar */}
-        <div className="grid w-full max-w-[930px] shrink-0 grid-cols-5 gap-2 rounded-[20px] border border-[#c4c9d4] bg-[#e5f2ff] p-2.5 shadow-md sm:grid-cols-10 sm:gap-2.5 sm:p-3">
+        <div className="grid w-full max-w-[840px] shrink-0 grid-cols-5 sm:grid-cols-10 gap-1.5 sm:gap-2 rounded-[18px] border border-[#c4c9d4] bg-[#e5f2ff] p-1.5 sm:p-2 shadow-md">
           {shuffledItems.map((item) => {
             const active = packed.includes(item.id)
             return (

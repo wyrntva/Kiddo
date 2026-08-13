@@ -24,6 +24,7 @@ export interface Lesson {
     videoUrl?: string;
     postQuestionText?: string;
     postQuestionAudio?: string;
+    guideAudio?: string;
 }
 
 export interface QuizQuestion {

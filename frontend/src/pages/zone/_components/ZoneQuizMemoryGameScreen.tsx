@@ -140,7 +140,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
         <header className="relative z-30 grid w-full shrink-0 grid-cols-[auto_1fr_auto] items-start gap-2 mb-1">
           <button onClick={onBack} className="min-h-10 rounded-[40px] border-2 border-[#e83552] bg-white px-3 py-1.5 font-baloo text-[13px] font-bold text-[#e83552] shadow-sm transition hover:bg-[#fff0f2] active:scale-95 sm:px-5 sm:text-base">← Quay lại</button>
           <div className="flex min-w-0 flex-col items-center gap-1 text-center">
-            <h1 style={{ WebkitTextStroke: '4px white', paintOrder: 'stroke fill' }} className="whitespace-nowrap font-baloo text-[clamp(1.15rem,3.5vw,2.5rem)] font-bold leading-tight text-[#004c6e]">TÌM CẶP GIỐNG NHAU</h1>
+            <h1 style={{ WebkitTextStroke: '4px white', paintOrder: 'stroke fill' }} className="inline-block whitespace-nowrap font-baloo text-[clamp(1.15rem,3.5vw,2.5rem)] font-bold leading-normal text-[#004c6e] py-1 px-2">TÌM CẶP GIỐNG NHAU</h1>
             <div className="rounded-full border-2 border-[#fea01f] bg-[#fef9ed] px-3 py-1 sm:px-4 sm:py-1 shadow-sm">
               <p className="rounded-full border border-dashed border-[#fea01f] px-3 py-0.5 font-baloo text-[clamp(.75rem,1.4vw,1.1rem)] font-bold text-[#fea01f]">Tìm 4 cặp có 2 hình giống nhau</p>
             </div>
@@ -148,8 +148,8 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
           <div className="invisible min-h-10 px-3 py-1.5 sm:px-5 sm:text-base" aria-hidden="true">← Quay lại</div>
         </header>
 
-        <div className="flex min-h-0 w-full flex-1 items-center justify-center p-1 sm:p-2 overflow-hidden">
-          <div className="grid w-full max-w-[720px] min-[820px]:max-w-[840px] grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 min-[820px]:gap-4.5 rounded-[24px] bg-white p-2.5 sm:p-3.5 min-[820px]:p-5 shadow-2xl overflow-hidden justify-center items-center">
+        <div className="flex min-h-0 w-full flex-1 items-center justify-center pb-3 sm:pb-5 pt-1 px-2 overflow-hidden">
+          <div className="grid w-full max-w-[600px] sm:max-w-[680px] [@media(min-height:820px)]:max-w-[840px] max-h-full grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 [@media(min-height:820px)]:gap-4.5 rounded-[24px] bg-white p-2.5 sm:p-3.5 [@media(min-height:820px)]:p-5 shadow-2xl overflow-hidden justify-center items-center">
             {cards.map((card) => {
               const isOpen = open.includes(card.id)
               const isMatched = matched.includes(card.id)
@@ -161,7 +161,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
                   key={card.id}
                   onClick={() => flipCard(card.id)}
                   aria-label={visible ? card.label : 'Thẻ đang úp'}
-                  className={`relative aspect-[3/4] w-full max-w-[125px] sm:max-w-[135px] min-[820px]:max-w-[160px] max-h-[30vh] min-[820px]:max-h-[34vh] mx-auto overflow-hidden rounded-[14px] border-[3px] transition sm:rounded-[18px] min-[820px]:rounded-[20px] ${
+                  className={`relative aspect-[3/4] w-full max-w-[110px] sm:max-w-[125px] [@media(min-height:820px)]:max-w-[160px] max-h-[23vh] sm:max-h-[25vh] [@media(min-height:820px)]:max-h-[34vh] mx-auto overflow-hidden rounded-[14px] border-[3px] transition sm:rounded-[18px] [@media(min-height:820px)]:rounded-[20px] ${
                     isMatched
                       ? 'border-[#339e4a] bg-white animate-correct shadow-sm'
                       : isWrong
@@ -174,16 +174,16 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
                   <img
                     src={visible ? card.image : '/assets/memory-layer-2.png'}
                     alt={visible ? card.label : ''}
-                    className="absolute inset-0 size-full object-cover select-none pointer-events-none rounded-[11px] sm:rounded-[15px] min-[820px]:rounded-[17px]"
+                    className="absolute inset-0 size-full object-cover select-none pointer-events-none rounded-[11px] sm:rounded-[15px] [@media(min-height:820px)]:rounded-[17px]"
                     draggable={false}
                   />
                   {isMatched && (
-                    <span className="absolute right-1.5 top-1.5 z-20 flex size-5 min-[820px]:size-6 items-center justify-center rounded-full bg-[#339e4a] text-xs font-bold text-white shadow-md animate-bounce">
+                    <span className="absolute right-1.5 top-1.5 z-20 flex size-5 [@media(min-height:820px)]:size-6 items-center justify-center rounded-full bg-[#339e4a] text-xs font-bold text-white shadow-md animate-bounce">
                       ✓
                     </span>
                   )}
                   {isWrong && (
-                    <span className="absolute right-1.5 top-1.5 z-20 flex size-5 min-[820px]:size-6 items-center justify-center rounded-full bg-[#e83552] text-xs font-bold text-white shadow-md">
+                    <span className="absolute right-1.5 top-1.5 z-20 flex size-5 [@media(min-height:820px)]:size-6 items-center justify-center rounded-full bg-[#e83552] text-xs font-bold text-white shadow-md">
                       ✗
                     </span>
                   )}

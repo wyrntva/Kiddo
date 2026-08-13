@@ -59,8 +59,7 @@ export default function ZoneQuizPage() {
     preVideoText,
     postVideoText,
     videoUrl,
-    gameGuideText,
-    speakText,
+    playGuideAudio,
     speakWelcome,
     speakPreVideo,
     speakPostVideo,
@@ -215,35 +214,35 @@ export default function ZoneQuizPage() {
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onComplete={handleCheckAnswers}
-              onSpeakGuide={() => speakText('Con hãy chọn đồ vật ở thanh bên dưới rồi tìm đồ vật giống như vậy trong căn phòng nhé!')}
+              onSpeakGuide={playGuideAudio}
             />
           ) : showGame && currentLessonId === 'cmry12h42001gcq9x3kds6vsn' ? (
             <ZoneQuizCleanGameScreen
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onComplete={handleCheckAnswers}
-              onSpeakGuide={() => speakText('Con hãy chọn vật dụng phù hợp và kéo vào từng tình huống để giúp Toro sạch sẽ hơn nhé!')}
+              onSpeakGuide={playGuideAudio}
             />
           ) : showGame && currentLessonId === 'cmry12h3x0018cq9xst6y6ixc' ? (
             <ZoneQuizMemoryGameScreen
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onComplete={handleCheckAnswers}
-              onSpeakGuide={() => speakText('Con hãy lật từng thẻ và tìm đủ bốn cặp có hình giống nhau nhé!')}
+              onSpeakGuide={playGuideAudio}
             />
           ) : showGame && currentLessonId === 'cmry12h3v0016cq9xqdlysrwx' ? (
             <ZoneQuizBackpackGameScreen
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onComplete={handleCheckAnswers}
-              onSpeakGuide={() => speakText('Con hãy chọn sáu món đồ cần thiết để đi học và xếp vào balo cho Toro nhé!')}
+              onSpeakGuide={playGuideAudio}
             />
           ) : showGame && currentLessonId === 'cmry12h2y000ccq9x0d6i6i8x' ? (
             <ZoneQuizMatchingGameScreen
               gameChecked={gameChecked}
               onBack={() => navigate(backPath)}
               onComplete={handleCheckAnswers}
-              onSpeakGuide={() => speakText('Con hãy tìm đủ bốn cặp hình giống nhau nhé!')}
+              onSpeakGuide={playGuideAudio}
             />
           ) : showGame ? (
             <ZoneQuizGameScreen
@@ -253,7 +252,7 @@ export default function ZoneQuizPage() {
               onBack={() => navigate(backPath)}
               onRewatchVideo={handleRewatchVideo}
               onCheckAnswers={handleCheckAnswers}
-              onSpeakGuide={() => speakText(gameGuideText)}
+              onSpeakGuide={playGuideAudio}
               onSelectEmotion={setSelectedEmotionId}
               onDrop={handleDrop}
               placeEmotion={placeEmotion}

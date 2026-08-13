@@ -29,6 +29,7 @@ const LessonEdit = () => {
         videoUrl: '',
         postQuestionText: '',
         postQuestionAudio: '',
+        guideAudio: '',
         lockStatus: 'UNLOCKED' as 'UNLOCKED' | 'PAID' | 'DEV',
     });
 
@@ -67,6 +68,7 @@ const LessonEdit = () => {
                 const videoUrlFallback = lesson.videoUrl || '/uploads/videos/videobai1.mov';
                 const postQuestionTextFallback = lesson.postQuestionText || 'Chúc mừng bé đã hoàn thành các câu hỏi! Giờ chúng ta hãy cùng nhau chơi game nhé!';
                 const postQuestionAudioFallback = lesson.postQuestionAudio || '';
+                const guideAudioFallback = lesson.guideAudio || '';
 
                 setFormData({
                     title: title,
@@ -85,6 +87,7 @@ const LessonEdit = () => {
                     videoUrl: videoUrlFallback,
                     postQuestionText: postQuestionTextFallback,
                     postQuestionAudio: postQuestionAudioFallback,
+                    guideAudio: guideAudioFallback,
                     lockStatus: lesson.lockStatus || 'UNLOCKED',
                 });
             } catch {
@@ -130,7 +133,7 @@ const LessonEdit = () => {
         return url;
     };
 
-    const handleAudioUpload = async (event: React.ChangeEvent<HTMLInputElement>, fieldName: 'welcomeAudio' | 'preVideoAudio' | 'postVideoAudio' | 'postQuestionAudio') => {
+    const handleAudioUpload = async (event: React.ChangeEvent<HTMLInputElement>, fieldName: 'welcomeAudio' | 'preVideoAudio' | 'postVideoAudio' | 'postQuestionAudio' | 'guideAudio') => {
         const file = event.target.files?.[0];
         if (!file) return;
 
@@ -230,17 +233,6 @@ const LessonEdit = () => {
                             </select>
                         </div>
 
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nội dung bài học</label>
-                            <textarea
-                                required
-                                rows={4}
-                                value={formData.description}
-                                onChange={event => setFormData({ ...formData, description: event.target.value })}
-                                placeholder="Nhập nội dung giới thiệu hiển thị bên dưới tên bài học..."
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FEA01F] focus:ring-[#FEA01F] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                            />
-                        </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Ảnh bài học</label>
@@ -433,6 +425,22 @@ const LessonEdit = () => {
                                 <label className="flex min-h-[50px] cursor-pointer items-center justify-center rounded-xl border border-dashed border-gray-300 px-4 hover:border-[#FEA01F] dark:border-gray-600">
                                     <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Tải file âm thanh</span>
                                     <input type="file" accept="audio/*" onChange={event => handleAudioUpload(event, 'postQuestionAudio')} className="hidden" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">File âm thanh phần HƯỚNG DẪN CHƠI (Giọng đọc)</label>
+                            <div className="mt-1 flex items-center gap-3">
+                                {formData.guideAudio && (
+                                    <div className="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-2 flex items-center justify-between dark:border-gray-700 dark:bg-gray-900">
+                                        <audio src={getAudioSrc(formData.guideAudio)} controls className="h-8 max-w-full" />
+                                        <span className="text-xs text-gray-500 truncate max-w-[200px]">{formData.guideAudio}</span>
+                                    </div>
+                                )}
+                                <label className="flex min-h-[50px] cursor-pointer items-center justify-center rounded-xl border border-dashed border-gray-300 px-4 hover:border-[#FEA01F] dark:border-gray-600">
+                                    <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Tải file âm thanh</span>
+                                    <input type="file" accept="audio/*" onChange={event => handleAudioUpload(event, 'guideAudio')} className="hidden" />
                                 </label>
                             </div>
                         </div>
