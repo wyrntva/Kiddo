@@ -206,6 +206,7 @@ export default function Footer() {
             <FooterLink href="/about">Về chúng tôi</FooterLink>
             <FooterLink href="/privacy">Chính sách bảo mật</FooterLink>
             <FooterLink href="/terms">Điều khoản sử dụng</FooterLink>
+            <FooterLink href="/refund">Chính sách Đổi trả và Hoàn tiền</FooterLink>
           </div>
         </div>
 

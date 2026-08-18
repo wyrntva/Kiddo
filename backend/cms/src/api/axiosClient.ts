@@ -1,18 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 
-const getApiUrl = (): string => {
-    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
-    if (typeof window !== 'undefined' && window.location && window.location.hostname) {
-        if (window.location.hostname === 'cms.ottopia.vn' || window.location.hostname.endsWith('ottopia.vn')) {
-            return 'https://cms.ottopia.vn';
-        }
-        return `${window.location.protocol}//${window.location.hostname}:5000`;
-    }
-    return 'https://cms.ottopia.vn';
-};
-
-const API_URL = getApiUrl();
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 // Track pending requests for cleanup
 const pendingRequests = new Map<string, AbortController>();

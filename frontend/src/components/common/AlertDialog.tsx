@@ -1,0 +1,104 @@
+
+interface AlertDialogProps {
+  isOpen: boolean
+  title?: string
+  message: string
+  buttonText?: string
+  type?: 'info' | 'warning' | 'success' | 'lock'
+  onClose: () => void
+  onConfirm?: () => void
+}
+
+export default function AlertDialog({
+  isOpen,
+  title = 'Thông báo',
+  message,
+  buttonText = 'Đã hiểu',
+  type = 'info',
+  onClose,
+  onConfirm,
+}: AlertDialogProps) {
+  if (!isOpen) return null
+
+  const handleBtnClick = () => {
+    onClose()
+    if (onConfirm) {
+      onConfirm()
+    }
+  }
+
+  const getTypeStyles = () => {
+    switch (type) {
+      case 'lock':
+        return {
+          iconBg: 'bg-amber-100 text-amber-600',
+          btnBg: 'bg-[#fea01f] hover:bg-[#e58f18] text-white',
+          icon: (
+            <svg className="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          ),
+        }
+      case 'success':
+        return {
+          iconBg: 'bg-emerald-100 text-emerald-600',
+          btnBg: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+          icon: (
+            <svg className="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ),
+        }
+      case 'warning':
+        return {
+          iconBg: 'bg-amber-100 text-amber-600',
+          btnBg: 'bg-[#fea01f] hover:bg-[#e58f18] text-white',
+          icon: (
+            <svg className="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          ),
+        }
+      case 'info':
+      default:
+        return {
+          iconBg: 'bg-blue-100 text-[#0a7ad8]',
+          btnBg: 'bg-[#0a7ad8] hover:bg-[#0863b3] text-white',
+          icon: (
+            <svg className="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          ),
+        }
+    }
+  }
+
+  const { iconBg, btnBg, icon } = getTypeStyles()
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div
+        className="w-full max-w-sm overflow-hidden rounded-[24px] bg-white p-6 shadow-2xl border border-[#c9e6ff] animate-in zoom-in-95 duration-200"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className={`mb-4 flex size-14 items-center justify-center rounded-full ${iconBg}`}>
+            {icon}
+          </div>
+
+          <h3 className="font-baloo text-xl font-bold text-[#37393e] mb-2">{title}</h3>
+          <p className="text-[14px] leading-relaxed text-[#667085] mb-6">{message}</p>
+
+          <button
+            type="button"
+            onClick={handleBtnClick}
+            className={`w-full rounded-full py-2.5 text-sm font-semibold shadow-md transition-all active:scale-95 ${btnBg}`}
+          >
+            {buttonText}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}

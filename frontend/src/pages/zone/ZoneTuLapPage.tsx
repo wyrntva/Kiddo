@@ -4,36 +4,45 @@ import { useAuth } from '../../context/AuthContext'
 import { getLessonStatusForAccount, markLessonInProgress } from '../../utils/lessonProgress'
 import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
+import AlertDialog from '../../components/common/AlertDialog'
 
 const fallbackLessons: ZoneLesson[] = [
-  { id: 1, title: 'Tự dọn dẹp đồ chơi', description: '- Trẻ biết tự cất dọn đồ chơi gọn gàng sau khi chơi xong.', status: 'not-started', stars: 0 },
-  { id: 2, title: 'Tự mặc quần áo', description: '- Trẻ học cách tự mặc quần áo và mang giày dép đơn giản.', status: 'not-started', stars: 0 },
-  { id: 3, title: 'Giữ gìn vệ sinh cá nhân', description: '- Trẻ biết tự rửa tay, đánh răng và giữ vệ sinh cá nhân sạch sẽ.', status: 'not-started', stars: 0 },
-  { id: 4, title: 'Giúp đỡ việc nhà nhỏ', description: '- Trẻ biết giúp đỡ cha mẹ các việc vặt như quét nhà, lau bàn.', status: 'not-started', stars: 0 },
-  { id: 5, title: 'Tự chuẩn bị đồ dùng', description: '- Trẻ biết tự chuẩn bị balo, sách vở trước khi đi học.', status: 'not-started', stars: 0 },
+  { id: 1, title: 'Tự mặc quần áo & Đi giày', description: '- Trẻ tự chuẩn bị trang phục và đi giày dép khi đi ra ngoài.', status: 'not-started', stars: 0 },
+  { id: 2, title: 'Tự dọn dẹp đồ chơi', description: '- Trẻ học tính ngăn nắp, tự thu dọn đồ chơi sau khi chơi xong.', status: 'not-started', stars: 0 },
+  { id: 3, title: 'Vệ sinh cá nhân đúng cách', description: '- Trẻ tự đánh răng, rửa mặt và rửa tay xà phòng trước khi ăn.', status: 'not-started', stars: 0 },
+  { id: 4, title: 'Tự chuẩn bị đồ dùng học tập', description: '- Trẻ biết kiểm tra và xếp sách vở, hộp bút vào cặp trước khi đi học.', status: 'not-started', stars: 0 },
+  { id: 5, title: 'Giúp đỡ công việc nhà đơn giản', description: '- Trẻ cùng bố mẹ làm việc nhà như lau bàn, nhặt rau hoặc gấp quần áo nhỏ.', status: 'not-started', stars: 0 },
 ]
 
 const theme: ZoneTheme = {
-  titleColor: '#895026',
-  heartColor: '#895026',
-  progressAccent: '#fea01f',
-  progressBorder: '#ffe7bf',
+  titleColor: '#FEA01F',
+  heartColor: '#FEA01F',
+  progressAccent: '#FEA01F',
+  progressBorder: '#FFE6C9',
   progressShadow: '0px 0px 10px rgba(254,160,31,0.2)',
-  cardBorder: '#fff4bf',
+  cardBorder: '#FFE6C9',
   cardShadow: '0px 0px 10px rgba(254,160,31,0.4)',
   cardHoverShadow: '0px 8px 20px rgba(254,160,31,0.6)',
-  badgeBg: '#fea01f',
-  encouragementBg: '#fff6e6',
-  encouragementBorder: '#ffe7bf',
+  badgeBg: '#FEA01F',
+  encouragementBg: '#FFF8F0',
+  encouragementBorder: '#FFE6C9',
   encouragementShadow: '0px 0px 10px rgba(254,160,31,0.4)',
   encouragementHoverShadow: '0px 8px 20px rgba(254,160,31,0.6)',
-  encouragementTitleColor: '#fea01f',
+  encouragementTitleColor: '#FEA01F',
 }
 
 export default function ZoneTuLapPage() {
   const navigate = useNavigate()
   const { user, syncProfile } = useAuth()
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+  const [alertDialog, setAlertDialog] = useState<{
+    isOpen: boolean
+    title?: string
+    message: string
+    type?: 'info' | 'warning' | 'success' | 'lock'
+    buttonText?: string
+    onConfirm?: () => void
+  }>({ isOpen: false, message: '' })
 
   useEffect(() => {
     syncProfile?.()
@@ -65,13 +74,24 @@ export default function ZoneTuLapPage() {
         if (currentZone) {
           const zLock = currentZone.lockStatus || 'UNLOCKED'
           if (zLock === 'DEV') {
-            alert('Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!')
-            navigate('/explore')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+              onConfirm: () => navigate('/explore'),
+            })
             return
           }
           if (zLock === 'PAID' && (!user || !user.isPaid)) {
-            alert('Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
-            navigate('/courses')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Nội dung trả phí',
+              message: 'Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+              type: 'lock',
+              buttonText: 'Xem gói học',
+              onConfirm: () => navigate('/courses'),
+            })
             return
           }
 
@@ -103,29 +123,54 @@ export default function ZoneTuLapPage() {
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
   return (
-    <ZoneLandingPage
-      backgroundImage="/assets/414120eafd7f43fce93ce3ecb953fc4142aa8c32.webp"
-      islandImage="/assets/ngoi_lang_tu_lap_island.webp"
-      islandAlt="Ngôi làng tự lập"
-      title="Ngôi làng tự lập"
-      subtitle="Cùng Toro học cách tự lập và tự chăm sóc bản thân nhé!"
-      lessons={lessons}
-      completed={completedCount}
-      total={lessons.length}
-      theme={theme}
-      onLessonSelect={(lesson) => {
-        if (lesson.lockStatus === 'DEV') {
-          return
-        }
-        if (lesson.lockStatus === 'PAID') {
-          if (!user || !user.isPaid) {
-            navigate('/courses')
+    <>
+      <ZoneLandingPage
+        backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
+        islandImage="/assets/vung_dat_tu_lap_island.webp"
+        islandAlt="Vùng đất tự lập"
+        title="Vùng đất tự lập"
+        subtitle="Cùng Toro rèn luyện thói quen tự chăm sóc bản thân mỗi ngày nhé!"
+        lessons={lessons}
+        completed={completedCount}
+        total={lessons.length}
+        theme={theme}
+        onLessonSelect={(lesson) => {
+          if (lesson.lockStatus === 'DEV') {
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Bài học này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+            })
             return
           }
-        }
-        markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/independence/lesson/${lesson.id}`)
-      }}
-    />
+          if (lesson.lockStatus === 'PAID') {
+            if (!user || !user.isPaid) {
+              setAlertDialog({
+                isOpen: true,
+                title: 'Nội dung trả phí',
+                message: 'Bài học này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+                type: 'lock',
+                buttonText: 'Xem gói học',
+                onConfirm: () => navigate('/courses'),
+              })
+              return
+            }
+          }
+          markLessonInProgress(lesson.id, user?.id, lesson.title)
+          navigate(`/zone/independence/lesson/${lesson.id}`)
+        }}
+      />
+
+      <AlertDialog
+        isOpen={alertDialog.isOpen}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText={alertDialog.buttonText}
+        onClose={() => setAlertDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={alertDialog.onConfirm}
+      />
+    </>
   )
 }

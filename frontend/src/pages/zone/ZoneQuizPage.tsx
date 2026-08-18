@@ -16,6 +16,7 @@ import ZoneQuizPreVideoScreen from './_components/ZoneQuizPreVideoScreen'
 import { emotionIslandLessons } from '../diary/data/emotionIsland'
 import { zoneQuizAssets } from './quizData'
 import useZoneQuiz from './useZoneQuiz'
+import AlertDialog from '../../components/common/AlertDialog'
 
 const ZONE_BACKGROUNDS: Record<string, string> = {
   emotions: '/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp',
@@ -81,6 +82,8 @@ export default function ZoneQuizPage() {
     backPath,
     calculatedFeedback,
     zoneKey,
+    lockError,
+    setLockError,
   } = useZoneQuiz(initialLessonId)
 
   const bgImage =
@@ -291,6 +294,20 @@ export default function ZoneQuizPage() {
           onGoToDiary={() => navigate('/diary')}
         />
       )}
+
+      <AlertDialog
+        isOpen={!!lockError}
+        title={lockError?.type === 'lock' ? 'Nội dung trả phí' : 'Thông báo'}
+        message={lockError?.message || ''}
+        type={lockError?.type || 'info'}
+        buttonText={lockError?.type === 'lock' ? 'Xem gói học' : 'Đã hiểu'}
+        onClose={() => setLockError(null)}
+        onConfirm={() => {
+          if (lockError?.targetPath) {
+            navigate(lockError.targetPath)
+          }
+        }}
+      />
     </div>
   )
 }

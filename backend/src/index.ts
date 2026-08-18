@@ -110,11 +110,12 @@ app.use('/api/contact', contactRouter)
 app.use('/api/promotion-campaigns', promotionCampaignsRouter)
 app.use('/api/chat', rateLimit({
   windowMs: 60 * 1000,
-  limit: 10,
+  limit: 100,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   message: { message: 'Bạn gửi quá nhanh, vui lòng thử lại sau một phút' },
 }), chatRouter)
+app.use('/api/admin/chat', chatRouter)
 app.use('/api/webhook/facebook', facebookWebhookRouter)
 
 // Mock roles API

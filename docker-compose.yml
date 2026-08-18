@@ -84,6 +84,7 @@ services:
       - backend
     environment:
       BACKEND_API_URL: http://backend:5000
+      VITE_API_URL: ""
     ports:
       - "5173:5173"
     volumes:
@@ -91,6 +92,7 @@ services:
       - ./backend/cms/public:/app/public
       - ./backend/cms/index.html:/app/index.html
       - ./backend/cms/vite.config.ts:/app/vite.config.ts:ro
+      - ./backend/cms/.env:/app/.env
 
 volumes:
   postgres_data:

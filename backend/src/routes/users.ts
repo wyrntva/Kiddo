@@ -40,6 +40,125 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
+// GET /api/users/conversations - Get all user chat conversations for CMS Admin
+router.get('/conversations', async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const usersWithMessages = await prisma.user.findMany({
+      where: {
+        chatMessages: {
+          some: {},
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        isPendingPaid: true,
+        chatMessages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+        _count: {
+          select: { chatMessages: true },
+        },
+      },
+    })
+
+    const conversations = usersWithMessages
+      .map((u) => ({
+        id: u.id,
+        name: u.name,
+        parentName: u.parentName,
+        email: u.email,
+        phone: u.phone,
+        avatar: u.avatar,
+        role: u.role,
+        isPaid: u.isPaid,
+        isPendingPaid: u.isPendingPaid,
+        totalMessages: u._count.chatMessages,
+        lastMessage: u.chatMessages[0] || null,
+      }))
+      .sort((a, b) => {
+        const timeA = a.lastMessage ? new Date(a.lastMessage.createdAt).getTime() : 0
+        const timeB = b.lastMessage ? new Date(b.lastMessage.createdAt).getTime() : 0
+        return timeB - timeA
+      })
+
+    res.json({ conversations })
+  } catch (error) {
+    console.error('Error fetching chat conversations:', error)
+    res.status(500).json({ message: 'Lỗi khi tải danh sách trò chuyện' })
+  }
+})
+
+// GET /api/users/conversations/:userId - Get conversation detail for a user
+router.get('/conversations/:userId', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        childAge: true,
+        gender: true,
+      },
+    })
+
+    if (!targetUser) {
+      res.status(404).json({ message: 'Không tìm thấy người dùng' })
+      return
+    }
+
+    const messages = await prisma.chatMessage.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    res.json({ user: targetUser, messages })
+  } catch (error) {
+    console.error('Error fetching conversation detail:', error)
+    res.status(500).json({ message: 'Lỗi khi tải nội dung trò chuyện' })
+  }
+})
+
+// POST /api/users/conversations/:userId/reply - Admin reply to user conversation
+router.post('/conversations/:userId/reply', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const { text } = req.body
+
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      res.status(400).json({ message: 'Nội dung tin nhắn không được để trống' })
+      return
+    }
+
+    const message = await prisma.chatMessage.create({
+      data: {
+        userId,
+        sender: 'ADMIN',
+        text: text.trim(),
+      },
+    })
+
+    res.json({ message })
+  } catch (error) {
+    console.error('Error replying to user conversation:', error)
+    res.status(500).json({ message: 'Gửi tin nhắn phản hồi thất bại' })
+  }
+})
+
 // GET /api/users/:id - Get a single staff/admin user
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {

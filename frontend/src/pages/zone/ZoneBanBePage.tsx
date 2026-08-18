@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { getLessonStatusForAccount, markLessonInProgress } from '../../utils/lessonProgress'
 import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
+import AlertDialog from '../../components/common/AlertDialog'
 
 const fallbackLessons: ZoneLesson[] = [
   { id: 1, title: 'Biết cách chia sẻ', description: '- Trẻ học cách chia sẻ đồ chơi và đồ ăn với các bạn.', status: 'not-started', stars: 0 },
@@ -34,6 +35,14 @@ export default function ZoneBanBePage() {
   const navigate = useNavigate()
   const { user, syncProfile } = useAuth()
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+  const [alertDialog, setAlertDialog] = useState<{
+    isOpen: boolean
+    title?: string
+    message: string
+    type?: 'info' | 'warning' | 'success' | 'lock'
+    buttonText?: string
+    onConfirm?: () => void
+  }>({ isOpen: false, message: '' })
 
   useEffect(() => {
     syncProfile?.()
@@ -65,13 +74,24 @@ export default function ZoneBanBePage() {
         if (currentZone) {
           const zLock = currentZone.lockStatus || 'UNLOCKED'
           if (zLock === 'DEV') {
-            alert('Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!')
-            navigate('/explore')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+              onConfirm: () => navigate('/explore'),
+            })
             return
           }
           if (zLock === 'PAID' && (!user || !user.isPaid)) {
-            alert('Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
-            navigate('/courses')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Nội dung trả phí',
+              message: 'Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+              type: 'lock',
+              buttonText: 'Xem gói học',
+              onConfirm: () => navigate('/courses'),
+            })
             return
           }
 
@@ -103,29 +123,54 @@ export default function ZoneBanBePage() {
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
   return (
-    <ZoneLandingPage
-      backgroundImage="/assets/2404296262476703df2b4a673defe4ce7ede08d1.webp"
-      islandImage="/assets/khu_vuon_ban_be_island.webp"
-      islandAlt="Khu vườn bạn bè"
-      title="Khu vườn bạn bè"
-      subtitle="Cùng Toro học cách kết bạn và chia sẻ yêu thương nhé!"
-      lessons={lessons}
-      completed={completedCount}
-      total={lessons.length}
-      theme={theme}
-      onLessonSelect={(lesson) => {
-        if (lesson.lockStatus === 'DEV') {
-          return
-        }
-        if (lesson.lockStatus === 'PAID') {
-          if (!user || !user.isPaid) {
-            navigate('/courses')
+    <>
+      <ZoneLandingPage
+        backgroundImage="/assets/2404296262476703df2b4a673defe4ce7ede08d1.webp"
+        islandImage="/assets/khu_vuon_ban_be_island.webp"
+        islandAlt="Khu vườn bạn bè"
+        title="Khu vườn bạn bè"
+        subtitle="Cùng Toro học cách kết bạn và chia sẻ yêu thương nhé!"
+        lessons={lessons}
+        completed={completedCount}
+        total={lessons.length}
+        theme={theme}
+        onLessonSelect={(lesson) => {
+          if (lesson.lockStatus === 'DEV') {
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Bài học này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+            })
             return
           }
-        }
-        markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/friends/lesson/${lesson.id}`)
-      }}
-    />
+          if (lesson.lockStatus === 'PAID') {
+            if (!user || !user.isPaid) {
+              setAlertDialog({
+                isOpen: true,
+                title: 'Nội dung trả phí',
+                message: 'Bài học này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+                type: 'lock',
+                buttonText: 'Xem gói học',
+                onConfirm: () => navigate('/courses'),
+              })
+              return
+            }
+          }
+          markLessonInProgress(lesson.id, user?.id, lesson.title)
+          navigate(`/zone/friends/lesson/${lesson.id}`)
+        }}
+      />
+
+      <AlertDialog
+        isOpen={alertDialog.isOpen}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText={alertDialog.buttonText}
+        onClose={() => setAlertDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={alertDialog.onConfirm}
+      />
+    </>
   )
 }

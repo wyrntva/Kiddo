@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
+import AlertDialog from '../../../components/common/AlertDialog'
 
 type Plan = {
   id: string
@@ -112,13 +113,19 @@ export default function PricingSection() {
       })
   }, [API_URL])
 
+  const [alertDialog, setAlertDialog] = useState<{ isOpen: boolean; title?: string; message: string; type?: 'info' | 'warning' | 'success' | 'lock' }>({ isOpen: false, message: '' })
+
+  const showAlert = (message: string, title = 'Thông báo', type: 'info' | 'warning' | 'success' | 'lock' = 'info') => {
+    setAlertDialog({ isOpen: true, title, message, type })
+  }
+
   const handleSelectPlan = (plan: Plan) => {
     if (!user) {
       navigate('/login', { state: { from: location } })
       return
     }
     if (user.isPaid) {
-      alert('Tài khoản của bé đã được kích hoạt khóa học rồi!')
+      showAlert('Tài khoản của bé đã được kích hoạt khóa học rồi!', 'Thông báo', 'info')
       return
     }
     setSelectedPlan(plan)
@@ -482,7 +489,7 @@ export default function PricingSection() {
                     }
                     setShowSuccessAlert(false)
                   } catch (err: any) {
-                    alert(err.message || 'Không thể hủy yêu cầu.')
+                    showAlert(err.message || 'Không thể hủy yêu cầu.', 'Thông báo', 'warning')
                   } finally {
                     setIsSubmitting(false)
                   }
@@ -496,6 +503,14 @@ export default function PricingSection() {
           </div>
         </div>
       )}
+
+      <AlertDialog
+        isOpen={alertDialog.isOpen}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        onClose={() => setAlertDialog((prev) => ({ ...prev, isOpen: false }))}
+      />
     </section>
   )
 }

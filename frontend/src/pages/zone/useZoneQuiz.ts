@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { gameCards, initialPlacedEmotions, quizDatabase } from './quizData'
 import { playDropSound, playRemoveSound, playSuccessSound, playButtonSound } from './_components/soundEffects'
@@ -43,9 +42,9 @@ const getFullMediaUrl = (url: string) => {
 }
 
 export default function useZoneQuiz(initialLessonId: string | number) {
-  const navigate = useNavigate()
   const { user } = useAuth()
   const [currentLessonId, setCurrentLessonId] = useState(initialLessonId)
+  const [lockError, setLockError] = useState<{ message: string; type: 'warning' | 'lock'; targetPath: string } | null>(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedOptionId, setSelectedOptionId] = useState<string | number | null>(null)
   const [isChecked, setIsChecked] = useState(false)
@@ -129,13 +128,19 @@ export default function useZoneQuiz(initialLessonId: string | number) {
         const lessonData = await lessonRes.json()
         const lockStatus = lessonData?.lockStatus || 'UNLOCKED'
         if (lockStatus === 'DEV') {
-          alert('Bài học này đang trong quá trình phát triển, vui lòng quay lại sau!')
-          navigate(ZONE_PATHS[lessonData?.zone?.key || 'emotion'] || '/explore')
+          setLockError({
+            message: 'Bài học này đang trong quá trình phát triển, vui lòng quay lại sau!',
+            type: 'warning',
+            targetPath: ZONE_PATHS[lessonData?.zone?.key || 'emotion'] || '/explore',
+          })
           return
         }
         if (lockStatus === 'PAID' && (!user || !user.isPaid)) {
-          alert('Bài học này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
-          navigate('/courses')
+          setLockError({
+            message: 'Bài học này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+            type: 'lock',
+            targetPath: '/courses',
+          })
           return
         }
         const title = lessonData?.title || ''
@@ -997,5 +1002,7 @@ export default function useZoneQuiz(initialLessonId: string | number) {
     lessonsList,
     backPath,
     zoneKey,
+    lockError,
+    setLockError,
   }
 }

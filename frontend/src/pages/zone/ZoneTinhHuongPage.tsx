@@ -4,36 +4,45 @@ import { useAuth } from '../../context/AuthContext'
 import { getLessonStatusForAccount, markLessonInProgress } from '../../utils/lessonProgress'
 import ZoneLandingPage from './_components/ZoneLandingPage'
 import type { ZoneLesson, ZoneTheme } from './_components/zoneTypes'
+import AlertDialog from '../../components/common/AlertDialog'
 
 const fallbackLessons: ZoneLesson[] = [
-  { id: 1, title: 'Khi bị lạc đường', description: '- Trẻ biết tìm kiếm sự giúp đỡ từ người đáng tin cậy khi bị lạc.', status: 'not-started', stars: 0 },
-  { id: 2, title: 'Gặp người lạ nói chuyện', description: '- Trẻ biết cách từ chối quà và không đi theo người lạ.', status: 'not-started', stars: 0 },
-  { id: 3, title: 'Ứng phó khi xảy ra hỏa hoạn', description: '- Trẻ học cách di chuyển an toàn và thoát hiểm khi có cháy.', status: 'not-started', stars: 0 },
-  { id: 4, title: 'Sử dụng thiết bị điện an toàn', description: '- Trẻ nhận biết các mối nguy hiểm từ ổ điện và đồ dùng điện.', status: 'not-started', stars: 0 },
-  { id: 5, title: 'Gọi điện số khẩn cấp', description: '- Trẻ nhớ số điện thoại khẩn cấp và cách gọi điện báo cáo tình huống.', status: 'not-started', stars: 0 },
+  { id: 1, title: 'Khi bị lạc đường', description: '- Trẻ học cách giữ bình tĩnh, đứng nguyên vị trí và tìm kiếm sự trợ giúp an toàn.', status: 'not-started', stars: 0 },
+  { id: 2, title: 'Gặp người lạ nói chuyện', description: '- Trẻ học nguyên tắc an toàn khi giao tiếp với người lạ và từ chối lời mời nguy hiểm.', status: 'not-started', stars: 0 },
+  { id: 3, title: 'Ứng phó khi xảy ra hỏa hoạn', description: '- Trẻ học kỹ năng thoát hiểm cơ bản: bò thấp người, dùng khăn ướt và gọi 114.', status: 'not-started', stars: 0 },
+  { id: 4, title: 'Sử dụng thiết bị điện an toàn', description: '- Trẻ nhận biết mối nguy hiểm từ ổ điện, dây điện và nguyên tắc an toàn khi dùng thiết bị điện.', status: 'not-started', stars: 0 },
+  { id: 5, title: 'Gọi điện số khẩn cấp', description: '- Trẻ ghi nhớ và tập luyện cách gọi các số 113, 114, 115 khi gặp sự cố khẩn cấp.', status: 'not-started', stars: 0 },
 ]
 
 const theme: ZoneTheme = {
-  titleColor: '#F2F0FE',
-  heartColor: '#F2F0FE',
-  progressAccent: '#9560d8',
-  progressBorder: '#ebd6ff',
-  progressShadow: '0px 0px 10px rgba(149,96,216,0.2)',
-  cardBorder: '#e9d8ff',
-  cardShadow: '0px 0px 10px rgba(149,96,216,0.4)',
-  cardHoverShadow: '0px 8px 20px rgba(149,96,216,0.6)',
-  badgeBg: '#9560d8',
-  encouragementBg: '#f8f0ff',
-  encouragementBorder: '#ebd6ff',
-  encouragementShadow: '0px 0px 10px rgba(149,96,216,0.4)',
-  encouragementHoverShadow: '0px 8px 20px rgba(149,96,216,0.6)',
-  encouragementTitleColor: '#9560d8',
+  titleColor: '#8E44AD',
+  heartColor: '#8E44AD',
+  progressAccent: '#8E44AD',
+  progressBorder: '#E8DAEF',
+  progressShadow: '0px 0px 10px rgba(142,68,173,0.2)',
+  cardBorder: '#E8DAEF',
+  cardShadow: '0px 0px 10px rgba(142,68,173,0.4)',
+  cardHoverShadow: '0px 8px 20px rgba(142,68,173,0.6)',
+  badgeBg: '#8E44AD',
+  encouragementBg: '#F5EEF8',
+  encouragementBorder: '#E8DAEF',
+  encouragementShadow: '0px 0px 10px rgba(142,68,173,0.4)',
+  encouragementHoverShadow: '0px 8px 20px rgba(142,68,173,0.6)',
+  encouragementTitleColor: '#8E44AD',
 }
 
 export default function ZoneTinhHuongPage() {
   const navigate = useNavigate()
   const { user, syncProfile } = useAuth()
   const [lessons, setLessons] = useState<ZoneLesson[]>(fallbackLessons)
+  const [alertDialog, setAlertDialog] = useState<{
+    isOpen: boolean
+    title?: string
+    message: string
+    type?: 'info' | 'warning' | 'success' | 'lock'
+    buttonText?: string
+    onConfirm?: () => void
+  }>({ isOpen: false, message: '' })
 
   useEffect(() => {
     syncProfile?.()
@@ -65,13 +74,24 @@ export default function ZoneTinhHuongPage() {
         if (currentZone) {
           const zLock = currentZone.lockStatus || 'UNLOCKED'
           if (zLock === 'DEV') {
-            alert('Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!')
-            navigate('/explore')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Hòn đảo này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+              onConfirm: () => navigate('/explore'),
+            })
             return
           }
           if (zLock === 'PAID' && (!user || !user.isPaid)) {
-            alert('Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!')
-            navigate('/courses')
+            setAlertDialog({
+              isOpen: true,
+              title: 'Nội dung trả phí',
+              message: 'Hòn đảo này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+              type: 'lock',
+              buttonText: 'Xem gói học',
+              onConfirm: () => navigate('/courses'),
+            })
             return
           }
 
@@ -103,29 +123,54 @@ export default function ZoneTinhHuongPage() {
   const completedCount = lessons.filter(l => l.status === 'completed').length
 
   return (
-    <ZoneLandingPage
-      backgroundImage="/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.webp"
-      islandImage="/assets/hanh_tinh_tinh_huong_island.webp"
-      islandAlt="Hành tinh tình huống"
-      title="Hành tinh tình huống"
-      subtitle="Cùng Toro học cách xử lý các tình huống khéo léo nhé!"
-      lessons={lessons}
-      completed={completedCount}
-      total={lessons.length}
-      theme={theme}
-      onLessonSelect={(lesson) => {
-        if (lesson.lockStatus === 'DEV') {
-          return
-        }
-        if (lesson.lockStatus === 'PAID') {
-          if (!user || !user.isPaid) {
-            navigate('/courses')
+    <>
+      <ZoneLandingPage
+        backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
+        islandImage="/assets/vung_dat_tinh_huong_island.webp"
+        islandAlt="Hành trình tình huống"
+        title="Hành trình tình huống"
+        subtitle="Cùng Toro học kỹ năng an toàn và xử lý tình huống khẩn cấp!"
+        lessons={lessons}
+        completed={completedCount}
+        total={lessons.length}
+        theme={theme}
+        onLessonSelect={(lesson) => {
+          if (lesson.lockStatus === 'DEV') {
+            setAlertDialog({
+              isOpen: true,
+              title: 'Thông báo',
+              message: 'Bài học này đang trong quá trình phát triển, vui lòng quay lại sau!',
+              type: 'warning',
+            })
             return
           }
-        }
-        markLessonInProgress(lesson.id, user?.id, lesson.title)
-        navigate(`/zone/situations/lesson/${lesson.id}`)
-      }}
-    />
+          if (lesson.lockStatus === 'PAID') {
+            if (!user || !user.isPaid) {
+              setAlertDialog({
+                isOpen: true,
+                title: 'Nội dung trả phí',
+                message: 'Bài học này dành cho tài khoản trả phí. Vui lòng đăng ký gói để mở khóa!',
+                type: 'lock',
+                buttonText: 'Xem gói học',
+                onConfirm: () => navigate('/courses'),
+              })
+              return
+            }
+          }
+          markLessonInProgress(lesson.id, user?.id, lesson.title)
+          navigate(`/zone/situations/lesson/${lesson.id}`)
+        }}
+      />
+
+      <AlertDialog
+        isOpen={alertDialog.isOpen}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText={alertDialog.buttonText}
+        onClose={() => setAlertDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={alertDialog.onConfirm}
+      />
+    </>
   )
 }

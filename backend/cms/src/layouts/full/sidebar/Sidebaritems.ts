@@ -117,6 +117,12 @@ const SidebarContent: MenuItem[] = [
     heading: "TIN TỨC & TRUY CẬP",
     children: [
       {
+        name: "Tin nhắn & Chat AI",
+        icon: "solar:chat-round-line-outline",
+        id: uniqueId(),
+        url: "/messages",
+      },
+      {
         name: "Tin tức",
         icon: "solar:document-text-outline",
         id: uniqueId(),

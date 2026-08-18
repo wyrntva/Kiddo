@@ -87,6 +87,7 @@ const Error = lazy(() => import('../views/auth/error/Error'));
 const AnalyticsDashboard = lazy(() => import('../views/analytics/AnalyticsDashboard'));
 const LiveScores = lazy(() => import('../views/live-scores/LiveScores'));
 const News = lazy(() => import('../views/news/News'));
+const Messages = lazy(() => import('../views/messages/Messages'));
 
 
 
@@ -184,6 +185,7 @@ const Router = () => {
             <Route path="analytics" element={<AnalyticsDashboard />} />
             <Route path="live-scores" element={<LiveScores />} />
             <Route path="news" element={<News />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="tournaments" element={<Tournaments />} />
             <Route path="tournaments/:id" element={<TournamentDetail />} />
             <Route path="tournaments/leaderboard" element={<Leaderboard />} />

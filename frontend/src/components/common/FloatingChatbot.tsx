@@ -1,10 +1,18 @@
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import toroChatbot from '../../assets/toro-chatbot.webp'
 
+import ConfirmDialog from './ConfirmDialog'
+
 type ChatMessage = {
-  id: number
+  id: string | number
   role: 'assistant' | 'user'
   text: string
+  sender?: 'USER' | 'BOT' | 'ADMIN'
+  isLoginPrompt?: boolean
+  isInitialGreeting?: boolean
+  createdAt?: string
 }
 
 const API_URL =
@@ -17,17 +25,66 @@ const initialMessages: ChatMessage[] = [
   {
     id: 1,
     role: 'assistant',
-    text: 'Xin chào! Mình là Toro trợ lý của OTTOPIA. Mình có thể giúp gì cho ba mẹ và bé?',
+    text: 'Xin chào! Con là Toro trợ lý của OTTOPIA. Con có thể giúp gì cho ba mẹ và bé?\n\nBằng việc bắt đầu trò chuyện, bạn đồng ý với Chính sách bảo mật của chúng tôi. Lịch sử chat có thể được lưu lại để nâng cao chất lượng dịch vụ.',
+    isInitialGreeting: true,
   },
 ]
 
 export default function FloatingChatbot() {
+  const { user, accessToken } = useAuth()
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [isSending, setIsSending] = useState(false)
   const [error, setError] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // ── Load Chat History ──
+  const fetchHistory = async () => {
+    if (!accessToken || !user) return
+    try {
+      const response = await fetch(`${API_URL}/api/chat/history`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (!response.ok) return
+      const data = await response.json()
+      if (Array.isArray(data.messages) && data.messages.length > 0) {
+        setMessages([
+          initialMessages[0],
+          ...data.messages.map((m: any) => ({
+            id: m.id,
+            role: m.role || (m.sender === 'USER' ? 'user' : 'assistant'),
+            text: m.text,
+            sender: m.sender,
+            createdAt: m.createdAt,
+          })),
+        ])
+      }
+    } catch {
+      // Fallback silently
+    }
+  }
+
+  // Load history when user logged in or chat opens
+  useEffect(() => {
+    if (user && accessToken) {
+      fetchHistory()
+    } else {
+      setMessages(initialMessages)
+    }
+  }, [user?.id, accessToken])
+
+  // Polling chat history every 4s when open and logged in
+  useEffect(() => {
+    if (!isOpen || !user || !accessToken) return
+    const interval = setInterval(() => {
+      fetchHistory()
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [isOpen, user?.id, accessToken])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -38,17 +95,51 @@ export default function FloatingChatbot() {
     const text = input.trim()
     if (!text || isSending) return
 
-    const userMessage: ChatMessage = { id: Date.now(), role: 'user', text }
+    const userMessage: ChatMessage = { id: Date.now(), role: 'user', text, sender: 'USER' }
     const nextMessages = [...messages, userMessage]
     setMessages(nextMessages)
     setInput('')
     setError('')
+
+    if (!user) {
+      setMessages(current => [
+        ...current,
+        {
+          id: Date.now() + 1,
+          role: 'assistant',
+          text: `Ba mẹ vui lòng đăng nhập để chat với AI nhé!
+
+📌 HƯỚNG DẪN ĐĂNG KÝ & ĐĂNG NHẬP:
+
+1️⃣ Đăng ký bằng biểu mẫu:
+• Bấm "Đăng ký tài khoản" bên dưới.
+• Điền Tên phụ huynh, Số điện thoại, Email và Mật khẩu.
+• Chọn "Đăng ký" để hoàn tất.
+
+2️⃣ Đăng nhập nhanh bằng Google:
+• Bấm "Đăng nhập ngay" bên dưới.
+• Chọn "Đăng nhập với Google" & chọn tài khoản Google.
+• Hoàn thiện tên phụ huynh, SĐT và tuổi của bé.
+
+3️⃣ Đăng nhập bằng Email & Mật khẩu:
+• Vào trang Đăng nhập, nhập Email và Mật khẩu đã tạo.`,
+          isLoginPrompt: true,
+        },
+      ])
+      return
+    }
+
     setIsSending(true)
 
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`
+      }
+
       const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           messages: nextMessages
             .filter(message => message.id !== 1)
@@ -64,7 +155,7 @@ export default function FloatingChatbot() {
 
       setMessages(current => [
         ...current,
-        { id: Date.now() + 1, role: 'assistant', text: data.reply },
+        { id: Date.now() + 1, role: 'assistant', text: data.reply, sender: 'BOT' },
       ])
     } catch (requestError) {
       setError(
@@ -74,6 +165,33 @@ export default function FloatingChatbot() {
       )
     } finally {
       setIsSending(false)
+    }
+  }
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+
+  const handleClearHistory = () => {
+    setShowConfirmDelete(true)
+  }
+
+  const confirmClearHistory = async () => {
+    setShowConfirmDelete(false)
+    if (!accessToken || !user) {
+      setMessages(initialMessages)
+      return
+    }
+    try {
+      const response = await fetch(`${API_URL}/api/chat/history`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (response.ok) {
+        setMessages(initialMessages)
+      }
+    } catch {
+      setMessages(initialMessages)
     }
   }
 
@@ -103,14 +221,29 @@ export default function FloatingChatbot() {
                 </p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              aria-label="Đóng chatbot"
-              className="flex size-9 items-center justify-center rounded-full text-[24px] text-white transition-colors hover:bg-white/15"
-            >
-              ×
-            </button>
+            <div className="flex items-center gap-1">
+              {messages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={handleClearHistory}
+                  title="Xóa lịch sử trò chuyện"
+                  aria-label="Xóa lịch sử trò chuyện"
+                  className="flex size-9 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/15 hover:text-white"
+                >
+                  <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label="Đóng chatbot"
+                className="flex size-9 items-center justify-center rounded-full text-[24px] text-white transition-colors hover:bg-white/15"
+              >
+                ×
+              </button>
+            </div>
           </header>
 
           <div
@@ -123,10 +256,73 @@ export default function FloatingChatbot() {
                 className={`max-w-[84%] whitespace-pre-wrap rounded-[18px] px-4 py-3 text-[14px] leading-5 shadow-sm ${
                   message.role === 'user'
                     ? 'ml-auto rounded-br-[6px] bg-[#0a7ad8] text-white'
+                    : message.sender === 'ADMIN'
+                    ? 'mr-auto rounded-bl-[6px] border-2 border-[#0a7ad8] bg-[#f0f8ff] text-[#004c6e]'
                     : 'mr-auto rounded-bl-[6px] border border-[#d8edfa] bg-white text-[#37393e]'
                 }`}
               >
-                {message.text}
+                {message.sender === 'ADMIN' && (
+                  <div className="mb-1.5 flex items-center gap-1.5">
+                    <span className="rounded bg-[#0a7ad8] px-2 py-0.5 text-[11px] font-bold text-white shadow-xs">
+                      Admin OTTOPIA
+                    </span>
+                  </div>
+                )}
+                {message.isInitialGreeting ? (
+                  <div>
+                    <p>Xin chào! Con là Toro trợ lý của OTTOPIA. Con có thể giúp gì cho ba mẹ và bé?</p>
+                    <p className="mt-2.5 pt-2 border-t border-[#e2e2ea] text-[12px] leading-[18px] text-[#667085]">
+                      Bằng việc bắt đầu trò chuyện, bạn đồng ý với{' '}
+                      <a
+                        href="/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-[#0a7ad8] underline hover:text-[#0863b3]"
+                      >
+                        Chính sách bảo mật
+                      </a>{' '}
+                      của chúng tôi. Lịch sử chat có thể được lưu lại để nâng cao chất lượng dịch vụ.
+                    </p>
+                  </div>
+                ) : (
+                  <RenderChatMessageText
+                    text={message.text}
+                    onNavigate={(path) => {
+                      setIsOpen(false)
+                      navigate(path)
+                    }}
+                  />
+                )}
+                {message.isLoginPrompt && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsOpen(false)
+                        navigate('/login')
+                      }}
+                      className="flex items-center gap-1.5 rounded-full bg-[#0a7ad8] px-3.5 py-1.5 text-[13px] font-medium text-white shadow-sm transition-all hover:bg-[#0863b3] active:scale-95"
+                    >
+                      <span>Đăng nhập ngay</span>
+                      <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsOpen(false)
+                        navigate('/register')
+                      }}
+                      className="flex items-center gap-1.5 rounded-full border border-[#0a7ad8] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#0a7ad8] shadow-sm transition-all hover:bg-[#f0f8ff] active:scale-95"
+                    >
+                      <span>Đăng ký tài khoản</span>
+                      <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
             {isSending && (
@@ -215,8 +411,84 @@ export default function FloatingChatbot() {
           </ContactButton>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={showConfirmDelete}
+        title="Xóa lịch sử trò chuyện"
+        message="Ba mẹ có chắc muốn xóa toàn bộ lịch sử trò chuyện không?"
+        confirmText="Xóa ngay"
+        cancelText="Hủy"
+        variant="danger"
+        onConfirm={confirmClearHistory}
+        onCancel={() => setShowConfirmDelete(false)}
+      />
     </>
   )
+}
+
+function RenderChatMessageText({ text, onNavigate }: { text: string; onNavigate: (path: string) => void }) {
+  const lines = text.split('\n')
+  return (
+    <div className="space-y-1 leading-relaxed">
+      {lines.map((line, lIdx) => {
+        if (!line.trim()) return <div key={lIdx} className="h-1" />
+        return (
+          <div key={lIdx} className="break-words">
+            {parseInlineMarkdown(line, onNavigate)}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function parseInlineMarkdown(text: string, onNavigate: (path: string) => void) {
+  const regex = /(\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*)/g
+  const parts: (string | JSX.Element)[] = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index))
+    }
+
+    if (match[2] && match[3]) {
+      const label = match[2]
+      const url = match[3]
+      const isInternal = url.includes('ottopia.vn') || url.startsWith('/')
+      const path = url.replace(/^https?:\/\/(www\.)?ottopia\.vn/, '') || '/'
+
+      parts.push(
+        <a
+          key={match.index}
+          href={url}
+          onClick={(e) => {
+            if (isInternal) {
+              e.preventDefault()
+              onNavigate(path)
+            }
+          }}
+          className="inline-flex items-center gap-1 font-semibold text-[#0a7ad8] hover:text-[#0863b3] underline bg-[#e6f4ff] px-2 py-0.5 rounded-md my-0.5 transition-colors"
+        >
+          <span>{label}</span>
+          <svg className="w-3.5 h-3.5 shrink-0" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      )
+    } else if (match[4]) {
+      parts.push(<strong key={match.index} className="font-bold text-[#1e293b]">{match[4]}</strong>)
+    }
+
+    lastIndex = regex.lastIndex
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex))
+  }
+
+  return parts
 }
 
 function ContactButton({

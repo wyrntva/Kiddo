@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { DiaryFeedbackColumns } from '../../diary/_components/DiaryFeedbackPanel'
 import type { DiaryLesson } from '../../diary/types'
+import AIStudioSuggestionsModal from './AIStudioSuggestionsModal'
 
 interface ZoneQuizSuccessModalProps {
   feedback: DiaryLesson['feedback']
@@ -16,6 +18,7 @@ export default function ZoneQuizSuccessModal({
   onNextLesson,
   onGoToDiary,
 }: ZoneQuizSuccessModalProps) {
+  const [isAiStudioOpen, setIsAiStudioOpen] = useState(false)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2 sm:p-4 backdrop-blur-sm">
       <div className="zone-success-modal relative flex h-auto max-h-[calc(100dvh-16px)] w-full max-w-[1380px] flex-col overflow-y-auto overflow-x-hidden rounded-[20px] border border-[#BAE6FD] bg-white p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.05)] animate-in fade-in zoom-in duration-300 sm:max-h-[calc(100dvh-32px)] sm:rounded-[24px] sm:p-6 lg:h-auto lg:p-7">
@@ -96,6 +99,7 @@ export default function ZoneQuizSuccessModal({
             </button>
             <button
               type="button"
+              onClick={() => setIsAiStudioOpen(true)}
               className={`flex h-[38px] sm:h-[48px] min-w-0 cursor-pointer items-center justify-center gap-1.5 sm:gap-2.5 whitespace-nowrap rounded-[40px] bg-[#FEA01F] px-3 sm:px-6 font-vietnam text-[13px] sm:text-[16px] font-bold text-white shadow-md transition-all duration-200 hover:bg-[#e68e16] active:scale-95 ${
                 onRestartLesson ? 'col-span-2 sm:col-span-1' : 'col-span-1'
               }`}
@@ -133,7 +137,13 @@ export default function ZoneQuizSuccessModal({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+
+      <AIStudioSuggestionsModal
+        isOpen={isAiStudioOpen}
+        onClose={() => setIsAiStudioOpen(false)}
+        feedback={feedback}
+      />
     </div>
   )
 }

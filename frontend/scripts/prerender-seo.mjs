@@ -74,6 +74,18 @@ const pages = [
       ['Bảo vệ thông tin người dùng', 'Nguyên tắc thu thập, sử dụng và bảo vệ dữ liệu trong quá trình cung cấp dịch vụ.'],
     ],
   },
+  {
+    path: '/refund',
+    title: 'Chính sách Đổi trả và Hoàn tiền | OTTOPIA',
+    description: 'Chính sách đổi trả sản phẩm, hủy gói học và hoàn tiền dịch vụ trên nền tảng giáo dục OTTOPIA.',
+    heading: 'Chính sách Đổi trả và Hoàn tiền',
+    intro: 'Thông tin quy định về điều kiện, quy trình và thời hạn đổi trả sản phẩm cũng như hoàn tiền dịch vụ tại OTTOPIA.',
+    type: 'WebPage',
+    sections: [
+      ['Dịch vụ khóa học trực tuyến', 'Quy định hoàn tiền và chuyển đổi khóa học khi gặp sự cố kỹ thuật hoặc đăng ký nhầm.'],
+      ['Sản phẩm vật lý & Học liệu', 'Điều kiện đổi trả sản phẩm hư hỏng, giao sai hoặc lỗi do nhà sản xuất trong vòng 7 ngày.'],
+    ],
+  },
 ]
 
 const escapeHtml = (value) => value

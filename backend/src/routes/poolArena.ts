@@ -85,6 +85,138 @@ router.get('/users', async (req: Request, res: Response) => {
   }
 })
 
+// GET /api/pool-arena/users/conversations - Get all user chat conversations for CMS Admin
+router.get('/users/conversations', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const search = (req.query.search as string)?.trim();
+    const whereClause: any = search
+      ? {
+          role: { in: ['CHILD', 'PARENT'] },
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { parentName: { contains: search, mode: 'insensitive' as const } },
+            { email: { contains: search, mode: 'insensitive' as const } },
+            { phone: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {
+          chatMessages: {
+            some: {},
+          },
+        };
+
+    const usersWithMessages = await prisma.user.findMany({
+      where: whereClause,
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        isPendingPaid: true,
+        chatMessages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+        _count: {
+          select: { chatMessages: true },
+        },
+      },
+    })
+
+    const conversations = usersWithMessages
+      .map((u) => ({
+        id: u.id,
+        name: u.name,
+        parentName: u.parentName,
+        email: u.email,
+        phone: u.phone,
+        avatar: u.avatar,
+        role: u.role,
+        isPaid: u.isPaid,
+        isPendingPaid: u.isPendingPaid,
+        totalMessages: u._count.chatMessages,
+        lastMessage: u.chatMessages[0] || null,
+      }))
+      .sort((a, b) => {
+        const timeA = a.lastMessage ? new Date(a.lastMessage.createdAt).getTime() : 0
+        const timeB = b.lastMessage ? new Date(b.lastMessage.createdAt).getTime() : 0
+        return timeB - timeA
+      })
+
+    res.json({ conversations })
+  } catch (error) {
+    console.error('Error fetching chat conversations:', error)
+    res.status(500).json({ message: 'Lỗi khi tải danh sách trò chuyện' })
+  }
+})
+
+// GET /api/pool-arena/users/conversations/:userId - Get conversation detail for a user
+router.get('/users/conversations/:userId', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        childAge: true,
+        gender: true,
+      },
+    })
+
+    if (!targetUser) {
+      res.status(404).json({ message: 'Không tìm thấy người dùng' })
+      return
+    }
+
+    const messages = await prisma.chatMessage.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    res.json({ user: targetUser, messages })
+  } catch (error) {
+    console.error('Error fetching conversation detail:', error)
+    res.status(500).json({ message: 'Lỗi khi tải nội dung trò chuyện' })
+  }
+})
+
+// POST /api/pool-arena/users/conversations/:userId/reply - Admin reply to user conversation
+router.post('/users/conversations/:userId/reply', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const { text } = req.body
+
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      res.status(400).json({ message: 'Nội dung tin nhắn không được để trống' })
+      return
+    }
+
+    const message = await prisma.chatMessage.create({
+      data: {
+        userId,
+        sender: 'ADMIN',
+        text: text.trim(),
+      },
+    })
+
+    res.json({ message })
+  } catch (error) {
+    console.error('Error replying to user conversation:', error)
+    res.status(500).json({ message: 'Gửi tin nhắn phản hồi thất bại' })
+  }
+})
+
 router.patch('/users/:id', async (req: Request, res: Response): Promise<void> => {
   const { full_name, phone_number, email, points, rank, avatar_url, parent_name, is_paid, is_pending_paid, paid_until, subscription_plan_id, gender } = req.body
 
@@ -443,6 +575,125 @@ router.post('/transactions/:id/reject', async (req: Request, res: Response): Pro
   } catch (error) {
     console.error('Error rejecting transaction:', error)
     res.status(500).json({ message: 'Từ chối yêu cầu kích hoạt thất bại' })
+  }
+})
+
+// GET /api/pool-arena/chat/conversations
+router.get('/chat/conversations', async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const usersWithMessages = await prisma.user.findMany({
+      where: {
+        chatMessages: {
+          some: {},
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        isPendingPaid: true,
+        chatMessages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+        _count: {
+          select: { chatMessages: true },
+        },
+      },
+    })
+
+    const conversations = usersWithMessages
+      .map((u) => ({
+        id: u.id,
+        name: u.name,
+        parentName: u.parentName,
+        email: u.email,
+        phone: u.phone,
+        avatar: u.avatar,
+        role: u.role,
+        isPaid: u.isPaid,
+        isPendingPaid: u.isPendingPaid,
+        totalMessages: u._count.chatMessages,
+        lastMessage: u.chatMessages[0] || null,
+      }))
+      .sort((a, b) => {
+        const timeA = a.lastMessage ? new Date(a.lastMessage.createdAt).getTime() : 0
+        const timeB = b.lastMessage ? new Date(b.lastMessage.createdAt).getTime() : 0
+        return timeB - timeA
+      })
+
+    res.json({ conversations })
+  } catch (error) {
+    console.error('Error fetching chat conversations:', error)
+    res.status(500).json({ message: 'Lỗi khi tải danh sách trò chuyện' })
+  }
+})
+
+// GET /api/pool-arena/chat/conversations/:userId
+router.get('/chat/conversations/:userId', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        parentName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        isPaid: true,
+        childAge: true,
+        gender: true,
+      },
+    })
+
+    if (!targetUser) {
+      res.status(404).json({ message: 'Không tìm thấy người dùng' })
+      return
+    }
+
+    const messages = await prisma.chatMessage.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    res.json({ user: targetUser, messages })
+  } catch (error) {
+    console.error('Error fetching conversation details:', error)
+    res.status(500).json({ message: 'Lỗi khi tải nội dung trò chuyện' })
+  }
+})
+
+// POST /api/pool-arena/chat/conversations/:userId/reply
+router.post('/chat/conversations/:userId/reply', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+    const { text } = req.body
+
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      res.status(400).json({ message: 'Nội dung tin nhắn không được để trống' })
+      return
+    }
+
+    const message = await prisma.chatMessage.create({
+      data: {
+        userId,
+        sender: 'ADMIN',
+        text: text.trim(),
+      },
+    })
+
+    res.json({ message })
+  } catch (error) {
+    console.error('Error replying to conversation:', error)
+    res.status(500).json({ message: 'Gửi tin nhắn phản hồi thất bại' })
   }
 })
 
