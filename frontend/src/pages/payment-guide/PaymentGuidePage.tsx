@@ -109,8 +109,7 @@ export default function PaymentGuidePage() {
 
             {/* 5 Steps Grid */}
             <section className="mb-12">
-              <h2 className="font-baloo text-[22px] sm:text-[26px] font-bold text-[#004c6e] mb-6 flex items-center gap-2.5">
-                <span className="flex size-8 items-center justify-center rounded-full bg-[#e5f2ff] text-[#0a7ad8] text-[18px]">📋</span>
+              <h2 className="font-baloo text-[22px] sm:text-[26px] font-bold text-[#004c6e] mb-6">
                 Quy trình thanh toán 5 bước
               </h2>
 
@@ -146,8 +145,7 @@ export default function PaymentGuidePage() {
 
             {/* Bank Info Card */}
             <section className="mb-12 rounded-[24px] border-2 border-[#b9e2fe] bg-[#f0f8ff] p-6 sm:p-8 shadow-sm">
-              <h2 className="font-baloo text-[22px] sm:text-[24px] font-bold text-[#004c6e] mb-4 flex items-center gap-2">
-                <span className="flex size-8 items-center justify-center rounded-full bg-white text-[#0a7ad8] text-[18px] shadow-sm">💳</span>
+              <h2 className="font-baloo text-[22px] sm:text-[24px] font-bold text-[#004c6e] mb-4">
                 Thông tin tài khoản nhận thanh toán
               </h2>
               <p className="text-[15px] sm:text-[16px] text-[#575e70] mb-6">
@@ -195,8 +193,7 @@ export default function PaymentGuidePage() {
 
             {/* FAQ / Notes */}
             <section className="space-y-6">
-              <h2 className="font-baloo text-[22px] sm:text-[26px] font-bold text-[#004c6e] flex items-center gap-2">
-                <span className="flex size-8 items-center justify-center rounded-full bg-[#fef4e6] text-[#fea01f] text-[18px]">💡</span>
+              <h2 className="font-baloo text-[22px] sm:text-[26px] font-bold text-[#004c6e]">
                 Những lưu ý quan trọng
               </h2>
 
