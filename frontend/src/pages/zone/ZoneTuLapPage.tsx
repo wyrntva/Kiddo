@@ -15,8 +15,9 @@ const fallbackLessons: ZoneLesson[] = [
 ]
 
 const theme: ZoneTheme = {
-  titleColor: '#FEA01F',
-  heartColor: '#FEA01F',
+  titleColor: '#895026',
+  subtitleColor: '#895026',
+  heartColor: '#895026',
   progressAccent: '#FEA01F',
   progressBorder: '#FFE6C9',
   progressShadow: '0px 0px 10px rgba(254,160,31,0.2)',
@@ -125,10 +126,10 @@ export default function ZoneTuLapPage() {
   return (
     <>
       <ZoneLandingPage
-        backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
-        islandImage="/assets/vung_dat_tu_lap_island.webp"
-        islandAlt="Vùng đất tự lập"
-        title="Vùng đất tự lập"
+        backgroundImage="/assets/414120eafd7f43fce93ce3ecb953fc4142aa8c32.webp"
+        islandImage="/assets/ngoi_lang_tu_lap_island.webp"
+        islandAlt="Ngôi làng tự lập"
+        title="Ngôi làng tự lập"
         subtitle="Cùng Toro rèn luyện thói quen tự chăm sóc bản thân mỗi ngày nhé!"
         lessons={lessons}
         completed={completedCount}

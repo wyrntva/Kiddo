@@ -67,7 +67,10 @@ export default function ZoneLandingPage({
                 {title}
               </h1>
               <div className="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
-                <p className="page-subtitle font-vietnam font-medium text-[#37393E]">
+                <p
+                  className="page-subtitle font-vietnam font-medium text-[#37393E]"
+                  style={theme.subtitleColor ? { color: theme.subtitleColor } : undefined}
+                >
                   {subtitle}
                 </p>
                 <div className="h-6 w-6 shrink-0 md:h-7 md:w-7">

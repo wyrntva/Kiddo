@@ -32,6 +32,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
   const [cards, setCards] = useState(() => createDeck())
   const [open, setOpen] = useState<string[]>([])
   const [matched, setMatched] = useState<string[]>([])
+  const [justMatched, setJustMatched] = useState<string[]>([])
   const [locked, setLocked] = useState(false)
   const [isIncorrect, setIsIncorrect] = useState(false)
 
@@ -39,6 +40,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
     if (!gameChecked) {
       setOpen([])
       setMatched([])
+      setJustMatched([])
       setLocked(false)
       setIsIncorrect(false)
       setCards(createDeck())
@@ -60,7 +62,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
   }
 
   const flipCard = (id: string) => {
-    if (locked || open.includes(id) || matched.includes(id)) return
+    if (locked || open.includes(id) || matched.includes(id) || justMatched.includes(id)) return
     playPickupSound()
 
     if (open.length === 0) {
@@ -75,14 +77,21 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
 
     if (first.type === second.type) {
       playCorrectSound()
-      const nextMatched = [...matched, ...nextOpen]
-      setMatched((current) => [...current, ...nextOpen])
-      setOpen([])
+      setJustMatched(nextOpen)
+      setLocked(true)
 
-      if (nextMatched.length === cards.length) {
-        playSuccessSound()
-        onComplete()
-      }
+      window.setTimeout(() => {
+        const nextMatched = [...matched, ...nextOpen]
+        setMatched(nextMatched)
+        setJustMatched([])
+        setOpen([])
+        setLocked(false)
+
+        if (nextMatched.length === cards.length) {
+          playSuccessSound()
+          onComplete()
+        }
+      }, 700)
       return
     }
 
@@ -120,15 +129,27 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
         <button onClick={onSpeakGuide} className="flex min-h-11 items-center justify-center gap-2 rounded-[40px] bg-[#fea01f] px-4 py-2 font-vietnam text-sm font-bold text-white shadow-sm transition hover:bg-[#e89018] active:scale-95">
           <img src={zoneQuizAssets.speaker} alt="" className="size-6 brightness-0 invert select-none pointer-events-none" /> HƯỚNG DẪN CHƠI
         </button>
-        <div className="mt-3 flex min-h-0 flex-1 flex-col gap-2 rounded-xl bg-[#e5f2ff] p-3">
+        <div className="mt-3 flex min-h-0 flex-1 flex-col justify-between gap-1.5 rounded-xl bg-[#e5f2ff] p-3">
           {[
-            ['1', 'Chọn 1 thẻ bài để lật', '/assets/memory-guide-2.png'],
-            ['2', 'Chọn tiếp 1 thẻ khác', '/assets/memory-guide-2.png'],
-            ['3', 'Chọn 2 hình giống nhau', '/assets/memory-guide-7.png'],
+            ['1', 'Chọn 1 thẻ bài để lật', '/assets/memory-guide-single.png'],
+            ['2', 'Chọn tiếp 1 thẻ khác', '/assets/memory-guide-single.png'],
+            ['3', 'Chọn 2 hình giống nhau', '/assets/memory-guide-double.png'],
           ].map(([step, text, image], index) => (
             <div key={step} className="flex min-h-0 flex-1 flex-col gap-1">
-              <p className="font-vietnam text-[12px] leading-4 text-[#37393e] flex items-center gap-1.5"><b className={`flex size-5 items-center justify-center rounded-full text-white text-[11px] shrink-0 ${index === 0 ? 'bg-[#0a7ad8]' : index === 1 ? 'bg-[#fea01f]' : 'bg-[#339e4a]'}`}>{step}</b>{text}</p>
-              <div className={`relative min-h-0 flex-1 overflow-hidden rounded-lg bg-white ${index === 0 ? 'border border-[#7bc9ff]' : index === 1 ? 'border border-[#fea01f]' : 'border border-[#339e4a]'}`}><img src={image} alt="" className="absolute inset-0 h-full w-full object-contain p-1 select-none pointer-events-none" /></div>
+              {index > 0 && (
+                <div className="flex justify-center -my-0.5">
+                  <svg className="size-3 text-[#0a7ad8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </div>
+              )}
+              <p className="font-vietnam text-[12px] leading-4 text-[#37393e] flex items-center gap-1.5">
+                <b className={`flex size-5 items-center justify-center rounded-full text-white text-[11px] shrink-0 ${index === 0 ? 'bg-[#0a7ad8]' : index === 1 ? 'bg-[#fea01f]' : 'bg-[#339e4a]'}`}>{step}</b>
+                {text}
+              </p>
+              <div className={`relative min-h-0 flex-1 overflow-hidden rounded-[14px] bg-white ${index === 0 ? 'border border-[#7bc9ff]' : index === 1 ? 'border border-[#fea01f]' : 'border border-[#339e4a]'} flex items-center justify-center p-2`}>
+                <img src={image} alt="" className="h-full w-full object-contain select-none pointer-events-none" />
+              </div>
             </div>
           ))}
         </div>
@@ -152,18 +173,22 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
           <div className="grid w-full max-w-[600px] sm:max-w-[680px] [@media(min-height:820px)]:max-w-[840px] max-h-full grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 [@media(min-height:820px)]:gap-4.5 rounded-[24px] bg-white p-2.5 sm:p-3.5 [@media(min-height:820px)]:p-5 shadow-2xl overflow-hidden justify-center items-center">
             {cards.map((card) => {
               const isOpen = open.includes(card.id)
+              const isJustMatched = justMatched.includes(card.id)
               const isMatched = matched.includes(card.id)
-              const visible = isOpen || isMatched
+              const visible = isOpen || isJustMatched
               const isWrong = isIncorrect && isOpen
 
               return (
                 <button
                   key={card.id}
                   onClick={() => flipCard(card.id)}
+                  disabled={isMatched || isJustMatched || locked}
                   aria-label={visible ? card.label : 'Thẻ đang úp'}
-                  className={`relative aspect-[3/4] w-full max-w-[110px] sm:max-w-[125px] [@media(min-height:820px)]:max-w-[160px] max-h-[23vh] sm:max-h-[25vh] [@media(min-height:820px)]:max-h-[34vh] mx-auto overflow-hidden rounded-[14px] border-[3px] transition sm:rounded-[18px] [@media(min-height:820px)]:rounded-[20px] ${
+                  className={`relative aspect-[3/4] w-full max-w-[110px] sm:max-w-[125px] [@media(min-height:820px)]:max-w-[160px] max-h-[23vh] sm:max-h-[25vh] [@media(min-height:820px)]:max-h-[34vh] mx-auto overflow-hidden rounded-[14px] border-[3px] transition-all duration-300 sm:rounded-[18px] [@media(min-height:820px)]:rounded-[20px] ${
                     isMatched
-                      ? 'border-[#339e4a] bg-white animate-correct shadow-sm'
+                      ? 'opacity-0 invisible pointer-events-none scale-50'
+                      : isJustMatched
+                      ? 'border-[#339e4a] bg-white animate-correct shadow-lg scale-105'
                       : isWrong
                       ? 'border-[#e83552] bg-white shadow-[0_0_0_2px_rgba(232,53,82,.15)] animate-shake'
                       : isOpen
@@ -177,7 +202,7 @@ export default function ZoneQuizMemoryGameScreen({ gameChecked, onBack, onComple
                     className="absolute inset-0 size-full object-cover select-none pointer-events-none rounded-[11px] sm:rounded-[15px] [@media(min-height:820px)]:rounded-[17px]"
                     draggable={false}
                   />
-                  {isMatched && (
+                  {isJustMatched && (
                     <span className="absolute right-1.5 top-1.5 z-20 flex size-5 [@media(min-height:820px)]:size-6 items-center justify-center rounded-full bg-[#339e4a] text-xs font-bold text-white shadow-md animate-bounce">
                       ✓
                     </span>

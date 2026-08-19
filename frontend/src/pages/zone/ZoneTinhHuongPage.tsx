@@ -15,8 +15,9 @@ const fallbackLessons: ZoneLesson[] = [
 ]
 
 const theme: ZoneTheme = {
-  titleColor: '#8E44AD',
-  heartColor: '#8E44AD',
+  titleColor: '#F2F0FE',
+  subtitleColor: '#F2F0FE',
+  heartColor: '#F2F0FE',
   progressAccent: '#8E44AD',
   progressBorder: '#E8DAEF',
   progressShadow: '0px 0px 10px rgba(142,68,173,0.2)',
@@ -125,10 +126,10 @@ export default function ZoneTinhHuongPage() {
   return (
     <>
       <ZoneLandingPage
-        backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
-        islandImage="/assets/vung_dat_tinh_huong_island.webp"
-        islandAlt="Hành trình tình huống"
-        title="Hành trình tình huống"
+        backgroundImage="/assets/131500a5eda7eb53e290d9d7a3da955581279cdd.webp"
+        islandImage="/assets/hanh_tinh_tinh_huong_island.webp"
+        islandAlt="Hành tinh tình huống"
+        title="Hành tinh tình huống"
         subtitle="Cùng Toro học kỹ năng an toàn và xử lý tình huống khẩn cấp!"
         lessons={lessons}
         completed={completedCount}

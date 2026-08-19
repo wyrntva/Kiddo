@@ -125,10 +125,10 @@ export default function ZoneGiaoTiepPage() {
   return (
     <>
       <ZoneLandingPage
-        backgroundImage="/assets/316e31a7f5c5fec607af9449dd8ca13feab051fa.webp"
-        islandImage="/assets/vung_dat_giao_tiep_island.webp"
-        islandAlt="Vùng đất giao tiếp"
-        title="Vùng đất giao tiếp"
+        backgroundImage="/assets/91f866117dd6591a067bf62bae3766ed02c65b97.webp"
+        islandImage="/assets/thanh_pho_giao_tiep_island.webp"
+        islandAlt="Thành phố giao tiếp"
+        title="Thành phố giao tiếp"
         subtitle="Cùng Toro tự tin trò chuyện, lắng nghe và kết nối nhé!"
         lessons={lessons}
         completed={completedCount}

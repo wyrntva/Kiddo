@@ -13,6 +13,7 @@ export interface ZoneLesson {
 
 export interface ZoneTheme {
   titleColor: string
+  subtitleColor?: string
   heartColor: string
   progressAccent: string
   progressBorder: string
