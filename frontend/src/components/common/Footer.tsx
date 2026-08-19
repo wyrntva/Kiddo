@@ -194,6 +194,7 @@ export default function Footer() {
         <div className="flex flex-col gap-[24px] items-start">
           <ColHeading>HỖ TRỢ</ColHeading>
           <div className="flex flex-col gap-[8px] items-start">
+            <FooterLink href="/payment-guide">Hướng dẫn thanh toán</FooterLink>
             <FooterLink href="/faq">Câu hỏi thường gặp</FooterLink>
             <FooterLink href="/contact">Liên hệ</FooterLink>
           </div>

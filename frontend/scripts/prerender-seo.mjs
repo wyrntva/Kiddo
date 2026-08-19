@@ -86,6 +86,19 @@ const pages = [
       ['Sản phẩm vật lý & Học liệu', 'Điều kiện đổi trả sản phẩm hư hỏng, giao sai hoặc lỗi do nhà sản xuất trong vòng 7 ngày.'],
     ],
   },
+  {
+    path: '/payment-guide',
+    title: 'Hướng dẫn thanh toán | OTTOPIA',
+    description: 'Hướng dẫn chi tiết các bước thanh toán học phí, chuyển khoản ngân hàng và quét mã VietQR để kích hoạt khóa học kỹ năng sống tại OTTOPIA.',
+    heading: 'Hướng dẫn thanh toán học phí OTTOPIA',
+    intro: 'Quy trình thanh toán học phí 5 bước đơn giản, nhanh chóng và an toàn qua chuyển khoản ngân hàng 24/7 và quét mã VietQR.',
+    type: 'WebPage',
+    sections: [
+      ['Hình thức thanh toán linh hoạt', 'Hỗ trợ chuyển khoản ngân hàng 24/7 (Napas247) và quét mã VietQR tự động điền nội dung và số tiền.'],
+      ['Thời gian kích hoạt nhanh chóng', 'Gói học được tự động đối soát và kích hoạt trong vòng 5 - 10 phút sau khi hoàn tất giao dịch.'],
+      ['Hỗ trợ 24/7', 'Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ giải đáp và xử lý các thắc mắc về thanh toán.'],
+    ],
+  },
 ]
 
 const escapeHtml = (value) => value
